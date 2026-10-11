@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-04 19:33:16+0300\n"
+"POT-Creation-Date: 2026-10-11 14:28:18+0300\n"
 "PO-Revision-Date: 2026-10-05 12:09+0000\n"
 "Last-Translator: Lun <lun@ets2la.com>\n"
 "Language-Team: Chinese (Traditional Han script) <http://weblate.ets2la.com/"
@@ -64,11 +64,11 @@ msgstr ""
 "強制 ETS2LA 在遊戲啟動時載入地圖。若 game.log.txt 不在 ETS2LA 預期的位置，啟"
 "用此選項可能可以解決問題。"
 
+msgid "Gates"
+msgstr ""
+
 msgid "Game SDK"
 msgstr "遊戲 SDK"
-
-msgid "Ignore Traffic Rules"
-msgstr "忽略交通規則"
 
 #, csharp-format
 msgid "Parsing installation at '{0}' (version: {1})"
@@ -91,6 +91,9 @@ msgstr ""
 
 msgid "Become a GitHub Sponsor"
 msgstr "成為 GitHub 贊助者"
+
+msgid "Game not found"
+msgstr ""
 
 msgid "If you've not yet installed it, you can find it in the catalogue."
 msgstr "如果你還沒有安裝，可以在插件庫中找到它。"
@@ -274,11 +277,11 @@ msgstr "視覺提示"
 msgid "Additional"
 msgstr "其他"
 
-msgid "Show Fewer Logs"
-msgstr "顯示較少記錄"
-
 msgid "Install Plugins"
 msgstr "安裝插件"
+
+msgid "Show Fewer Logs"
+msgstr "顯示較少記錄"
 
 msgid "I won't leave ETS2LA unattended"
 msgstr "我不會讓 ETS2LA 在無人監督下運行"
@@ -507,13 +510,6 @@ msgstr "SDK 解除安裝失敗"
 msgid "Max Overlay Framerate"
 msgstr "疊加層最高影格率"
 
-msgid ""
-"We will ignore traffic rules and speed limits. Expect damage to your vehicle "
-"and others. Why would you enable this?"
-msgstr ""
-"開啟後將忽略交通規則和速限。你的車輛以及其他車輛都可能受損。你為什麼會想啟用"
-"這個？"
-
 #, csharp-format
 msgid ""
 "How did you get here? What were you even thinking?{0}Do tell us in the {1}"
@@ -522,8 +518,14 @@ msgstr ""
 "你是怎麼跑到這裡來的？你到底在想什麼？{0}請到 {1}Discord 伺服器{2} 或 {3}"
 "GitHub{4} 告訴我們。"
 
+msgid "You must restart ETS2LA for the font size change to take effect."
+msgstr ""
+
 msgid "Uninstall"
 msgstr "解除安裝"
+
+msgid "Enabled Traffic Rules"
+msgstr ""
 
 msgid ""
 "Anonymous telemetry helps us improve ETS2LA by giving us insights into "
@@ -567,11 +569,11 @@ msgstr "較晚"
 msgid "Please enable the Visualization Sockets plugin."
 msgstr "請啟用 Visualization Sockets 插件。"
 
-msgid "Force Map Load"
-msgstr "強制載入地圖"
-
 msgid "Your account has been successfully removed."
 msgstr "你的帳號已成功刪除。"
+
+msgid "Force Map Load"
+msgstr "強制載入地圖"
 
 #, csharp-format
 msgid "Failed to uninstall SDK version '{0}' from '{1}': {2}"
@@ -656,8 +658,14 @@ msgstr "無法判定"
 msgid "meters per second"
 msgstr "公尺每秒"
 
+msgid "Traffic Lights"
+msgstr ""
+
 msgid "Update check skipped, using already cached result."
 msgstr "已略過更新檢查，使用現有的快取結果。"
+
+msgid "Open Update Page"
+msgstr ""
 
 #, csharp-format
 msgid "Installed plugin with ID {0} not found."
@@ -893,6 +901,9 @@ msgstr "控制"
 msgid "Unknown manifest type: {0}"
 msgstr "未知的資訊清單類型：{0}"
 
+msgid "Overlay Font Size"
+msgstr ""
+
 msgid ""
 "Ensure you don't have any mods installed in the root directory. Those have "
 "to be installed in Documents/Euro Truck Simulator 2/mod."
@@ -1052,12 +1063,12 @@ msgid "found {0} node"
 msgid_plural "found {0} nodes"
 msgstr[0] "找到 {0} 個節點"
 
-msgid "Open Source"
-msgstr "開放原始碼"
-
 #, csharp-format
 msgid "<span class=\"font-semibold\">{0}</span> until {1}"
 msgstr "<span class=\"font-semibold\">{0}</span>，有效至 {1}"
+
+msgid "Open Source"
+msgstr "開放原始碼"
 
 msgid "Did you remember to restart after installing them?"
 msgstr "安裝後有記得重新啟動嗎？"
@@ -1082,15 +1093,15 @@ msgstr ""
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr "ID 為 {0} 的插件最新版本安裝失敗。"
 
+msgid "I understand, now let me in!"
+msgstr "我知道了，現在讓我進去吧！"
+
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
 "on {2}GitHub{3}."
 msgstr ""
 "如果你認為這是一個錯誤，請在 {0}Discord 伺服器{1} 或 {2}GitHub{3} 回報。"
-
-msgid "I understand, now let me in!"
-msgstr "我知道了，現在讓我進去吧！"
 
 msgid "Disable Overlay"
 msgstr "停用疊加層"
@@ -1107,6 +1118,11 @@ msgstr[0] "已從 {1} 取得 {0} 個插件"
 
 msgid "Metric"
 msgstr "公制"
+
+msgid ""
+"The font size of the overlay. This can be used to scale the overlay to your "
+"monitor's DPI settings."
+msgstr ""
 
 msgid "Error in telemetry update loop."
 msgstr "遙測更新時發生錯誤。"
@@ -1267,11 +1283,11 @@ msgstr "遊戲新增失敗"
 msgid "Font file not found at {0}"
 msgstr "找不到字型檔案：{0}"
 
-msgid "Changelog"
-msgstr "更新日誌"
-
 msgid "No release notes available."
 msgstr "沒有可用的版本說明。"
+
+msgid "Changelog"
+msgstr "更新日誌"
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1356,9 +1372,18 @@ msgstr ""
 msgid "An error occurred while loading map data: {0}"
 msgstr "載入地圖資料時發生錯誤：{0}"
 
+msgid "The selected game executable was not found."
+msgstr ""
+
 #, csharp-format
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
 msgstr "已從 [gray]{1}[/] 載入函式庫插件：[gray]{0}[/]。"
+
+msgid "Select the game you wish to start."
+msgstr ""
+
+msgid "Speed Limits"
+msgstr ""
 
 msgid "Responsiveness"
 msgstr "反應"
@@ -1401,6 +1426,11 @@ msgid ""
 "We can render elements in the game world using the overlay. This will use "
 "additional CPU and GPU resources."
 msgstr "我們可以透過疊加層在遊戲世界中渲染元素。這會額外使用 CPU 和 GPU 資源。"
+
+msgid ""
+"Select which traffic rules ETS2LA should obey. More might be added later, "
+"and all plugins won't necessarily support all rules."
+msgstr ""
 
 msgid "kilometers per hour"
 msgstr "公里每小時"
@@ -1686,6 +1716,9 @@ msgstr "在遊戲世界中渲染視覺攝影機。此功能有助於除錯，但
 msgid "Deleted '{0}'"
 msgstr "已刪除「{0}」"
 
+msgid "Open SDK Settings"
+msgstr ""
+
 #, csharp-format
 msgid "Target Speed: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
 msgstr "目標速度：<span class=\"text-text-accent font-bold\">{0} {1}</span>"
@@ -1695,12 +1728,12 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr "初始化記憶體對應檔案時發生錯誤：{0}"
 
 #, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr "從 [gray]{0}[/] 載入插件失敗：{1}"
-
-#, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr "輔助模式：<span class=\"text-text-accent font-bold\">{0}</span>"
+
+#, csharp-format
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgstr "從 [gray]{0}[/] 載入插件失敗：{1}"
 
 msgid "View Public Telemetry"
 msgstr "查看公開遙測資料"
@@ -1733,6 +1766,9 @@ msgstr ""
 
 msgid "Please see the logs for more information."
 msgstr "請查看記錄檔以取得更多資訊。"
+
+msgid "Start Game"
+msgstr ""
 
 msgid "Binding Timed Out"
 msgstr "綁定逾時"
@@ -2061,6 +2097,16 @@ msgstr ""
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr "插件 {0} 的依賴項目尚未全部安裝。"
+
+#~ msgid "Ignore Traffic Rules"
+#~ msgstr "忽略交通規則"
+
+#~ msgid ""
+#~ "We will ignore traffic rules and speed limits. Expect damage to your "
+#~ "vehicle and others. Why would you enable this?"
+#~ msgstr ""
+#~ "開啟後將忽略交通規則和速限。你的車輛以及其他車輛都可能受損。你為什麼會想啟"
+#~ "用這個？"
 
 #~ msgid ""
 #~ "Subscriptions will <span class=\"font-bold text-text-accent\">never</"

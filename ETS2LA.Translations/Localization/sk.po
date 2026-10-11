@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-04 19:33:16+0300\n"
+"POT-Creation-Date: 2026-10-11 14:28:18+0300\n"
 "PO-Revision-Date: 2026-10-04 16:36+0000\n"
 "Last-Translator: Ketchup1812 <ketchup1812@ets2la.com>\n"
 "Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/ets2la/sk/"
@@ -67,11 +67,11 @@ msgstr ""
 "možné vyriešiť problémy, keď sa súbor game.log.txt nenachádza tam, kde ho "
 "ETS2LA očakáva."
 
+msgid "Gates"
+msgstr ""
+
 msgid "Game SDK"
 msgstr "Herné SDK"
-
-msgid "Ignore Traffic Rules"
-msgstr "Ignorovať dopravné predpisy"
 
 #, csharp-format
 msgid "Parsing installation at '{0}' (version: {1})"
@@ -96,6 +96,9 @@ msgstr ""
 
 msgid "Become a GitHub Sponsor"
 msgstr "Staňte sa sponzorom GitHubu"
+
+msgid "Game not found"
+msgstr ""
 
 msgid "If you've not yet installed it, you can find it in the catalogue."
 msgstr "Ak ste si ho ešte nenainštalovali, nájdete ho v katalógu."
@@ -289,11 +292,11 @@ msgstr "Vizuál"
 msgid "Additional"
 msgstr "Dodatočné"
 
-msgid "Show Fewer Logs"
-msgstr "Zobraziť menej záznamov"
-
 msgid "Install Plugins"
 msgstr "Nainštalujte pluginy"
+
+msgid "Show Fewer Logs"
+msgstr "Zobraziť menej záznamov"
 
 msgid "I won't leave ETS2LA unattended"
 msgstr "Nenechám ETS2LA bez dozoru"
@@ -537,13 +540,6 @@ msgstr "Odinštalovanie SDK sa nepodarilo"
 msgid "Max Overlay Framerate"
 msgstr "Maximálna snímková frekvencia pre prekrývanie"
 
-msgid ""
-"We will ignore traffic rules and speed limits. Expect damage to your vehicle "
-"and others. Why would you enable this?"
-msgstr ""
-"Budeme ignorovať dopravné predpisy a rýchlostné obmedzenia. Počítajte s "
-"poškodením vášho vozidla aj vozidiel ostatných. Prečo by ste to mali povoliť?"
-
 #, csharp-format
 msgid ""
 "How did you get here? What were you even thinking?{0}Do tell us in the {1}"
@@ -552,8 +548,14 @@ msgstr ""
 "Ako si sa sem dostal? Čo si si vlastne myslel?{0}Povedz nám to na {1}Discord "
 "serveri{2} alebo na {3}GitHube{4}."
 
+msgid "You must restart ETS2LA for the font size change to take effect."
+msgstr ""
+
 msgid "Uninstall"
 msgstr "Odinštalovať"
+
+msgid "Enabled Traffic Rules"
+msgstr ""
 
 msgid ""
 "Anonymous telemetry helps us improve ETS2LA by giving us insights into "
@@ -602,11 +604,11 @@ msgstr "Neskoro"
 msgid "Please enable the Visualization Sockets plugin."
 msgstr "Prosím, aktivujte plugin Visualization Sockets."
 
-msgid "Force Map Load"
-msgstr "Vynútiť načítanie mapy"
-
 msgid "Your account has been successfully removed."
 msgstr ""
+
+msgid "Force Map Load"
+msgstr "Vynútiť načítanie mapy"
 
 #, csharp-format
 msgid "Failed to uninstall SDK version '{0}' from '{1}': {2}"
@@ -695,10 +697,16 @@ msgstr "Neurčené"
 msgid "meters per second"
 msgstr "metre za sekundu"
 
+msgid "Traffic Lights"
+msgstr ""
+
 msgid "Update check skipped, using already cached result."
 msgstr ""
 "Kontrola aktualizácií bola preskočená, používa sa výsledok už uložený v "
 "cache."
+
+msgid "Open Update Page"
+msgstr ""
 
 #, csharp-format
 msgid "Installed plugin with ID {0} not found."
@@ -954,6 +962,9 @@ msgstr "Ovládacie prvky"
 msgid "Unknown manifest type: {0}"
 msgstr "Neznámy typ manifestu: {0}"
 
+msgid "Overlay Font Size"
+msgstr ""
+
 msgid ""
 "Ensure you don't have any mods installed in the root directory. Those have "
 "to be installed in Documents/Euro Truck Simulator 2/mod."
@@ -1132,12 +1143,12 @@ msgstr[0] "Bol nájdený {0} uzol"
 msgstr[1] "Boli nájdené {0} uzly"
 msgstr[2] "Bolo nájdených {0} uzlov"
 
-msgid "Open Source"
-msgstr ""
-
 #, csharp-format
 msgid "<span class=\"font-semibold\">{0}</span> until {1}"
 msgstr "<span class=\"font-semibold\">{0}</span> do {1}"
+
+msgid "Open Source"
+msgstr ""
 
 msgid "Did you remember to restart after installing them?"
 msgstr "Nezabudli ste po ich inštalácii reštartovať?"
@@ -1164,6 +1175,9 @@ msgstr ""
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr "Nepodarilo sa nainštalovať najnovšiu verziu pluginu s ID {0}."
 
+msgid "I understand, now let me in!"
+msgstr "Rozumiem, tak ma teraz pusťte dnu!"
+
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
@@ -1171,9 +1185,6 @@ msgid ""
 msgstr ""
 "Ak si myslíte, že ide o chybu, nahláste ju prosím na {0}Discord serveri{1} "
 "alebo na {2}GitHube{3}."
-
-msgid "I understand, now let me in!"
-msgstr "Rozumiem, tak ma teraz pusťte dnu!"
 
 msgid "Disable Overlay"
 msgstr "Vypnúť prekrývanie"
@@ -1194,6 +1205,11 @@ msgstr[2] "Načítal som {0} pluginov z {1}"
 
 msgid "Metric"
 msgstr "Metrická"
+
+msgid ""
+"The font size of the overlay. This can be used to scale the overlay to your "
+"monitor's DPI settings."
+msgstr ""
 
 msgid "Error in telemetry update loop."
 msgstr "Chyba v cykle aktualizácie telemetrických údajov."
@@ -1362,11 +1378,11 @@ msgstr "Nepodarilo sa pridať hru"
 msgid "Font file not found at {0}"
 msgstr "Súbor s písmom sa nenašiel v {0}"
 
-msgid "Changelog"
-msgstr "Zoznam zmien"
-
 msgid "No release notes available."
 msgstr "Poznámky k verzii nie sú k dispozícii."
+
+msgid "Changelog"
+msgstr "Zoznam zmien"
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1460,9 +1476,18 @@ msgstr ""
 msgid "An error occurred while loading map data: {0}"
 msgstr "Pri načítavaní údajov o mape došlo k chybe: {0}"
 
+msgid "The selected game executable was not found."
+msgstr ""
+
 #, csharp-format
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
 msgstr "Načítaný plugin knižnice: [gray]{0}[/] z [gray]{1}[/]."
+
+msgid "Select the game you wish to start."
+msgstr ""
+
+msgid "Speed Limits"
+msgstr ""
 
 msgid "Responsiveness"
 msgstr "Reakčná schopnosť"
@@ -1510,6 +1535,11 @@ msgid ""
 msgstr ""
 "Pomocou prekrývacieho okna môžeme vykresľovať prvky v hernom svete. To bude "
 "vyžadovať dodatočné zdroje procesora a grafickej karty."
+
+msgid ""
+"Select which traffic rules ETS2LA should obey. More might be added later, "
+"and all plugins won't necessarily support all rules."
+msgstr ""
 
 msgid "kilometers per hour"
 msgstr "kilometre za hodinu"
@@ -1825,6 +1855,9 @@ msgstr ""
 msgid "Deleted '{0}'"
 msgstr "Odstránené „{0}“"
 
+msgid "Open SDK Settings"
+msgstr ""
+
 #, csharp-format
 msgid "Target Speed: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
 msgstr ""
@@ -1835,12 +1868,12 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr "Chyba pri inicializácii súboru mapovaného v pamäti: {0}"
 
 #, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr "Nepodarilo sa načítať plugin z [gray]{0}[/]: {1}"
-
-#, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr "Režim asistenta: <span class=\"text-text-accent font-bold\">{0}</span>"
+
+#, csharp-format
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgstr "Nepodarilo sa načítať plugin z [gray]{0}[/]: {1}"
 
 msgid "View Public Telemetry"
 msgstr "Zobraziť verejnú telemetriu"
@@ -1876,6 +1909,9 @@ msgstr ""
 
 msgid "Please see the logs for more information."
 msgstr "Ďalšie informácie nájdete v protokoloch."
+
+msgid "Start Game"
+msgstr ""
 
 msgid "Binding Timed Out"
 msgstr "Časový limit pre mapovanie kláves vypršal"
@@ -2226,6 +2262,17 @@ msgstr ""
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr "Nie sú nainštalované všetky závislosti pre plugin {0}."
+
+#~ msgid "Ignore Traffic Rules"
+#~ msgstr "Ignorovať dopravné predpisy"
+
+#~ msgid ""
+#~ "We will ignore traffic rules and speed limits. Expect damage to your "
+#~ "vehicle and others. Why would you enable this?"
+#~ msgstr ""
+#~ "Budeme ignorovať dopravné predpisy a rýchlostné obmedzenia. Počítajte s "
+#~ "poškodením vášho vozidla aj vozidiel ostatných. Prečo by ste to mali "
+#~ "povoliť?"
 
 #~ msgid ""
 #~ "Subscriptions will <span class=\"font-bold text-text-accent\">never</"

@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-04 19:33:16+0300\n"
+"POT-Creation-Date: 2026-10-11 14:28:18+0300\n"
 "PO-Revision-Date: 2026-08-26 18:07+0000\n"
 "Last-Translator: phucc <phucc@ets2la.com>\n"
 "Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/ets2la/"
@@ -63,11 +63,11 @@ msgstr ""
 "Buộc ETS2LA tải bản đồ khi khởi động game. Có thể giải quyết lỗi không tìm "
 "thấy game.log.txt ở thư mục mặc định."
 
+msgid "Gates"
+msgstr ""
+
 msgid "Game SDK"
 msgstr "SDK Trò chơi"
-
-msgid "Ignore Traffic Rules"
-msgstr "Bỏ qua luật giao thông"
 
 #, csharp-format
 msgid "Parsing installation at '{0}' (version: {1})"
@@ -89,6 +89,9 @@ msgid ""
 msgstr ""
 
 msgid "Become a GitHub Sponsor"
+msgstr ""
+
+msgid "Game not found"
 msgstr ""
 
 msgid "If you've not yet installed it, you can find it in the catalogue."
@@ -272,10 +275,10 @@ msgstr "Giao diện"
 msgid "Additional"
 msgstr "Bổ sung"
 
-msgid "Show Fewer Logs"
+msgid "Install Plugins"
 msgstr ""
 
-msgid "Install Plugins"
+msgid "Show Fewer Logs"
 msgstr ""
 
 msgid "I won't leave ETS2LA unattended"
@@ -510,14 +513,6 @@ msgstr ""
 msgid "Max Overlay Framerate"
 msgstr "Tốc độ khung hình tối đa của lớp phủ (overlay)"
 
-msgid ""
-"We will ignore traffic rules and speed limits. Expect damage to your vehicle "
-"and others. Why would you enable this?"
-msgstr ""
-"Chúng tôi sẽ bỏ qua luật giao thông và giới hạn tốc độ. Hãy chuẩn bị cho "
-"việc xe của bạn và người khác bị hư hại. Tại sao bạn lại muốn bật cái thứ "
-"này ?"
-
 #, csharp-format
 msgid ""
 "How did you get here? What were you even thinking?{0}Do tell us in the {1}"
@@ -526,8 +521,14 @@ msgstr ""
 "Tại sao bạn lại vào được đây? Rốt cuộc bạn đang nghĩ cái gì thế?{0}Hãy chia "
 "sẻ cho chúng tôi trong {1}Máy chủ Discord{2} hoặc trên {3}Github{4}."
 
+msgid "You must restart ETS2LA for the font size change to take effect."
+msgstr ""
+
 msgid "Uninstall"
 msgstr "Gỡ cài đặt"
+
+msgid "Enabled Traffic Rules"
+msgstr ""
 
 msgid ""
 "Anonymous telemetry helps us improve ETS2LA by giving us insights into "
@@ -570,11 +571,11 @@ msgstr ""
 msgid "Please enable the Visualization Sockets plugin."
 msgstr ""
 
-msgid "Force Map Load"
-msgstr "Bắt buộc tải bản đồ"
-
 msgid "Your account has been successfully removed."
 msgstr ""
+
+msgid "Force Map Load"
+msgstr "Bắt buộc tải bản đồ"
 
 #, csharp-format
 msgid "Failed to uninstall SDK version '{0}' from '{1}': {2}"
@@ -659,9 +660,15 @@ msgstr ""
 msgid "meters per second"
 msgstr "mét trên giây"
 
+msgid "Traffic Lights"
+msgstr ""
+
 msgid "Update check skipped, using already cached result."
 msgstr ""
 "Đã bỏ qua kiểm tra cập nhật, đang sử dụng kết quả trong bộ nhớ tạm thời."
+
+msgid "Open Update Page"
+msgstr ""
 
 #, csharp-format
 msgid "Installed plugin with ID {0} not found."
@@ -902,6 +909,9 @@ msgstr ""
 msgid "Unknown manifest type: {0}"
 msgstr "Loại manifest không xác định: {0}"
 
+msgid "Overlay Font Size"
+msgstr ""
+
 msgid ""
 "Ensure you don't have any mods installed in the root directory. Those have "
 "to be installed in Documents/Euro Truck Simulator 2/mod."
@@ -1060,11 +1070,11 @@ msgid "found {0} node"
 msgid_plural "found {0} nodes"
 msgstr[0] "Đã tìm thấy {0} node"
 
-msgid "Open Source"
-msgstr ""
-
 #, csharp-format
 msgid "<span class=\"font-semibold\">{0}</span> until {1}"
+msgstr ""
+
+msgid "Open Source"
 msgstr ""
 
 msgid "Did you remember to restart after installing them?"
@@ -1089,13 +1099,13 @@ msgstr ""
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr ""
 
+msgid "I understand, now let me in!"
+msgstr ""
+
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
 "on {2}GitHub{3}."
-msgstr ""
-
-msgid "I understand, now let me in!"
 msgstr ""
 
 msgid "Disable Overlay"
@@ -1115,6 +1125,11 @@ msgstr[0] "Đã lấy plugin {0} từ {1}"
 
 msgid "Metric"
 msgstr "Hệ mét (km)"
+
+msgid ""
+"The font size of the overlay. This can be used to scale the overlay to your "
+"monitor's DPI settings."
+msgstr ""
 
 msgid "Error in telemetry update loop."
 msgstr "Lỗi trong vòng lặp cập nhật Telemetry."
@@ -1272,11 +1287,11 @@ msgstr "Thêm trò chơi không thành công"
 msgid "Font file not found at {0}"
 msgstr ""
 
-msgid "Changelog"
-msgstr ""
-
 msgid "No release notes available."
 msgstr "Hiện không có ghi chú cập nhật nào."
+
+msgid "Changelog"
+msgstr ""
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1362,9 +1377,18 @@ msgstr ""
 msgid "An error occurred while loading map data: {0}"
 msgstr ""
 
+msgid "The selected game executable was not found."
+msgstr ""
+
 #, csharp-format
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
 msgstr "Đã nạp plugin thư viện: [gray]{0}[/] from [gray]{1}[/]."
+
+msgid "Select the game you wish to start."
+msgstr ""
+
+msgid "Speed Limits"
+msgstr ""
 
 msgid "Responsiveness"
 msgstr ""
@@ -1404,6 +1428,11 @@ msgstr ""
 msgid ""
 "We can render elements in the game world using the overlay. This will use "
 "additional CPU and GPU resources."
+msgstr ""
+
+msgid ""
+"Select which traffic rules ETS2LA should obey. More might be added later, "
+"and all plugins won't necessarily support all rules."
 msgstr ""
 
 msgid "kilometers per hour"
@@ -1691,6 +1720,9 @@ msgstr ""
 msgid "Deleted '{0}'"
 msgstr ""
 
+msgid "Open SDK Settings"
+msgstr ""
+
 #, csharp-format
 msgid "Target Speed: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
 msgstr ""
@@ -1700,12 +1732,12 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr ""
 
 #, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr "Nạp plugin không thành công từ [gray]{0}[/]: {1}"
-
-#, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
+
+#, csharp-format
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgstr "Nạp plugin không thành công từ [gray]{0}[/]: {1}"
 
 msgid "View Public Telemetry"
 msgstr "Xem dữ liệu thu thập từ xa công khai"
@@ -1736,6 +1768,9 @@ msgstr ""
 
 msgid "Please see the logs for more information."
 msgstr "Vui lòng xem nhật kí (log) để có nhiều thông tin hơn."
+
+msgid "Start Game"
+msgstr ""
 
 msgid "Binding Timed Out"
 msgstr "Hết thời gian gán phím"
@@ -2066,6 +2101,17 @@ msgstr ""
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr "Chưa cài đặt đủ các phụ thuộc của plugin {0}."
+
+#~ msgid "Ignore Traffic Rules"
+#~ msgstr "Bỏ qua luật giao thông"
+
+#~ msgid ""
+#~ "We will ignore traffic rules and speed limits. Expect damage to your "
+#~ "vehicle and others. Why would you enable this?"
+#~ msgstr ""
+#~ "Chúng tôi sẽ bỏ qua luật giao thông và giới hạn tốc độ. Hãy chuẩn bị cho "
+#~ "việc xe của bạn và người khác bị hư hại. Tại sao bạn lại muốn bật cái thứ "
+#~ "này ?"
 
 #~ msgid ""
 #~ "Subscriptions will <span class=\"font-bold text-text-accent\">never</"

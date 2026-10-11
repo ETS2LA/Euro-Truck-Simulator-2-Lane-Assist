@@ -2,11 +2,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-04 19:33:16+0300\n"
+"POT-Creation-Date: 2026-10-11 14:28:18+0300\n"
 "PO-Revision-Date: 2026-10-07 22:38+0000\n"
 "Last-Translator: Tema <tema@ets2la.com>\n"
-"Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/ets2la/ru/>"
-"\n"
+"Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/ets2la/ru/"
+">\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -67,11 +67,11 @@ msgstr ""
 "проблемы, если файл game.log.txt находится не там, где ETS2LA ожидает его "
 "найти."
 
+msgid "Gates"
+msgstr ""
+
 msgid "Game SDK"
 msgstr "SDK игры"
-
-msgid "Ignore Traffic Rules"
-msgstr "Игнорировать правила дорожного движения"
 
 #, csharp-format
 msgid "Parsing installation at '{0}' (version: {1})"
@@ -97,6 +97,9 @@ msgstr ""
 
 msgid "Become a GitHub Sponsor"
 msgstr "Стать GitHub-спонсором"
+
+msgid "Game not found"
+msgstr ""
 
 msgid "If you've not yet installed it, you can find it in the catalogue."
 msgstr "Если вы ещё не установили его, найти его можно в каталоге."
@@ -221,7 +224,8 @@ msgid "The step size for changing the cruise control speed."
 msgstr "Шаг изменения скорости круиз-контроля."
 
 msgid "Press anywhere outside the dialog to close it."
-msgstr "Нажмите в любом месте за пределами диалогового окна, чтобы закрыть его."
+msgstr ""
+"Нажмите в любом месте за пределами диалогового окна, чтобы закрыть его."
 
 msgid "Welcome to ETS2LA!"
 msgstr "Добро пожаловать в ETS2LA!"
@@ -288,11 +292,11 @@ msgstr "Визуальное"
 msgid "Additional"
 msgstr "Дополнительно"
 
-msgid "Show Fewer Logs"
-msgstr "Показать меньше записей журнала"
-
 msgid "Install Plugins"
 msgstr "Установить плагины"
+
+msgid "Show Fewer Logs"
+msgstr "Показать меньше записей журнала"
 
 msgid "I won't leave ETS2LA unattended"
 msgstr "Я не буду оставлять ETS2LA без присмотра"
@@ -537,14 +541,6 @@ msgstr "Ошибка удаления SDK"
 msgid "Max Overlay Framerate"
 msgstr "Максимальная частота кадров оверлея"
 
-msgid ""
-"We will ignore traffic rules and speed limits. Expect damage to your vehicle "
-"and others. Why would you enable this?"
-msgstr ""
-"Мы будем игнорировать правила дорожного движения и ограничения скорости. "
-"Будьте готовы к повреждению вашего автомобиля и других машин. Зачем вообще "
-"это включать?"
-
 #, csharp-format
 msgid ""
 "How did you get here? What were you even thinking?{0}Do tell us in the {1}"
@@ -553,8 +549,14 @@ msgstr ""
 "Как вы вообще сюда попали? О чём вы только думали?{0}Расскажите нам об этом "
 "на {1}сервере Discord{2} или на {3}GitHub{4}."
 
+msgid "You must restart ETS2LA for the font size change to take effect."
+msgstr ""
+
 msgid "Uninstall"
 msgstr "Удалить"
+
+msgid "Enabled Traffic Rules"
+msgstr ""
 
 msgid ""
 "Anonymous telemetry helps us improve ETS2LA by giving us insights into "
@@ -603,11 +605,11 @@ msgstr "Поздно"
 msgid "Please enable the Visualization Sockets plugin."
 msgstr "Включите плагин Visualization Sockets."
 
-msgid "Force Map Load"
-msgstr "Принудительная загрузка карты"
-
 msgid "Your account has been successfully removed."
 msgstr "Ваш аккаунт успешно удалён."
+
+msgid "Force Map Load"
+msgstr "Принудительная загрузка карты"
 
 #, csharp-format
 msgid "Failed to uninstall SDK version '{0}' from '{1}': {2}"
@@ -696,8 +698,14 @@ msgstr "Не определено"
 msgid "meters per second"
 msgstr "метры в секунду"
 
+msgid "Traffic Lights"
+msgstr ""
+
 msgid "Update check skipped, using already cached result."
 msgstr "Проверка обновлений пропущена, используется сохранённый результат."
+
+msgid "Open Update Page"
+msgstr ""
 
 #, csharp-format
 msgid "Installed plugin with ID {0} not found."
@@ -898,7 +906,8 @@ msgid "Failed to disable {0}: {1}"
 msgstr "Не удалось отключить {0}: {1}"
 
 msgid "You can enable the plugins we installed in a previous step here."
-msgstr "Здесь можно включить плагины, которые мы установили на предыдущем шаге."
+msgstr ""
+"Здесь можно включить плагины, которые мы установили на предыдущем шаге."
 
 msgid "Login"
 msgstr "Войти"
@@ -953,6 +962,9 @@ msgstr "Управление"
 #, csharp-format
 msgid "Unknown manifest type: {0}"
 msgstr "Неизвестный тип манифеста: {0}"
+
+msgid "Overlay Font Size"
+msgstr ""
 
 msgid ""
 "Ensure you don't have any mods installed in the root directory. Those have "
@@ -1127,12 +1139,12 @@ msgstr[0] "Найден {0} узел"
 msgstr[1] "Найдено {0} узла"
 msgstr[2] "Найдено {0} узлов"
 
-msgid "Open Source"
-msgstr "Открытый исходный код"
-
 #, csharp-format
 msgid "<span class=\"font-semibold\">{0}</span> until {1}"
 msgstr "<span class=\"font-semibold\">{0}</span> до {1}"
+
+msgid "Open Source"
+msgstr "Открытый исходный код"
 
 msgid "Did you remember to restart after installing them?"
 msgstr "Не забыли перезапустить ETS2LA после установки?"
@@ -1158,6 +1170,9 @@ msgstr ""
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr "Не удалось установить последнюю версию плагина с ID {0}."
 
+msgid "I understand, now let me in!"
+msgstr "Всё понятно, теперь впустите меня!"
+
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
@@ -1165,9 +1180,6 @@ msgid ""
 msgstr ""
 "Если вы считаете, что это ошибка, сообщите о ней на {0}сервере Discord{1} "
 "или на {2}GitHub{3}."
-
-msgid "I understand, now let me in!"
-msgstr "Всё понятно, теперь впустите меня!"
 
 msgid "Disable Overlay"
 msgstr "Отключить оверлей"
@@ -1189,6 +1201,11 @@ msgstr[2] "Получено {0} плагинов из {1}"
 
 msgid "Metric"
 msgstr "Метрическая система"
+
+msgid ""
+"The font size of the overlay. This can be used to scale the overlay to your "
+"monitor's DPI settings."
+msgstr ""
 
 msgid "Error in telemetry update loop."
 msgstr "Ошибка в цикле обновления телеметрии."
@@ -1360,11 +1377,11 @@ msgstr "Не удалось добавить игру"
 msgid "Font file not found at {0}"
 msgstr "Файл шрифта не найден по пути {0}"
 
-msgid "Changelog"
-msgstr "Список изменений"
-
 msgid "No release notes available."
 msgstr "Список изменений недоступен."
+
+msgid "Changelog"
+msgstr "Список изменений"
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1458,9 +1475,18 @@ msgstr ""
 msgid "An error occurred while loading map data: {0}"
 msgstr "Произошла ошибка при загрузке данных карты: {0}"
 
+msgid "The selected game executable was not found."
+msgstr ""
+
 #, csharp-format
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
 msgstr "Загружен плагин-библиотека: [gray]{0}[/] из [gray]{1}[/]."
+
+msgid "Select the game you wish to start."
+msgstr ""
+
+msgid "Speed Limits"
+msgstr ""
 
 msgid "Responsiveness"
 msgstr "Отзывчивость"
@@ -1509,6 +1535,11 @@ msgid ""
 msgstr ""
 "С помощью оверлея можно отображать элементы прямо в игровом мире. Это "
 "потребует дополнительных ресурсов процессора и видеокарты."
+
+msgid ""
+"Select which traffic rules ETS2LA should obey. More might be added later, "
+"and all plugins won't necessarily support all rules."
+msgstr ""
 
 msgid "kilometers per hour"
 msgstr "километры в час"
@@ -1662,8 +1693,8 @@ msgid ""
 "hover:underline\">ets2la.com</span>."
 msgstr ""
 "Если вы видите полностью чёрный экран, ознакомьтесь с разделом часто "
-"задаваемых вопросов на <span class=\"description hover:underline\""
-">ets2la.com</span>."
+"задаваемых вопросов на <span class=\"description "
+"hover:underline\">ets2la.com</span>."
 
 msgid "Settings"
 msgstr "Настройки"
@@ -1823,6 +1854,9 @@ msgstr ""
 msgid "Deleted '{0}'"
 msgstr "Удалено '{0}'"
 
+msgid "Open SDK Settings"
+msgstr ""
+
 #, csharp-format
 msgid "Target Speed: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
 msgstr ""
@@ -1833,13 +1867,13 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr "Ошибка инициализации файла, отображаемого в память: {0}"
 
 #, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr "Не удалось загрузить плагин из [gray]{0}[/]: {1}"
-
-#, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 "Режим ассистентов: <span class=\"text-text-accent font-bold\">{0}</span>"
+
+#, csharp-format
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgstr "Не удалось загрузить плагин из [gray]{0}[/]: {1}"
 
 msgid "View Public Telemetry"
 msgstr "Просмотреть общедоступную телеметрию"
@@ -1875,6 +1909,9 @@ msgstr ""
 
 msgid "Please see the logs for more information."
 msgstr "Дополнительную информацию смотрите в логах."
+
+msgid "Start Game"
+msgstr ""
 
 msgid "Binding Timed Out"
 msgstr "Время ожидания привязки истекло"
@@ -2228,6 +2265,17 @@ msgstr ""
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr "Не все зависимости для плагина {0} установлены."
+
+#~ msgid "Ignore Traffic Rules"
+#~ msgstr "Игнорировать правила дорожного движения"
+
+#~ msgid ""
+#~ "We will ignore traffic rules and speed limits. Expect damage to your "
+#~ "vehicle and others. Why would you enable this?"
+#~ msgstr ""
+#~ "Мы будем игнорировать правила дорожного движения и ограничения скорости. "
+#~ "Будьте готовы к повреждению вашего автомобиля и других машин. Зачем "
+#~ "вообще это включать?"
 
 #~ msgid ""
 #~ "Subscriptions will <span class=\"font-bold text-text-accent\">never</"

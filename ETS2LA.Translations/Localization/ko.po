@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-04 19:33:16+0300\n"
+"POT-Creation-Date: 2026-10-11 14:28:18+0300\n"
 "PO-Revision-Date: 2026-09-13 12:43+0000\n"
 "Last-Translator: bot_lapis <botlapis@ets2la.com>\n"
 "Language-Team: Korean <http://weblate.ets2la.com/projects/ets2la/ets2la/ko/"
@@ -62,11 +62,11 @@ msgstr ""
 "게임 시작 시 ETS2LA가 강제로 맵을 로드하도록 합니다. 이는 game.log.txt 파일"
 "이 ETS2LA가 예상하는 위치에 없을 때 발생하는 문제를 해결할 수 있습니다."
 
+msgid "Gates"
+msgstr ""
+
 msgid "Game SDK"
 msgstr "게임 SDK"
-
-msgid "Ignore Traffic Rules"
-msgstr "교통 법규 무시"
 
 #, csharp-format
 msgid "Parsing installation at '{0}' (version: {1})"
@@ -90,6 +90,9 @@ msgstr ""
 
 msgid "Become a GitHub Sponsor"
 msgstr "GitHub에서 후원하기"
+
+msgid "Game not found"
+msgstr ""
 
 msgid "If you've not yet installed it, you can find it in the catalogue."
 msgstr ""
@@ -275,11 +278,11 @@ msgstr "비주얼"
 msgid "Additional"
 msgstr "추가"
 
-msgid "Show Fewer Logs"
-msgstr "로그 적게 보기"
-
 msgid "Install Plugins"
 msgstr "플러그인 설치"
+
+msgid "Show Fewer Logs"
+msgstr "로그 적게 보기"
 
 msgid "I won't leave ETS2LA unattended"
 msgstr "ETS2LA를 방치하지 않겠습니다"
@@ -514,13 +517,6 @@ msgstr "SDK 제거 실패"
 msgid "Max Overlay Framerate"
 msgstr "오버레이 프레임 제한"
 
-msgid ""
-"We will ignore traffic rules and speed limits. Expect damage to your vehicle "
-"and others. Why would you enable this?"
-msgstr ""
-"교통 규칙 및 속도 제한을 무시합니다. 차량 손상과 다른 차량 피해가 발생할 수 "
-"있습니다. 이걸 왜 켜려고 하죠?"
-
 #, csharp-format
 msgid ""
 "How did you get here? What were you even thinking?{0}Do tell us in the {1}"
@@ -529,8 +525,14 @@ msgstr ""
 "어떻게 여기까지 오셨나요? 대체 무슨 생각이었던 거죠?{0} {1}Discord 서버{2}나 "
 "{3}GitHub{4}에서 알려주세요."
 
+msgid "You must restart ETS2LA for the font size change to take effect."
+msgstr ""
+
 msgid "Uninstall"
 msgstr "삭제"
+
+msgid "Enabled Traffic Rules"
+msgstr ""
 
 msgid ""
 "Anonymous telemetry helps us improve ETS2LA by giving us insights into "
@@ -575,11 +577,11 @@ msgstr "늦게"
 msgid "Please enable the Visualization Sockets plugin."
 msgstr ""
 
-msgid "Force Map Load"
-msgstr "맵 강제 로드"
-
 msgid "Your account has been successfully removed."
 msgstr ""
+
+msgid "Force Map Load"
+msgstr "맵 강제 로드"
 
 #, csharp-format
 msgid "Failed to uninstall SDK version '{0}' from '{1}': {2}"
@@ -665,8 +667,14 @@ msgstr "확인되지 않음"
 msgid "meters per second"
 msgstr "초당 미터"
 
+msgid "Traffic Lights"
+msgstr ""
+
 msgid "Update check skipped, using already cached result."
 msgstr "업데이트 확인을 건너뛰고, 이미 캐시된 결과를 사용합니다."
+
+msgid "Open Update Page"
+msgstr ""
 
 #, csharp-format
 msgid "Installed plugin with ID {0} not found."
@@ -908,6 +916,9 @@ msgstr "컨트롤"
 msgid "Unknown manifest type: {0}"
 msgstr "알 수 없는 매니페스트 유형: {0}"
 
+msgid "Overlay Font Size"
+msgstr ""
+
 msgid ""
 "Ensure you don't have any mods installed in the root directory. Those have "
 "to be installed in Documents/Euro Truck Simulator 2/mod."
@@ -1059,11 +1070,11 @@ msgid "found {0} node"
 msgid_plural "found {0} nodes"
 msgstr[0] "{0}개의 노드가 발견되었습니다"
 
-msgid "Open Source"
-msgstr ""
-
 #, csharp-format
 msgid "<span class=\"font-semibold\">{0}</span> until {1}"
+msgstr ""
+
+msgid "Open Source"
 msgstr ""
 
 msgid "Did you remember to restart after installing them?"
@@ -1088,13 +1099,13 @@ msgstr ""
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr ""
 
+msgid "I understand, now let me in!"
+msgstr ""
+
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
 "on {2}GitHub{3}."
-msgstr ""
-
-msgid "I understand, now let me in!"
 msgstr ""
 
 msgid "Disable Overlay"
@@ -1112,6 +1123,11 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "Metric"
+msgstr ""
+
+msgid ""
+"The font size of the overlay. This can be used to scale the overlay to your "
+"monitor's DPI settings."
 msgstr ""
 
 msgid "Error in telemetry update loop."
@@ -1269,10 +1285,10 @@ msgstr ""
 msgid "Font file not found at {0}"
 msgstr ""
 
-msgid "Changelog"
+msgid "No release notes available."
 msgstr ""
 
-msgid "No release notes available."
+msgid "Changelog"
 msgstr ""
 
 #, csharp-format
@@ -1358,8 +1374,17 @@ msgstr ""
 msgid "An error occurred while loading map data: {0}"
 msgstr ""
 
+msgid "The selected game executable was not found."
+msgstr ""
+
 #, csharp-format
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
+msgstr ""
+
+msgid "Select the game you wish to start."
+msgstr ""
+
+msgid "Speed Limits"
 msgstr ""
 
 msgid "Responsiveness"
@@ -1400,6 +1425,11 @@ msgstr ""
 msgid ""
 "We can render elements in the game world using the overlay. This will use "
 "additional CPU and GPU resources."
+msgstr ""
+
+msgid ""
+"Select which traffic rules ETS2LA should obey. More might be added later, "
+"and all plugins won't necessarily support all rules."
 msgstr ""
 
 msgid "kilometers per hour"
@@ -1681,6 +1711,9 @@ msgstr ""
 msgid "Deleted '{0}'"
 msgstr ""
 
+msgid "Open SDK Settings"
+msgstr ""
+
 #, csharp-format
 msgid "Target Speed: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
 msgstr ""
@@ -1690,11 +1723,11 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr ""
 
 #, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 
 #, csharp-format
-msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
 msgstr ""
 
 msgid "View Public Telemetry"
@@ -1725,6 +1758,9 @@ msgid ""
 msgstr ""
 
 msgid "Please see the logs for more information."
+msgstr ""
+
+msgid "Start Game"
 msgstr ""
 
 msgid "Binding Timed Out"
@@ -2045,6 +2081,16 @@ msgstr ""
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr ""
+
+#~ msgid "Ignore Traffic Rules"
+#~ msgstr "교통 법규 무시"
+
+#~ msgid ""
+#~ "We will ignore traffic rules and speed limits. Expect damage to your "
+#~ "vehicle and others. Why would you enable this?"
+#~ msgstr ""
+#~ "교통 규칙 및 속도 제한을 무시합니다. 차량 손상과 다른 차량 피해가 발생할 "
+#~ "수 있습니다. 이걸 왜 켜려고 하죠?"
 
 #~ msgid ""
 #~ "Subscriptions will <span class=\"font-bold text-text-accent\">never</"

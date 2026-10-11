@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-04 19:33:16+0300\n"
+"POT-Creation-Date: 2026-10-11 14:28:18+0300\n"
 "PO-Revision-Date: 2026-09-19 12:33+0000\n"
 "Last-Translator: ABOY <aboy@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/ets2la/de/"
@@ -67,11 +67,11 @@ msgstr ""
 "beheben, bei denen sich Ihre game.log.txt nicht an dem von ETS2LA erwarteten "
 "Ort befindet."
 
+msgid "Gates"
+msgstr ""
+
 msgid "Game SDK"
 msgstr "Spiel SDK"
-
-msgid "Ignore Traffic Rules"
-msgstr "Ignoriere Verkehrsregeln"
 
 #, csharp-format
 msgid "Parsing installation at '{0}' (version: {1})"
@@ -94,6 +94,9 @@ msgstr ""
 
 msgid "Become a GitHub Sponsor"
 msgstr "Werde ein Github Sponsor"
+
+msgid "Game not found"
+msgstr ""
 
 msgid "If you've not yet installed it, you can find it in the catalogue."
 msgstr ""
@@ -277,11 +280,11 @@ msgstr "Visuell"
 msgid "Additional"
 msgstr "Zusätzlich"
 
-msgid "Show Fewer Logs"
-msgstr "Zeige weniger Logs an"
-
 msgid "Install Plugins"
 msgstr "Plugins installieren"
+
+msgid "Show Fewer Logs"
+msgstr "Zeige weniger Logs an"
 
 #, fuzzy
 msgid "I won't leave ETS2LA unattended"
@@ -518,14 +521,6 @@ msgstr "SDK-Deinstallation ist gescheitert"
 msgid "Max Overlay Framerate"
 msgstr "Maximale Bildwiederholrate des Overlays"
 
-msgid ""
-"We will ignore traffic rules and speed limits. Expect damage to your vehicle "
-"and others. Why would you enable this?"
-msgstr ""
-"Wir werden Verkehrsregeln und Geschwindigkeitsbegrenzungen ignorieren. "
-"Rechne mit Schäden an deinem Fahrzeug und anderen. Warum solltest du das "
-"aktivieren?"
-
 #, csharp-format
 msgid ""
 "How did you get here? What were you even thinking?{0}Do tell us in the {1}"
@@ -534,8 +529,14 @@ msgstr ""
 "Wie bist du hierhergekommen? Was hattest du überhaupt für Gedanken? {0}"
 "Erzählt uns bitte im {1}Discord-Server{2} oder auf {3}GitHub{4}."
 
+msgid "You must restart ETS2LA for the font size change to take effect."
+msgstr ""
+
 msgid "Uninstall"
 msgstr "Deinstallieren"
+
+msgid "Enabled Traffic Rules"
+msgstr ""
 
 msgid ""
 "Anonymous telemetry helps us improve ETS2LA by giving us insights into "
@@ -579,11 +580,11 @@ msgstr "Spät"
 msgid "Please enable the Visualization Sockets plugin."
 msgstr ""
 
-msgid "Force Map Load"
-msgstr "Erzwinge das Laden der Karte"
-
 msgid "Your account has been successfully removed."
 msgstr ""
+
+msgid "Force Map Load"
+msgstr "Erzwinge das Laden der Karte"
 
 #, csharp-format
 msgid "Failed to uninstall SDK version '{0}' from '{1}': {2}"
@@ -673,10 +674,16 @@ msgstr "Unbestimmt"
 msgid "meters per second"
 msgstr "Meter pro Sekunde"
 
+msgid "Traffic Lights"
+msgstr ""
+
 msgid "Update check skipped, using already cached result."
 msgstr ""
 "Aktuelligkeitsprüfung übersprungen, verwendet bereits zwischengespeicherte "
 "Ergebnisse."
+
+msgid "Open Update Page"
+msgstr ""
 
 #, csharp-format
 msgid "Installed plugin with ID {0} not found."
@@ -928,6 +935,9 @@ msgstr "Steuerungen"
 msgid "Unknown manifest type: {0}"
 msgstr "Unbekannter Manifesttyp: {0}"
 
+msgid "Overlay Font Size"
+msgstr ""
+
 msgid ""
 "Ensure you don't have any mods installed in the root directory. Those have "
 "to be installed in Documents/Euro Truck Simulator 2/mod."
@@ -1106,11 +1116,11 @@ msgid_plural "found {0} nodes"
 msgstr[0] "{0} Punkt gefunden"
 msgstr[1] "{0} Punkte gefunden"
 
-msgid "Open Source"
-msgstr ""
-
 #, csharp-format
 msgid "<span class=\"font-semibold\">{0}</span> until {1}"
+msgstr ""
+
+msgid "Open Source"
 msgstr ""
 
 msgid "Did you remember to restart after installing them?"
@@ -1137,6 +1147,9 @@ msgstr ""
 "Die Installation der neuesten Version des Plugins mit der ID {0} ist "
 "fehlgeschlagen."
 
+msgid "I understand, now let me in!"
+msgstr "Ich verstehe, jetzt lass mich rein!"
+
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
@@ -1144,9 +1157,6 @@ msgid ""
 msgstr ""
 "Wenn Sie glauben, dass dies ein Fehler ist, melden Sie ihn bitte auf dem {0}"
 "Discord-Server{1} oder auf {2}GitHub{3}."
-
-msgid "I understand, now let me in!"
-msgstr "Ich verstehe, jetzt lass mich rein!"
 
 msgid "Disable Overlay"
 msgstr ""
@@ -1167,6 +1177,11 @@ msgstr[1] "{0} Plugins von {1} abgerufen"
 
 msgid "Metric"
 msgstr "Metrisch"
+
+msgid ""
+"The font size of the overlay. This can be used to scale the overlay to your "
+"monitor's DPI settings."
+msgstr ""
 
 msgid "Error in telemetry update loop."
 msgstr "Fehler im Telemetrie-Aktualisierungsloop."
@@ -1332,11 +1347,11 @@ msgstr "Fehlgeschlagen beim Hinzufügen des Spiels"
 msgid "Font file not found at {0}"
 msgstr "Schriftdatei unter {0} nicht gefunden"
 
-msgid "Changelog"
-msgstr "Änderungsprotokoll"
-
 msgid "No release notes available."
 msgstr "Es liegen keine Versionshinweise vor."
+
+msgid "Changelog"
+msgstr "Änderungsprotokoll"
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1427,9 +1442,18 @@ msgstr ""
 msgid "An error occurred while loading map data: {0}"
 msgstr "Es ist ein Fehler beim Laden der Karten-Daten aufgetreten: {0}"
 
+msgid "The selected game executable was not found."
+msgstr ""
+
 #, csharp-format
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
 msgstr "Geladene Plugin Bibliothek: [gray]{0}[/] from [gray]{1}[/]."
+
+msgid "Select the game you wish to start."
+msgstr ""
+
+msgid "Speed Limits"
+msgstr ""
 
 msgid "Responsiveness"
 msgstr "Reaktionsfähigkeit"
@@ -1475,6 +1499,11 @@ msgid ""
 msgstr ""
 "Wir können Elemente in der Spielwelt mit dem Overlay rendern. Dies "
 "verbraucht zusätzliche CPU- und GPU-Ressourcen."
+
+msgid ""
+"Select which traffic rules ETS2LA should obey. More might be added later, "
+"and all plugins won't necessarily support all rules."
+msgstr ""
 
 msgid "kilometers per hour"
 msgstr "Kilometer pro Stunde"
@@ -1784,6 +1813,9 @@ msgstr ""
 msgid "Deleted '{0}'"
 msgstr "'{0}' gelöscht"
 
+msgid "Open SDK Settings"
+msgstr ""
+
 #, csharp-format
 msgid "Target Speed: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
 msgstr ""
@@ -1793,12 +1825,12 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr "Fehler beim Initialisieren der Speicherabbilddatei: {0}"
 
 #, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr "Fehler beim Laden des Plugins von [gray]{0}[/]: {1}"
-
-#, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
+
+#, csharp-format
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgstr "Fehler beim Laden des Plugins von [gray]{0}[/]: {1}"
 
 msgid "View Public Telemetry"
 msgstr "Öffentliche Telemetrie anzeigen"
@@ -1831,6 +1863,9 @@ msgstr ""
 
 msgid "Please see the logs for more information."
 msgstr "Bitte sehen Sie sich die Protokolle für weitere Informationen an."
+
+msgid "Start Game"
+msgstr ""
 
 msgid "Binding Timed Out"
 msgstr "Zuordnung abgelaufen"
@@ -2177,6 +2212,17 @@ msgstr ""
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr "Nicht alle Abhängigkeiten für das Plugin {0} sind installiert."
+
+#~ msgid "Ignore Traffic Rules"
+#~ msgstr "Ignoriere Verkehrsregeln"
+
+#~ msgid ""
+#~ "We will ignore traffic rules and speed limits. Expect damage to your "
+#~ "vehicle and others. Why would you enable this?"
+#~ msgstr ""
+#~ "Wir werden Verkehrsregeln und Geschwindigkeitsbegrenzungen ignorieren. "
+#~ "Rechne mit Schäden an deinem Fahrzeug und anderen. Warum solltest du das "
+#~ "aktivieren?"
 
 #~ msgid ""
 #~ "Subscriptions will <span class=\"font-bold text-text-accent\">never</"
