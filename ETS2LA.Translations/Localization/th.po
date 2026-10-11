@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-10-04 19:33:16+0300\n"
-"PO-Revision-Date: 2026-10-11 03:51+0000\n"
+"PO-Revision-Date: 2026-10-11 10:18+0000\n"
 "Last-Translator: cooper153826 <cooper153826@ets2la.com>\n"
 "Language-Team: Thai <http://weblate.ets2la.com/projects/ets2la/ets2la/th/>\n"
 "Language: th\n"
@@ -21,57 +21,62 @@ msgstr ""
 "รวมถึงถนนที่ซ่อนอยู่และถนนที่ AI เข้าได้เท่านั้น"
 
 msgid "Unknown Control ID"
-msgstr "ไม่ทราบไอดีการควบคุม"
+msgstr "ไม่รู้จัก Control ID"
 
 msgid "Sorry"
-msgstr "ขอโทษ"
+msgstr "ขออภัย"
 
 msgid "Stay on Top"
-msgstr "อยู่ข้างบน"
+msgstr "แสดงหน้าต่างไว้ด้านบนเสมอ"
 
 msgid "Display"
-msgstr "หน้าจอ"
+msgstr "การแสดงผล"
 
 msgid "Overlay Interaction"
-msgstr ""
+msgstr "การโต้ตอบกับ Overlay"
 
 msgid "SDK Installation Failed"
-msgstr "การติดตั้ง SDK ล้มเหลว"
+msgstr "ติดตั้ง SDK ไม่สำเร็จ"
 
 #, csharp-format
 msgid "Failed to open joystick {0}."
-msgstr "การเปิดจอยสติ๊กล้มเหลว {0}."
+msgstr "เปิดจอยสติ๊ก {0} ไม่สำเร็จ"
 
 msgid "Anonymous Telemetry"
-msgstr "การวัดและส่งข้อมูลทางไกลที่ไม่ระบุชื่อ"
+msgstr "ส่งข้อมูลการใช้งานแบบไม่ระบุตัวตน"
 
 msgid ""
 "Keep the ETS2LA window on top of other windows. If you want to use the "
 "visualization on a single monitor setup, this is recommended."
 msgstr ""
+"ให้หน้าต่าง ETS2LA อยู่เหนือหน้าต่างอื่นเสมอ แนะนำให้เปิดหากต้องการใช้ Visualization "
+"บนจอภาพเดียว"
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating bindings."
-msgstr ""
+msgstr "ไม่พบ Control ID '{0}' สำหรับแก้ไขการกำหนดปุ่ม"
 
 msgid ""
 "Force ETS2LA to load the map on game startup. This can resolve issues where "
 "your game.log.txt is not where ETS2LA expects it."
 msgstr ""
+"บังคับให้ ETS2LA โหลดแผนที่เมื่อเริ่มเกม ช่วยแก้ปัญหาเมื่อไฟล์ game.log.txt ไม่อยู่ในตำแหน่งที่ "
+"ETS2LA คาดไว้"
 
 msgid "Game SDK"
-msgstr "เกม SDK"
+msgstr "SDK ของเกม"
 
 msgid "Ignore Traffic Rules"
-msgstr "ไม่สนใจกฎจราจร"
+msgstr "ไม่ต้องปฏิบัติตามกฎจราจร"
 
 #, csharp-format
 msgid "Parsing installation at '{0}' (version: {1})"
-msgstr ""
+msgstr "กำลังวิเคราะห์การติดตั้งที่ '{0}' (เวอร์ชัน: {1})"
 
 msgid ""
 "When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."
 msgstr ""
+"เมื่อปรับความเร็ว ให้ปรับเข้าหาค่าที่ใกล้เคียงทุก 10 หน่วย เช่น 37 -> 39 -> 40 -> 42..."
 
 msgid "kg"
 msgstr "กก."
@@ -81,20 +86,22 @@ msgid ""
 "assist are off, this key acts like SET. Meaning it will set the current "
 "speed to speedlimit."
 msgstr ""
+"ลดความเร็วเป้าหมายปัจจุบันลงหนึ่งขั้น หากปิด Speed Control และ Lane Assist "
+"ปุ่มนี้จะทำงานเหมือน SET โดยตั้งความเร็วปัจจุบันตามขีดจำกัดความเร็ว"
 
 msgid "Become a GitHub Sponsor"
-msgstr "เป็น GitHub สปอนเซอร์"
+msgstr "สนับสนุนโปรเจกต์ผ่าน GitHub Sponsors"
 
 msgid "If you've not yet installed it, you can find it in the catalogue."
-msgstr ""
+msgstr "หากยังไม่ได้ติดตั้ง สามารถค้นหาได้ในคลัง"
 
 #, csharp-format
 msgid "Installed {0}"
-msgstr "ติดตั้งเสร็จสิ้น {0}"
+msgstr "ติดตั้ง {0} แล้ว"
 
 #, csharp-format
 msgid "Error loading map data from '{0}': {1}"
-msgstr "เกิดข้อผิดหลาดในการโหลดข้อมูลแผนที่จาก '{0}':{1}"
+msgstr "โหลดข้อมูลแผนที่จาก '{0}' ไม่สำเร็จ: {1}"
 
 msgid "Medium"
 msgstr "ปานกลาง"
@@ -104,22 +111,22 @@ msgstr "ความเร็วสูงสุด"
 
 msgid ""
 "When the game reports itself being paused, ETS2LA won't render AR elements."
-msgstr ""
+msgstr "เมื่อเกมรายงานว่าหยุดชั่วคราว ETS2LA จะไม่แสดงองค์ประกอบ AR"
 
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
-msgstr ""
+msgstr "เชื่อมต่อจอยสติ๊กแล้ว: [bold]{0}[/] [gray italic]({1})[/]"
 
 #, csharp-format
 msgid "Starting binding for control {0} ({1})"
-msgstr ""
+msgstr "เริ่มกำหนดปุ่มสำหรับการควบคุม {0} ({1})"
 
 #, csharp-format
 msgid "Failed to enable dependency: {0}"
-msgstr ""
+msgstr "เปิดใช้งานส่วนประกอบที่จำเป็นไม่สำเร็จ: {0}"
 
 msgid "Only Show Official News"
-msgstr ""
+msgstr "แสดงเฉพาะข่าวจากทีมงาน"
 
 msgid "Main"
 msgstr "หน้าหลัก"
@@ -129,6 +136,7 @@ msgid ""
 "Version {0} of plugin with ID {1} is not compatible with the current "
 "application version or operating system."
 msgstr ""
+"ปลั๊กอินเวอร์ชัน {0} ที่มี ID {1} ไม่รองรับเวอร์ชันแอปพลิเคชันหรือระบบปฏิบัติการปัจจุบัน"
 
 #, csharp-format
 msgid "found {0} road"
@@ -137,27 +145,27 @@ msgstr[0] "เจอ {0} ถนน"
 
 #, csharp-format
 msgid "Binding for control {0} ({1}) timed out."
-msgstr ""
+msgstr "หมดเวลาการกำหนดปุ่มสำหรับการควบคุม {0} ({1})"
 
 msgid "Remove Account"
-msgstr ""
+msgstr "ลบบัญชี"
 
 #, csharp-format
 msgid ""
 "Library plugin with ID [gray]{0}[/] is already loaded, skipping duplicate."
-msgstr ""
+msgstr "Library Plugin ID [gray]{0}[/] ถูกโหลดแล้ว ข้ามรายการซ้ำ"
 
 msgid "Successfully opened memory for output."
-msgstr ""
+msgstr "เปิดหน่วยความจำสำหรับส่งออกข้อมูลสำเร็จ"
 
 msgid "Dashboard"
-msgstr "หน้าปัด"
+msgstr "แดชบอร์ด"
 
 msgid "Update Available"
-msgstr "มีรายการอัปเดต"
+msgstr "มีอัปเดตใหม่"
 
 msgid "Error in navigation update loop."
-msgstr "เกิดข้อผิดพลาดในวนลูปอัปเดตการนำทาง"
+msgstr "เกิดข้อผิดพลาดระหว่างอัปเดตระบบนำทาง"
 
 msgid ""
 "Warning: Your system has less than 16GB of RAM. You can only select up to "
@@ -165,10 +173,10 @@ msgid ""
 msgstr "คำเตือน: ระบบคุณมีแรมน้อยกว่า 16GB. คุณเลือกได้สูงสุดแค่ปานกลาง"
 
 msgid "Window Zoom"
-msgstr "ซูมหน้าต่าง"
+msgstr "ปรับขนาดหน้าต่าง"
 
 msgid "Show More Logs"
-msgstr "แสดงเพิ่ม"
+msgstr "แสดง Log เพิ่มเติม"
 
 msgid ""
 "Cracked games or demos will block our SDK from loading. They do not work, "
@@ -177,13 +185,13 @@ msgstr ""
 "เกมเถื่อนหรือเดโมจะบล็อก SDK ของพวกเราจากการโหลด. มันใช้ไม่ได้, และพวกเราจะไม่แก้มัน"
 
 msgid "Contact us on Discord"
-msgstr "ติดต่อพวกเราใน Discord"
+msgstr "ติดต่อเราทาง Discord"
 
 msgid "km/h"
 msgstr "กม./ชม."
 
 msgid "Overlay is disabled in settings, skipping initialization."
-msgstr ""
+msgstr "ปิด Overlay ในการตั้งค่าอยู่ ข้ามการเริ่มต้น"
 
 msgid ""
 "ETS2LA will display information on top of the game. You can interact with "
@@ -194,19 +202,19 @@ msgstr ""
 "class=\"text-text-accent font-bold\">สัมผัสโอเวอร์เลย์</span>. ลองสิ!"
 
 msgid "If you can't interact with the Window, press CTRL+R."
-msgstr "ถ้าคุณไม่สามารถสัมผัสหน้าต่างได้, กดปุ่ม CTRL+R."
+msgstr "หากกดหรือโต้ตอบกับหน้าต่างไม่ได้ ให้กด CTRL+R"
 
 msgid "The step size for changing the cruise control speed."
-msgstr ""
+msgstr "ขนาดขั้นในการปรับความเร็ว Cruise Control"
 
 msgid "Press anywhere outside the dialog to close it."
-msgstr ""
+msgstr "กดบริเวณนอกกล่องโต้ตอบเพื่อปิด"
 
 msgid "Welcome to ETS2LA!"
 msgstr "ยินดีต้อนรับสู่ ETS2LA!"
 
 msgid "Account Removal Failed"
-msgstr ""
+msgstr "ลบบัญชีไม่สำเร็จ"
 
 msgid ""
 "<span class=\"text-text-accent\"))>Success!</span> You can find more plugins "
@@ -223,18 +231,20 @@ msgid ""
 "closed</span>. You can start the game after completing the onboarding "
 "process."
 msgstr ""
+"โปรดตรวจสอบว่า <span class=\"text-text-accent font-bold\">ปิด ETS2 และ ATS "
+"แล้ว</span> คุณสามารถเริ่มเกมได้หลังเสร็จสิ้นขั้นตอนตั้งค่าเริ่มต้น"
 
 #, csharp-format
 msgid "Error rendering window {0}: {1}"
-msgstr ""
+msgstr "เกิดข้อผิดพลาดขณะแสดงหน้าต่าง {0}: {1}"
 
 #, csharp-format
 msgid "Failed to refresh joysticks: {0}"
-msgstr ""
+msgstr "ตรวจหาจอยสติ๊กใหม่ไม่สำเร็จ: {0}"
 
 #, csharp-format
 msgid "Error loading '{0}': {1}"
-msgstr "เกิดข้อผิดพลาดระหว่างโหลด '{0}':{1}"
+msgstr "โหลด '{0}' ไม่สำเร็จ: {1}"
 
 msgid ""
 "ETS2LA requires you to install our <span class=\"text-text-accent font-"
@@ -246,84 +256,86 @@ msgstr ""
 "อย่างน้อยหนึ่งเกม</span> เพื่อดำเนินการต่อ"
 
 msgid "Enable Memory Output for Pedals"
-msgstr ""
+msgstr "เปิดใช้งาน Memory Output สำหรับแป้นเหยียบ"
 
 #, csharp-format
 msgid "Successfully updated plugin with ID {0}."
-msgstr "อัปเดตปลั๊กอินสำเร็จแล้วด้วยไอดี {0}"
+msgstr "อัปเดตปลั๊กอิน ID {0} สำเร็จ"
 
 msgid "Look in the top left corner."
-msgstr "มองไปที่มุมซ้ายบน"
+msgstr "ดูที่มุมซ้ายบน"
 
 msgid "Failed to log out. Please try again."
-msgstr ""
+msgstr "ออกจากระบบไม่สำเร็จ กรุณาลองอีกครั้ง"
 
 msgid "Visual"
-msgstr "ภาพ"
+msgstr "ภาพและการแสดงผล"
 
 msgid "Additional"
 msgstr "เพิ่มเติม"
 
 msgid "Show Fewer Logs"
-msgstr "แสดงน้อยลง"
+msgstr "แสดง Log น้อยลง"
 
 msgid "Install Plugins"
 msgstr "ติดตั้งปลั๊กอิน"
 
 msgid "I won't leave ETS2LA unattended"
-msgstr "ฉันจะไม่ทิ้ง ETS2LA แบบไม่ดูแล"
+msgstr "ฉันจะไม่ปล่อยให้ ETS2LA ทำงานโดยไม่มีคนดูแล"
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
-msgstr "เกิดข้อผิดพลาดระหว่างดาวโหลดอัปเดต: {0}"
+msgstr "ดาวน์โหลดอัปเดตไม่สำเร็จ: {0}"
 
 msgid "Keyboard"
 msgstr "คีย์บอร์ด"
 
 #, csharp-format
 msgid "No game executable found in '{0}', not adding it as an installation."
-msgstr ""
+msgstr "ไม่พบไฟล์เปิดเกมใน '{0}' จึงไม่เพิ่มเป็นตำแหน่งติดตั้ง"
 
 msgid "Chime"
-msgstr ""
+msgstr "เสียงแจ้งเตือน"
 
 msgid "Failed to create GLFW window"
-msgstr ""
+msgstr "สร้างหน้าต่าง GLFW ไม่สำเร็จ"
 
 msgid "Fast"
 msgstr "เร็ว"
 
 #, csharp-format
 msgid "You are currently logged in as {0}."
-msgstr ""
+msgstr "ขณะนี้คุณเข้าสู่ระบบในชื่อ {0}"
 
 msgid "Install Update and Restart"
 msgstr "ติดตั้งอัปเดตและรีสตาร์ท"
 
 msgid "Curve Quality"
-msgstr "คุณภาพการโค้ง"
+msgstr "คุณภาพการแสดงผลทางโค้ง"
 
 msgid ""
 "Adjust how ETS2LA will respond to necessary steering changes. This for "
 "example controls how quickly ETS2LA will lane-change."
 msgstr ""
+"ปรับการตอบสนองของ ETS2LA ต่อการเปลี่ยนทิศทางพวงมาลัยที่จำเป็น เช่น "
+"ความรวดเร็วในการเปลี่ยนเลน"
 
 msgid "Logout Successful"
-msgstr ""
+msgstr "ออกจากระบบแล้ว"
 
 #, csharp-format
 msgid "Successfully uninstalled plugin with ID {0}."
-msgstr "ถอนการติดตั้งปลั๊กอินสำเร็จแล้วด้วยไอดี {0}"
+msgstr "ถอนการติดตั้งปลั๊กอิน ID {0} สำเร็จ"
 
 msgid "No Update Available"
-msgstr "ไม่มีรายการอัปเดต"
+msgstr "ไม่มีอัปเดตใหม่"
 
 msgid "Performance Overlay"
-msgstr ""
+msgstr "Overlay แสดงประสิทธิภาพ"
 
 #, csharp-format
 msgid "Disconnected joystick: [gray italic]({0})[/]"
-msgstr ""
+msgstr "จอยสติ๊กถูกตัดการเชื่อมต่อ: [gray italic]({0})[/]"
 
 #, csharp-format
 msgid "Update to {0}"
@@ -331,27 +343,30 @@ msgstr "อัปเดตเป็น {0}"
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating axis behavior."
-msgstr ""
+msgstr "ไม่พบ Control ID '{0}' สำหรับอัปเดตพฤติกรรมแกนควบคุม"
 
 msgid "Networking"
-msgstr ""
+msgstr "เครือข่าย"
 
 #, csharp-format
 msgid ""
 "Press a button or move an axis on your input device to bind it to this "
 "control. This will time out in {0} seconds."
 msgstr ""
+"กดปุ่มหรือขยับแกนบนอุปกรณ์อินพุตเพื่อกำหนดให้การควบคุมนี้ จะหมดเวลาใน {0} วินาที"
 
 msgid "Enable All"
-msgstr ""
+msgstr "เปิดใช้งานทั้งหมด"
 
 msgid "Data Parsing"
-msgstr ""
+msgstr "การประมวลผลข้อมูล"
 
 msgid ""
 "Service unavailable. The server is currently unable to handle the request "
 "due to temporary overloading or maintenance."
 msgstr ""
+"บริการไม่พร้อมใช้งาน "
+"เซิร์ฟเวอร์ไม่สามารถจัดการคำขอได้ชั่วคราวเนื่องจากมีภาระมากเกินไปหรือกำลังบำรุงรักษา"
 
 msgid "Enabled"
 msgstr "เปิดใช้งาน"
@@ -361,9 +376,11 @@ msgid ""
 "this to off will disable collision avoidance regardless of your enabled "
 "plugins."
 msgstr ""
+"กำหนดว่า ETS2LA จะเริ่มตอบสนองต่อการชนที่อาจเกิดขึ้นเร็วเพียงใด หากปิดจะปิด Collision "
+"Avoidance แม้เปิดปลั๊กอินที่เกี่ยวข้องอยู่"
 
 msgid "The selected file does not exist."
-msgstr ""
+msgstr "ไม่พบไฟล์ที่เลือก"
 
 #, csharp-format
 msgid "Assists Enabled: <span class=\"text-text-accent font-bold\">{0}</span>"
@@ -373,84 +390,87 @@ msgstr ""
 msgid ""
 "Only show news articles from official sources, such as the ETS2LA team or "
 "it's developers."
-msgstr ""
+msgstr "แสดงเฉพาะข่าวจากแหล่งทางการ เช่น ทีม ETS2LA หรือนักพัฒนา"
 
 msgid ""
 "Memory not available for output, please ensure the game is running and "
 "reinstall the SDK if necessary."
 msgstr ""
+"ไม่สามารถใช้ Memory Output ได้ โปรดตรวจสอบว่าเกมกำลังทำงาน และติดตั้ง SDK ใหม่หากจำเป็น"
 
 #, csharp-format
 msgid "Latest Version: {0}"
-msgstr "เวอร์ชั่นใหม่ล่าสุด: {0}"
+msgstr "เวอร์ชันล่าสุด: {0}"
 
 msgid "Translating release notes..."
-msgstr ""
+msgstr "กำลังแปลบันทึกประจำเวอร์ชัน..."
 
 #, csharp-format
 msgid "Failed to read version from '{0}': {1}"
-msgstr ""
+msgstr "อ่านเวอร์ชันจาก '{0}' ไม่สำเร็จ: {1}"
 
 msgid "Are you sure?"
-msgstr "คุณแน่ใจไหม?"
+msgstr "ยืนยันการดำเนินการหรือไม่?"
 
 #, csharp-format
 msgid "You have successfully logged in as {0}."
-msgstr ""
+msgstr "คุณเข้าสู่ระบบเป็น {0} สำเร็จแล้ว"
 
 msgid "Render AR Elements"
-msgstr ""
+msgstr "แสดงองค์ประกอบ AR"
 
 msgid "Unchanged / Unavailable"
-msgstr ""
+msgstr "ไม่เปลี่ยนแปลง / ไม่พร้อมใช้งาน"
 
 msgid ""
 "This key is used to select in UI menus. It also acts as the approval key for "
 "any notifications."
-msgstr ""
+msgstr "ปุ่มนี้ใช้เลือกในเมนู UI และใช้ยืนยันการแจ้งเตือนต่าง ๆ"
 
 #, csharp-format
 msgid "LoaderException: {0}"
-msgstr ""
+msgstr "LoaderException: {0}"
 
 msgid "Data Fidelity"
-msgstr ""
+msgstr "ความเที่ยงตรงของข้อมูล"
 
 #, csharp-format
 msgid "Failed to uninstall current version of plugin with ID {0}."
-msgstr ""
+msgstr "ถอนการติดตั้งปลั๊กอินเวอร์ชันปัจจุบัน ID {0} ไม่สำเร็จ"
 
 msgid "Early"
-msgstr ""
+msgstr "เร็ว"
 
 msgid ""
 "Bad gateway. The server, while acting as a gateway or proxy, received an "
 "invalid response from an inbound server."
 msgstr ""
+"Bad Gateway: เซิร์ฟเวอร์ที่ทำหน้าที่เป็น Gateway หรือ Proxy "
+"ได้รับการตอบกลับที่ไม่ถูกต้องจากเซิร์ฟเวอร์ต้นทาง"
 
 msgid "The server timed out waiting for the request from the client."
-msgstr ""
+msgstr "เซิร์ฟเวอร์หมดเวลารอคำขอจากไคลเอนต์"
 
 msgid "Backend shutdown complete."
-msgstr ""
+msgstr "ปิด Backend เรียบร้อยแล้ว"
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for event subscription."
-msgstr ""
+msgstr "ไม่พบ Control ID '{0}' สำหรับสมัครรับ Event"
 
 #, csharp-format
 msgid "Unregistered control: {0} ({1})"
-msgstr ""
+msgstr "ยกเลิกการลงทะเบียนการควบคุม: {0} ({1})"
 
 msgid "Contact Us"
-msgstr "ติดต่อพวกเรา"
+msgstr "ติดต่อเรา"
 
 msgid "An error occurred while checking for updates."
-msgstr ""
+msgstr "เกิดข้อผิดพลาดขณะตรวจสอบอัปเดต"
 
 #, csharp-format
 msgid "Copied '{0}' to '{1}'"
-msgstr "ก็อปปี้ '{0}' ไปยัง '{1}' แล้ว"
+msgstr "คัดลอก '{0}' ไปยัง '{1}' แล้ว"
 
 msgid "Clear Console"
 msgstr "ล้างคอนโซล"
@@ -462,44 +482,50 @@ msgid "Select core.scs"
 msgstr "เลือก core.scs"
 
 msgid "Failed to init ImGui Impl OpenGL3"
-msgstr ""
+msgstr "เริ่มต้น ImGui Impl OpenGL3 ไม่สำเร็จ"
 
 msgid "Support Multiple Viewports"
-msgstr ""
+msgstr "รองรับหลาย Viewport"
 
 msgid ""
 "Consider supporting us by becoming a <span class=\"font-bold text-text-"
 "l\">GitHub Sponsor</span> to cover ongoing development and operational costs."
 msgstr ""
+"ร่วมสนับสนุนเราโดยเป็น <span class=\"font-bold text-text-l\">GitHub Sponsor</"
+"span> เพื่อช่วยค่าใช้จ่ายในการพัฒนาและดำเนินงานอย่างต่อเนื่อง"
 
 msgid "You took a wrong turn!"
-msgstr "คุณเลี้ยวผิดทาง!"
+msgstr "เลี้ยวผิดทางแล้ว!"
 
 msgid "Adaptive Cruise Control Only"
-msgstr ""
+msgstr "Adaptive Cruise Control เท่านั้น"
 
 msgid "Initializing GLFW..."
-msgstr ""
+msgstr "กำลังเริ่มต้น GLFW..."
 
 msgid "3D Renderer"
-msgstr ""
+msgstr "ตัวเรนเดอร์ 3D"
 
 msgid "SDK Uninstallation Failed"
-msgstr "ถอนการติดตั้ง SDK ล้มเหลว"
+msgstr "ถอนการติดตั้ง SDK ไม่สำเร็จ"
 
 msgid "Max Overlay Framerate"
-msgstr ""
+msgstr "อัตราเฟรมสูงสุดของ Overlay"
 
 msgid ""
 "We will ignore traffic rules and speed limits. Expect damage to your vehicle "
 "and others. Why would you enable this?"
 msgstr ""
+"ระบบจะไม่สนใจกฎจราจรและขีดจำกัดความเร็ว รถของคุณและผู้อื่นอาจเสียหาย "
+"ทำไมถึงอยากเปิดตัวเลือกนี้ล่ะ?"
 
 #, csharp-format
 msgid ""
 "How did you get here? What were you even thinking?{0}Do tell us in the {1}"
 "Discord Server{2} or on {3}GitHub{4}."
 msgstr ""
+"คุณมาถึงตรงนี้ได้อย่างไร? คิดอะไรอยู่กันแน่?{0}บอกเราได้ที่ {1}Discord Server{2} หรือบน "
+"{3}GitHub{4}"
 
 msgid "Uninstall"
 msgstr "ถอนการติดตั้ง"
@@ -509,6 +535,8 @@ msgid ""
 "users' system specs, crashes, and other usage data. Your data cannot be "
 "identified with any personal information."
 msgstr ""
+"Anonymous Telemetry ช่วยให้เราปรับปรุง ETS2LA โดยส่งข้อมูลสเปกระบบ การแครช "
+"และการใช้งานอื่น ๆ โดยไม่สามารถระบุตัวบุคคลจากข้อมูลของคุณได้"
 
 msgid "SDK Uninstalled"
 msgstr "ถอนการติดตั้ง SDK แล้ว"
@@ -522,128 +550,130 @@ msgid ""
 "text-accent font-bold\">Please check with your community <i>before</i> using "
 "ETS2LA.</span>"
 msgstr ""
+"นอกจากนี้ ชุมชนบางแห่ง เช่น VTC, Job Tracker และ Leaderboard อาจห้ามใช้บางฟีเจอร์หรือ "
+"ETS2LA ทั้งหมด <span class=\"text-text-accent font-bold\""
+">โปรดตรวจสอบกฎของชุมชนของคุณ<i>ก่อน</i>ใช้ ETS2LA</span>"
 
 #, csharp-format
 msgid "Apparent plugin directory {0} does not exist."
-msgstr ""
+msgstr "ไม่พบโฟลเดอร์ปลั๊กอินที่คาดไว้: {0}"
 
 msgid "Visualization"
-msgstr ""
+msgstr "การแสดงผลภาพ"
 
 #, csharp-format
 msgid "Loaded {0} plugin from the Plugins folder."
 msgid_plural "Loaded {0} plugins from the Plugins folder."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "โหลดปลั๊กอิน {0} รายการจากโฟลเดอร์ Plugins แล้ว"
 
 msgid "Late"
-msgstr "สาย"
+msgstr "ช้า"
 
 msgid "Please enable the Visualization Sockets plugin."
-msgstr ""
+msgstr "โปรดเปิดใช้งานปลั๊กอิน Visualization Sockets"
 
 msgid "Force Map Load"
 msgstr "บังคับโหลดแผนที่"
 
 msgid "Your account has been successfully removed."
-msgstr ""
+msgstr "ลบบัญชีของคุณสำเร็จแล้ว"
 
 #, csharp-format
 msgid "Failed to uninstall SDK version '{0}' from '{1}': {2}"
 msgstr "ถอนการติดตั้ง SDK เวอร์ชั่น '{0}' จาก '{1}': {2} ล้มเหลว"
 
 msgid "Failed to initialize overlay, ImGui initialization failed."
-msgstr ""
+msgstr "เริ่มต้น Overlay ไม่สำเร็จ เนื่องจากเริ่มต้น ImGui ไม่สำเร็จ"
 
 msgid "Speed Limit Warning"
-msgstr ""
+msgstr "แจ้งเตือนเมื่อขับเกินความเร็วที่กำหนด"
 
 msgid "Speed limit changed"
-msgstr ""
+msgstr "ความเร็วสูงสุดที่อนุญาตเปลี่ยนแล้ว"
 
 #, csharp-format
 msgid "Discovered {0} plugins in total."
 msgid_plural "Discovered {0} plugins in total."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "พบปลั๊กอินทั้งหมด {0} รายการ"
 
 msgid "Failed to init ImGui Impl GLFW"
-msgstr ""
+msgstr "เริ่มต้น ImGui Impl GLFW ไม่สำเร็จ"
 
 #, csharp-format
 msgid "Failed to discover Dlls: {0}"
-msgstr ""
+msgstr "ค้นหา DLL ไม่สำเร็จ: {0}"
 
 msgid "Not Installed"
 msgstr "ไม่ได้ติดตั้ง"
 
 msgid "gal"
-msgstr ""
+msgstr "แกลลอน"
 
 msgid "Error in camera update loop."
-msgstr ""
+msgstr "เกิดข้อผิดพลาดระหว่างอัปเดตกล้อง"
 
 msgid "Enable"
 msgstr "เปิดใช้งาน"
 
 #, csharp-format
 msgid "Loading map data from '{0}'"
-msgstr ""
+msgstr "กำลังโหลดข้อมูลแผนที่จาก '{0}'"
 
 msgid "Warning: Insufficient RAM"
-msgstr ""
+msgstr "คำเตือน: RAM ไม่เพียงพอ"
 
 msgid "Error Loading Map Data"
-msgstr ""
+msgstr "โหลดข้อมูลแผนที่ไม่สำเร็จ"
 
 #, csharp-format
 msgid "Current Version: {0}"
-msgstr "เวอร์ชั่นปัจจุบัน: {0}"
+msgstr "เวอร์ชันปัจจุบัน: {0}"
 
 #, csharp-format
 msgid "No update available for plugin with ID {0}."
-msgstr ""
+msgstr "ไม่มีอัปเดตสำหรับปลั๊กอิน ID {0}"
 
 msgid "Speed Control Step Size"
-msgstr ""
+msgstr "ขนาดขั้นการปรับ Speed Control"
 
 msgid "Slow"
 msgstr "ช้า"
 
 msgid "Login Failed"
-msgstr ""
+msgstr "เข้าสู่ระบบไม่สำเร็จ"
 
 msgid ""
 "Authentication is required. The client must authenticate itself to get the "
 "requested response."
 msgstr ""
+"จำเป็นต้องยืนยันตัวตน ไคลเอนต์ต้องยืนยันตัวตนเพื่อรับการตอบกลับที่ร้องขอ"
 
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1}, {2})[/]"
-msgstr ""
+msgstr "เชื่อมต่อจอยสติ๊กแล้ว: [bold]{0}[/] [gray italic]({1}, {2})[/]"
 
 #, csharp-format
 msgid "Error while checking for updates: {0}"
-msgstr ""
+msgstr "เกิดข้อผิดพลาดขณะตรวจสอบอัปเดต: {0}"
 
 msgid "Undetermined"
-msgstr ""
+msgstr "ไม่สามารถระบุได้"
 
 msgid "meters per second"
 msgstr "เมตรต่อวินาที"
 
 msgid "Update check skipped, using already cached result."
-msgstr ""
+msgstr "ข้ามการตรวจสอบอัปเดต โดยใช้ผลที่แคชไว้"
 
 #, csharp-format
 msgid "Installed plugin with ID {0} not found."
-msgstr ""
+msgstr "ไม่พบปลั๊กอินที่ติดตั้งไว้ (ID {0})"
 
 msgid "Audio"
 msgstr "เสียง"
 
 msgid "Login Error"
-msgstr ""
+msgstr "ข้อผิดพลาดในการเข้าสู่ระบบ"
 
 #, csharp-format
 msgid "{0} m/s ({1} in {2})"
@@ -651,52 +681,58 @@ msgstr "{0} ม./วินาที ({1} ใน {2})"
 
 #, csharp-format
 msgid "Received input from unknown joystick with instance ID {0}."
-msgstr ""
+msgstr "ได้รับอินพุตจากจอยสติ๊กที่ไม่รู้จัก โดยมี Instance ID {0}"
 
 msgid ""
 "Adjust how quickly ETS2LA will respond to desired changes in acceleration. "
 "Emergency braking is not affected."
 msgstr ""
+"ปรับความรวดเร็วที่ ETS2LA ตอบสนองต่อการเร่งความเร็วตามที่ต้องการ "
+"โดยไม่ส่งผลต่อการเบรกฉุกเฉิน"
 
 msgid "Display Units"
-msgstr ""
+msgstr "หน่วยที่แสดง"
 
 msgid "Adjustments"
 msgstr "ปรับแต่ง"
 
 msgid "State Info"
-msgstr ""
+msgstr "ข้อมูลสถานะ"
 
 msgid "Contact us on GitHub"
-msgstr "ติดต่อพวกเราใน GitHub"
+msgstr "ติดต่อเราทาง GitHub"
 
 #, csharp-format
 msgid "Error in AR rendering: {0}"
 msgstr "เกิดข้อผิดพลาดใน AR rendering: {0}"
 
 msgid "Collision Avoidance"
-msgstr ""
+msgstr "ระบบหลีกเลี่ยงการชน"
 
 msgid ""
 "Disables the overlay entirely. This will fix the black screen issue at the "
 "cost of breaking all features that rely on the overlay, including AR and the "
 "HUD."
 msgstr ""
+"ปิด Overlay ทั้งหมด เพื่อแก้ปัญหาหน้าจอดำ แต่ฟีเจอร์ที่ต้องใช้ Overlay เช่น AR และ HUD "
+"จะไม่ทำงาน"
 
 msgid "Warnings & Overrides"
-msgstr ""
+msgstr "คำเตือนและการแทนที่ค่า"
 
 msgid "Overrides"
 msgstr "เขียนทับ"
 
 msgid ""
 "Too many requests. You have sent too many requests in a given amount of time."
-msgstr ""
+msgstr "ส่งคำขอมากเกินไป คุณส่งคำขอเกินจำนวนที่อนุญาตในช่วงเวลาหนึ่ง"
 
 msgid ""
 "This will disconnect ETS2LA from the game and close the window. You can "
 "minimize the window to keep ETS2LA running."
 msgstr ""
+"การดำเนินการนี้จะตัดการเชื่อมต่อ ETS2LA จากเกมและปิดหน้าต่าง คุณสามารถย่อหน้าต่างเพื่อให้ "
+"ETS2LA ทำงานต่อได้"
 
 #, csharp-format
 msgid "Camera {0} ({1}x{2})"
@@ -706,28 +742,30 @@ msgid ""
 "This setting only loads roads and intersections visible on the in game map. "
 "It discards all other information."
 msgstr ""
+"การตั้งค่านี้จะโหลดเฉพาะถนนและทางแยกที่เห็นบนแผนที่ในเกม และละทิ้งข้อมูลอื่นทั้งหมด"
 
 #, csharp-format
 msgid "Failed to load library plugin from [gray]{0}[/]: {1}"
-msgstr ""
+msgstr "โหลด Library Plugin จาก [gray]{0}[/] ไม่สำเร็จ: {1}"
 
 #, csharp-format
 msgid "Updated bindings for control: {0} ({1}) to Device: {2}, Control: {3}"
 msgstr ""
+"อัปเดตการกำหนดปุ่มสำหรับการควบคุม: {0} ({1}) เป็นอุปกรณ์: {2}, การควบคุม: {3}"
 
 msgid ""
 "Driving mode changed, press Cancel/MODE again to cycle through the modes."
-msgstr ""
+msgstr "เปลี่ยนโหมดการขับขี่แล้ว กด Cancel/MODE อีกครั้งเพื่อวนเลือกโหมด"
 
 msgid "Pause When Unstable"
-msgstr ""
+msgstr "หยุดเกมชั่วคราวเมื่อระบบไม่เสถียร"
 
 msgid "Stop Rendering When Game is Paused"
-msgstr ""
+msgstr "หยุดเรนเดอร์เมื่อเกมหยุดชั่วคราว"
 
 #, csharp-format
 msgid "File not found: {0}"
-msgstr ""
+msgstr "ไม่พบไฟล์: {0}"
 
 msgid "Restart Now"
 msgstr "รีสตาร์ทตอนนี้"
@@ -741,41 +779,45 @@ msgid "Error playing audio file {0}: {1}"
 msgstr "เกิดข้อผิดพลาดระหว่างเล่นเสียงไฟล์ {0}: {1}"
 
 msgid "Controls Backend shutdown complete, all controls saved."
-msgstr ""
+msgstr "ปิด Controls Backend เสร็จสมบูรณ์ บันทึกการควบคุมทั้งหมดแล้ว"
 
 msgid ""
 "The units ETS2LA will use when displaying information to a user. Scientific "
 "has only slight differences to metric."
 msgstr ""
+"หน่วยที่ ETS2LA ใช้แสดงข้อมูลแก่ผู้ใช้ แบบ Scientific ต่างจาก Metric เพียงเล็กน้อย"
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for unregistration."
-msgstr ""
+msgstr "ไม่พบ Control ID '{0}' สำหรับยกเลิกการลงทะเบียน"
 
 msgid ""
 "Your system has less than 16GB of RAM. High data fidelity uses significant "
 "amounts of RAM, and may cause your system to become unstable. Please select "
 "a lower fidelity."
 msgstr ""
+"ระบบของคุณมี RAM น้อยกว่า 16GB การใช้ Data Fidelity ระดับ High ต้องใช้ RAM "
+"มากและอาจทำให้ระบบไม่เสถียร โปรดเลือกระดับที่ต่ำลง"
 
 #, csharp-format
 msgid "Failed to shutdown plugin {0}: {1}"
-msgstr ""
+msgstr "ปิดปลั๊กอิน {0} ไม่สำเร็จ: {1}"
 
 #, csharp-format
 msgid "Plugin with ID {0} not found in available plugins."
-msgstr ""
+msgstr "ไม่พบปลั๊กอิน ID {0} ในรายการที่มี"
 
 msgid "Confirm Account Removal"
-msgstr ""
+msgstr "ยืนยันการลบบัญชี"
 
 msgid ""
 "Removing your account will delete all your data from our servers. This "
 "action cannot be undone."
 msgstr ""
+"การลบบัญชีจะลบข้อมูลทั้งหมดของคุณจากเซิร์ฟเวอร์ของเรา และไม่สามารถย้อนกลับได้"
 
 msgid "Manager"
-msgstr ""
+msgstr "ตัวจัดการ"
 
 msgid "Near"
 msgstr "ใกล้"
@@ -784,11 +826,11 @@ msgid "Driving"
 msgstr "กำลังขับ"
 
 msgid "Failed to initialize SDL3 input backend."
-msgstr ""
+msgstr "เริ่มต้น SDL3 Input Backend ไม่สำเร็จ"
 
 #, csharp-format
 msgid "{0} not found in supported languages."
-msgstr ""
+msgstr "ไม่พบ {0} ในภาษาที่รองรับ"
 
 msgid "Assists Enabled: "
 msgstr "การช่วยเหลือเปิดใช้งานแล้ว: "
@@ -796,61 +838,62 @@ msgstr "การช่วยเหลือเปิดใช้งานแล
 #, csharp-format
 msgid "Found {0} prefab"
 msgid_plural "Found {0} prefabs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "พบ prefab {0} รายการ"
 
 msgid "Pascals"
-msgstr ""
+msgstr "ปาสกาล"
 
 msgid "Account Removal Error"
-msgstr ""
+msgstr "เกิดข้อผิดพลาดในการลบบัญชี"
 
 #, csharp-format
 msgid "Failed to disable {0}: {1}"
 msgstr "ปิดการใช้งาน {0} ล้มเหลว : {1}"
 
 msgid "You can enable the plugins we installed in a previous step here."
-msgstr ""
+msgstr "คุณสามารถเปิดใช้ปลั๊กอินที่เราติดตั้งไว้ในขั้นตอนก่อนหน้าได้ที่นี่"
 
 msgid "Login"
-msgstr ""
+msgstr "เข้าสู่ระบบ"
 
 msgid "SDK Installed"
-msgstr ""
+msgstr "ติดตั้ง SDK แล้ว"
 
 msgid "Current Speed"
 msgstr "ความเร็วตอนนี้"
 
 #, csharp-format
 msgid "Bound control {0} ({1}) to device {2} and control {3}"
-msgstr ""
+msgstr "กำหนดการควบคุม {0} ({1}) ให้กับอุปกรณ์ {2} และปุ่ม {3}"
 
 msgid "miles per hour"
 msgstr "ไมล์ต่อชั่วโมง"
 
 msgid "Limit Overlay Framerate"
-msgstr ""
+msgstr "จำกัดอัตราเฟรมของ Overlay"
 
 msgid "Wiki / FAQ"
-msgstr ""
+msgstr "Wiki / คำถามที่พบบ่อย"
 
 #, csharp-format
 msgid "Failed to install SDK from '{0}' to '{1}': {2}"
-msgstr ""
+msgstr "ติดตั้ง SDK จาก '{0}' ไปยัง '{1}' ไม่สำเร็จ: {2}"
 
 msgid ""
 "When this key is held, the overlay will receive mouse input and allow you to "
 "interact with it. NOTE: Interaction with items below the overlay is not "
 "possible during this time."
 msgstr ""
+"ขณะกดปุ่มนี้ค้างไว้ Overlay จะรับอินพุตเมาส์และสามารถโต้ตอบได้ หมายเหตุ: "
+"ระหว่างนี้จะไม่สามารถโต้ตอบกับรายการที่อยู่ใต้ Overlay"
 
 msgid ""
 "The request method is recognized by the server but is not supported by the "
 "target resource."
-msgstr ""
+msgstr "เซิร์ฟเวอร์รู้จักวิธีส่งคำขอนี้ แต่ทรัพยากรปลายทางไม่รองรับ"
 
 msgid "Binding Successful"
-msgstr ""
+msgstr "กำหนดปุ่มสำเร็จ"
 
 msgid "Disable"
 msgstr "ปิดการใช้งาน"
@@ -860,19 +903,21 @@ msgstr "การควบคุม"
 
 #, csharp-format
 msgid "Unknown manifest type: {0}"
-msgstr ""
+msgstr "ประเภท Manifest ที่ไม่รู้จัก: {0}"
 
 msgid ""
 "Ensure you don't have any mods installed in the root directory. Those have "
 "to be installed in Documents/Euro Truck Simulator 2/mod."
 msgstr ""
+"ตรวจสอบว่าไม่ได้ติดตั้ง Mod ในโฟลเดอร์หลัก ต้องติดตั้งใน Documents/Euro Truck Simulator "
+"2/mod"
 
 #, csharp-format
 msgid "Download progress: {0}%"
 msgstr "ความคืบหน้าการดาวโหลด: {0}%"
 
 msgid "Search for plugins..."
-msgstr ""
+msgstr "ค้นหาปลั๊กอิน..."
 
 msgid "Assists"
 msgstr "การช่วยเหลือ"
@@ -881,35 +926,37 @@ msgid "SDK Installation"
 msgstr "การติดตั้ง SDK"
 
 msgid "mph"
-msgstr ""
+msgstr "ไมล์/ชั่วโมง"
 
 msgid "°F"
-msgstr ""
+msgstr "°F"
 
 msgid "Pa"
-msgstr ""
+msgstr "Pa"
 
 msgid "Game Telemetry"
-msgstr ""
+msgstr "ข้อมูล Telemetry จากเกม"
 
 msgid "Key"
-msgstr ""
+msgstr "ปุ่ม"
 
 msgid ""
 "This setting drops redundant information while maintaining most detail "
 "objects (such as signs). Doesn't include any roads / intersections not shown "
 "in the in game map."
 msgstr ""
+"การตั้งค่านี้ตัดข้อมูลซ้ำซ้อนโดยคงรายละเอียดวัตถุส่วนใหญ่ เช่น ป้าย "
+"แต่ไม่รวมถนนหรือทางแยกที่ไม่แสดงบนแผนที่ในเกม"
 
 msgid "bar"
-msgstr ""
+msgstr "bar"
 
 msgid "Account Removed"
-msgstr ""
+msgstr "ลบบัญชีแล้ว"
 
 msgid ""
 "Couldn't connect to the game. Please open ETS2 or ATS and enable the SDK."
-msgstr ""
+msgstr "เชื่อมต่อกับเกมไม่ได้ โปรดเปิด ETS2 หรือ ATS และเปิดใช้งาน SDK"
 
 msgid "Button"
 msgstr "ปุ่ม"
@@ -921,46 +968,52 @@ msgid ""
 "In most situations, over half of ETS2LA's CPU use is consumed by the "
 "overlay. Limiting the framerate will reduce CPU usage."
 msgstr ""
+"โดยทั่วไป การใช้ CPU ของ ETS2LA มากกว่าครึ่งหนึ่งมาจาก Overlay "
+"การจำกัดอัตราเฟรมช่วยลดการใช้ CPU"
 
 msgid ""
 "This setting includes all available data, most of which is redundant. <span "
 "class=\"text-warning\">Warning: Extreme uses significant amounts of RAM, "
 "expect over 10GB of usage.</span>"
 msgstr ""
+"การตั้งค่านี้รวมข้อมูลทั้งหมดที่มี ซึ่งส่วนใหญ่ซ้ำซ้อน <span class=\"text-warning\">คำเตือน: ระดั"
+"บ Extreme ใช้ RAM มาก โดยอาจเกิน 10GB</span>"
 
 msgid "GitHub Sponsorship"
-msgstr ""
+msgstr "การสนับสนุนผ่าน GitHub"
 
 msgid "Restart and Continue"
-msgstr ""
+msgstr "รีสตาร์ตและดำเนินการต่อ"
 
 msgid ""
 "Using simplified graphics can improve performance on lower-end hardware, or "
 "fix situations in which advanced features like shaders are not supported."
 msgstr ""
+"การใช้กราฟิกแบบเรียบง่ายช่วยเพิ่มประสิทธิภาพบนเครื่องสเปกต่ำ หรือแก้ปัญหาเมื่อไม่รองรับฟีเจอร์ขั้นสู"
+"ง เช่น Shader"
 
 #, csharp-format
 msgid "Failed to load map for installation at '{0}'"
-msgstr ""
+msgstr "โหลดแผนที่สำหรับการติดตั้งที่ '{0}' ไม่สำเร็จ"
 
 msgid "Not Connected"
 msgstr "ไม่ได้เชื่อมต่อ"
 
 #, csharp-format
 msgid "Plugin with ID [gray]{0}[/] is already loaded, skipping duplicate."
-msgstr ""
+msgstr "ปลั๊กอิน ID [gray]{0}[/] ถูกโหลดแล้ว ข้ามรายการซ้ำ"
 
 msgid "You are running the latest version."
-msgstr ""
+msgstr "คุณใช้เวอร์ชันล่าสุดอยู่แล้ว"
 
 #, csharp-format
 msgid "Failed to download plugin with ID {0} from {1}. Status code: {2}"
-msgstr ""
+msgstr "ดาวน์โหลดปลั๊กอิน ID {0} จาก {1} ไม่สำเร็จ รหัสสถานะ: {2}"
 
 msgid ""
 "Show news articles about plugin updates, be that official or 3rd party "
 "plugins."
-msgstr ""
+msgstr "แสดงข่าวเกี่ยวกับการอัปเดตปลั๊กอิน ทั้งปลั๊กอินทางการและจากบุคคลที่สาม"
 
 msgid "No plugins found."
 msgstr "ไม่เจอปลั๊กอิน"
@@ -969,121 +1022,127 @@ msgid ""
 "When pressing the SET keybind, what should ETS2LA set as the current cruise "
 "control speed?"
 msgstr ""
+"เมื่อกดปุ่ม SET ควรให้ ETS2LA ตั้งความเร็ว Cruise Control ปัจจุบันเป็นเท่าใด?"
 
 msgid "The selected directory does not exist."
-msgstr ""
+msgstr "ไม่มีโฟลเดอร์ที่เลือก"
 
 msgid ""
 "Adjust the quality of the curves used for path planning and visualization. "
 "By default this matches the game."
 msgstr ""
+"ปรับคุณภาพเส้นโค้งที่ใช้วางแผนเส้นทางและ Visualization ค่าเริ่มต้นจะตรงกับเกม"
 
 msgid "Before we begin."
-msgstr ""
+msgstr "ก่อนเริ่มต้น"
 
 #, csharp-format
 msgid "Error while applying update: {0}"
-msgstr ""
+msgstr "เกิดข้อผิดพลาดขณะใช้อัปเดต: {0}"
 
 msgid "Following Distance"
-msgstr ""
+msgstr "ระยะห่างจากรถคันหน้า"
 
 msgid "Check For Updates"
-msgstr ""
+msgstr "ตรวจสอบอัปเดต"
 
 msgid "Telemetry"
-msgstr ""
+msgstr "ข้อมูลสถานะแบบเรียลไทม์"
 
 msgid ""
 "This allows ETS2LA to render in multiple viewports, meaning you can move "
 "overlay windows to any monitor."
 msgstr ""
+"อนุญาตให้ ETS2LA เรนเดอร์บนหลาย Viewport เพื่อย้ายหน้าต่าง Overlay ไปยังจอภาพใดก็ได้"
 
 msgid ""
 "Adjust the level of detail of the game data we use. Higher values use more "
 "RAM, but include more information. All levels drive the same."
 msgstr ""
+"ปรับระดับรายละเอียดข้อมูลเกมที่ใช้ ค่าสูงขึ้นใช้ RAM มากขึ้นแต่ให้ข้อมูลมากขึ้น "
+"ทุกระดับมีพฤติกรรมการขับเหมือนกัน"
 
 #, csharp-format
 msgid "found {0} node"
 msgid_plural "found {0} nodes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "พบ node {0} รายการ"
 
 msgid "Open Source"
-msgstr ""
+msgstr "โอเพนซอร์ส"
 
 #, csharp-format
 msgid "<span class=\"font-semibold\">{0}</span> until {1}"
-msgstr ""
+msgstr "<span class=\"font-semibold\">{0}</span> จนถึง {1}"
 
 msgid "Did you remember to restart after installing them?"
-msgstr ""
+msgstr "คุณได้รีสตาร์ตหลังติดตั้งแล้วหรือยัง?"
 
 msgid "Volume"
 msgstr "ระดับเสียง"
 
 #, csharp-format
 msgid "Parsing sector {0} of {1}..."
-msgstr ""
+msgstr "กำลังวิเคราะห์ Sector {0} จาก {1}..."
 
 msgid "Unbound"
-msgstr ""
+msgstr "ยังไม่ได้กำหนดปุ่ม"
 
 msgid ""
 "ETS2LA uses a control setup that should be similar to real life systems. You "
 "can rebind the default controls on the right side."
 msgstr ""
+"ETS2LA ใช้รูปแบบการควบคุมที่คล้ายระบบจริง คุณสามารถเปลี่ยนการกำหนดปุ่มเริ่มต้นทางด้านขวา"
 
 #, csharp-format
 msgid "Failed to install latest version of plugin with ID {0}."
-msgstr ""
+msgstr "ติดตั้งปลั๊กอิน ID {0} เวอร์ชันล่าสุดไม่สำเร็จ"
 
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
 "on {2}GitHub{3}."
-msgstr ""
+msgstr "หากคิดว่าเป็นบั๊ก โปรดรายงานใน {0}Discord Server{1} หรือบน {2}GitHub{3}"
 
 msgid "I understand, now let me in!"
 msgstr "ฉันเข้าใจ, ตอนนี้ให้ฉันเข้า!"
 
 msgid "Disable Overlay"
-msgstr ""
+msgstr "ปิด Overlay"
 
 msgid ""
 "The maximum distance at which 3D elements will be rendered. Lowering this "
 "can be used to improve performance on lower-end hardware."
 msgstr ""
+"ระยะทางสูงสุดในการเรนเดอร์องค์ประกอบ 3D การลดค่านี้ช่วยเพิ่มประสิทธิภาพบนเครื่องสเปกต่ำ"
 
 #, csharp-format
 msgid "Fetched {0} plugin from {1}"
 msgid_plural "Fetched {0} plugins from {1}"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ดึงปลั๊กอิน {0} รายการจาก {1} แล้ว"
 
 msgid "Metric"
-msgstr ""
+msgstr "เมตริก"
 
 msgid "Error in telemetry update loop."
-msgstr ""
+msgstr "เกิดข้อผิดพลาดในลูปอัปเดต Telemetry"
 
 msgid ""
 "Internal server error. The server encountered an unexpected condition that "
 "prevented it from fulfilling the request."
 msgstr ""
+"Internal Server Error: เซิร์ฟเวอร์พบข้อผิดพลาดที่ไม่คาดคิดจนไม่สามารถดำเนินการตามคำขอได้"
 
 #, csharp-format
 msgid "Road template for {0} not found in SII file."
-msgstr ""
+msgstr "ไม่พบ Road Template สำหรับ {0} ในไฟล์ SII"
 
 #, csharp-format
 msgid "Failed to read log file at '{0}': {1}"
-msgstr ""
+msgstr "อ่านไฟล์ Log ที่ '{0}' ไม่สำเร็จ: {1}"
 
 #, csharp-format
 msgid "Updated axis behavior for control: {0} ({1}) to {2}"
-msgstr ""
+msgstr "อัปเดตพฤติกรรมแกนสำหรับการควบคุม: {0} ({1}) เป็น {2}"
 
 #, csharp-format
 msgid "Disabled plugin: [bold]{0}[/]"
@@ -1093,51 +1152,53 @@ msgid "Continue"
 msgstr "ดำเนินการต่อ"
 
 msgid "Cancel/MODE"
-msgstr ""
+msgstr "ยกเลิก/MODE"
 
 #, csharp-format
 msgid "Failed enable {0}: {1}"
 msgstr "เปิดใช้งาน {0}: {1}"
 
 msgid "Acceleration Response"
-msgstr ""
+msgstr "การตอบสนองการเร่งความเร็ว"
 
 msgid "Error in parked vehicles update loop."
-msgstr ""
+msgstr "เกิดข้อผิดพลาดในลูปอัปเดตรถที่จอดอยู่"
 
 msgid "The plugin was enabled successfully."
-msgstr ""
+msgstr "เปิดใช้งานปลั๊กอินสำเร็จ"
 
 #, csharp-format
 msgid "<span class=\"font-semibold\">{0}</span> at {1}"
-msgstr ""
+msgstr "<span class=\"font-semibold\">{0}</span> เวลา {1}"
 
 msgid "Normal"
 msgstr "ปกติ"
 
 msgid "Unknown Control"
-msgstr ""
+msgstr "การควบคุมที่ไม่รู้จัก"
 
 msgid ""
 "When enabled, the overlay will toggle between interaction and non-"
 "interaction mode when you press it's keybind. When disabled, the overlay "
 "will only be interactive while you hold down the keybind."
 msgstr ""
+"เมื่อเปิดใช้งาน การกดปุ่มลัดจะสลับ Overlay ระหว่างโหมดโต้ตอบและไม่โต้ตอบ เมื่อปิด "
+"จะโต้ตอบได้เฉพาะตอนกดปุ่มค้างไว้"
 
 msgid "Latest News"
-msgstr ""
+msgstr "ข่าวล่าสุด"
 
 msgid "pounds"
-msgstr ""
+msgstr "ปอนด์"
 
 #, csharp-format
 msgid "Failed to initialize SDL3 controls backend: {0}"
-msgstr ""
+msgstr "เริ่มต้น SDL3 Controls Backend ไม่สำเร็จ: {0}"
 
 msgid ""
 "The server cannot find the requested resource. The URL may be misspelled, or "
 "the resource has been removed."
-msgstr ""
+msgstr "เซิร์ฟเวอร์ไม่พบทรัพยากรที่ร้องขอ URL อาจสะกดผิดหรือทรัพยากรถูกลบแล้ว"
 
 #, csharp-format
 msgid "Failed to install SDK version '{0}' to '{1}': {2}"
@@ -1145,7 +1206,7 @@ msgstr "ติดตั้ง SDK เวอร์ชั่น '{0}' สู่ '{
 
 #, csharp-format
 msgid "Failed to read bundled update source marker: {0}"
-msgstr ""
+msgstr "อ่าน Marker แหล่งอัปเดตที่รวมมากับโปรแกรมไม่สำเร็จ: {0}"
 
 msgid "liters"
 msgstr "ลิตร"
@@ -1158,26 +1219,27 @@ msgid ""
 "Will disable ETS2LA's assists when pressed. If assists are already disabled, "
 "this key will switch between driving modes."
 msgstr ""
+"เมื่อกดจะปิดระบบช่วยขับของ ETS2LA หากปิดอยู่แล้ว ปุ่มนี้จะสลับโหมดการขับขี่"
 
 msgid "Binding thread started with no control to bind."
-msgstr ""
+msgstr "เริ่ม Thread กำหนดปุ่มโดยไม่มีการควบคุมให้กำหนด"
 
 #, csharp-format
 msgid ""
 "Installation at '{0}' is not currently running, waiting for load of profile."
-msgstr ""
+msgstr "การติดตั้งที่ '{0}' ยังไม่ทำงาน กำลังรอโหลดโปรไฟล์"
 
 msgid "Downloading Update"
 msgstr "กำลังโหลดอัปเดต"
 
 msgid "Simplified Graphics"
-msgstr ""
+msgstr "กราฟิกแบบเรียบง่าย"
 
 msgid "Failed to log in. Please check your credentials and try again."
-msgstr ""
+msgstr "เข้าสู่ระบบไม่สำเร็จ โปรดตรวจสอบข้อมูลเข้าสู่ระบบแล้วลองอีกครั้ง"
 
 msgid "Steering Sensitivity"
-msgstr ""
+msgstr "ความไวของพวงมาลัย"
 
 msgid "Disabled"
 msgstr "ปิดใช้งาน"
@@ -1188,27 +1250,27 @@ msgstr "{0}"
 
 msgid ""
 "This might take a while depending on your internet connection and the source."
-msgstr ""
+msgstr "อาจใช้เวลาสักครู่ ขึ้นอยู่กับการเชื่อมต่ออินเทอร์เน็ตและแหล่งข้อมูล"
 
 msgid "No updates available."
-msgstr ""
+msgstr "ไม่มีอัปเดต"
 
 #, csharp-format
 msgid "Error rendering overlay: {0}"
-msgstr ""
+msgstr "เกิดข้อผิดพลาดขณะเรนเดอร์ Overlay: {0}"
 
 msgid "You may need to restart the game to apply this change."
-msgstr ""
+msgstr "อาจต้องรีสตาร์ตเกมเพื่อให้การเปลี่ยนแปลงมีผล"
 
 msgid "Off"
 msgstr "ปิด"
 
 msgid "L"
-msgstr ""
+msgstr "ลิตร"
 
 msgid ""
 "An error occurred while trying to log in. Please try again later. Error: "
-msgstr ""
+msgstr "เกิดข้อผิดพลาดขณะเข้าสู่ระบบ โปรดลองอีกครั้งภายหลัง ข้อผิดพลาด: "
 
 msgid "Installing..."
 msgstr "กำลังติดตั้ง..."
@@ -1218,21 +1280,21 @@ msgstr "เพิ่มเกมล้มเหลว"
 
 #, csharp-format
 msgid "Font file not found at {0}"
-msgstr ""
+msgstr "ไม่พบไฟล์ฟอนต์ที่ {0}"
 
 msgid "Changelog"
-msgstr ""
+msgstr "บันทึกการเปลี่ยนแปลง"
 
 msgid "No release notes available."
-msgstr ""
+msgstr "ไม่มีบันทึกประจำเวอร์ชัน"
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
-msgstr ""
+msgstr "ตรวจพบการสลับไปยัง {0} กำลังรอวิเคราะห์ข้อมูลเกม"
 
 #, csharp-format
 msgid "Currently running at {0} FPS."
-msgstr ""
+msgstr "ขณะนี้ทำงานที่ {0} FPS"
 
 #, csharp-format
 msgid "Version {0} not found for plugin with ID {1}."
@@ -1240,109 +1302,111 @@ msgstr "เวอร์ชั่น {0} ไม่เจอสำหรับป�
 
 msgid ""
 "An error occurred while trying to log out. Please try again later. Error: "
-msgstr ""
+msgstr "เกิดข้อผิดพลาดขณะออกจากระบบ โปรดลองอีกครั้งภายหลัง ข้อผิดพลาด: "
 
 msgid "Invalid file"
 msgstr "ไฟล์ไม่ถูกต้อง"
 
 msgid "Login Successful"
-msgstr ""
+msgstr "เข้าสู่ระบบสำเร็จ"
 
 #, csharp-format
 msgid "Discovered {0} library in total"
 msgid_plural "Discovered {0} libraries in total."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "พบไลบรารีทั้งหมด {0} รายการ"
 
 msgid "Console"
 msgstr "คอนโซล"
 
 msgid "The game has been added successfully."
-msgstr ""
+msgstr "เพิ่มเกมสำเร็จแล้ว"
 
 msgid ""
 "The server could not understand the request due to invalid syntax or "
 "corrupted request data."
-msgstr ""
+msgstr "เซิร์ฟเวอร์ไม่เข้าใจคำขอเนื่องจากรูปแบบคำขอไม่ถูกต้องหรือข้อมูลเสียหาย"
 
 #, csharp-format
 msgid ""
 "Manually added game at '{0}' no longer contains a game executable, skipping."
-msgstr ""
+msgstr "เกมที่เพิ่มด้วยตนเองใน '{0}' ไม่มีไฟล์เรียกใช้เกมแล้ว จึงข้าม"
 
 msgid "Logout Error"
-msgstr ""
+msgstr "ข้อผิดพลาดในการออกจากระบบ"
 
 #, csharp-format
 msgid "Found {0} game installation."
 msgid_plural "Found {0} game installations."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "พบตำแหน่งติดตั้งเกม {0} แห่ง"
 
 msgid "Scientific"
-msgstr ""
+msgstr "วิทยาศาสตร์"
 
 msgid "Waiting..."
 msgstr "กำลังรอ..."
 
 msgid "hide"
-msgstr ""
+msgstr "ซ่อน"
 
 #, csharp-format
 msgid "Update available: {0}"
 msgstr "มีรายการอัปเดต: {0}"
 
 msgid "Error in traffic update loop."
-msgstr ""
+msgstr "เกิดข้อผิดพลาดในลูปอัปเดตการจราจร"
 
 #, csharp-format
 msgid "Error in plugin {0} Tick: {1}"
-msgstr ""
+msgstr "เกิดข้อผิดพลาดใน Tick ของปลั๊กอิน {0}: {1}"
 
 msgid ""
 "To get started fast, you can install our <span class=\"text-text-accent font-"
 "bold\">recommended</span> plugins. These contain everything you need to get "
 "driving."
 msgstr ""
+"เพื่อเริ่มใช้งานได้รวดเร็ว คุณสามารถติดตั้งปลั๊กอินที่เรา<span class=\"text-text-accent font-"
+"bold\">แนะนำ</span> ซึ่งมีทุกอย่างที่จำเป็นต่อการเริ่มขับ"
 
 #, csharp-format
 msgid "An error occurred while loading map data: {0}"
-msgstr ""
+msgstr "เกิดข้อผิดพลาดขณะโหลดข้อมูลแผนที่: {0}"
 
 #, csharp-format
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
-msgstr ""
+msgstr "โหลด Library Plugin: [gray]{0}[/] จาก [gray]{1}[/] แล้ว"
 
 msgid "Responsiveness"
-msgstr ""
+msgstr "ความรวดเร็วในการตอบสนอง"
 
 msgid "Parsing Map Data"
-msgstr ""
+msgstr "กำลังวิเคราะห์ข้อมูลแผนที่"
 
 msgid "SDKs need to be installed."
-msgstr ""
+msgstr "จำเป็นต้องติดตั้ง SDK"
 
 msgid "Hide Installed"
-msgstr ""
+msgstr "ซ่อนรายการที่ติดตั้งแล้ว"
 
 msgid "Failed to initialize overlay, OpenGL initialization failed."
-msgstr ""
+msgstr "เริ่มต้น Overlay ไม่สำเร็จ เนื่องจากเริ่มต้น OpenGL ไม่สำเร็จ"
 
 #, csharp-format
 msgid "Plugin '{0}' is missing its DLL at '{1}' and has been removed."
-msgstr ""
+msgstr "ปลั๊กอิน '{0}' ไม่มีไฟล์ DLL ที่ '{1}' จึงถูกลบออก"
 
 msgid ""
 "Increases the current target speed by one step. If assists are disabled, "
 "this key acts like RES. Meaning it will resume the last set target speed. If "
 "a last target speed was not set, this key acts like SET."
 msgstr ""
+"เพิ่มความเร็วเป้าหมายปัจจุบันหนึ่งขั้น หากปิดระบบช่วยขับ ปุ่มนี้จะทำงานเหมือน RES "
+"เพื่อกลับไปใช้ความเร็วเป้าหมายล่าสุด หากยังไม่เคยตั้งความเร็วเป้าหมาย จะทำงานเหมือน SET"
 
 msgid "Account"
 msgstr "บัญชี"
 
 msgid "Translate News Articles"
-msgstr ""
+msgstr "แปลบทความข่าว"
 
 #, csharp-format
 msgid "Found {0} (version: {1}) at '{2}'"
@@ -1352,43 +1416,46 @@ msgid ""
 "We can render elements in the game world using the overlay. This will use "
 "additional CPU and GPU resources."
 msgstr ""
+"เราสามารถใช้ Overlay เรนเดอร์องค์ประกอบในโลกของเกมได้ โดยจะใช้ทรัพยากร CPU และ GPU "
+"เพิ่มเติม"
 
 msgid "kilometers per hour"
 msgstr "กิโลเมตรต่อชั่วโมง"
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for event unsubscription."
-msgstr ""
+msgstr "ไม่พบ Control ID '{0}' สำหรับยกเลิกการสมัครรับ Event"
 
 #, csharp-format
 msgid "Binding {0}"
-msgstr ""
+msgstr "กำลังกำหนดปุ่ม {0}"
 
 #, csharp-format
 msgid "Failed to unload plugin load context: {0}"
-msgstr ""
+msgstr "ยกเลิกการโหลด Plugin Load Context ไม่สำเร็จ: {0}"
 
 #, csharp-format
 msgid "No download URL found for plugin with ID {0} in region {1}."
-msgstr ""
+msgstr "ไม่พบ URL ดาวน์โหลดสำหรับปลั๊กอิน ID {0} ในภูมิภาค {1}"
 
 msgid ""
 "Changing the display language requires a restart of ETS2LA to take effect. "
 "Restart now?"
 msgstr ""
+"การเปลี่ยนภาษาที่แสดงต้องรีสตาร์ต ETS2LA เพื่อให้มีผล ต้องการรีสตาร์ตตอนนี้หรือไม่?"
 
 #, csharp-format
 msgid "Update to {0} from {1}"
-msgstr ""
+msgstr "อัปเดตจาก {1} เป็น {0}"
 
 msgid "Restarting ETS2LA..."
-msgstr ""
+msgstr "กำลังรีสตาร์ต ETS2LA..."
 
 msgid "ETS2LA is running."
-msgstr ""
+msgstr "ETS2LA กำลังทำงาน"
 
 msgid "Restart"
-msgstr ""
+msgstr "รีสตาร์ต"
 
 msgid "Plugins"
 msgstr "ปลั๊กอิน"
@@ -1397,14 +1464,14 @@ msgid "Close"
 msgstr "ปิด"
 
 msgid "lbs"
-msgstr ""
+msgstr "ปอนด์"
 
 #, csharp-format
 msgid "Tried to disable {0}, but it was not found among loaded plugins."
-msgstr ""
+msgstr "พยายามปิด {0} แต่ไม่พบในปลั๊กอินที่โหลดอยู่"
 
 msgid "Full Self-Driving"
-msgstr ""
+msgstr "ระบบขับขี่อัตโนมัติเต็มรูปแบบ"
 
 msgid "Install"
 msgstr "ติดตั้ง"
@@ -1413,63 +1480,65 @@ msgstr "ติดตั้ง"
 msgid ""
 "Tried to change update source to '{0}', but it was not found among available "
 "sources."
-msgstr ""
+msgstr "พยายามเปลี่ยนแหล่งอัปเดตเป็น '{0}' แต่ไม่พบในแหล่งที่มี"
 
 msgid "Error Checking for Updates"
-msgstr ""
+msgstr "เกิดข้อผิดพลาดในการตรวจสอบอัปเดต"
 
 msgid "Speed Limit"
 msgstr "จำกัดความเร็ว"
 
 msgid "Vision Cameras"
-msgstr ""
+msgstr "กล้อง Vision"
 
 msgid "This page hasn't been created yet, but it's coming <i>soon</i>."
-msgstr ""
+msgstr "หน้านี้ยังไม่ได้สร้าง แต่จะมาใน<i>เร็ว ๆ นี้</i>"
 
 #, csharp-format
 msgid "This might take a while... ({0}/{1})"
-msgstr ""
+msgstr "อาจใช้เวลาสักครู่... ({0}/{1})"
 
 msgid ""
 "Please complete this <span class=\"text-text-accent font-bold\">short</span> "
 "onboarding process to get started."
 msgstr ""
+"โปรดทำขั้นตอนตั้งค่าเริ่มต้น<span class=\"text-text-accent font-bold\">สั้น ๆ</span> "
+"นี้ให้เสร็จเพื่อเริ่มใช้งาน"
 
 msgid "Remember!"
 msgstr "จำ!"
 
 msgid "Disable All"
-msgstr ""
+msgstr "ปิดใช้งานทั้งหมด"
 
 msgid ""
 "Failed to fetch available plugins. Please check your internet connection."
-msgstr ""
+msgstr "ดึงรายการปลั๊กอินที่มีไม่สำเร็จ โปรดตรวจสอบการเชื่อมต่ออินเทอร์เน็ต"
 
 msgid "feet"
 msgstr "ฟุต"
 
 #, csharp-format
 msgid "Overlay is disabled in settings, skipping window registration for {0}."
-msgstr ""
+msgstr "ปิด Overlay ในการตั้งค่าอยู่ ข้ามการลงทะเบียนหน้าต่างสำหรับ {0}"
 
 msgid "Please close the game before continuing with the onboarding process."
-msgstr ""
+msgstr "โปรดปิดเกมก่อนดำเนินขั้นตอนตั้งค่าเริ่มต้นต่อ"
 
 #, csharp-format
 msgid "Successfully installed plugin {0} ({1}, {2})"
-msgstr ""
+msgstr "ติดตั้งปลั๊กอิน {0} ({1}, {2}) สำเร็จ"
 
 #, csharp-format
 msgid "Installation at '{0}' has already been parsed."
-msgstr ""
+msgstr "วิเคราะห์การติดตั้งที่ '{0}' แล้ว"
 
 msgid "Increase/RES"
-msgstr ""
+msgstr "เพิ่ม/RES"
 
 #, csharp-format
 msgid "Failed to acquire joystick [gray italic]({0})[/]: {1}"
-msgstr ""
+msgstr "เข้าถึงจอยสติ๊ก [gray italic]({0})[/] ไม่สำเร็จ: {1}"
 
 msgid "Far"
 msgstr "ไกล"
@@ -1478,7 +1547,7 @@ msgid "For now, please contact us on GitHub or Discord."
 msgstr "สำหรับตอนนี้, โปรดติดต่อพวกเราใน Github หรือ Discord"
 
 msgid "K"
-msgstr ""
+msgstr "เคลวิน"
 
 msgid "Window"
 msgstr "หน้าต่าง"
@@ -1487,11 +1556,14 @@ msgid ""
 "You cannot register an account yet, this page is only for logging in with an "
 "existing developer account."
 msgstr ""
+"ขณะนี้ยังสมัครบัญชีไม่ได้ หน้านี้มีไว้สำหรับเข้าสู่ระบบด้วยบัญชีนักพัฒนาที่มีอยู่เท่านั้น"
 
 msgid ""
 "If you see a fully black screen, see the FAQ at <span class=\"description "
 "hover:underline\">ets2la.com</span>."
 msgstr ""
+"หากเห็นหน้าจอดำสนิท โปรดดู FAQ ที่ <span class=\"description hover:underline\""
+">ets2la.com</span>"
 
 msgid "Settings"
 msgstr "การตั้งค่า"
@@ -1504,7 +1576,7 @@ msgid "A new update is available: {0}"
 msgstr "มีรายการอัปเดตใหม่: {0}"
 
 msgid "Force Base Map Name"
-msgstr ""
+msgstr "บังคับชื่อ Base Map"
 
 msgid "Experiments"
 msgstr "ทดลอง"
@@ -1530,10 +1602,10 @@ msgstr "ไม่พบข้อมูลแผนที่สำหรับก
 
 #, csharp-format
 msgid "Error rendering context menu for window {0}: {1}"
-msgstr ""
+msgstr "เกิดข้อผิดพลาดขณะแสดง Context Menu ของหน้าต่าง {0}: {1}"
 
 msgid "Audio playback canceled"
-msgstr ""
+msgstr "ยกเลิกการเล่นเสียงแล้ว"
 
 msgid "kilograms"
 msgstr "กิโลกรัม"
@@ -1546,6 +1618,7 @@ msgid ""
 "Failed to clean plugin shadow directory [gray]{0}[/], it will be removed on "
 "the next startup: {1}"
 msgstr ""
+"ล้างโฟลเดอร์ Plugin Shadow [gray]{0}[/] ไม่สำเร็จ จะลบเมื่อเริ่มโปรแกรมครั้งถัดไป: {1}"
 
 #, csharp-format
 msgid "Cannot enable plugin {0} because dependency {1} failed to enable."
@@ -1554,75 +1627,84 @@ msgstr "ไม่สามารถเปิดใช้งานปลั๊ก
 #, csharp-format
 msgid "Discovered {0} manually installed library"
 msgid_plural "Discovered {0} manually installed libraries."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "พบไลบรารีที่ติดตั้งด้วยตนเอง {0} รายการ"
 
 msgid "Max Render Distance"
-msgstr ""
+msgstr "ระยะเรนเดอร์สูงสุด"
 
 msgid ""
 "Gateway timeout. The server was acting as a gateway or proxy and did not "
 "receive a timely response from the upstream server."
 msgstr ""
+"Gateway Timeout: เซิร์ฟเวอร์ที่ทำหน้าที่เป็น Gateway หรือ Proxy "
+"ไม่ได้รับการตอบกลับจากเซิร์ฟเวอร์ต้นทางทันเวลา"
 
 msgid "psi"
-msgstr ""
+msgstr "psi(ปอนด์ต่อตารางนิ้ว)"
 
 #, csharp-format
 msgid "An error occurred while loading file '{0}': {1}"
-msgstr ""
+msgstr "เกิดข้อผิดพลาดขณะโหลดไฟล์ '{0}': {1}"
 
 msgid "Next/OK"
-msgstr ""
+msgstr "ถัดไป/ตกลง"
 
 msgid ""
 "ETS2LA is running as a system administrator. This puts your system at risk "
 "if you use 3rd party plugins. Select Yes to continue anyway and accept the "
 "risk."
 msgstr ""
+"ETS2LA กำลังทำงานด้วยสิทธิ์ผู้ดูแลระบบ ซึ่งเพิ่มความเสี่ยงหากใช้ปลั๊กอินจากบุคคลที่สาม เลือก ใช่ "
+"เพื่อดำเนินการต่อและยอมรับความเสี่ยง"
 
 msgid "Recommended Plugins"
-msgstr ""
+msgstr "ปลั๊กอินที่แนะนำ"
 
 msgid "Failed to remove account. Please try again."
-msgstr ""
+msgstr "ลบบัญชีไม่สำเร็จ โปรดลองอีกครั้ง"
 
 msgid ""
 "The maximum speed ETS2LA will accelerate to. It might still drift over this "
 "limit due to momentum."
 msgstr ""
+"ความเร็วสูงสุดที่ ETS2LA จะเร่งไปถึง แต่รถอาจเกินค่านี้เล็กน้อยจากแรงเฉื่อย"
 
 msgid "Game added"
 msgstr "เพิ่มเกมแล้ว"
 
 #, csharp-format
 msgid "Unloading parsed map data for installation at '{0}'"
-msgstr ""
+msgstr "กำลังยกเลิกการโหลดข้อมูลแผนที่ที่วิเคราะห์แล้วสำหรับการติดตั้งที่ '{0}'"
 
 msgid ""
 "Some mods implement additional maps like japan.mbd or russia.mbd. If you "
 "find your mods are not loading properly, try enabling this option. This is "
 "known to be required for RusMap."
 msgstr ""
+"Mod บางตัวเพิ่มแผนที่ เช่น japan.mbd หรือ russia.mbd หาก Mod โหลดไม่ถูกต้อง "
+"ให้ลองเปิดตัวเลือกนี้ ซึ่งจำเป็นสำหรับ RusMap"
 
 msgid "Extreme"
-msgstr ""
+msgstr "สูงสุด (Extreme)"
 
 #, csharp-format
 msgid ""
 "Cannot uninstall plugin with ID {0} because the following installed plugins "
 "depend on it: {1}"
 msgstr ""
+"ไม่สามารถถอนการติดตั้งปลั๊กอิน ID {0} เพราะปลั๊กอินที่ติดตั้งต่อไปนี้ต้องใช้งาน: {1}"
 
 msgid ""
 "We will pause the game when we detect instability or the steering is "
 "unresponsive / disables itself for other reasons."
 msgstr ""
+"เราจะหยุดเกมชั่วคราวเมื่อตรวจพบความไม่เสถียร หรือพวงมาลัยไม่ตอบสนองหรือปิดตัวเองด้วยเหตุผลอื่น"
 
 msgid ""
 "Render the vision cameras in the game world. This is useful for debugging, "
 "but can cause performance issues."
 msgstr ""
+"เรนเดอร์กล้อง Vision ในโลกของเกม มีประโยชน์สำหรับ Debug แต่อาจส่งผลต่อประสิทธิภาพ"
 
 #, csharp-format
 msgid "Deleted '{0}'"
@@ -1631,61 +1713,63 @@ msgstr "ลบ '{0}' แล้ว"
 #, csharp-format
 msgid "Target Speed: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
 msgstr ""
-"เป้าหมายความเร็ว: <span class=\"text-text-accent font-bold\">{0}{1}</span>"
+"ความเร็วเป้าหมาย: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
 
 #, csharp-format
 msgid "Error initializing memory mapped file: {0}"
-msgstr ""
+msgstr "เกิดข้อผิดพลาดขณะเริ่มต้นไฟล์ Memory-Mapped: {0}"
 
 #, csharp-format
 msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr ""
+msgstr "โหลดปลั๊กอินจาก [gray]{0}[/] ไม่สำเร็จ: {1}"
 
 #, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr "โหมดการช่วยเหลือ: <span class=\"text-text-accent font-bold\">{0}</span>"
 
 msgid "View Public Telemetry"
-msgstr ""
+msgstr "ดู Telemetry สาธารณะ"
 
 msgid "Adjust the volume of the audio output."
-msgstr ""
+msgstr "ปรับระดับเสียงเอาต์พุต"
 
 #, csharp-format
 msgid ""
 "Selected update source '{0}' not found, defaulting to first available source."
-msgstr ""
+msgstr "ไม่พบแหล่งอัปเดต '{0}' ที่เลือก จึงใช้แหล่งแรกที่มีแทน"
 
 msgid "SET Behaviour"
-msgstr ""
+msgstr "พฤติกรรมของ SET"
 
 #, csharp-format
 msgid "Registered control: {0} [gray italic]({1})[/]"
-msgstr ""
+msgstr "ลงทะเบียนการควบคุม: {0} [gray italic]({1})[/]"
 
 msgid "Keybind is Toggle"
-msgstr ""
+msgstr "ปุ่มลัดแบบสลับเปิด/ปิด"
 
 msgid ""
 "You'll have to reinstall the SDK for <span class=\"text-text-accent font-"
 "bold\">every game update</span>. You'll find the installation page in the "
 "settings."
 msgstr ""
+"คุณต้องติดตั้ง SDK ใหม่หลัง<span class=\"text-text-accent font-bold\""
+">ทุกครั้งที่เกมอัปเดต</span> โดยหน้าติดตั้งอยู่ในการตั้งค่า"
 
 msgid "Please see the logs for more information."
-msgstr ""
+msgstr "โปรดดู Log สำหรับข้อมูลเพิ่มเติม"
 
 msgid "Binding Timed Out"
-msgstr ""
+msgstr "หมดเวลาการกำหนดปุ่ม"
 
 msgid "Thank you to the following people for their ongoing support:"
-msgstr ""
+msgstr "ขอขอบคุณผู้สนับสนุนอย่างต่อเนื่องดังต่อไปนี้:"
 
 msgid "Changes will take effect after restarting the application."
-msgstr ""
+msgstr "การเปลี่ยนแปลงจะมีผลหลังรีสตาร์ตแอปพลิเคชัน"
 
 msgid "Use this button to extend the sidebar."
-msgstr ""
+msgstr "ใช้ปุ่มนี้เพื่อขยายแถบด้านข้าง"
 
 msgid "Lane Assist Only"
 msgstr "ช่วยให้อยู่ในเลนเท่านั้น"
@@ -1695,6 +1779,9 @@ msgid ""
 "find issues with it's driving and safety. <span class=\"text-text-accent "
 "font-bold\">Do not leave ETS2LA unattended, especially in multiplayer.</span>"
 msgstr ""
+"โปรแกรมนี้ยังอยู่ในขั้นทดลองอย่างมาก ETS2LA ไม่สมบูรณ์แบบ "
+"และอาจมีปัญหาในการขับขี่และความปลอดภัย <span class=\"text-text-accent font-bold\""
+">อย่าปล่อยให้ ETS2LA ขับโดยไม่มีคนดูแล โดยเฉพาะใน Multiplayer</span>"
 
 #, csharp-format
 msgid "Tried to enable {0}, but it was not found among loaded plugins."
@@ -1703,10 +1790,10 @@ msgstr "พยายามจะเปิดใช้งาน {0} แต่ม�
 msgid ""
 "Parsing will continue, however information contained in this file won't be "
 "available to ETS2LA."
-msgstr ""
+msgstr "การวิเคราะห์จะดำเนินต่อ แต่ ETS2LA จะไม่สามารถใช้ข้อมูลในไฟล์นี้ได้"
 
 msgid "The selected file is not a core.scs file."
-msgstr ""
+msgstr "ไฟล์ที่เลือกไม่ใช่ core.scs"
 
 msgid "Translated by:"
 msgstr "แปลโดย:"
@@ -1715,17 +1802,17 @@ msgid "This game was found at"
 msgstr "เกมนี้เจอที่"
 
 msgid "You have successfully logged out."
-msgstr ""
+msgstr "ออกจากระบบสำเร็จแล้ว"
 
 msgid "Data Quality"
 msgstr "คุณภาพข้อมูล"
 
 msgid "Overlay"
-msgstr ""
+msgstr "หน้าต่างซ้อนทับ"
 
 #, csharp-format
 msgid "Error in AR OpenGL pass: {0}"
-msgstr ""
+msgstr "เกิดข้อผิดพลาดใน AR OpenGL Pass: {0}"
 
 msgid "General"
 msgstr "ทั่วไป"
@@ -1736,70 +1823,71 @@ msgstr "ถอนการติดตั้ง SDK จาก '{0}' ไปยั
 
 #, csharp-format
 msgid "Inner Exception: {0}"
-msgstr ""
+msgstr "ข้อยกเว้นภายใน: {0}"
 
 #, csharp-format
 msgid "Plugin with ID {0} not found."
-msgstr ""
+msgstr "ไม่พบปลั๊กอิน ID {0}"
 
 msgid "Units and Language"
-msgstr ""
+msgstr "หน่วยและภาษา"
 
 #, csharp-format
 msgid "Loaded plugin: [gray]{0}[/] from [gray]{1}[/]."
-msgstr ""
+msgstr "โหลดปลั๊กอิน: [gray]{0}[/] จาก [gray]{1}[/] แล้ว"
 
 msgid ""
 "You do not have permission to access this resource. The server understood "
 "the request but refuses to authorize it."
 msgstr ""
+"คุณไม่มีสิทธิ์เข้าถึงทรัพยากรนี้ เซิร์ฟเวอร์เข้าใจคำขอแต่ไม่อนุญาตให้เข้าถึง"
 
 msgid "Display Language"
-msgstr ""
+msgstr "ภาษาที่แสดง"
 
 #, csharp-format
 msgid "Changed update source to '{0}'."
-msgstr ""
+msgstr "เปลี่ยนแหล่งอัปเดตเป็น '{0}' แล้ว"
 
 #, csharp-format
 msgid "Removing manually added installation at '{0}'"
-msgstr ""
+msgstr "กำลังลบการติดตั้งที่เพิ่มด้วยตนเองใน '{0}'"
 
 #, csharp-format
 msgid "Initializing GLFW Version: {0}"
-msgstr ""
+msgstr "กำลังเริ่มต้น GLFW เวอร์ชัน: {0}"
 
 msgid "Render Vision Cameras"
-msgstr ""
+msgstr "เรนเดอร์กล้อง Vision"
 
 msgid "Match Game"
-msgstr ""
+msgstr "ตรงตามเกม"
 
 msgid "Imperial"
-msgstr ""
+msgstr "อิมพีเรียล"
 
 msgid "Unpacking Mods"
-msgstr ""
+msgstr "กำลังแตกไฟล์ Mod"
 
 msgid "m/s"
-msgstr ""
+msgstr "เมตร/วินาที"
 
 #, csharp-format
 msgid "Click to {0} this window"
-msgstr ""
+msgstr "คลิกเพื่อ{0}หน้าต่างนี้"
 
 #, csharp-format
 msgid "Error rendering interaction mode window controls: {0}"
-msgstr ""
+msgstr "เกิดข้อผิดพลาดขณะแสดงการควบคุมหน้าต่างในโหมดโต้ตอบ: {0}"
 
 msgid "Overlay free CPU time percentage"
-msgstr ""
+msgstr "เปอร์เซ็นต์เวลาว่างของ CPU สำหรับ Overlay"
 
 msgid "Invalid directory"
-msgstr ""
+msgstr "โฟลเดอร์ไม่ถูกต้อง"
 
 msgid "Logout"
-msgstr ""
+msgstr "ออกจากระบบ"
 
 msgid "Starting download..."
 msgstr "กำลังเริ่มต้นดาวโหลด..."
@@ -1808,23 +1896,26 @@ msgid "High"
 msgstr "สูง"
 
 msgid "Game is still running"
-msgstr ""
+msgstr "เกมยังทำงานอยู่"
 
 msgid "Final Disclaimer <span class=\"description\">1/2</span>"
-msgstr ""
+msgstr "ข้อจำกัดความรับผิดชอบสุดท้าย <span class=\"description\">1/2</span>"
 
 msgid ""
 "Translate news articles to your selected display language. This may take a "
 "while depending on the number of articles and your internet connection."
 msgstr ""
+"แปลบทความข่าวเป็นภาษาที่เลือกแสดง "
+"อาจใช้เวลาสักครู่ขึ้นอยู่กับจำนวนบทความและการเชื่อมต่ออินเทอร์เน็ต"
 
 msgid "Map Data Parsed"
-msgstr ""
+msgstr "วิเคราะห์ข้อมูลแผนที่เสร็จแล้ว"
 
 msgid ""
 "Adjust the distance ETS2LA will try to maintain from the vehicle in front of "
 "you when using Adaptive Cruise Control."
 msgstr ""
+"ปรับระยะห่างที่ ETS2LA จะรักษาจากรถคันหน้าเมื่อใช้ Adaptive Cruise Control"
 
 msgid "Unknown Version"
 msgstr "ไม่ทราบเวอร์ชั่น"
@@ -1834,13 +1925,15 @@ msgid ""
 "significant amounts of RAM, and may cause your system to become unstable. "
 "Please select a lower fidelity."
 msgstr ""
+"ระบบของคุณมี RAM น้อยกว่า 20GB ระดับ Extreme Data Fidelity ใช้ RAM "
+"มากและอาจทำให้ระบบไม่เสถียร โปรดเลือกระดับที่ต่ำลง"
 
 #, csharp-format
 msgid "Successfully uninstalled SDK version '{0}' from '{1}'"
-msgstr ""
+msgstr "ถอนการติดตั้ง SDK เวอร์ชัน '{0}' จาก '{1}' สำเร็จ"
 
 msgid "Desired Speed: "
-msgstr ""
+msgstr "ความเร็วที่ต้องการ: "
 
 msgid "meters"
 msgstr "เมตร"
@@ -1848,7 +1941,7 @@ msgstr "เมตร"
 msgid ""
 "An error occurred while trying to remove your account. Please try again "
 "later. Error: "
-msgstr ""
+msgstr "เกิดข้อผิดพลาดขณะลบบัญชี โปรดลองอีกครั้งภายหลัง ข้อผิดพลาด: "
 
 msgid "°C"
 msgstr "°C"
@@ -1856,133 +1949,135 @@ msgstr "°C"
 #, csharp-format
 msgid "Discovered {0} manually installed plugin."
 msgid_plural "Discovered {0} manually installed plugins."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "พบปลั๊กอินที่ติดตั้งด้วยตนเอง {0} รายการ"
 
 msgid "Checking for updates..."
 msgstr "กำลังเช็คอัปเดต"
 
 msgid "Catalogue"
-msgstr ""
+msgstr "คลังรายการ"
 
 msgid "Starting ETS2LA..."
 msgstr "กำลังเริ่ม ETS2LA..."
 
 msgid ""
 "How ETS2LA will warn you about exceeding the speed limit by a major amount."
-msgstr ""
+msgstr "กำหนดวิธีที่ ETS2LA เตือนเมื่อคุณขับเกินขีดจำกัดความเร็วอย่างมาก"
 
 #, csharp-format
 msgid "Finished parsing installation at '{0}'"
-msgstr ""
+msgstr "วิเคราะห์การติดตั้งที่ '{0}' เสร็จแล้ว"
 
 #, csharp-format
 msgid "Playing sound: {0}"
-msgstr ""
+msgstr "กำลังเล่นเสียง: {0}"
 
 msgid "Assist Level: "
-msgstr ""
+msgstr "ระดับระบบช่วยขับ: "
 
 #, csharp-format
 msgid "Cannot enable plugin {0} because dependency {1} was not found."
-msgstr ""
+msgstr "เปิดปลั๊กอิน {0} ไม่ได้ เพราะไม่พบ Dependency {1}"
 
 msgid "Keybind Behaviour"
-msgstr ""
+msgstr "พฤติกรรมของปุ่มลัด"
 
 msgid "Next"
 msgstr "ต่อไป"
 
 msgid "Demo Window"
-msgstr ""
+msgstr "หน้าต่างสาธิต"
 
 msgid "Help"
 msgstr "ช่วยเหลือ"
 
 #, csharp-format
 msgid "Skipped stale plugin shadow directory [gray]{0}[/]: {1}"
-msgstr ""
+msgstr "ข้ามโฟลเดอร์ Plugin Shadow เก่าที่ไม่ใช้แล้ว [gray]{0}[/]: {1}"
 
 msgid ""
 "The zoom level of the ETS2LA window. This can be used to scale the window to "
 "your monitor's DPI settings."
 msgstr ""
+"ระดับการซูมหน้าต่าง ETS2LA ใช้ปรับขนาดหน้าต่างให้เหมาะกับการตั้งค่า DPI ของจอภาพ"
 
 msgid "Decrease/SET"
-msgstr ""
+msgstr "ลด/SET"
 
 msgid "Finished loading plugins"
-msgstr ""
+msgstr "โหลดปลั๊กอินเสร็จแล้ว"
 
 #, csharp-format
 msgid "Failed to install dependency {0} for plugin {1}."
-msgstr ""
+msgstr "ติดตั้ง Dependency {0} สำหรับปลั๊กอิน {1} ไม่สำเร็จ"
 
 msgid "Error in semaphore update loop."
-msgstr ""
+msgstr "เกิดข้อผิดพลาดในลูปอัปเดต Semaphore"
 
 #, csharp-format
 msgid "Missing dependency: {0}"
-msgstr ""
+msgstr "Dependency ที่ขาด: {0}"
 
 msgid "Final Disclaimer <span class=\"description\">2/2</span>"
-msgstr ""
+msgstr "ข้อจำกัดความรับผิดชอบสุดท้าย <span class=\"description\">2/2</span>"
 
 #, csharp-format
 msgid "Snap to each 10 {0}"
-msgstr ""
+msgstr "ปรับเข้าหาทุก 10 {0}"
 
 msgid "Logout Failed"
-msgstr ""
+msgstr "ออกจากระบบไม่สำเร็จ"
 
 #, csharp-format
 msgid "Created plugin directory: [gray]{0}[/]"
-msgstr ""
+msgstr "สร้างโฟลเดอร์ปลั๊กอิน: [gray]{0}[/]"
 
 #, csharp-format
 msgid "Enabled plugin: [bold]{0}[/]"
-msgstr ""
+msgstr "เปิดใช้งานปลั๊กอิน: [bold]{0}[/]"
 
 msgid ""
 "Changing this option requires a restart of ETS2LA to take effect. Restart "
 "now?"
 msgstr ""
+"การเปลี่ยนตัวเลือกนี้ต้องรีสตาร์ต ETS2LA เพื่อให้มีผล ต้องการรีสตาร์ตตอนนี้หรือไม่?"
 
 msgid "And to those who've decided to remain anonymous!"
-msgstr ""
+msgstr "และขอบคุณผู้ที่เลือกไม่เปิดเผยตัวตนด้วย!"
 
 msgid "Plugin Installer"
-msgstr ""
+msgstr "ตัวติดตั้งปลั๊กอิน"
 
 #, csharp-format
 msgid "Successfully installed SDK version '{0}' to '{1}'"
 msgstr "ติดตั้ง SDK เวอร์ชั่น '{0}' ไปยัง '{1}' เสร็จสิ้น"
 
 msgid "Display Units: "
-msgstr ""
+msgstr "หน่วยที่แสดง: "
 
 msgid ""
 "The language ETS2LA will be displayed at. Translations are provided by the "
 "community, we cannot guarantee their accuracy."
 msgstr ""
+"ภาษาที่ใช้แสดง ETS2LA คำแปลจัดทำโดยชุมชน เราไม่สามารถรับประกันความถูกต้องได้"
 
 msgid ""
 "Warning: Your system has less than 20GB of RAM. You can only select up to "
 "High."
-msgstr ""
+msgstr "คำเตือน: ระบบของคุณมี RAM น้อยกว่า 20GB จึงเลือกได้สูงสุดระดับ High"
 
 msgid "Interaction Mode"
-msgstr ""
+msgstr "โหมดโต้ตอบ"
 
 #, csharp-format
 msgid "Adding mod: {0}"
-msgstr ""
+msgstr "กำลังเพิ่ม Mod: {0}"
 
 msgid "Like ETS2LA?"
-msgstr ""
+msgstr "ชอบ ETS2LA ไหม?"
 
 msgid "Show Plugin Updates"
-msgstr ""
+msgstr "แสดงอัปเดตปลั๊กอิน"
 
 msgid ""
 "Allows ETS2LA to control throttle and brake using direct memory editing. "
@@ -1990,7 +2085,10 @@ msgid ""
 "tabbed out of the game. If you enable this and it doesn't work, please "
 "report the issue on our Discord server."
 msgstr ""
+"อนุญาตให้ ETS2LA ควบคุมคันเร่งและเบรกด้วยการแก้ไข Memory โดยตรง อาจใช้ไม่ได้กับบางระบบ "
+"แต่ช่วยให้ควบคุมได้แม้สลับออกจากหน้าต่างเกม หากเปิดแล้วใช้งานไม่ได้ โปรดรายงานปัญหาใน "
+"Discord Server ของเรา"
 
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
-msgstr ""
+msgstr "ยังติดตั้ง Dependency สำหรับปลั๊กอิน {0} ไม่ครบ"
