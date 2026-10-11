@@ -1,7 +1,6 @@
 ### ETS2LA C# 2026.10.5115
-- `feat` Added *Open Source* page to the settings menu. This page lists all open source projects used in ETS2LA and links to their repositories.
-- `feat` Added *Input*, *OTP* components to *ETS2LA.UI.Components*.
-- `feat` Added ETS2LA account login/management support to *ETS2LA.Networking*. Note that this is only available for developers, and won't be used by the public for at least a few more weeks.
+- `feat` You will now see the translation percentage of whichever language you pick in the settings.
+- `translation` Translation updates for *Finnish*, *Thai*.
 
 #### Thank you to today's sponsor... You!
 Development is possible thanks to our [sponsors](https://github.com/sponsors/Tumppi066). Please consider supporting if you like the project and have the means to do so.

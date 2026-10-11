@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-04 19:32:08+0300\n"
-"PO-Revision-Date: 2026-10-04 19:32:08+0300\n"
+"POT-Creation-Date: 2026-10-11 13:24:41+0300\n"
+"PO-Revision-Date: 2026-10-11 13:24:42+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgstr ""
 msgid "Sorry"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:250
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:253
 msgid "Stay on Top"
 msgstr ""
 
@@ -49,7 +49,7 @@ msgstr ""
 msgid "Anonymous Telemetry"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:251
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:254
 msgid ""
 "Keep the ETS2LA window on top of other windows. If you want to use the "
 "visualization on a single monitor setup, this is recommended."
@@ -124,7 +124,7 @@ msgstr ""
 msgid "Maximum Speed"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:296
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:299
 msgid ""
 "When the game reports itself being paused, ETS2LA won't render AR elements."
 msgstr ""
@@ -205,7 +205,7 @@ msgid ""
 "Medium."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:242
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:245
 msgid "Window Zoom"
 msgstr ""
 
@@ -246,8 +246,8 @@ msgstr ""
 msgid "The step size for changing the cruise control speed."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Home.razor:301
 #: ../../../ETS2LA.UI/Pages/Settings/Account.razor:169
+#: ../../../ETS2LA.UI/Pages/Home.razor:301
 msgid "Press anywhere outside the dialog to close it."
 msgstr ""
 
@@ -496,7 +496,7 @@ msgstr ""
 msgid "You have successfully logged in as {0}."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:285
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:288
 msgid "Render AR Elements"
 msgstr ""
 
@@ -543,14 +543,14 @@ msgstr ""
 msgid "Backend shutdown complete."
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:141
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:121
+#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:141
 #, csharp-format
 msgid "Control with ID '{0}' not found for event subscription."
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:166
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:156
+#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:166
 #, csharp-format
 msgid "Unregistered control: {0} ({1})"
 msgstr ""
@@ -585,7 +585,7 @@ msgstr ""
 msgid "Failed to init ImGui Impl OpenGL3"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:265
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:268
 msgid "Support Multiple Viewports"
 msgstr ""
 
@@ -607,7 +607,7 @@ msgstr ""
 msgid "Initializing GLFW..."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:284
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:287
 msgid "3D Renderer"
 msgstr ""
 
@@ -615,7 +615,7 @@ msgstr ""
 msgid "SDK Uninstallation Failed"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:275
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:278
 msgid "Max Overlay Framerate"
 msgstr ""
 
@@ -684,12 +684,12 @@ msgstr ""
 msgid "Please enable the Visualization Sockets plugin."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account.razor:130
-msgid "Your account has been successfully removed."
-msgstr ""
-
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:64
 msgid "Force Map Load"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Account.razor:130
+msgid "Your account has been successfully removed."
 msgstr ""
 
 #: ../../../ETS2LA.Game/Installation.cs:477
@@ -863,7 +863,7 @@ msgstr ""
 msgid "Collision Avoidance"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:257
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:260
 msgid ""
 "Disables the overlay entirely. This will fix the black screen issue at the "
 "cost of breaking all features that rely on the overlay, including AR and the "
@@ -905,8 +905,8 @@ msgstr ""
 msgid "Failed to load library plugin from [gray]{0}[/]: {1}"
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:182
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:172
+#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:182
 #, csharp-format
 msgid "Updated bindings for control: {0} ({1}) to Device: {2}, Control: {3}"
 msgstr ""
@@ -920,7 +920,7 @@ msgstr ""
 msgid "Pause When Unstable"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:295
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:298
 msgid "Stop Rendering When Game is Paused"
 msgstr ""
 
@@ -1058,7 +1058,7 @@ msgstr ""
 msgid "miles per hour"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:270
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:273
 msgid "Limit Overlay Framerate"
 msgstr ""
 
@@ -1177,7 +1177,7 @@ msgstr ""
 msgid "Add Game Manually"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:271
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:274
 msgid ""
 "In most situations, over half of ETS2LA's CPU use is consumed by the overlay. "
 "Limiting the framerate will reduce CPU usage."
@@ -1198,7 +1198,7 @@ msgstr ""
 msgid "Restart and Continue"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:291
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:294
 msgid ""
 "Using simplified graphics can improve performance on lower-end hardware, or "
 "fix situations in which advanced features like shaders are not supported."
@@ -1276,7 +1276,7 @@ msgstr ""
 msgid "Telemetry"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:266
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:269
 msgid ""
 "This allows ETS2LA to render in multiple viewports, meaning you can move "
 "overlay windows to any monitor."
@@ -1344,11 +1344,11 @@ msgid ""
 "on {2}GitHub{3}."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:256
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:259
 msgid "Disable Overlay"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:302
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:305
 msgid ""
 "The maximum distance at which 3D elements will be rendered. Lowering this can "
 "be used to improve performance on lower-end hardware."
@@ -1386,8 +1386,8 @@ msgstr ""
 msgid "Failed to read log file at '{0}': {1}"
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:197
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:186
+#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:197
 #, csharp-format
 msgid "Updated axis behavior for control: {0} ({1}) to {2}"
 msgstr ""
@@ -1399,8 +1399,8 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/SDKStep.razor:17
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/EnsureGameClosed.razor:52
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/PluginStep.razor:57
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/ControlsStep.razor:48
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/PluginStep.razor:57
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/OverlayStep.razor:27
 msgid "Continue"
 msgstr ""
@@ -1444,7 +1444,7 @@ msgstr ""
 msgid "Unknown Control"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:261
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:264
 msgid ""
 "When enabled, the overlay will toggle between interaction and non-interaction "
 "mode when you press it's keybind. When disabled, the overlay will only be "
@@ -1512,7 +1512,7 @@ msgstr ""
 msgid "Downloading Update"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:290
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:293
 msgid "Simplified Graphics"
 msgstr ""
 
@@ -1597,7 +1597,7 @@ msgstr ""
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:276
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:279
 #, csharp-format
 msgid "Currently running at {0} FPS."
 msgstr ""
@@ -1707,8 +1707,8 @@ msgstr ""
 msgid "Responsiveness"
 msgstr ""
 
-#: ../../../ETS2LA.Game/Data/Classes.cs:130
 #: ../../../ETS2LA.Game/Installation.cs:266
+#: ../../../ETS2LA.Game/Data/Classes.cs:130
 msgid "Parsing Map Data"
 msgstr ""
 
@@ -1749,7 +1749,7 @@ msgstr ""
 msgid "Found {0} (version: {1}) at '{2}'"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:286
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:289
 msgid ""
 "We can render elements in the game world using the overlay. This will use "
 "additional CPU and GPU resources."
@@ -1759,8 +1759,8 @@ msgstr ""
 msgid "kilometers per hour"
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:152
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:133
+#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:152
 #, csharp-format
 msgid "Control with ID '{0}' not found for event unsubscription."
 msgstr ""
@@ -1921,7 +1921,7 @@ msgstr ""
 msgid "K"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:241
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:244
 msgid "Window"
 msgstr ""
 
@@ -2028,7 +2028,7 @@ msgid_plural "Discovered {0} manually installed libraries."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:300
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:303
 msgid "Max Render Distance"
 msgstr ""
 
@@ -2161,13 +2161,13 @@ msgstr ""
 msgid "SET Behaviour"
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:133
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:113
+#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:133
 #, csharp-format
 msgid "Registered control: {0} [gray italic]({1})[/]"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:260
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:263
 msgid "Keybind is Toggle"
 msgstr ""
 
@@ -2225,11 +2225,7 @@ msgstr ""
 msgid "The selected file is not a core.scs file."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account.razor:86
-msgid "You have successfully logged out."
-msgstr ""
-
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:231
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:232
 msgid "Translated by:"
 msgstr ""
 
@@ -2237,12 +2233,16 @@ msgstr ""
 msgid "This game was found at"
 msgstr ""
 
+#: ../../../ETS2LA.UI/Pages/Settings/Account.razor:86
+msgid "You have successfully logged out."
+msgstr ""
+
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:69
 msgid "Data Quality"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/OverlayStep.razor:22
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:255
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:258
 msgid "Overlay"
 msgstr ""
 
@@ -2483,7 +2483,7 @@ msgstr ""
 msgid "Skipped stale plugin shadow directory [gray]{0}[/]: {1}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:244
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:247
 msgid ""
 "The zoom level of the ETS2LA window. This can be used to scale the window to "
 "your monitor's DPI settings."
@@ -2515,13 +2515,13 @@ msgstr ""
 msgid "Final Disclaimer <span class=\"description\">2/2</span>"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account.razor:74
-msgid "Logout Failed"
-msgstr ""
-
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:144
 #, csharp-format
 msgid "Snap to each 10 {0}"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Account.razor:74
+msgid "Logout Failed"
 msgstr ""
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:70
