@@ -1,0 +1,42 @@
+@page "/start"
+
+@using System.Diagnostics
+@using ETS2LA.Game;
+@using static ETS2LA.Translations.T;
+
+@code {
+    private List<Installation> Games {
+        get => GameHandler.Current.Installations;
+    }
+
+    private void StartGame(Installation game)
+    {
+        string path = game.ExecutablePath;
+        if (!File.Exists(path))
+        {
+            UserInterface.Current.Window.ShowMessage(_("Game not found"), _("The selected game executable was not found."));
+            return;
+        }
+        #if WINDOWS
+            Process.Start(path);
+        #else
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = path,
+                UseShellExecute = true
+            });
+        #endif
+    }
+}
+
+<div class="flex flex-col w-108 m-5 ml-8 gap-4">
+    <p>@_("Select the game you wish to start.")</p>
+    <div class="flex flex-col gap-2">
+        @foreach (var game in Games)
+        {
+            <button class="w-full px-3 py-1.5 text-left description hover:bg-control/50 hover:text-text transition-colors cursor-pointer" @onclick="@(() => StartGame(game))">
+                @game.ExecutablePath
+            </button>
+        }
+    </div>
+</div>

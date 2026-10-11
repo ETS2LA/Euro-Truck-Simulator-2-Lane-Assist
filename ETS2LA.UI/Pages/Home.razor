@@ -8,6 +8,7 @@
 @using Velopack.Logging
 @using Velopack.Sources
 @using ETS2LA.State
+@using ETS2LA.Backend.Events
 @using ETS2LA.Networking
 @using ETS2LA.Networking.Updates
 @using ETS2LA.Networking.News
@@ -78,7 +79,7 @@
                 continue;
             if (WindowSettings.Current.OnlyFromOfficialUsers && !official)
                 continue;
-            
+
             ArticleWrappers.Add(new ArticleWrapper { 
                 Article = article,
                 RenderedTitle = Markdown.ToHtml(article.Title ?? string.Empty, Pipeline),
@@ -86,7 +87,7 @@
                 RenderedContent = Markdown.ToHtml(article.Content ?? string.Empty, Pipeline)
             });
         }
-        
+
         InvokeAsync(StateHasChanged);
         if (!WindowSettings.Current.TranslateNews || language.Code == "en")
             return;
@@ -115,7 +116,7 @@
                 Task.Run(() => contentSummaryTranslationTask.StartTranslationAsync()),
                 Task.Run(() => contentTranslationTask.StartTranslationAsync())
             );
-            
+
             InvokeAsync(StateHasChanged);
         }
     }
@@ -156,7 +157,18 @@
                 Title = _("Update Available"),
                 Content = _("A new update is available: {0}", latestUpdateInfo.TargetFullRelease?.Version.ToString() ?? _("Unknown Version")),
                 IsProgressIndeterminate = false,
-                Level = NotificationLevel.Warning
+                Level = NotificationLevel.Warning,
+                Actions = new List<NotificationAction>
+                {
+                    new NotificationAction
+                    {
+                        Label = _("Open Update Page"),
+                        Action = () =>
+                        {
+                            Events.Current.Publish("ETS2LA.UI.Navigate", "/settings/updates");
+                        }
+                    }
+                }
             });
         }
         else

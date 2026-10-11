@@ -10,6 +10,24 @@ public enum NotificationLevel
     Danger
 }
 
+public class NotificationAction
+{
+    /// <summary>
+    ///  The text to display on the action button.
+    /// </summary>
+    public required string Label;
+
+    /// <summary>
+    ///  Whether this action is shown as the primary (highlighted) action button.
+    /// </summary>
+    public bool IsPrimary = false;
+
+    /// <summary>
+    ///  The action to perform when the action button is clicked.
+    /// </summary>
+    public required Action Action;
+}
+
 /// <summary>
 ///  Represents a notification sent in the bottom right corner of the ETS2LA UI.
 ///  Uses Huskui's GrowlItem system.
@@ -66,4 +84,9 @@ public class Notification
     ///  The time in seconds after which the close button will be shown if CloseAfter is not set.
     /// </summary>
     public float ShowCloseButtonAfter = 0.0f; // seconds
+
+    /// <summary>
+    ///  The actions that can be performed on this notification. For example, a "Retry" button.
+    /// </summary>
+    public List<NotificationAction> Actions = new List<NotificationAction>();
 }

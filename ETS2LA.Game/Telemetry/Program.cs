@@ -152,6 +152,27 @@ public class GameTelemetry
                 Title = _("Game Telemetry"),
                 Content = _("Couldn't connect to the game. Please open ETS2 or ATS and enable the SDK."),
                 IsProgressIndeterminate = true,
+                Actions = new List<NotificationAction>
+                {
+                    new NotificationAction
+                    {
+                        Label = _("Open SDK Settings"),
+                        IsPrimary = true,
+                        Action = () =>
+                        {
+                            Events.Current.Publish("ETS2LA.UI.Navigate", "/settings/sdk");
+                        }
+                    },
+                    new NotificationAction
+                    {
+                        Label = _("Start Game"),
+                        IsPrimary = false,
+                        Action = () => 
+                        {
+                            Events.Current.Publish("ETS2LA.UI.Navigate", "/start");
+                        }
+                    }
+                }
             });
             Thread.Sleep(1000);
             return false;

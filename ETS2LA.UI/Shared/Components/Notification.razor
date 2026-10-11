@@ -20,12 +20,15 @@
     public bool Indeterminate { get; set; } = false;
 
     [Parameter]
+    public List<NotificationAction> Actions { get; set; } = new List<NotificationAction>();
+
+    [Parameter]
     public bool IsExiting { get; set; } = false;
 }
 
 <div key="@Id" 
      data-notification-hover-target
-     class=@($"flex flex-col w-fit min-w-60 max-w-[300px] gap-0 rounded-md shadow-md bg-control-bg-dark border border-border text-text transition-all duration-300 {(IsExiting ? "animate-out fade-out slide-out-to-right-5" : "animate-in fade-in slide-in-from-right-10 zoom-in-80")}")>
+    class=@($"pointer-events-auto flex flex-col w-fit min-w-60 max-w-[300px] gap-0 rounded-md shadow-md bg-control-bg-dark border border-border text-text transition-all duration-300 {(IsExiting ? "animate-out fade-out slide-out-to-right-5" : "animate-in fade-in slide-in-from-right-10 zoom-in-80")}")>
     <div class="flex flex-col gap-1 p-3">
         <div class="flex items-center justify-between gap-2.5">
             <div class="flex items-center gap-2">
@@ -74,12 +77,30 @@
 
                 <p class="font-semibold">@Title</p>
             </div>
-            <button type="button" class="text-text/50 hover:text-text" @onclick="@(() => NotificationHandler.Current.CloseNotification(Title))">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
         </div>
         <p class="description">@Content</p>
     </div>
+
+    @if (Actions != null && Actions.Count > 0)
+    {
+        <div class="flex flex-col gap-1 -mt-1">
+            @foreach (var action in Actions)
+            {
+                <button type="button button-small" class="w-full px-3 py-1.5 text-left description hover:bg-control/50 hover:text-text transition-colors cursor-pointer" @onclick="@(() => { action.Action?.Invoke(); NotificationHandler.Current.CloseNotification(Title); })">
+                    @action.Label
+                </button>
+            }
+            @if (Progress <= 0f && !Indeterminate)
+            {
+                // empty div for spacing when there's no
+                // progress bar
+                <div class="h-1">
+                    <p></p>
+                </div>
+            }
+        </div>
+    }
+
     @if (Progress > 0f || Indeterminate)
     {
         <div class="relative w-full h-1 overflow-hidden rounded-b-md border-l border-r border-border">

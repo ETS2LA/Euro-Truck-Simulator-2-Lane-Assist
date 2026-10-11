@@ -204,7 +204,7 @@
                 @for(int i = 0; i < FilteredPlugins.Count; i++)
                 {
                     var plugin = FilteredPlugins[i];
-                    var enabled = plugin._IsRunning;
+                    var enabled = plugin._IsRunning || plugin.Info.HideEnableDisableButton;
                     var settingsRoute = $"/plugins/adjustments/{plugin.Info.Id}";
                     var hasSettingsPage = HasRoute(plugin, settingsRoute);
 
@@ -238,11 +238,11 @@
                                 }
                             </div>
                             <div class="flex items-center gap-2">
-                                @if (enabled)
+                                @if (enabled && !plugin.Info.HideEnableDisableButton)
                                 {
                                     <button class="button button-small button-accent w-full!" @onclick="@(() => handler.DisablePlugin(plugin))">@(_("Disable"))</button>
                                 }
-                                else
+                                else if (!enabled && !plugin.Info.HideEnableDisableButton)
                                 {
                                     <button class="button button-small w-full!" @onclick="@(() => handler.EnablePlugin(plugin))">@(_("Enable"))</button>
                                 }

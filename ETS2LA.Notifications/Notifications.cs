@@ -34,6 +34,7 @@ public class NotificationHandler
         toUpdate.CloseAfter = notification.CloseAfter;
         toUpdate.ShowCloseButtonAfter = notification.ShowCloseButtonAfter;
         toUpdate.CreatedAt = DateTime.UtcNow;
+        toUpdate.Actions = notification.Actions;
 
         OnNotificationUpdated?.Invoke(this, toUpdate);
     }

@@ -220,6 +220,12 @@ public class PluginInformation
     public string PluginPageButtonName { get; set; } = "Adjustments";
 
     /// <summary>
+    ///  If true, the plugin manager will hide the enable/disable button for this plugin. This might be useful for plugins that
+    ///  are purely UI or event based. Note that your plugin will always show as enabled if this is set to true.
+    /// </summary>
+    public bool HideEnableDisableButton { get; set; } = false;
+
+    /// <summary>
     ///  This is a list of tags that can be used to categorize plugins. For example, "UI", "Gameplay", "Telemetry", etc.
     /// </summary>
     public string[] Tags { get; set; } = Array.Empty<string>();
