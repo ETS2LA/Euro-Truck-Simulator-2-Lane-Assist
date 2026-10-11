@@ -3,10 +3,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-10-04 19:33:16+0300\n"
-"PO-Revision-Date: 2026-10-03 16:36+0000\n"
+"PO-Revision-Date: 2026-10-11 10:19+0000\n"
 "Last-Translator: Tumppi066 <contact@ets2la.com>\n"
-"Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/ets2la/fi/"
-">\n"
+"Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/ets2la/fi/>"
+"\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -156,7 +156,7 @@ msgid "Binding for control {0} ({1}) timed out."
 msgstr "Ohjainmäärityksen {0} ({1}) määritys aikakatkaistiin."
 
 msgid "Remove Account"
-msgstr ""
+msgstr "Poista Tili"
 
 #, csharp-format
 msgid ""
@@ -226,7 +226,7 @@ msgid "Welcome to ETS2LA!"
 msgstr "Tervetuloa ETS2LA:han!"
 
 msgid "Account Removal Failed"
-msgstr ""
+msgstr "Tilin poisto epäonnistui"
 
 msgid ""
 "<span class=\"text-text-accent\"))>Success!</span> You can find more plugins "
@@ -278,7 +278,7 @@ msgid "Look in the top left corner."
 msgstr "Katso vasempaan yläkulmaan."
 
 msgid "Failed to log out. Please try again."
-msgstr ""
+msgstr "Uloskirjautuminen epäonnistui. Yritä uudelleen."
 
 msgid "Visual"
 msgstr "Visuaalinen"
@@ -317,7 +317,7 @@ msgstr "Nopea"
 
 #, csharp-format
 msgid "You are currently logged in as {0}."
-msgstr ""
+msgstr "Olet kirjautuneena käyttäjänä {0}."
 
 msgid "Install Update and Restart"
 msgstr "Asenna päivitys ja käynnistä uudelleen"
@@ -333,7 +333,7 @@ msgstr ""
 "säätää miten nopeasti vaihdamme kaistaa."
 
 msgid "Logout Successful"
-msgstr ""
+msgstr "Uloskirjautuminen onnistui"
 
 #, csharp-format
 msgid "Successfully uninstalled plugin with ID {0}."
@@ -434,7 +434,7 @@ msgstr "Oletko varma?"
 
 #, csharp-format
 msgid "You have successfully logged in as {0}."
-msgstr ""
+msgstr "Olet kirjautunut sisään käyttäjänä {0}."
 
 msgid "Render AR Elements"
 msgstr "Renderöi AR (3D) elementit"
@@ -604,7 +604,7 @@ msgid "Force Map Load"
 msgstr "Pakota kartan lataus"
 
 msgid "Your account has been successfully removed."
-msgstr ""
+msgstr "Tilisi on poistettu onnistuneesti."
 
 #, csharp-format
 msgid "Failed to uninstall SDK version '{0}' from '{1}': {2}"
@@ -669,7 +669,7 @@ msgid "Slow"
 msgstr "Hidas"
 
 msgid "Login Failed"
-msgstr ""
+msgstr "Kirjautuminen epäonnistui"
 
 msgid ""
 "Authentication is required. The client must authenticate itself to get the "
@@ -703,7 +703,7 @@ msgid "Audio"
 msgstr "Ääni"
 
 msgid "Login Error"
-msgstr ""
+msgstr "Kirjautumisen yhteydessä tapahtui virhe"
 
 #, csharp-format
 msgid "{0} m/s ({1} in {2})"
@@ -846,12 +846,12 @@ msgid "Plugin with ID {0} not found in available plugins."
 msgstr "Lisäosaa {0} ei löydetty."
 
 msgid "Confirm Account Removal"
-msgstr ""
+msgstr "Vahvista tilin poisto"
 
 msgid ""
 "Removing your account will delete all your data from our servers. This "
 "action cannot be undone."
-msgstr ""
+msgstr "Tämä poistaa kaiken datasi palvelimiltamme. Poistoa ei voi kumota."
 
 msgid "Manager"
 msgstr "Hallinta"
@@ -882,7 +882,7 @@ msgid "Pascals"
 msgstr "Paskalia"
 
 msgid "Account Removal Error"
-msgstr ""
+msgstr "Tilin poiston yhteydessä tapahtui virhe"
 
 #, csharp-format
 msgid "Failed to disable {0}: {1}"
@@ -892,7 +892,7 @@ msgid "You can enable the plugins we installed in a previous step here."
 msgstr "Voit käynnistää aikaisemmin asentamamme lisäosat täältä."
 
 msgid "Login"
-msgstr ""
+msgstr "Kirjaudu"
 
 msgid "SDK Installed"
 msgstr "SDK asennettu"
@@ -992,7 +992,7 @@ msgid "bar"
 msgstr "bar"
 
 msgid "Account Removed"
-msgstr ""
+msgstr "Tili poistettu"
 
 msgid ""
 "Couldn't connect to the game. Please open ETS2 or ATS and enable the SDK."
@@ -1118,7 +1118,7 @@ msgstr[0] "{0} piste"
 msgstr[1] "{0} pistettä"
 
 msgid "Open Source"
-msgstr ""
+msgstr "Avoin lähdekoodi"
 
 #, csharp-format
 msgid "<span class=\"font-semibold\">{0}</span> until {1}"
@@ -1298,6 +1298,8 @@ msgstr "Yksinkertaistetut grafiikat"
 
 msgid "Failed to log in. Please check your credentials and try again."
 msgstr ""
+"Kirjautuminen epäonnistui. Tarkista käyttäjätunnus ja koodi ja yritä "
+"uudelleen."
 
 msgid "Steering Sensitivity"
 msgstr "Ohjauksen herkkyys"
@@ -1333,7 +1335,7 @@ msgstr "L"
 
 msgid ""
 "An error occurred while trying to log in. Please try again later. Error: "
-msgstr ""
+msgstr "Kirjautumisen yhteydessä tapahtui virhe. Kokeile uudelleen. Virhe: "
 
 msgid "Installing..."
 msgstr "Asennetaan..."
@@ -1367,13 +1369,13 @@ msgstr "Lisäosalle {1} ei löytynyt versiota {0}."
 
 msgid ""
 "An error occurred while trying to log out. Please try again later. Error: "
-msgstr ""
+msgstr "Uloskirjautumisen yhteydessä tapahtui virhe. Kokeile uudelleen. Virhe: "
 
 msgid "Invalid file"
 msgstr "Virheellinen tiedosto"
 
 msgid "Login Successful"
-msgstr ""
+msgstr "Kirjautuminen onnistui"
 
 #, csharp-format
 msgid "Discovered {0} library in total"
@@ -1402,7 +1404,7 @@ msgstr ""
 "käynnistystiedostoa, ohitetaan."
 
 msgid "Logout Error"
-msgstr ""
+msgstr "Uloskirjautumisen yhteydessä tapahtui virhe"
 
 #, csharp-format
 msgid "Found {0} game installation."
@@ -1479,7 +1481,7 @@ msgid "Account"
 msgstr "Käyttäjätili"
 
 msgid "Translate News Articles"
-msgstr ""
+msgstr "Käännä uutisartikkelit"
 
 #, csharp-format
 msgid "Found {0} (version: {1}) at '{2}'"
@@ -1638,6 +1640,8 @@ msgid ""
 "You cannot register an account yet, this page is only for logging in with an "
 "existing developer account."
 msgstr ""
+"Et voi vielä rekisteröidä tiliä. Tämä sivu on vain kehittäjätileille "
+"kirjautumista varten."
 
 msgid ""
 "If you see a fully black screen, see the FAQ at <span class=\"description "
@@ -1747,7 +1751,7 @@ msgid "Recommended Plugins"
 msgstr "Suositellut lisäosat"
 
 msgid "Failed to remove account. Please try again."
-msgstr ""
+msgstr "Tilin poisto epäonnistui. Kokeile uudelleen."
 
 msgid ""
 "The maximum speed ETS2LA will accelerate to. It might still drift over this "
@@ -1898,7 +1902,7 @@ msgid "This game was found at"
 msgstr "Tämä peli löytyi"
 
 msgid "You have successfully logged out."
-msgstr ""
+msgstr "Sinut on kirjattu ulos."
 
 msgid "Data Quality"
 msgstr "Karttadatan Laatu"
@@ -1984,7 +1988,7 @@ msgid "Invalid directory"
 msgstr "Virheellinen kansio"
 
 msgid "Logout"
-msgstr ""
+msgstr "Kirjaudu ulos"
 
 msgid "Starting download..."
 msgstr "Aloitetaan lataus..."
@@ -2002,6 +2006,8 @@ msgid ""
 "Translate news articles to your selected display language. This may take a "
 "while depending on the number of articles and your internet connection."
 msgstr ""
+"Käännä uutisartikkelit näyttökielen mukaan. Tässä voi mennä hetki riippuen "
+"artikkeleiden määrästä ja verkon nopeudesta."
 
 msgid "Map Data Parsed"
 msgstr "Karttadata ladattu"
@@ -2036,6 +2042,7 @@ msgid ""
 "An error occurred while trying to remove your account. Please try again "
 "later. Error: "
 msgstr ""
+"Tilin poiston yhteydessä tapahtui virhe. Kokeile myöhemmin uudelleen. Virhe: "
 
 msgid "°C"
 msgstr "°C"
@@ -2124,7 +2131,7 @@ msgid "Snap to each 10 {0}"
 msgstr "Lovita jokaiseen 10 {0}"
 
 msgid "Logout Failed"
-msgstr ""
+msgstr "Uloskirjautuminen epäonnistui"
 
 #, csharp-format
 msgid "Created plugin directory: [gray]{0}[/]"
