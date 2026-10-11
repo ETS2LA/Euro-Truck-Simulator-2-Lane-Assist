@@ -213,6 +213,15 @@ public class PluginInformation
     /// </summary>
     public string AuthorIcon { get; set; } = "";
 
+    /// <summary>
+    ///  Used to change the "Adjustments" button name in the plugin manager. Note that you will have to handle
+    ///  translations on your own if you change this. It is recommended to keep the default value in most situations.
+    /// </summary>
+    public string PluginPageButtonName { get; set; } = "Adjustments";
+
+    /// <summary>
+    ///  This is a list of tags that can be used to categorize plugins. For example, "UI", "Gameplay", "Telemetry", etc.
+    /// </summary>
     public string[] Tags { get; set; } = Array.Empty<string>();
 }
 

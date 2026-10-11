@@ -248,7 +248,14 @@
                                 }
                                 @if (hasSettingsPage)
                                 {
-                                    <a class="button button-small w-full! min-w-fit" href="@settingsRoute">@(_("Adjustments"))</a>
+                                    @if (plugin.Info.PluginPageButtonName != "Adjustments")
+                                    {
+                                        <a class="button button-small w-full! min-w-fit" href="@settingsRoute">@plugin.Info.PluginPageButtonName</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="button button-small w-full! min-w-fit" href="@settingsRoute">@(_("Adjustments"))</a>
+                                    }
                                 }
                             </div>
                         </div>

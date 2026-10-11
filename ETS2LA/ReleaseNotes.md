@@ -3,6 +3,7 @@
 - `feat` You can now change the base font size of the overlay.
 - `feat` *Dropdown* element now has *Multiple* option, allowing multiple selections.
 - `feat` Replaced *Ignore Traffic Rules* switch with an *Enabled Traffic Rules* dropdown, allowing you to select which traffic rules ETS2LA should obey.
+- `feat` Plugins can now change their *Adjustments* button name in the plugin manager if they want to.
 - `translation` Translation updates for *Finnish*, *Thai*, *Slovak*, *Chinese Simplified & Traditional*, *Russian*, *Spanish (American)*, *Polish*, *Japanese*.
 
 #### Thank you to today's sponsor... You!
