@@ -10,6 +10,7 @@ public class OverlaySettings
     public bool SupportMultipleViewports = false;
     public bool OverlayInteractionIsToggle = true;
     public bool DisableOverlay = false;
+    public int BaseFontSize = 18;
 
     // AR
     public bool RenderAR = true;

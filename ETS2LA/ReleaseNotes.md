@@ -1,6 +1,7 @@
 ### ETS2LA C# 2026.10.5115
 - `feat` You will now see the translation percentage of whichever language you pick in the settings.
-- `translation` Translation updates for *Finnish*, *Thai*.
+- `feat` You can now change the base font size of the overlay.
+- `translation` Translation updates for *Finnish*, *Thai*, *Slovak*, *Chinese Simplified & Traditional*, *Russian*, *Spanish (American)*, *Polish*, *Japanese*.
 
 #### Thank you to today's sponsor... You!
 Development is possible thanks to our [sponsors](https://github.com/sponsors/Tumppi066). Please consider supporting if you like the project and have the means to do so.

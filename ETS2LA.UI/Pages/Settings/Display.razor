@@ -207,6 +207,18 @@
         WindowSettings.Current.Zoom = (int)newZoom;
     }
 
+    private bool FontSizeHasChanged = false;
+    private void HandleFontSizeChanged(float newFontSize)
+    {
+        newFontSize = (int)Math.Round(newFontSize);
+        var settings = OverlaySettingsHandler.Current.GetSettings();
+        settings.BaseFontSize = (int)newFontSize;
+        OverlaySettingsHandler.Current.Save();
+
+        FontSizeHasChanged = true;
+        InvokeAsync(StateHasChanged);
+    }
+
     private async Task HandleZoomSubmitted()
     {
         await JS.InvokeVoidAsync("sendIPCMessage", $"window:zoom:{WindowSettings.Current.Zoom}");
@@ -260,6 +272,18 @@
             Description=@(_("Disables the overlay entirely. This will fix the black screen issue at the cost of breaking all features that rely on the overlay, including AR and the HUD."))
             Value="@DisableOverlay"
             ValueChanged="@((bool value) => DisableOverlay = value)" />
+    <Slider Title=@(_("Overlay Font Size"))
+            Suffix="px"
+            Description=@(_("The font size of the overlay. This can be used to scale the overlay to your monitor's DPI settings."))
+            Min="10"
+            Max="30"
+            Value="@OverlaySettingsHandler.Current.GetSettings().BaseFontSize"
+            ValueChanged="@((float value) => HandleFontSizeChanged(value))" />
+    @if (FontSizeHasChanged)
+    {
+        <p class="text-sm text-description">@(_("You must restart ETS2LA for the font size change to take effect."))</p>
+    }
+    
     <Switch Title=@(_("Keybind is Toggle"))
             Description=@(_("When enabled, the overlay will toggle between interaction and non-interaction mode when you press it's keybind. When disabled, the overlay will only be interactive while you hold down the keybind."))
             Value="@OverlaySettingsHandler.Current.GetSettings().OverlayInteractionIsToggle"

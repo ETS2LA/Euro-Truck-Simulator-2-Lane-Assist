@@ -74,7 +74,6 @@ public class OverlayHandler
     
     private List<InternalWindow> windows = new();
     public Dictionary<FontStyle, ImFontPtr> Fonts = new Dictionary<FontStyle, ImFontPtr>();
-    public const float DefaultFontSize = 18f;
 
     public bool IsOverlayFocused => isInteracting;
     public float AverageFrameTime => frameTimes.Count > 0 ? frameTimes.Average() : 0f;
@@ -535,7 +534,7 @@ public class OverlayHandler
                     Logger.Error(_("Font file not found at {0}", fontPath));
                     continue;
                 }
-                ImFont* font = io.Fonts.AddFontFromFileTTF(fontPath, DefaultFontSize);
+                ImFont* font = io.Fonts.AddFontFromFileTTF(fontPath, overlaySettings.BaseFontSize);
                 ImFontPtr fontPtr = new ImFontPtr(font);
                 Fonts[fonts[i].Item1] = fontPtr;
             }
