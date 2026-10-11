@@ -3,10 +3,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-10-11 14:28:18+0300\n"
-"PO-Revision-Date: 2026-10-11 10:19+0000\n"
+"PO-Revision-Date: 2026-10-11 16:39+0000\n"
 "Last-Translator: Tumppi066 <contact@ets2la.com>\n"
-"Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/ets2la/fi/"
-">\n"
+"Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/ets2la/fi/>"
+"\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -67,7 +67,7 @@ msgstr ""
 "ongelmia joissa pelilokisi (game.log.txt) ei ole oletetussa paikassa."
 
 msgid "Gates"
-msgstr ""
+msgstr "Portit"
 
 msgid "Game SDK"
 msgstr "Pelin SDK"
@@ -98,7 +98,7 @@ msgstr ""
 "Suomalaiset eivät voi tukea tätä kautta rahankeräys säätelyiden vuoksi!"
 
 msgid "Game not found"
-msgstr ""
+msgstr "Peliä ei löydetty"
 
 msgid "If you've not yet installed it, you can find it in the catalogue."
 msgstr "Jos et ole vielä asentanut sitä, löydät sen lisäosien luettelosta."
@@ -549,13 +549,13 @@ msgstr ""
 "auttaa."
 
 msgid "You must restart ETS2LA for the font size change to take effect."
-msgstr ""
+msgstr "Sovellus on käynnistettävä uudelleen asetuksen käyttöönottoa varten."
 
 msgid "Uninstall"
 msgstr "Poista"
 
 msgid "Enabled Traffic Rules"
-msgstr ""
+msgstr "Seurattavat liikennesäännöt"
 
 msgid ""
 "Anonymous telemetry helps us improve ETS2LA by giving us insights into "
@@ -695,13 +695,13 @@ msgid "meters per second"
 msgstr "metriä sekunnissa"
 
 msgid "Traffic Lights"
-msgstr ""
+msgstr "Liikennevalot"
 
 msgid "Update check skipped, using already cached result."
 msgstr "Päivityksen tarkastus ohitettiin, käytetään tallennettua vastausta."
 
 msgid "Open Update Page"
-msgstr ""
+msgstr "Avaa päivitys sivu"
 
 #, csharp-format
 msgid "Installed plugin with ID {0} not found."
@@ -953,7 +953,7 @@ msgid "Unknown manifest type: {0}"
 msgstr "Tuntematon tietotyyppi: {0}"
 
 msgid "Overlay Font Size"
-msgstr ""
+msgstr "Peitekuvan fonttikoko"
 
 msgid ""
 "Ensure you don't have any mods installed in the root directory. Those have "
@@ -1193,6 +1193,8 @@ msgid ""
 "The font size of the overlay. This can be used to scale the overlay to your "
 "monitor's DPI settings."
 msgstr ""
+"Voit skaalata fonttia suuremmaksi tai pienemmäksi esimerkiksi näyttösi koon "
+"mukaan."
 
 msgid "Error in telemetry update loop."
 msgstr "Virhe pelin telemetrian päivityksessä."
@@ -1463,17 +1465,17 @@ msgid "An error occurred while loading map data: {0}"
 msgstr "Karttadatan latauksen yhteydessä ilmeentyi virhe: {0}"
 
 msgid "The selected game executable was not found."
-msgstr ""
+msgstr "Valitun pelin käynnistys tiedostoa ei löydetty."
 
 #, csharp-format
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
 msgstr "Ladatiin kirjasto [gray]{0}[/] paikasta [gray]{1}[/]."
 
 msgid "Select the game you wish to start."
-msgstr ""
+msgstr "Valitse peli jonka haluat käynnistää."
 
 msgid "Speed Limits"
-msgstr ""
+msgstr "Nopeusrajoitukset"
 
 msgid "Responsiveness"
 msgstr "Herkkyys"
@@ -1524,6 +1526,8 @@ msgid ""
 "Select which traffic rules ETS2LA should obey. More might be added later, "
 "and all plugins won't necessarily support all rules."
 msgstr ""
+"Valitse mitä liikennesääntöjä ETS2LA seuraa. Sääntöjä voidaan lisätä "
+"myöhemmin, ja kaikki lisäosat eivät välttämättä tue kaikkia sääntöjä."
 
 msgid "kilometers per hour"
 msgstr "kilometriä tunnissa"
@@ -1836,7 +1840,7 @@ msgid "Deleted '{0}'"
 msgstr "Poistettiin {0}"
 
 msgid "Open SDK Settings"
-msgstr ""
+msgstr "Avaa SDK -asetukset"
 
 #, csharp-format
 msgid "Target Speed: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
@@ -1888,7 +1892,7 @@ msgid "Please see the logs for more information."
 msgstr "Katso lokitiedosto."
 
 msgid "Start Game"
-msgstr ""
+msgstr "Käynnistä peli"
 
 msgid "Binding Timed Out"
 msgstr "Määrittäminen aikakatkaistiin"
