@@ -1,6 +1,8 @@
 ### ETS2LA C# 2026.10.5115
 - `feat` You will now see the translation percentage of whichever language you pick in the settings.
 - `feat` You can now change the base font size of the overlay.
+- `feat` *Dropdown* element now has *Multiple* option, allowing multiple selections.
+- `feat` Replaced *Ignore Traffic Rules* switch with an *Enabled Traffic Rules* dropdown, allowing you to select which traffic rules ETS2LA should obey.
 - `translation` Translation updates for *Finnish*, *Thai*, *Slovak*, *Chinese Simplified & Traditional*, *Russian*, *Spanish (American)*, *Polish*, *Japanese*.
 
 #### Thank you to today's sponsor... You!

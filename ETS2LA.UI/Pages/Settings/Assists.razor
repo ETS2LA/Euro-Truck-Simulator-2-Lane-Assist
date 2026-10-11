@@ -56,6 +56,14 @@
     };
     static List<String> CollisionAvoidanceOptions = Enum.GetNames<CollisionAvoidance>().ToList().Select(option => TranslateCollisionAvoidanceOptions[Enum.Parse<CollisionAvoidance>(option)]).ToList();
 
+    static Dictionary<TrafficRule, string> TranslateTrafficRuleOptions = new Dictionary<TrafficRule, string>
+    {
+        { TrafficRule.TrafficLights, _("Traffic Lights") },
+        { TrafficRule.Gates, _("Gates") },
+        { TrafficRule.Speedlimits, _("Speed Limits") }
+    };
+    static List<String> TrafficRuleOptions = Enum.GetNames<TrafficRule>().ToList().Select(option => TranslateTrafficRuleOptions[Enum.Parse<TrafficRule>(option)]).ToList();
+
     private bool SnapTo10s {
         get => StateSettingsHandler.Current.GetSettings().SnapTo10s;
         set {
@@ -70,15 +78,6 @@
         set {
             var settings = AssistanceSettings.Current;
             settings.PauseWhenUnstable = value;
-            AssistanceSettings.Current.Save();
-        }
-    }
-
-    private bool IgnoreTrafficRules {
-        get => AssistanceSettings.Current.IgnoreTrafficRules;
-        set {
-            var settings = AssistanceSettings.Current;
-            settings.IgnoreTrafficRules = value;
             AssistanceSettings.Current.Save();
         }
     }
@@ -198,10 +197,16 @@
             Description=@(_("We will pause the game when we detect instability or the steering is unresponsive / disables itself for other reasons."))
             Value="@PauseWhenUnstable"
             ValueChanged="@((bool value) => PauseWhenUnstable = value)" />
-    <Switch Title=@(_("Ignore Traffic Rules"))
-            Description=@(_("We will ignore traffic rules and speed limits. Expect damage to your vehicle and others. Why would you enable this?"))
-            Value="@IgnoreTrafficRules"
-            ValueChanged="@((bool value) => IgnoreTrafficRules = value)" />
+    <Dropdown Title=@(_("Enabled Traffic Rules"))
+              Description=@(_("Select which traffic rules ETS2LA should obey. More might be added later, and all plugins won't necessarily support all rules."))
+              Options="@TrafficRuleOptions"
+              SelectedIndices="@AssistanceSettings.Current.EnabledTrafficRules.Select(rule => (int)rule).ToList()"
+              SelectedIndicesChanged="@(indices => {
+                  var settings = AssistanceSettings.Current;
+                  settings.EnabledTrafficRules = indices.Select(index => (TrafficRule)index).ToList();
+                  AssistanceSettings.Current.Save();
+              })"
+              Multiple="true" />
     <Slider Title=@(_("Maximum Speed"))
             Description=@(_("The maximum speed ETS2LA will accelerate to. It might still drift over this limit due to momentum."))
             Suffix="@(MaximumSpeedLimit == 0 ? $"{@DisplayUnits()} {_("Disabled")}" : @DisplayUnits())"

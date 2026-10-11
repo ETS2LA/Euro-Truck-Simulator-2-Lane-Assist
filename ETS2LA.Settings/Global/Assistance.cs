@@ -42,6 +42,13 @@ public enum CollisionAvoidance
     Early
 }
 
+public enum TrafficRule
+{
+    TrafficLights,
+    Gates,
+    Speedlimits
+}
+
 [Serializable]
 public class AssistanceSettings
 {
@@ -58,7 +65,14 @@ public class AssistanceSettings
     public SpeedLimitWarning SpeedLimitWarningOption { get; set; } = SpeedLimitWarning.Visual;
     public CollisionAvoidance CollisionAvoidanceOption { get; set; } = CollisionAvoidance.Early;
     public float MaximumSpeed { get; set; } = 0f; // 0 = no limit
-    public bool IgnoreTrafficRules { get; set; } = false;
+    public List<TrafficRule> EnabledTrafficRules { get; set; } = new List<TrafficRule> { 
+        TrafficRule.TrafficLights, 
+        TrafficRule.Gates,
+        TrafficRule.Speedlimits 
+    };
+
+    [Obsolete("Use EnabledTrafficRules instead.")]
+    public bool IgnoreTrafficRules => !EnabledTrafficRules.Contains(TrafficRule.TrafficLights) && !EnabledTrafficRules.Contains(TrafficRule.Speedlimits);
 
     [NonSerialized]
     private SettingsHandler? _settingsHandler;
@@ -80,7 +94,7 @@ public class AssistanceSettings
                 SpeedLimitWarningOption = loadedSettings.SpeedLimitWarningOption;
                 CollisionAvoidanceOption = loadedSettings.CollisionAvoidanceOption;
                 MaximumSpeed = loadedSettings.MaximumSpeed;
-                IgnoreTrafficRules = loadedSettings.IgnoreTrafficRules;
+                EnabledTrafficRules = loadedSettings.EnabledTrafficRules;
             }
             _settingsHandler.RegisterListener<AssistanceSettings>("AssistanceSettings.json", OnSettingsChanged);
         }
@@ -104,6 +118,6 @@ public class AssistanceSettings
         SpeedLimitWarningOption = newSettings.SpeedLimitWarningOption;
         CollisionAvoidanceOption = newSettings.CollisionAvoidanceOption;
         MaximumSpeed = newSettings.MaximumSpeed;
-        IgnoreTrafficRules = newSettings.IgnoreTrafficRules;
+        EnabledTrafficRules = newSettings.EnabledTrafficRules;
     }
 }

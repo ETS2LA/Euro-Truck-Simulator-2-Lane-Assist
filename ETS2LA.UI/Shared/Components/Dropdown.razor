@@ -18,6 +18,18 @@
     public EventCallback<int> OnSelect { get; set; }
 
     [Parameter]
+    public bool Multiple { get; set; }
+
+    [Parameter]
+    public IReadOnlyList<int> SelectedIndices { get; set; } = Array.Empty<int>();
+
+    [Parameter]
+    public EventCallback<IReadOnlyList<int>> SelectedIndicesChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<IReadOnlyList<int>> OnMultiple { get; set; }
+
+    [Parameter]
     public bool Disabled { get; set; }
 
     [Parameter]
@@ -35,6 +47,18 @@
 
     private async Task SelectOption(int index)
     {
+        if (Multiple)
+        {
+            var selectedIndices = SelectedIndices.Contains(index)
+                ? SelectedIndices.Where(selectedIndex => selectedIndex != index).ToArray()
+                : SelectedIndices.Append(index).ToArray();
+
+            SelectedIndices = selectedIndices;
+            await SelectedIndicesChanged.InvokeAsync(SelectedIndices);
+            await OnMultiple.InvokeAsync(SelectedIndices);
+            return;
+        }
+
         SelectedIndex = index;
         await SelectedIndexChanged.InvokeAsync(SelectedIndex);
         await OnSelect.InvokeAsync(SelectedIndex);
@@ -43,6 +67,13 @@
 
     private string GetSelectedOptionText()
     {
+        if (Multiple)
+        {
+            return string.Join(", ", SelectedIndices
+                .Where(index => index >= 0 && index < Options.Count)
+                .Select(index => Options[index]));
+        }
+
         if (Options.Count > 0 && SelectedIndex >= 0 && SelectedIndex < Options.Count)
         {
             return Options[SelectedIndex];
@@ -77,10 +108,10 @@
                 @for (int i = 0; i < Options.Count; i++)
                 {
                     int index = i;
-                    bool isSelected = index == SelectedIndex;
+                    bool isSelected = Multiple ? SelectedIndices.Contains(index) : index == SelectedIndex;
 
                     <button type="button"
-                            class="w-full min-w-24 px-4 py-2 text-left description hover:bg-control/50 hover:text-text text-[14px] transition-colors cursor-pointer @(isSelected ? "cursor-default! text-text bg-accent-dark!" : "")"
+                            class="w-full min-w-24 px-4 py-2 text-left description hover:bg-control/50 hover:text-text text-[14px] transition-colors cursor-pointer @(isSelected ? "text-text bg-accent-dark!" : "")"
                             @onclick="() => SelectOption(index)">
                         @Options[index]
                     </button>

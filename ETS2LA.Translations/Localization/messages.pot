@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-11 13:33:41+0300\n"
-"PO-Revision-Date: 2026-10-11 13:33:42+0300\n"
+"POT-Creation-Date: 2026-10-11 13:48:08+0300\n"
+"PO-Revision-Date: 2026-10-11 13:48:08+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -67,12 +67,12 @@ msgid ""
 "your game.log.txt is not where ETS2LA expects it."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:26
-msgid "Game SDK"
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:62
+msgid "Gates"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:201
-msgid "Ignore Traffic Rules"
+#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:26
+msgid "Game SDK"
 msgstr ""
 
 #: ../../../ETS2LA.Game/Installation.cs:262
@@ -80,7 +80,7 @@ msgstr ""
 msgid "Parsing installation at '{0}' (version: {1})"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:145
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:144
 msgid ""
 "When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."
 msgstr ""
@@ -120,7 +120,7 @@ msgstr ""
 msgid "Medium"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:205
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:210
 msgid "Maximum Speed"
 msgstr ""
 
@@ -242,7 +242,7 @@ msgstr ""
 msgid "If you can't interact with the Window, press CTRL+R."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:137
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:136
 msgid "The step size for changing the cruise control speed."
 msgstr ""
 
@@ -323,21 +323,21 @@ msgstr ""
 msgid "Additional"
 msgstr ""
 
+#: ../../../ETS2LA.Overlay/Window/Console.cs:54
+msgid "Show Fewer Logs"
+msgstr ""
+
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/PluginStep.razor:56
 msgid "Install Plugins"
 msgstr ""
 
-#: ../../../ETS2LA.Overlay/Window/Console.cs:54
-msgid "Show Fewer Logs"
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/DisclaimerStep1.razor:21
+msgid "I won't leave ETS2LA unattended"
 msgstr ""
 
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:81
 #, csharp-format
 msgid "Error while downloading update: {0}"
-msgstr ""
-
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/DisclaimerStep1.razor:21
-msgid "I won't leave ETS2LA unattended"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:74
@@ -375,7 +375,7 @@ msgstr ""
 msgid "Curve Quality"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:151
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:150
 msgid ""
 "Adjust how ETS2LA will respond to necessary steering changes. This for "
 "example controls how quickly ETS2LA will lane-change."
@@ -445,7 +445,7 @@ msgstr ""
 msgid "Enabled"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:178
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:177
 msgid ""
 "How early ETS2LA will attempt to respond to possible collisions. Turning this "
 "to off will disable collision avoidance regardless of your enabled plugins."
@@ -460,16 +460,16 @@ msgstr ""
 msgid "Assists Enabled: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 
-#: ../../../ETS2LA.Game/Output/Output.cs:103
-msgid ""
-"Memory not available for output, please ensure the game is running and "
-"reinstall the SDK if necessary."
-msgstr ""
-
 #: ../../../ETS2LA.UI/Pages/Home.razor:292
 msgid ""
 "Only show news articles from official sources, such as the ETS2LA team or "
 "it's developers."
+msgstr ""
+
+#: ../../../ETS2LA.Game/Output/Output.cs:103
+msgid ""
+"Memory not available for output, please ensure the game is running and "
+"reinstall the SDK if necessary."
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:175
@@ -589,14 +589,14 @@ msgstr ""
 msgid "Support Multiple Viewports"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Error.razor:36
-msgid "You took a wrong turn!"
-msgstr ""
-
 #: ../../../ETS2LA.UI/Pages/Home.razor:254
 msgid ""
 "Consider supporting us by becoming a <span class=\"font-bold "
 "text-text-l\">GitHub Sponsor</span> to cover ongoing development and operational costs."
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Error.razor:36
+msgid "You took a wrong turn!"
 msgstr ""
 
 #: ../../../ETS2LA.State/Program.cs:107
@@ -619,12 +619,6 @@ msgstr ""
 msgid "Max Overlay Framerate"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:202
-msgid ""
-"We will ignore traffic rules and speed limits. Expect damage to your vehicle "
-"and others. Why would you enable this?"
-msgstr ""
-
 #: ../../../ETS2LA.UI/Pages/Error.razor:38
 #, csharp-format
 msgid ""
@@ -638,6 +632,10 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:208
 msgid "Uninstall"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:200
+msgid "Enabled Traffic Rules"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:25
@@ -705,7 +703,7 @@ msgstr ""
 msgid "Failed to initialize overlay, ImGui initialization failed."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:188
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:187
 msgid "Speed Limit Warning"
 msgstr ""
 
@@ -769,7 +767,7 @@ msgstr ""
 msgid "No update available for plugin with ID {0}."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:136
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:135
 msgid "Speed Control Step Size"
 msgstr ""
 
@@ -806,6 +804,10 @@ msgstr ""
 msgid "meters per second"
 msgstr ""
 
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:61
+msgid "Traffic Lights"
+msgstr ""
+
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:54
 msgid "Update check skipped, using already cached result."
 msgstr ""
@@ -817,6 +819,10 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:20
 msgid "Audio"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:201
+msgid "Select which traffic rules ETS2LA should obey."
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Account.razor:55
@@ -836,7 +842,7 @@ msgstr ""
 msgid "Received input from unknown joystick with instance ID {0}."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:160
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:159
 msgid ""
 "Adjust how quickly ETS2LA will respond to desired changes in acceleration. "
 "Emergency braking is not affected."
@@ -863,7 +869,7 @@ msgstr ""
 msgid "Error in AR rendering: {0}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:177
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:176
 msgid "Collision Avoidance"
 msgstr ""
 
@@ -874,7 +880,7 @@ msgid ""
 "HUD."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:187
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:186
 msgid "Warnings & Overrides"
 msgstr ""
 
@@ -920,7 +926,7 @@ msgid ""
 "Driving mode changed, press Cancel/MODE again to cycle through the modes."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:197
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:196
 msgid "Pause When Unstable"
 msgstr ""
 
@@ -1031,13 +1037,13 @@ msgstr ""
 msgid "Account Removal Error"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/FinishStep.razor:24
-msgid "You can enable the plugins we installed in a previous step here."
-msgstr ""
-
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:465
 #, csharp-format
 msgid "Failed to disable {0}: {1}"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/FinishStep.razor:24
+msgid "You can enable the plugins we installed in a previous step here."
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Account.razor:187
@@ -1048,14 +1054,14 @@ msgstr ""
 msgid "SDK Installed"
 msgstr ""
 
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:37
+msgid "Current Speed"
+msgstr ""
+
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:181
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:186
 #, csharp-format
 msgid "Bound control {0} ({1}) to device {2} and control {3}"
-msgstr ""
-
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:37
-msgid "Current Speed"
 msgstr ""
 
 #: ../../../ETS2LA.State/Units.cs:182
@@ -1247,7 +1253,7 @@ msgstr ""
 msgid "No plugins found."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:128
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:127
 msgid ""
 "When pressing the SET keybind, what should ETS2LA set as the current cruise "
 "control speed?"
@@ -1272,7 +1278,7 @@ msgstr ""
 msgid "Error while applying update: {0}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:168
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:167
 msgid "Following Distance"
 msgstr ""
 
@@ -1411,11 +1417,11 @@ msgstr ""
 msgid "Disabled plugin: [bold]{0}[/]"
 msgstr ""
 
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/EnsureGameClosed.razor:52
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/SDKStep.razor:17
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/PluginStep.razor:57
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/ControlsStep.razor:48
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/OverlayStep.razor:27
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/EnsureGameClosed.razor:52
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/PluginStep.razor:57
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/SDKStep.razor:17
 msgid "Continue"
 msgstr ""
 
@@ -1430,7 +1436,7 @@ msgstr ""
 msgid "Failed enable {0}: {1}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:159
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:158
 msgid "Acceleration Response"
 msgstr ""
 
@@ -1534,12 +1540,12 @@ msgstr ""
 msgid "Failed to log in. Please check your credentials and try again."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:150
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:149
 msgid "Steering Sensitivity"
 msgstr ""
 
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:212
 #: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:226
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:207
 msgid "Disabled"
 msgstr ""
 
@@ -1717,7 +1723,11 @@ msgstr ""
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:149
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:63
+msgid "Speed Limits"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:148
 msgid "Responsiveness"
 msgstr ""
 
@@ -1988,11 +1998,11 @@ msgid "SDKs are currently installed."
 msgstr ""
 
 #: ../../../ETS2LA.UI/Utils.cs:55
+#: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:16
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:32
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:100
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:167
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:199
-#: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:16
 msgid "Restart Required"
 msgstr ""
 
@@ -2081,14 +2091,14 @@ msgstr ""
 msgid "Failed to remove account. Please try again."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:58
-msgid "Game added"
-msgstr ""
-
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:206
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:211
 msgid ""
 "The maximum speed ETS2LA will accelerate to. It might still drift over this "
 "limit due to momentum."
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:58
+msgid "Game added"
 msgstr ""
 
 #: ../../../ETS2LA.Game/Installation.cs:334
@@ -2114,7 +2124,7 @@ msgid ""
 "depend on it: {1}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:198
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:197
 msgid ""
 "We will pause the game when we detect instability or the steering is "
 "unresponsive / disables itself for other reasons."
@@ -2136,8 +2146,8 @@ msgstr ""
 msgid "Target Speed: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
 msgstr ""
 
-#: ../../../ETS2LA.Game/SDK/Camera.cs:130
 #: ../../../ETS2LA.Game/SDK/Navigation.cs:122
+#: ../../../ETS2LA.Game/SDK/Camera.cs:130
 #: ../../../ETS2LA.Game/SDK/ParkedVehicles.cs:108
 #: ../../../ETS2LA.Game/SDK/Semaphores.cs:176
 #: ../../../ETS2LA.Game/SDK/Traffic.cs:159
@@ -2171,7 +2181,7 @@ msgid ""
 "Selected update source '{0}' not found, defaulting to first available source."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:127
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:126
 msgid "SET Behaviour"
 msgstr ""
 
@@ -2239,12 +2249,12 @@ msgstr ""
 msgid "The selected file is not a core.scs file."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:81
-msgid "This game was found at"
-msgstr ""
-
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:244
 msgid "Translated by:"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:81
+msgid "This game was found at"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Account.razor:86
@@ -2388,7 +2398,7 @@ msgstr ""
 msgid "Map Data Parsed"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:169
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:168
 msgid ""
 "Adjust the distance ETS2LA will try to maintain from the vehicle in front of "
 "you when using Adaptive Cruise Control."
@@ -2452,7 +2462,7 @@ msgstr ""
 msgid "Starting ETS2LA..."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:189
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:188
 msgid ""
 "How ETS2LA will warn you about exceeding the speed limit by a major amount."
 msgstr ""
@@ -2476,7 +2486,7 @@ msgstr ""
 msgid "Cannot enable plugin {0} because dependency {1} was not found."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:126
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:125
 msgid "Keybind Behaviour"
 msgstr ""
 
@@ -2529,7 +2539,7 @@ msgstr ""
 msgid "Final Disclaimer <span class=\"description\">2/2</span>"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:144
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:143
 #, csharp-format
 msgid "Snap to each 10 {0}"
 msgstr ""
@@ -2549,10 +2559,10 @@ msgid "Enabled plugin: [bold]{0}[/]"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Utils.cs:56
+#: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:17
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:33
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:101
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:168
-#: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:17
 msgid ""
 "Changing this option requires a restart of ETS2LA to take effect. Restart "
 "now?"
@@ -2601,16 +2611,16 @@ msgstr ""
 msgid "Like ETS2LA?"
 msgstr ""
 
+#: ../../../ETS2LA.UI/Pages/Home.razor:286
+msgid "Show Plugin Updates"
+msgstr ""
+
 #: ../../../ETS2LA.UI/Pages/Settings/Experiments.razor:41
 msgid ""
 "Allows ETS2LA to control throttle and brake using direct memory editing. This "
 "might not work on some systems, but allows for control even while tabbed out "
 "of the game. If you enable this and it doesn't work, please report the issue "
 "on our Discord server."
-msgstr ""
-
-#: ../../../ETS2LA.UI/Pages/Home.razor:286
-msgid "Show Plugin Updates"
 msgstr ""
 
 #: ../../../ETS2LA.Networking/Plugins/Client.cs:177
