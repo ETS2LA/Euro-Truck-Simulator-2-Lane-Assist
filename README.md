@@ -13,7 +13,7 @@ ETS2LA is a project that aims to finally bring self-driving technology to SCS So
 - [Docs](https://docs.ets2la.com) - Developer documentation. If you want to work on ETS2LA or plugins you should start here.
 
 ### I have a problem with ETS2LA
-Please check the [FAQ](https://ets2la.com/faq) for answers. If your question is not listed there, please join the [Discord](https://ets2la.com/discord) and ask in the support channel. We will add the answer to the FAQ if it becomes a common question!
+Please check the [FAQ](https://ets2la.com/help/faq) for answers. If your question is not listed there, please join the [Discord](https://ets2la.com/discord) and ask in the support channel. We will add the answer to the FAQ if it becomes a common question!
 
 ### Acknowledgements
 - [SCS Software](https://scssoft.com) - For making Euro Truck Simulator 2 and American Truck Simulator.
