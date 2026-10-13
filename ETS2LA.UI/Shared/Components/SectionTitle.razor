@@ -1,0 +1,11 @@
+@using System.Globalization
+
+@code {
+    [Parameter]
+    public string Class { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Title { get; set; } = string.Empty;
+}
+
+<p class="description flex items-center gap-2 after:flex-1 after:h-[2px] after:content-[''] after:opacity-20 after:bg-[radial-gradient(circle_at_center,var(--color-description)_1px,transparent_1px)] after:bg-[length:16px_2px] @(Class)">@Title</p>

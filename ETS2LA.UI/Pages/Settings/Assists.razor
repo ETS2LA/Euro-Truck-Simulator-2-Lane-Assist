@@ -121,8 +121,8 @@
     }
 }
 
-<div class="flex flex-col w-108 m-5 ml-8 gap-6">
-    <Separator Label=@(_("Keybind Behaviour")) />
+<div class="flex flex-col w-full p-5 px-8 gap-3">
+    <SectionTitle Title=@(_("Keybind Behaviour")) />
     <!-- <Listbox Title=@(_("SET Behaviour"))
              Description=@(_("When pressing the SET keybind, what should ETS2LA set as the current cruise control speed?"))
              Options="@SetSpeedBehaviourOptions"
@@ -145,7 +145,7 @@
             Value="@SnapTo10s"
             ValueChanged="@((bool value) => SnapTo10s = value)" />
 
-    <Separator Label=@(_("Responsiveness")) Class="mt-8" />
+    <SectionTitle Class="mt-8" Title=@(_("Responsiveness")) />
     <Listbox Title=@(_("Steering Sensitivity"))
              Description=@(_("Adjust how ETS2LA will respond to necessary steering changes. This for example controls how quickly ETS2LA will lane-change."))
              Options="@SteeringResponseOptions"
@@ -183,7 +183,7 @@
                 AssistanceSettings.Current.Save();
              })" />
 
-    <Separator Label=@(_("Warnings & Overrides")) Class="mt-8" />
+    <SectionTitle Class="mt-8" Title=@(_("Warnings & Overrides")) />
     <Listbox Title=@(_("Speed Limit Warning"))
              Description=@(_("How ETS2LA will warn you about exceeding the speed limit by a major amount."))
              Options="@SpeedLimitWarningOptions"

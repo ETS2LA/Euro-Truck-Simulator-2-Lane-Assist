@@ -283,7 +283,7 @@
                               Options="@axisTypeOptions"
                               SelectedIndex="@((int)control.AxisBehavior)"
                               SelectedIndexChanged="@(async (int index) => { control.AxisBehavior = (AxisType)index; controlsBackend.UpdateAxisBehavior(control.Definition.Id, control.AxisBehavior); })"
-                              Class="@(IsAxis(control) ? "gap-0! text-[0px] w-10! h-[40px] p-0! bg-bg-dark!" : "hidden")" />
+                              Class="@(IsAxis(control) ? "gap-0! text-[0px] w-10! min-w-10! h-[40px] p-0! bg-bg-dark!" : "hidden")" />
                 </div>
             </div>
         </div>

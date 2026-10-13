@@ -9,9 +9,13 @@ public class StateSettings
 {
     public Units DisplayUnits = Units.Metric;
     public Language DisplayLanguage = Languages.SupportedLanguages.FirstOrDefault(l => l.Code == "en") ?? new Language { EnglishName = "English", NativeName = "English", Code = "en" };
+
     public int SpeedControlStepSize = 2;
     public bool SnapTo10s = true;
     public float FallbackSpeed = UnitConversions.ToScientificUnits(UnitType.Speed, 30, Units.Metric);
+
+    public float DesiredSpeedStaticOffset = 0.0f;
+    public float DesiredSpeedPercentageOffset = 0.0f;
 }
 
 public class StateSettingsHandler

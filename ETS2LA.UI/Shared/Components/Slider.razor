@@ -1,5 +1,10 @@
 @using ETS2LA.UI.Shared.Layouts
+@inject IJSRuntime JSRuntime
+
 @code {
+    // This slider is *way* over complicated but...
+    // it does feel good :)
+
     [Parameter, EditorRequired]
     public string Title { get; set; } = string.Empty;
 
@@ -21,6 +26,13 @@
     [Parameter]
     public float Value { get; set; } = 0;
 
+    /// <summary>
+    ///   If set, this value will be highlighted on the slider track
+    ///   similarly to how the preview value is highlighted when hovering over the slider.
+    /// </summary>
+    [Parameter]
+    public float? HighlightValue { get; set; } = null;
+
     [Parameter]
     public EventCallback<float> ValueChanged { get; set; }
 
@@ -32,6 +44,19 @@
 
     [Parameter]
     public string Class { get; set; } = string.Empty;
+
+    private ElementReference sliderInput;
+    private float? PreviewValue { get; set; }
+    private double PreviewPosition { get; set; }
+    private bool IsDragging { get; set; }
+    private long lastPreviewUpdate;
+    private double pendingPreviewClientX;
+    private bool previewFlushScheduled;
+    private long previewGeneration;
+
+    private double? highlightPosition = null;
+
+    private const long PreviewUpdateIntervalMs = 33;
 
     private async Task UpdateValue(string newValue)
     {
@@ -49,11 +74,99 @@
 
         await ValueSubmitted.InvokeAsync(Value);
     }
+
+    private async Task UpdatePreview(PointerEventArgs e)
+    {
+        if (Disabled) return;
+
+        pendingPreviewClientX = e.ClientX;
+        var elapsed = Environment.TickCount64 - lastPreviewUpdate;
+        if (elapsed < PreviewUpdateIntervalMs)
+        {
+            if (!previewFlushScheduled)
+            {
+                previewFlushScheduled = true;
+                var f = FlushPendingPreview(PreviewUpdateIntervalMs - elapsed, previewGeneration);
+            }
+
+            return;
+        }
+
+        await ApplyPreview(pendingPreviewClientX, previewGeneration);
+    }
+
+    private async Task FlushPendingPreview(long delay, long generation)
+    {
+        await Task.Delay((int)delay);
+        await InvokeAsync(async () =>
+        {
+            previewFlushScheduled = false;
+            if (!Disabled && generation == previewGeneration)
+            {
+                await ApplyPreview(pendingPreviewClientX, generation);
+            }
+        });
+    }
+
+    private async Task ApplyPreview(double clientX, long generation)
+    {
+        lastPreviewUpdate = Environment.TickCount64;
+
+        var pointerPosition = await JSRuntime.InvokeAsync<double>("getSliderPointerPercentage", sliderInput, clientX);
+        if (generation != previewGeneration) return;
+
+        var rawValue = Min + (float)(pointerPosition / 100) * (Max - Min);
+        PreviewValue = Math.Clamp(MathF.Round((rawValue - Min) / Step) * Step + Min, Min, Max);
+        var valuePercentage = Max > Min
+            ? (PreviewValue.Value - Min) / (Max - Min) * 100
+            : 0;
+        PreviewPosition = await JSRuntime.InvokeAsync<double>("getSliderValuePosition", sliderInput, valuePercentage);
+        if (generation != previewGeneration) PreviewValue = null;
+    }
+
+    private async Task HandlePointerLeave()
+    {
+        previewGeneration++;
+        previewFlushScheduled = false;
+        IsDragging = false;
+        PreviewValue = null;
+        await SubmitValue();
+    }
+
+    private void BeginDrag()
+    {
+        IsDragging = true;
+    }
+
+    private void EndDrag()
+    {
+        IsDragging = false;
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        if (HighlightValue.HasValue)
+        {
+            Task.Run(async () =>
+            {
+                while (true)
+                {
+                    await Task.Delay(333);
+                    var highlightPercentage = Max > Min
+                        ? (HighlightValue.Value - Min) / (Max - Min) * 100
+                        : 0;
+                    highlightPosition = await JSRuntime.InvokeAsync<double>("getSliderValuePosition", sliderInput, highlightPercentage);
+                    await InvokeAsync(StateHasChanged);
+                }
+            });
+        }
+    }
 }
 
-<div class="flex flex-col @Class">
-    <div class="flex">
-        <p>@Title </p>
+<div class="flex justify-between w-full items-center hover:bg-control-bg-dark gap-8 min-h-[35px] @(Class)">
+    <div class="flex items-center">
+        <p>@Title</p>
         <input type="text"
                value="@Value"
                disabled="@Disabled"
@@ -64,20 +177,39 @@
                @onsubmit="@(async (EventArgs e) => await SubmitValue())"
                />
         <p class="ml-1">@Suffix</p>
+        <TooltipIcon Class="ml-2" Content="@Description"/>
     </div>
-    <div class="flex gap-4 mt-2">
+    <div class="relative flex gap-4 w-full max-w-80">
+        @if (PreviewValue.HasValue)
+        {
+            <span class="absolute top-1/2 h-4 w-px -translate-x-1/2 -translate-y-1/2 bg-accent/70 @((IsDragging || PreviewValue == Value) ? "opacity-0" : "transition-[left] duration-150 ease-out") pointer-events-none"
+                  style="left: @(PreviewPosition)%"></span>
+            <span class="absolute bottom-full mb-1 -translate-x-1/2 border border-control-bg rounded-md bg-control-bg px-1.5 py-0.5 text-xs text-text-h @(IsDragging ? "border-accent-border!" : "transition-[left] duration-150 ease-out") pointer-events-none"
+                  style="left: @(PreviewPosition)%">
+                @PreviewValue.Value@Suffix
+            </span>
+        }
+        @if (HighlightValue.HasValue)
+        {
+            <span class="absolute top-1/2 h-4 w-px -translate-x-1/2 -translate-y-1/2 bg-accent/50 pointer-events-none transition-[left] duration-333 ease-out"
+                  style="left: @(highlightPosition)%"></span>
+        }
         <input type="range"
                min="@Min"
                max="@Max"
                step="@Step"
                value="@Value"
                disabled="@Disabled"
+               @ref="sliderInput"
                class="slider w-full cursor-pointer transition-colors duration-150 appearance-none bg-transparent"
                @oninput="@(async (ChangeEventArgs e) => await UpdateValue(e.Value?.ToString() ?? "0"))" 
+               @onpointerdown="BeginDrag"
+               @onpointerup="EndDrag"
+               @onpointercancel="EndDrag"
+               @onpointermove="UpdatePreview"
+               @onpointerleave="HandlePointerLeave"
                @onfocusout="@(async (FocusEventArgs e) => await SubmitValue())"
-               @onpointerleave="@(async (PointerEventArgs e) => await SubmitValue())"
                @onsubmit="@(async (EventArgs e) => await SubmitValue())"
                />
     </div>
-    <p class="description mt-1">@Description</p>
 </div>

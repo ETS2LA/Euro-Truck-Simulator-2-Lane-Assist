@@ -34,6 +34,7 @@ public static class Languages
         new Language { EnglishName = "Spanish (American)", NativeName = "Español (Estados Unidos)", Code = "es_US" },
         new Language { EnglishName = "Turkish", NativeName = "Türkçe", Code = "tr" },
         new Language { EnglishName = "Vietnamese", NativeName = "Tiếng Việt", Code = "vi" },
+        new Language { EnglishName = "Thai", NativeName = "ไทย", Code = "th" },
     }.OrderBy(l => l.EnglishName).ToList();
 }
 

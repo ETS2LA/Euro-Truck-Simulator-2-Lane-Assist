@@ -226,34 +226,20 @@
     }
 }
 
-<div class="flex flex-col w-108 m-5 ml-8 gap-6">
-    <Separator Label=@(_("Units and Language")) />
+<div class="flex flex-col w-full p-5 px-8 gap-2">
+    <SectionTitle Title=@(_("Units and Language")) />
     <Listbox Title=@(_("Display Units")) 
              Description=@(_("The units ETS2LA will use when displaying information to a user. Scientific has only slight differences to metric."))
              Options="@displayUnitTranslations.Values.ToList()"
              SelectedIndex="@CurrentUnits"
              SelectedIndexChanged="OnDisplayUnitChanged"/>
-    <div class="flex flex-col gap-2 w-full">
-        <Dropdown Title=@(_("Display Language"))
-                Description=@(_("The language ETS2LA will be displayed at. Translations are provided by the community, we cannot guarantee their accuracy."))
-                Options="@displayLanguageOptions"
-                SelectedIndex="@CurrentLanguage"
-                SelectedIndexChanged="OnDisplayLanguageChanged"/>
-        <div class="flex flex-col gap-0">
-            <div class="flex flex-row justify-between">
-                <p class="text-sm text-description">@_("Translated by:")</p>
-                <img class="opacity-80" src=@($"https://weblate.ets2la.com/widget/ets2la/ets2la/{SupportedLanguages[CurrentLanguage].Code.Replace("-", "_")}/svg-badge.svg") alt="Translation status" />
-            </div>
-            @foreach (var credit in LanguageCredits(SupportedLanguages[CurrentLanguage].Code))
-            {
-                <p class="text-sm text-description">
-                    @credit
-                </p>
-            }
-        </div>
-    </div>
+    <Dropdown Title=@(_("Display Language"))
+            Description=@(_("The language ETS2LA will be displayed at. Translations are provided by the community, we cannot guarantee their accuracy.") + "\n\n" + _("Translated by:") + "\n\n" + string.Join("\n", LanguageCredits(SupportedLanguages[CurrentLanguage].Code)))
+            Options="@displayLanguageOptions"
+            SelectedIndex="@CurrentLanguage"
+            SelectedIndexChanged="OnDisplayLanguageChanged"/>
     
-    <Separator Label=@(_("Window")) Class="mt-8" />
+    <SectionTitle Class="mt-8" Title=@(_("Window")) />
     <Slider Title=@(_("Window Zoom"))
             Suffix="%"
             Description=@(_("The zoom level of the ETS2LA window. This can be used to scale the window to your monitor's DPI settings."))
@@ -267,7 +253,7 @@
             Value="@StayOnTop"
             ValueChanged="@((bool value) => StayOnTop = value)" />
 
-    <Separator Label=@(_("Overlay")) Class="mt-8" />
+    <SectionTitle Class="mt-8" Title=@(_("Overlay")) />
     <Switch Title=@(_("Disable Overlay"))
             Description=@(_("Disables the overlay entirely. This will fix the black screen issue at the cost of breaking all features that rely on the overlay, including AR and the HUD."))
             Value="@DisableOverlay"
@@ -281,7 +267,7 @@
             ValueChanged="@((float value) => HandleFontSizeChanged(value))" />
     @if (FontSizeHasChanged)
     {
-        <p class="text-sm text-description">@(_("You must restart ETS2LA for the font size change to take effect."))</p>
+        <p class="text-sm text-description! font-normal!">@(_("You must restart ETS2LA for the font size change to take effect."))</p>
     }
     
     <Switch Title=@(_("Keybind is Toggle"))
@@ -306,9 +292,10 @@
             Min="10"
             Max="120"
             Value="@MaxOverlayFramerate"
+            HighlightValue="@CurrentARFramerate"
             ValueChanged="@((float value) => MaxOverlayFramerate = (int)value)" />
 
-    <Separator Label=@(_("3D Renderer")) Class="mt-8" />
+    <SectionTitle Class="mt-8" Title=@(_("3D Renderer")) />
     <Switch Title=@(_("Render AR Elements"))
             Description=@(_("We can render elements in the game world using the overlay. This will use additional CPU and GPU resources."))
             Value="@RenderARElements"

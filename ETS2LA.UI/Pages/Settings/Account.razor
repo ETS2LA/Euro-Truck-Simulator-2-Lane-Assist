@@ -156,7 +156,7 @@
     }
 }
 
-<div class="flex flex-col w-108 m-5 ml-8 gap-4">
+<div class="flex flex-col w-full p-5 px-8 gap-3">
     @if (CurrentUser != null && CurrentUser.JwtToken != null && DateTime.UtcNow < CurrentUser.Expiry)
     {
         <p class="description">@(_("You are currently logged in as {0}.", CurrentUser.Username))</p>

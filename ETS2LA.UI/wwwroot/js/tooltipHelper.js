@@ -15,3 +15,27 @@ window.getTooltipAutoPosition = (element) => {
     
     return spaceRight > spaceLeft ? "right" : "left";
 };
+
+window.getSliderPointerPercentage = (element, clientX) => {
+    if (!element) return 0;
+
+    const rect = element.getBoundingClientRect();
+    if (rect.width <= 0) return 0;
+
+    const thumbWidth = 12;
+    const travelWidth = Math.max(1, rect.width - thumbWidth);
+    const thumbPosition = clientX - rect.left - (thumbWidth / 2);
+
+    return Math.max(0, Math.min(100, (thumbPosition / travelWidth) * 100));
+};
+
+window.getSliderValuePosition = (element, valuePercentage) => {
+    if (!element) return valuePercentage;
+
+    const rect = element.getBoundingClientRect();
+    if (rect.width <= 0) return valuePercentage;
+
+    const thumbWidth = 12;
+    const thumbCenter = (thumbWidth / 2) + (Math.max(0, Math.min(100, valuePercentage)) / 100) * (rect.width - thumbWidth);
+    return (thumbCenter / rect.width) * 100;
+};

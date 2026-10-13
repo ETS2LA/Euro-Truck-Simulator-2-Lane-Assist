@@ -299,17 +299,14 @@
                     Description=@_("Show news articles about plugin updates, be that official or 3rd party plugins.")
                     Value="@WindowSettings.Current.ShowPluginUpdates"
                     ValueChanged="@((bool value) => WindowSettings.Current.ShowPluginUpdates = value)" />
-            <Separator />
             <Switch Title=@_("Only Show Official News")
                     Description=@_("Only show news articles from official sources, such as the ETS2LA team or it's developers.")
                     Value="@WindowSettings.Current.OnlyFromOfficialUsers"
                     ValueChanged="@((bool value) => WindowSettings.Current.OnlyFromOfficialUsers = value)" />
-            <Separator />
             <Switch Title=@_("Translate News Articles")
                     Description=@_("Translate news articles to your selected display language. This may take a while depending on the number of articles and your internet connection.")
                     Value="@WindowSettings.Current.TranslateNews"
                     ValueChanged="@((bool value) => WindowSettings.Current.TranslateNews = value)" />
-            <Separator />
             <p class="description mt-2">@_("Press anywhere outside the dialog to close it.")</p>
         </div>
     </Dialog>

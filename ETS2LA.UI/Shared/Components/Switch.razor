@@ -25,15 +25,24 @@
     }
 }
 
-<div class="flex flex-col gap-1 @Class">
-    <div class="flex justify-between items-center">
+<div class="flex justify-between w-full items-center hover:bg-control-bg-dark min-h-[32px] cursor-pointer @(Class)"
+     role="switch"
+     aria-checked="@Value"
+     tabindex="0"
+     @onclick="Toggle">
+    <div class="flex gap-2 items-center">
         <p>@Title</p>
-        <button type="button"
-                aria-label="@Title"
-                class="cursor-pointer w-12 bg-control h-6 rounded-[8px] @(Value ? "bg-accent-border!" : "")" 
-                @onclick="Toggle">
-            <div class="ml-1 mr-1 size-[15px] bg-text-l/80 rounded-[6px] transition-all duration-200 @(Value ? "translate-x-[calc(137%)] bg-text-l!" : "")"></div>
-        </button>
+        @if (!string.IsNullOrEmpty(Description))
+        {
+            <TooltipIcon Content="@Description"/>
+        }
     </div>
-    <p class="description">@Description</p>
+    
+    <!-- Yes yes I know heresy to use pixels but for whatever reason h-value seems to
+         change arbitrarily in different situations. This one needs to be pixel perfect... -->
+    <div class="relative flex items-center justify-between px-[7px] w-[63px] h-[27px] bg-control rounded-lg text-[12px] font-medium @(Value ? "bg-accent-border!" : "")">
+        <span class="transition-opacity @(Value ? "opacity-70" : "opacity-0")">ON</span>
+        <span class="transition-opacity @(Value ? "opacity-0" : "opacity-40")">OFF</span>
+        <div class="absolute left-[3.5px] size-[21px] bg-text-l/80 rounded-md transition-transform duration-200 @(Value ? "translate-x-[35px] bg-text-l!" : "")"></div>
+    </div>
 </div>

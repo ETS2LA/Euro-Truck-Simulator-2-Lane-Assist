@@ -205,6 +205,10 @@ public class ApplicationState
         if (DesiredSpeed == 0)
             return;
 
+        newSpeedLimit = Math.Max(newSpeedLimit, 0);
+        newSpeedLimit += stateSettings.DesiredSpeedStaticOffset;
+        newSpeedLimit += newSpeedLimit * stateSettings.DesiredSpeedPercentageOffset;
+
         float offset = 0;
         if (lastSpeedLimit != 0)
             offset = DesiredSpeed - lastSpeedLimit; 
