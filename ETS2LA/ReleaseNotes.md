@@ -1,12 +1,13 @@
-### ETS2LA C# 2026.10.5115
-- `feat` You will now see the translation percentage of whichever language you pick in the settings.
-- `feat` You can now change the base font size of the overlay.
-- `feat` *Dropdown* element now has *Multiple* option, allowing multiple selections.
-- `feat` Replaced *Ignore Traffic Rules* switch with an *Enabled Traffic Rules* dropdown, allowing you to select which traffic rules ETS2LA should obey.
-- `feat` Plugins can now change their *Adjustments* button name in the plugin manager if they want to.
-- `feat` Plugins can now hide their *Enable/Disable* button in the plugin manager if they want to. These plugins will always show as enabled.
-- `feat` Notifications can now have *Actions* that the user can click on.
-- `translation` Translation updates for *Finnish*, *Thai*, *Slovak*, *Chinese Simplified & Traditional*, *Russian*, *Spanish (American)*, *Polish*, *Japanese*.
+### `NIGHTLY` ETS2LA C# 2026.10.5146
+- `feat` Updated settings UI, it's now more compact to fit more settings on screen.
+- `feat` Added *Speedlimit Offset* settings, allowing you to offset speedlimits by a static value and percentage.
+- `feat` Improved tooltip visibility.
+- `feat` Updated *Slider* component, it will now display the current value in a tooltip while hovering over.
+- `feat` Added new *SectionTitle* component.
+- `feat` Updated *Switch* component, it now has an ON/OFF label.
+- `feat` Added new *TooltipIcon* component, it displays an information icon with a tooltip when hovered over.
+- `fix` Fixed a bug where a changing speedlimit would incorrectly determine the offset when a maximum speed is set.
+- `translation` Updated supported languages, *Thai* is now available.
 
 #### Thank you to today's sponsor... You!
 Development is possible thanks to our [sponsors](https://github.com/sponsors/Tumppi066). Please consider supporting if you like the project and have the means to do so.

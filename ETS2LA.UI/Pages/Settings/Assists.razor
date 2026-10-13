@@ -183,7 +183,7 @@
                 AssistanceSettings.Current.Save();
              })" />
 
-    <SectionTitle Class="mt-8" Title=@(_("Warnings & Overrides")) />
+    <SectionTitle Class="mt-8" Title=@(_("Warnings")) />
     <Listbox Title=@(_("Speed Limit Warning"))
              Description=@(_("How ETS2LA will warn you about exceeding the speed limit by a major amount."))
              Options="@SpeedLimitWarningOptions"
@@ -197,6 +197,16 @@
             Description=@(_("We will pause the game when we detect instability or the steering is unresponsive / disables itself for other reasons."))
             Value="@PauseWhenUnstable"
             ValueChanged="@((bool value) => PauseWhenUnstable = value)" />
+
+    <SectionTitle Class="mt-8" Title=@(_("Overrides")) />
+    <Slider Title=@(_("Maximum Speed"))
+            Description=@(_("The maximum speed ETS2LA will accelerate to. It might still drift over this limit due to momentum."))
+            Suffix="@(MaximumSpeedLimit == 0 ? $"{@DisplayUnits()} {_("Disabled")}" : @DisplayUnits())"
+            Value="@ToDisplayUnits(MaximumSpeedLimit)"
+            ValueChanged="@((float value) => MaximumSpeedLimit = ToScientificUnits(value))"
+            Min="0"
+            Max="120"
+            Step="1" />
     <Dropdown Title=@(_("Enabled Traffic Rules"))
               Description=@(_("Select which traffic rules ETS2LA should obey. More might be added later, and all plugins won't necessarily support all rules."))
               Options="@TrafficRuleOptions"
@@ -207,12 +217,31 @@
                   AssistanceSettings.Current.Save();
               })"
               Multiple="true" />
-    <Slider Title=@(_("Maximum Speed"))
-            Description=@(_("The maximum speed ETS2LA will accelerate to. It might still drift over this limit due to momentum."))
-            Suffix="@(MaximumSpeedLimit == 0 ? $"{@DisplayUnits()} {_("Disabled")}" : @DisplayUnits())"
-            Value="@ToDisplayUnits(MaximumSpeedLimit)"
-            ValueChanged="@((float value) => MaximumSpeedLimit = ToScientificUnits(value))"
-            Min="0"
-            Max="120"
+    <Slider Title=@(_("Speedlimit Offset"))
+            Description=@(_("ETS2LA will offset the speedlimit by this amount."))
+            Suffix="@DisplayUnits()"
+            Value="@ToDisplayUnits(StateSettingsHandler.Current.GetSettings().DesiredSpeedStaticOffset)"
+            ValueChanged="@((float value) => {
+                StateSettingsHandler.Current.GetSettings().DesiredSpeedStaticOffset = ToScientificUnits(value);
+                StateSettingsHandler.Current.Save();
+                InvokeAsync(StateHasChanged);
+            })"
+            Min="-20"
+            Max="20"
             Step="1" />
+    <Slider Title=@(_("Speedlimit Offset"))
+            Description=@(_("ETS2LA will offset the speedlimit by this percentage."))
+            Suffix="%"
+            Value="@StateSettingsHandler.Current.GetSettings().DesiredSpeedPercentageOffset"
+            ValueChanged="@((float value) => {
+                StateSettingsHandler.Current.GetSettings().DesiredSpeedPercentageOffset = value;
+                StateSettingsHandler.Current.Save();
+                InvokeAsync(StateHasChanged);
+            })"
+            Min="-20"
+            Max="20"
+            Step="1" />
+    <p class="description">@_("When receiving a speedlimit of {0} {1}, we will set the speed to {2} {3}.", 
+        50, DisplayUnits(), 
+        Math.Round(50 + ToDisplayUnits(StateSettingsHandler.Current.GetSettings().DesiredSpeedStaticOffset) + (50 * StateSettingsHandler.Current.GetSettings().DesiredSpeedPercentageOffset / 100), 0), DisplayUnits())</p>
 </div>

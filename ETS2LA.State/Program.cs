@@ -206,8 +206,8 @@ public class ApplicationState
             return;
 
         newSpeedLimit = Math.Max(newSpeedLimit, 0);
+        newSpeedLimit += newSpeedLimit * stateSettings.DesiredSpeedPercentageOffset / 100;
         newSpeedLimit += stateSettings.DesiredSpeedStaticOffset;
-        newSpeedLimit += newSpeedLimit * stateSettings.DesiredSpeedPercentageOffset;
 
         float offset = 0;
         if (lastSpeedLimit != 0)
@@ -216,8 +216,9 @@ public class ApplicationState
         if (newSpeedLimit == 0)
             newSpeedLimit = stateSettings.FallbackSpeed;
 
+        bool wasBelowLimit = lastSpeedLimit < AssistanceSettings.Current.MaximumSpeed;
         lastSpeedLimit = newSpeedLimit;
-        DesiredSpeed = newSpeedLimit + offset;
+        DesiredSpeed = newSpeedLimit + (wasBelowLimit ? offset : 0);
         RoundToNearestUnit();
         ApplyLimits();
         NotificationHandler.Current.SendNotification(new Notification
