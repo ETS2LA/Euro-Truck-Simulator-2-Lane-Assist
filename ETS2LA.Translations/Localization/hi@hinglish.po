@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-11 14:28:18+0300\n"
+"POT-Creation-Date: 2026-10-13 21:39:57+0300\n"
 "PO-Revision-Date: 2026-08-25 11:19+0000\n"
 "Last-Translator: Artyz <artyz@ets2la.com>\n"
 "Language-Team: Hindi (Hinglish) <http://weblate.ets2la.com/projects/ets2la/"
@@ -120,11 +120,11 @@ msgstr ""
 msgid "Failed to enable dependency: {0}"
 msgstr ""
 
-msgid "Only Show Official News"
-msgstr ""
-
 msgid "Main"
 msgstr "Mukhya"
+
+msgid "Only Show Official News"
+msgstr ""
 
 #, csharp-format
 msgid ""
@@ -324,6 +324,11 @@ msgstr ""
 
 #, csharp-format
 msgid "Update to {0}"
+msgstr ""
+
+#, csharp-format
+msgid ""
+"When receiving a speedlimit of {0} {1}, we will set the speed to {2} {3}."
 msgstr ""
 
 #, csharp-format
@@ -688,9 +693,6 @@ msgid ""
 "HUD."
 msgstr ""
 
-msgid "Warnings & Overrides"
-msgstr ""
-
 msgid "Overrides"
 msgstr "Overrides"
 
@@ -714,6 +716,9 @@ msgstr ""
 
 #, csharp-format
 msgid "Failed to load library plugin from [gray]{0}[/]: {1}"
+msgstr ""
+
+msgid "Game"
 msgstr ""
 
 #, csharp-format
@@ -823,11 +828,11 @@ msgstr ""
 msgid "SDK Installed"
 msgstr ""
 
-msgid "Current Speed"
-msgstr ""
-
 #, csharp-format
 msgid "Bound control {0} ({1}) to device {2} and control {3}"
+msgstr ""
+
+msgid "Current Speed"
 msgstr ""
 
 msgid "miles per hour"
@@ -1025,11 +1030,11 @@ msgid_plural "found {0} nodes"
 msgstr[0] "Mil gaya {0} node"
 msgstr[1] "{0} nodes mil gaya"
 
-#, csharp-format
-msgid "<span class=\"font-semibold\">{0}</span> until {1}"
+msgid "Open Source"
 msgstr ""
 
-msgid "Open Source"
+#, csharp-format
+msgid "<span class=\"font-semibold\">{0}</span> until {1}"
 msgstr ""
 
 msgid "Did you remember to restart after installing them?"
@@ -1133,6 +1138,9 @@ msgid "<span class=\"font-semibold\">{0}</span> at {1}"
 msgstr ""
 
 msgid "Normal"
+msgstr ""
+
+msgid "ETS2LA will offset the speedlimit by this amount."
 msgstr ""
 
 msgid "Unknown Control"
@@ -1421,6 +1429,9 @@ msgid "Restarting ETS2LA..."
 msgstr "ETS2LA ke restart kare…"
 
 msgid "ETS2LA is running."
+msgstr ""
+
+msgid "Warnings"
 msgstr ""
 
 msgid "Restart"
@@ -1764,10 +1775,10 @@ msgstr ""
 msgid "Translated by:"
 msgstr "Anuvadak:"
 
-msgid "This game was found at"
+msgid "You have successfully logged out."
 msgstr ""
 
-msgid "You have successfully logged out."
+msgid "This game was found at"
 msgstr ""
 
 msgid "Data Quality"
@@ -1810,6 +1821,9 @@ msgstr ""
 msgid "Display Language"
 msgstr ""
 
+msgid "Speedlimit Offset"
+msgstr ""
+
 #, csharp-format
 msgid "Changed update source to '{0}'."
 msgstr ""
@@ -1823,9 +1837,6 @@ msgid "Initializing GLFW Version: {0}"
 msgstr ""
 
 msgid "Render Vision Cameras"
-msgstr ""
-
-msgid "Match Game"
 msgstr ""
 
 msgid "Imperial"
@@ -1880,6 +1891,9 @@ msgid ""
 msgstr ""
 
 msgid "Unknown Version"
+msgstr ""
+
+msgid "ETS2LA will offset the speedlimit by this percentage."
 msgstr ""
 
 msgid ""

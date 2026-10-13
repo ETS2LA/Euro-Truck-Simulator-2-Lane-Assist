@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-11 14:28:18+0300\n"
+"POT-Creation-Date: 2026-10-13 21:39:57+0300\n"
 "PO-Revision-Date: 2026-10-11 15:13+0000\n"
 "Last-Translator: goodnightan <goodnightan@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
@@ -133,11 +133,11 @@ msgstr "正在绑定控制 {0} （{1}）"
 msgid "Failed to enable dependency: {0}"
 msgstr "启用依赖项失败：{0}"
 
-msgid "Only Show Official News"
-msgstr "仅显示官方新闻"
-
 msgid "Main"
 msgstr "主菜单"
+
+msgid "Only Show Official News"
+msgstr "仅显示官方新闻"
 
 #, csharp-format
 msgid ""
@@ -348,6 +348,11 @@ msgstr "摇杆断开连接：[gray italic]({0})[/]"
 #, csharp-format
 msgid "Update to {0}"
 msgstr "更新到 {0}"
+
+#, csharp-format
+msgid ""
+"When receiving a speedlimit of {0} {1}, we will set the speed to {2} {3}."
+msgstr ""
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating axis behavior."
@@ -722,9 +727,6 @@ msgstr ""
 "完全禁用叠加层。这样可以解决黑屏问题，但会导致所有依赖叠加层的功能失效，包括 "
 "AR 和 HUD。"
 
-msgid "Warnings & Overrides"
-msgstr "警告与"
-
 msgid "Overrides"
 msgstr "覆盖设置"
 
@@ -751,6 +753,9 @@ msgstr "此设置只会加载游戏地图上可见的道路与路口，并丢弃
 #, csharp-format
 msgid "Failed to load library plugin from [gray]{0}[/]: {1}"
 msgstr "从 [gray]{0}[/] 加载库插件失败：{1}"
+
+msgid "Game"
+msgstr ""
 
 #, csharp-format
 msgid "Updated bindings for control: {0} ({1}) to Device: {2}, Control: {3}"
@@ -860,12 +865,12 @@ msgstr "登录"
 msgid "SDK Installed"
 msgstr "已安装SDK"
 
-msgid "Current Speed"
-msgstr "当前速度"
-
 #, csharp-format
 msgid "Bound control {0} ({1}) to device {2} and control {3}"
 msgstr "已将控件 {0}（{1}）绑定至设备 {2} 的控件 {3}"
+
+msgid "Current Speed"
+msgstr "当前速度"
 
 msgid "miles per hour"
 msgstr "英里每小时"
@@ -1068,12 +1073,12 @@ msgid "found {0} node"
 msgid_plural "found {0} nodes"
 msgstr[0] "找到 {0} 个节点"
 
+msgid "Open Source"
+msgstr "开源代码库"
+
 #, csharp-format
 msgid "<span class=\"font-semibold\">{0}</span> until {1}"
 msgstr "<span class=\"font-semibold\">{0}</span> 直到 {1}"
-
-msgid "Open Source"
-msgstr "开源代码库"
 
 msgid "Did you remember to restart after installing them?"
 msgstr "您是否在安装后重启程序？"
@@ -1127,7 +1132,8 @@ msgstr "公制"
 msgid ""
 "The font size of the overlay. This can be used to scale the overlay to your "
 "monitor's DPI settings."
-msgstr "您可以通过此设置修改叠加层的字体大小，根据显示器的 DPI 设置调整叠加层的缩放比"
+msgstr ""
+"您可以通过此设置修改叠加层的字体大小，根据显示器的 DPI 设置调整叠加层的缩放比"
 "例。"
 
 msgid "Error in telemetry update loop."
@@ -1179,6 +1185,9 @@ msgstr "<span class=\"font-semibold\">{0}</span> 于 {1}"
 
 msgid "Normal"
 msgstr "标准"
+
+msgid "ETS2LA will offset the speedlimit by this amount."
+msgstr ""
 
 msgid "Unknown Control"
 msgstr "未知控件"
@@ -1436,7 +1445,8 @@ msgstr "我们可以通过叠加层在游戏世界中渲染元素。这会额外
 msgid ""
 "Select which traffic rules ETS2LA should obey. More might be added later, "
 "and all plugins won't necessarily support all rules."
-msgstr "选择 ETS2LA 应遵守的交通规则。后续可能会添加更多规则，且并非所有插件都支持全"
+msgstr ""
+"选择 ETS2LA 应遵守的交通规则。后续可能会添加更多规则，且并非所有插件都支持全"
 "部规则。"
 
 msgid "kilometers per hour"
@@ -1472,6 +1482,9 @@ msgstr "正在重新启动 ETS2LA..."
 
 msgid "ETS2LA is running."
 msgstr "ETS2LA 已启动。"
+
+msgid "Warnings"
+msgstr ""
 
 msgid "Restart"
 msgstr "重新启动"
@@ -1816,11 +1829,11 @@ msgstr "所选的文件不是 core.scs 文件。"
 msgid "Translated by:"
 msgstr "译者为："
 
-msgid "This game was found at"
-msgstr "此游戏位于"
-
 msgid "You have successfully logged out."
 msgstr "您已成功退出登录。"
+
+msgid "This game was found at"
+msgstr "此游戏位于"
 
 msgid "Data Quality"
 msgstr "数据质量"
@@ -1862,6 +1875,9 @@ msgstr "你没有访问此资源的权限。服务器已理解此请求，但拒
 msgid "Display Language"
 msgstr "显示语言"
 
+msgid "Speedlimit Offset"
+msgstr ""
+
 #, csharp-format
 msgid "Changed update source to '{0}'."
 msgstr "已将更新源为“{0}”。"
@@ -1876,9 +1892,6 @@ msgstr "正在初始化 GLFW，版本：{0}"
 
 msgid "Render Vision Cameras"
 msgstr "渲染视野摄像头"
-
-msgid "Match Game"
-msgstr "与游戏一致"
 
 msgid "Imperial"
 msgstr "英制"
@@ -1935,6 +1948,9 @@ msgstr "调整使用自适应巡航控制时，ETS2LA 与前车保持的距离�
 
 msgid "Unknown Version"
 msgstr "未知版本"
+
+msgid "ETS2LA will offset the speedlimit by this percentage."
+msgstr ""
 
 msgid ""
 "Your system has less than 20GB of RAM. Extreme data fidelity uses "
@@ -2105,6 +2121,12 @@ msgstr ""
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr "插件 {0} 的依赖项尚未全部安装。"
+
+#~ msgid "Warnings & Overrides"
+#~ msgstr "警告与"
+
+#~ msgid "Match Game"
+#~ msgstr "与游戏一致"
 
 #~ msgid "Ignore Traffic Rules"
 #~ msgstr "忽略交通规则"

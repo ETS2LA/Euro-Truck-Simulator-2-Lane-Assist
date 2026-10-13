@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-11 14:28:18+0300\n"
+"POT-Creation-Date: 2026-10-13 21:39:57+0300\n"
 "PO-Revision-Date: 2026-10-11 10:18+0000\n"
 "Last-Translator: cooper153826 <cooper153826@ets2la.com>\n"
 "Language-Team: Thai <http://weblate.ets2la.com/projects/ets2la/ets2la/th/>\n"
@@ -128,11 +128,11 @@ msgstr "เริ่มกำหนดปุ่มสำหรับการค
 msgid "Failed to enable dependency: {0}"
 msgstr "เปิดใช้งานส่วนประกอบที่จำเป็นไม่สำเร็จ: {0}"
 
-msgid "Only Show Official News"
-msgstr "แสดงเฉพาะข่าวจากทีมงาน"
-
 msgid "Main"
 msgstr "หน้าหลัก"
+
+msgid "Only Show Official News"
+msgstr "แสดงเฉพาะข่าวจากทีมงาน"
 
 #, csharp-format
 msgid ""
@@ -342,6 +342,11 @@ msgstr "จอยสติ๊กถูกตัดการเชื่อมต
 #, csharp-format
 msgid "Update to {0}"
 msgstr "อัปเดตเป็น {0}"
+
+#, csharp-format
+msgid ""
+"When receiving a speedlimit of {0} {1}, we will set the speed to {2} {3}."
+msgstr ""
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating axis behavior."
@@ -722,9 +727,6 @@ msgstr ""
 "ปิด Overlay ทั้งหมด เพื่อแก้ปัญหาหน้าจอดำ แต่ฟีเจอร์ที่ต้องใช้ Overlay เช่น AR และ HUD "
 "จะไม่ทำงาน"
 
-msgid "Warnings & Overrides"
-msgstr "คำเตือนและการแทนที่ค่า"
-
 msgid "Overrides"
 msgstr "เขียนทับ"
 
@@ -751,6 +753,9 @@ msgstr "การตั้งค่านี้จะโหลดเฉพาะ
 #, csharp-format
 msgid "Failed to load library plugin from [gray]{0}[/]: {1}"
 msgstr "โหลด Library Plugin จาก [gray]{0}[/] ไม่สำเร็จ: {1}"
+
+msgid "Game"
+msgstr ""
 
 #, csharp-format
 msgid "Updated bindings for control: {0} ({1}) to Device: {2}, Control: {3}"
@@ -860,12 +865,12 @@ msgstr "เข้าสู่ระบบ"
 msgid "SDK Installed"
 msgstr "ติดตั้ง SDK แล้ว"
 
-msgid "Current Speed"
-msgstr "ความเร็วตอนนี้"
-
 #, csharp-format
 msgid "Bound control {0} ({1}) to device {2} and control {3}"
 msgstr "กำหนดการควบคุม {0} ({1}) ให้กับอุปกรณ์ {2} และปุ่ม {3}"
+
+msgid "Current Speed"
+msgstr "ความเร็วตอนนี้"
 
 msgid "miles per hour"
 msgstr "ไมล์ต่อชั่วโมง"
@@ -1069,12 +1074,12 @@ msgid "found {0} node"
 msgid_plural "found {0} nodes"
 msgstr[0] "พบ node {0} รายการ"
 
+msgid "Open Source"
+msgstr "โอเพนซอร์ส"
+
 #, csharp-format
 msgid "<span class=\"font-semibold\">{0}</span> until {1}"
 msgstr "<span class=\"font-semibold\">{0}</span> จนถึง {1}"
-
-msgid "Open Source"
-msgstr "โอเพนซอร์ส"
 
 msgid "Did you remember to restart after installing them?"
 msgstr "คุณได้รีสตาร์ตหลังติดตั้งแล้วหรือยัง?"
@@ -1180,6 +1185,9 @@ msgstr "<span class=\"font-semibold\">{0}</span> เวลา {1}"
 
 msgid "Normal"
 msgstr "ปกติ"
+
+msgid "ETS2LA will offset the speedlimit by this amount."
+msgstr ""
 
 msgid "Unknown Control"
 msgstr "การควบคุมที่ไม่รู้จัก"
@@ -1472,6 +1480,9 @@ msgstr "กำลังรีสตาร์ต ETS2LA..."
 
 msgid "ETS2LA is running."
 msgstr "ETS2LA กำลังทำงาน"
+
+msgid "Warnings"
+msgstr ""
 
 msgid "Restart"
 msgstr "รีสตาร์ต"
@@ -1820,11 +1831,11 @@ msgstr "ไฟล์ที่เลือกไม่ใช่ core.scs"
 msgid "Translated by:"
 msgstr "แปลโดย:"
 
-msgid "This game was found at"
-msgstr "เกมนี้เจอที่"
-
 msgid "You have successfully logged out."
 msgstr "ออกจากระบบสำเร็จแล้ว"
+
+msgid "This game was found at"
+msgstr "เกมนี้เจอที่"
 
 msgid "Data Quality"
 msgstr "คุณภาพข้อมูล"
@@ -1866,6 +1877,9 @@ msgstr "คุณไม่มีสิทธิ์เข้าถึงทรั
 msgid "Display Language"
 msgstr "ภาษาที่แสดง"
 
+msgid "Speedlimit Offset"
+msgstr ""
+
 #, csharp-format
 msgid "Changed update source to '{0}'."
 msgstr "เปลี่ยนแหล่งอัปเดตเป็น '{0}' แล้ว"
@@ -1880,9 +1894,6 @@ msgstr "กำลังเริ่มต้น GLFW เวอร์ชัน: {
 
 msgid "Render Vision Cameras"
 msgstr "เรนเดอร์กล้อง Vision"
-
-msgid "Match Game"
-msgstr "ตรงตามเกม"
 
 msgid "Imperial"
 msgstr "อิมพีเรียล"
@@ -1939,6 +1950,9 @@ msgstr "ปรับระยะห่างที่ ETS2LA จะรักษ�
 
 msgid "Unknown Version"
 msgstr "ไม่ทราบเวอร์ชั่น"
+
+msgid "ETS2LA will offset the speedlimit by this percentage."
+msgstr ""
 
 msgid ""
 "Your system has less than 20GB of RAM. Extreme data fidelity uses "
@@ -2109,6 +2123,12 @@ msgstr ""
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr "ยังติดตั้ง Dependency สำหรับปลั๊กอิน {0} ไม่ครบ"
+
+#~ msgid "Warnings & Overrides"
+#~ msgstr "คำเตือนและการแทนที่ค่า"
+
+#~ msgid "Match Game"
+#~ msgstr "ตรงตามเกม"
 
 #~ msgid "Ignore Traffic Rules"
 #~ msgstr "ไม่ต้องปฏิบัติตามกฎจราจร"

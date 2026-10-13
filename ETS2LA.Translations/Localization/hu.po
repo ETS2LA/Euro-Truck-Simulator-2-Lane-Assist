@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-11 14:28:18+0300\n"
+"POT-Creation-Date: 2026-10-13 21:39:57+0300\n"
 "PO-Revision-Date: 2026-09-21 15:01+0000\n"
 "Last-Translator: delilevente <delilevente@ets2la.com>\n"
 "Language-Team: Hungarian <http://weblate.ets2la.com/projects/ets2la/ets2la/"
@@ -121,11 +121,11 @@ msgstr ""
 msgid "Failed to enable dependency: {0}"
 msgstr ""
 
-msgid "Only Show Official News"
-msgstr ""
-
 msgid "Main"
 msgstr "Fő"
+
+msgid "Only Show Official News"
+msgstr ""
 
 #, csharp-format
 msgid ""
@@ -326,6 +326,11 @@ msgstr ""
 #, csharp-format
 msgid "Update to {0}"
 msgstr "Frissítés erre a verzióra: {0}"
+
+#, csharp-format
+msgid ""
+"When receiving a speedlimit of {0} {1}, we will set the speed to {2} {3}."
+msgstr ""
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating axis behavior."
@@ -689,9 +694,6 @@ msgid ""
 "HUD."
 msgstr ""
 
-msgid "Warnings & Overrides"
-msgstr ""
-
 msgid "Overrides"
 msgstr ""
 
@@ -715,6 +717,9 @@ msgstr ""
 
 #, csharp-format
 msgid "Failed to load library plugin from [gray]{0}[/]: {1}"
+msgstr ""
+
+msgid "Game"
 msgstr ""
 
 #, csharp-format
@@ -824,12 +829,12 @@ msgstr ""
 msgid "SDK Installed"
 msgstr "SDK telepítve"
 
-msgid "Current Speed"
-msgstr "Jelenlegi sebesség"
-
 #, csharp-format
 msgid "Bound control {0} ({1}) to device {2} and control {3}"
 msgstr ""
+
+msgid "Current Speed"
+msgstr "Jelenlegi sebesség"
 
 msgid "miles per hour"
 msgstr "mérföld per óra"
@@ -1019,11 +1024,11 @@ msgid_plural "found {0} nodes"
 msgstr[0] ""
 msgstr[1] ""
 
-#, csharp-format
-msgid "<span class=\"font-semibold\">{0}</span> until {1}"
+msgid "Open Source"
 msgstr ""
 
-msgid "Open Source"
+#, csharp-format
+msgid "<span class=\"font-semibold\">{0}</span> until {1}"
 msgstr ""
 
 msgid "Did you remember to restart after installing them?"
@@ -1128,6 +1133,9 @@ msgstr ""
 
 msgid "Normal"
 msgstr "Normál"
+
+msgid "ETS2LA will offset the speedlimit by this amount."
+msgstr ""
 
 msgid "Unknown Control"
 msgstr ""
@@ -1416,6 +1424,9 @@ msgstr "ETS2LA újraindítása..."
 
 msgid "ETS2LA is running."
 msgstr "Az ETS2LA fut."
+
+msgid "Warnings"
+msgstr ""
 
 msgid "Restart"
 msgstr "Újraindítás"
@@ -1746,10 +1757,10 @@ msgstr ""
 msgid "Translated by:"
 msgstr "Fordítók:"
 
-msgid "This game was found at"
+msgid "You have successfully logged out."
 msgstr ""
 
-msgid "You have successfully logged out."
+msgid "This game was found at"
 msgstr ""
 
 msgid "Data Quality"
@@ -1792,6 +1803,9 @@ msgstr ""
 msgid "Display Language"
 msgstr "Felület nyelve"
 
+msgid "Speedlimit Offset"
+msgstr ""
+
 #, csharp-format
 msgid "Changed update source to '{0}'."
 msgstr ""
@@ -1806,9 +1820,6 @@ msgstr "GLFW inicializálása, verzió: {0}"
 
 msgid "Render Vision Cameras"
 msgstr ""
-
-msgid "Match Game"
-msgstr "Játékkal megegyező"
 
 msgid "Imperial"
 msgstr ""
@@ -1863,6 +1874,9 @@ msgstr ""
 
 msgid "Unknown Version"
 msgstr "Ismeretlen verzió"
+
+msgid "ETS2LA will offset the speedlimit by this percentage."
+msgstr ""
 
 msgid ""
 "Your system has less than 20GB of RAM. Extreme data fidelity uses "
@@ -2029,6 +2043,9 @@ msgstr ""
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr ""
+
+#~ msgid "Match Game"
+#~ msgstr "Játékkal megegyező"
 
 #~ msgid "Ignore Traffic Rules"
 #~ msgstr "\"Kresz\" figyelmen kivülhagyása"

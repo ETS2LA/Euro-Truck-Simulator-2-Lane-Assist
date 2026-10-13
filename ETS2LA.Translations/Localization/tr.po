@@ -4,11 +4,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-11 14:28:18+0300\n"
+"POT-Creation-Date: 2026-10-13 21:39:57+0300\n"
 "PO-Revision-Date: 2026-10-12 09:08+0000\n"
 "Last-Translator: Yhuyy <yhuyy@ets2la.com>\n"
-"Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/ets2la/tr/>"
-"\n"
+"Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/ets2la/tr/"
+">\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -136,11 +136,11 @@ msgstr "{0} ({1}) kontrolü için bağlama işlemi başlatılıyor"
 msgid "Failed to enable dependency: {0}"
 msgstr "Bağımlılık etkinleştirilemedi: {0}"
 
-msgid "Only Show Official News"
-msgstr "Yalnızca Resmi Haberleri Göster"
-
 msgid "Main"
 msgstr "Ana"
+
+msgid "Only Show Official News"
+msgstr "Yalnızca Resmi Haberleri Göster"
 
 #, csharp-format
 msgid ""
@@ -218,8 +218,8 @@ msgid ""
 "these overlay elements using <span class=\"text-text-accent font-"
 "bold\">Overlay Interaction</span>. Try it!"
 msgstr ""
-"ETS2LA oyunun üzerinde bilgi gösterecek. Bu arayüz öğeleriyle <span class"
-"=\"text-text-accent font-bold\">Overlay Interaction</span> üzerinden "
+"ETS2LA oyunun üzerinde bilgi gösterecek. Bu arayüz öğeleriyle <span "
+"class=\"text-text-accent font-bold\">Overlay Interaction</span> üzerinden "
 "etkileşime geçebilirsiniz. Deneyin!"
 
 msgid "If you can't interact with the Window, press CTRL+R."
@@ -364,9 +364,14 @@ msgstr "Performans Katmanı"
 msgid "Disconnected joystick: [gray italic]({0})[/]"
 msgstr "Bağlantısı kesilen joystick: [gray italic]({0})[/]"
 
-#, csharp-format, fuzzy
+#, fuzzy, csharp-format
 msgid "Update to {0}"
 msgstr "{0} sürümüne güncelle"
+
+#, csharp-format
+msgid ""
+"When receiving a speedlimit of {0} {1}, we will set the speed to {2} {3}."
+msgstr ""
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating axis behavior."
@@ -444,7 +449,7 @@ msgstr "'{0}' adresinden sürüm okunamadı: {1}"
 msgid "Are you sure?"
 msgstr "Emin misin?"
 
-#, csharp-format, fuzzy
+#, fuzzy, csharp-format
 msgid "You have successfully logged in as {0}."
 msgstr "{0} olarak başarıyla giriş yaptın."
 
@@ -761,9 +766,6 @@ msgid ""
 "HUD."
 msgstr ""
 
-msgid "Warnings & Overrides"
-msgstr "Uyarılar ve Geçersiz Kılma İşlemleri"
-
 msgid "Overrides"
 msgstr "Geçersiz kılmalar"
 
@@ -793,6 +795,9 @@ msgstr ""
 
 #, csharp-format
 msgid "Failed to load library plugin from [gray]{0}[/]: {1}"
+msgstr ""
+
+msgid "Game"
 msgstr ""
 
 #, csharp-format
@@ -905,12 +910,12 @@ msgstr ""
 msgid "SDK Installed"
 msgstr "SDK Yüklendi"
 
-msgid "Current Speed"
-msgstr "Mevcut Hız"
-
 #, csharp-format
 msgid "Bound control {0} ({1}) to device {2} and control {3}"
 msgstr ""
+
+msgid "Current Speed"
+msgstr "Mevcut Hız"
 
 msgid "miles per hour"
 msgstr "mil/saat"
@@ -1113,11 +1118,11 @@ msgid_plural "found {0} nodes"
 msgstr[0] "{0} node bulundu"
 msgstr[1] "found {0} node"
 
-#, csharp-format
-msgid "<span class=\"font-semibold\">{0}</span> until {1}"
+msgid "Open Source"
 msgstr ""
 
-msgid "Open Source"
+#, csharp-format
+msgid "<span class=\"font-semibold\">{0}</span> until {1}"
 msgstr ""
 
 msgid "Did you remember to restart after installing them?"
@@ -1230,6 +1235,9 @@ msgstr ""
 
 msgid "Normal"
 msgstr "Normal"
+
+msgid "ETS2LA will offset the speedlimit by this amount."
+msgstr ""
 
 msgid "Unknown Control"
 msgstr ""
@@ -1528,6 +1536,9 @@ msgstr "ETS2LA yeniden başlatılıyor..."
 
 msgid "ETS2LA is running."
 msgstr "ETS2LA çalışıyor."
+
+msgid "Warnings"
+msgstr ""
 
 msgid "Restart"
 msgstr "Yeniden Başlat"
@@ -1868,10 +1879,10 @@ msgstr ""
 msgid "Translated by:"
 msgstr ""
 
-msgid "This game was found at"
+msgid "You have successfully logged out."
 msgstr ""
 
-msgid "You have successfully logged out."
+msgid "This game was found at"
 msgstr ""
 
 msgid "Data Quality"
@@ -1914,6 +1925,9 @@ msgstr ""
 msgid "Display Language"
 msgstr ""
 
+msgid "Speedlimit Offset"
+msgstr ""
+
 #, csharp-format
 msgid "Changed update source to '{0}'."
 msgstr ""
@@ -1927,9 +1941,6 @@ msgid "Initializing GLFW Version: {0}"
 msgstr ""
 
 msgid "Render Vision Cameras"
-msgstr ""
-
-msgid "Match Game"
 msgstr ""
 
 msgid "Imperial"
@@ -1984,6 +1995,9 @@ msgid ""
 msgstr ""
 
 msgid "Unknown Version"
+msgstr ""
+
+msgid "ETS2LA will offset the speedlimit by this percentage."
 msgstr ""
 
 msgid ""
@@ -2151,6 +2165,9 @@ msgstr ""
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr ""
+
+#~ msgid "Warnings & Overrides"
+#~ msgstr "Uyarılar ve Geçersiz Kılma İşlemleri"
 
 #~ msgid "Ignore Traffic Rules"
 #~ msgstr "Trafik Kurallarını Göz Ardı Et"

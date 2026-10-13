@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-11 14:28:18+0300\n"
+"POT-Creation-Date: 2026-10-13 21:39:57+0300\n"
 "PO-Revision-Date: 2026-10-11 15:13+0000\n"
 "Last-Translator: Lun <lun@ets2la.com>\n"
 "Language-Team: Chinese (Traditional Han script) <http://weblate.ets2la.com/"
@@ -128,11 +128,11 @@ msgstr "開始綁定控制項 {0}（{1}）"
 msgid "Failed to enable dependency: {0}"
 msgstr "依賴項目啟用失敗：{0}"
 
-msgid "Only Show Official News"
-msgstr "僅顯示官方新聞"
-
 msgid "Main"
 msgstr "主要"
+
+msgid "Only Show Official News"
+msgstr "僅顯示官方新聞"
 
 #, csharp-format
 msgid ""
@@ -343,6 +343,11 @@ msgstr "已中斷搖桿：[gray italic]({0})[/]"
 #, csharp-format
 msgid "Update to {0}"
 msgstr "更新至 {0}"
+
+#, csharp-format
+msgid ""
+"When receiving a speedlimit of {0} {1}, we will set the speed to {2} {3}."
+msgstr ""
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating axis behavior."
@@ -717,9 +722,6 @@ msgstr ""
 "完全停用疊加層。這可以解決全黑畫面問題，但會使所有依賴疊加層的功能無法使用，"
 "包括 AR 和 HUD。"
 
-msgid "Warnings & Overrides"
-msgstr "警告與行為"
-
 msgid "Overrides"
 msgstr "強制選項"
 
@@ -746,6 +748,9 @@ msgstr "此設定只會載入遊戲地圖上可見的道路與路口，並捨棄
 #, csharp-format
 msgid "Failed to load library plugin from [gray]{0}[/]: {1}"
 msgstr "從 [gray]{0}[/] 載入函式庫插件失敗：{1}"
+
+msgid "Game"
+msgstr ""
 
 #, csharp-format
 msgid "Updated bindings for control: {0} ({1}) to Device: {2}, Control: {3}"
@@ -855,12 +860,12 @@ msgstr "登入"
 msgid "SDK Installed"
 msgstr "SDK 已安裝"
 
-msgid "Current Speed"
-msgstr "目前速度"
-
 #, csharp-format
 msgid "Bound control {0} ({1}) to device {2} and control {3}"
 msgstr "已將控制項 {0}（{1}）綁定至裝置 {2} 的控制項 {3}"
+
+msgid "Current Speed"
+msgstr "目前速度"
 
 msgid "miles per hour"
 msgstr "英里每小時"
@@ -1063,12 +1068,12 @@ msgid "found {0} node"
 msgid_plural "found {0} nodes"
 msgstr[0] "找到 {0} 個節點"
 
+msgid "Open Source"
+msgstr "開放原始碼"
+
 #, csharp-format
 msgid "<span class=\"font-semibold\">{0}</span> until {1}"
 msgstr "<span class=\"font-semibold\">{0}</span>，有效至 {1}"
-
-msgid "Open Source"
-msgstr "開放原始碼"
 
 msgid "Did you remember to restart after installing them?"
 msgstr "安裝後有記得重新啟動嗎？"
@@ -1173,6 +1178,9 @@ msgstr "<span class=\"font-semibold\">{0}</span>，發布於 {1}"
 
 msgid "Normal"
 msgstr "標準"
+
+msgid "ETS2LA will offset the speedlimit by this amount."
+msgstr ""
 
 msgid "Unknown Control"
 msgstr "未知控制項"
@@ -1430,7 +1438,8 @@ msgstr "我們可以透過疊加層在遊戲世界中渲染元素。這會額外
 msgid ""
 "Select which traffic rules ETS2LA should obey. More might be added later, "
 "and all plugins won't necessarily support all rules."
-msgstr "選擇要讓 ETS2LA 遵守的交通規則。未來可能會新增更多規則，但並非所有插件都支援"
+msgstr ""
+"選擇要讓 ETS2LA 遵守的交通規則。未來可能會新增更多規則，但並非所有插件都支援"
 "全部規則。"
 
 msgid "kilometers per hour"
@@ -1466,6 +1475,9 @@ msgstr "正在重新啟動 ETS2LA..."
 
 msgid "ETS2LA is running."
 msgstr "ETS2LA 已啟動。"
+
+msgid "Warnings"
+msgstr ""
 
 msgid "Restart"
 msgstr "重新啟動"
@@ -1810,11 +1822,11 @@ msgstr "所選的檔案不是 core.scs 檔案。"
 msgid "Translated by:"
 msgstr "翻譯者："
 
-msgid "This game was found at"
-msgstr "此遊戲位於"
-
 msgid "You have successfully logged out."
 msgstr "你已成功登出。"
+
+msgid "This game was found at"
+msgstr "此遊戲位於"
 
 msgid "Data Quality"
 msgstr "資料品質"
@@ -1856,6 +1868,9 @@ msgstr "你沒有存取此資源的權限。伺服器已理解此請求，但拒
 msgid "Display Language"
 msgstr "顯示語言"
 
+msgid "Speedlimit Offset"
+msgstr ""
+
 #, csharp-format
 msgid "Changed update source to '{0}'."
 msgstr "已將更新來源變更為「{0}」。"
@@ -1870,9 +1885,6 @@ msgstr "正在初始化 GLFW，版本：{0}"
 
 msgid "Render Vision Cameras"
 msgstr "渲染視覺攝影機"
-
-msgid "Match Game"
-msgstr "與遊戲一致"
 
 msgid "Imperial"
 msgstr "英制"
@@ -1928,6 +1940,9 @@ msgstr "調整使用主動式巡航控制時，ETS2LA 與前車保持的距離�
 
 msgid "Unknown Version"
 msgstr "未知版本"
+
+msgid "ETS2LA will offset the speedlimit by this percentage."
+msgstr ""
 
 msgid ""
 "Your system has less than 20GB of RAM. Extreme data fidelity uses "
@@ -2098,6 +2113,12 @@ msgstr ""
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr "插件 {0} 的依賴項目尚未全部安裝。"
+
+#~ msgid "Warnings & Overrides"
+#~ msgstr "警告與行為"
+
+#~ msgid "Match Game"
+#~ msgstr "與遊戲一致"
 
 #~ msgid "Ignore Traffic Rules"
 #~ msgstr "忽略交通規則"

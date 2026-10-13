@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-11 14:28:18+0300\n"
+"POT-Creation-Date: 2026-10-13 21:39:57+0300\n"
 "PO-Revision-Date: 2026-08-26 18:07+0000\n"
 "Last-Translator: phucc <phucc@ets2la.com>\n"
 "Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/ets2la/"
@@ -128,11 +128,11 @@ msgstr "Bắt đầu gán phím cho nút điều khiển: {0} ({1})"
 msgid "Failed to enable dependency: {0}"
 msgstr "Không thể kích hoạt thành phần phụ thuộc: {0}"
 
-msgid "Only Show Official News"
-msgstr ""
-
 msgid "Main"
 msgstr "Trang chính"
+
+msgid "Only Show Official News"
+msgstr ""
 
 #, csharp-format
 msgid ""
@@ -343,6 +343,11 @@ msgstr "Đã ngắt kết nối với tay cầm: [gray italic]({0})[/]"
 #, csharp-format
 msgid "Update to {0}"
 msgstr "Cập nhật lên {0}"
+
+#, csharp-format
+msgid ""
+"When receiving a speedlimit of {0} {1}, we will set the speed to {2} {3}."
+msgstr ""
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating axis behavior."
@@ -720,9 +725,6 @@ msgid ""
 "HUD."
 msgstr ""
 
-msgid "Warnings & Overrides"
-msgstr ""
-
 msgid "Overrides"
 msgstr "Ghi đè"
 
@@ -752,6 +754,9 @@ msgstr ""
 
 #, csharp-format
 msgid "Failed to load library plugin from [gray]{0}[/]: {1}"
+msgstr ""
+
+msgid "Game"
 msgstr ""
 
 #, csharp-format
@@ -862,12 +867,12 @@ msgstr ""
 msgid "SDK Installed"
 msgstr "Đã cài đặt SDK"
 
-msgid "Current Speed"
-msgstr "Tốc độ hiện tại"
-
 #, csharp-format
 msgid "Bound control {0} ({1}) to device {2} and control {3}"
 msgstr ""
+
+msgid "Current Speed"
+msgstr "Tốc độ hiện tại"
 
 msgid "miles per hour"
 msgstr ""
@@ -1070,11 +1075,11 @@ msgid "found {0} node"
 msgid_plural "found {0} nodes"
 msgstr[0] "Đã tìm thấy {0} node"
 
-#, csharp-format
-msgid "<span class=\"font-semibold\">{0}</span> until {1}"
+msgid "Open Source"
 msgstr ""
 
-msgid "Open Source"
+#, csharp-format
+msgid "<span class=\"font-semibold\">{0}</span> until {1}"
 msgstr ""
 
 msgid "Did you remember to restart after installing them?"
@@ -1180,6 +1185,9 @@ msgstr ""
 
 msgid "Normal"
 msgstr "Bình thường"
+
+msgid "ETS2LA will offset the speedlimit by this amount."
+msgstr ""
 
 msgid "Unknown Control"
 msgstr "Nút điều khiển không xác định"
@@ -1467,6 +1475,9 @@ msgid "Restarting ETS2LA..."
 msgstr "Đang khởi động lại ETS2LA..."
 
 msgid "ETS2LA is running."
+msgstr ""
+
+msgid "Warnings"
 msgstr ""
 
 msgid "Restart"
@@ -1808,10 +1819,10 @@ msgstr ""
 msgid "Translated by:"
 msgstr "Được dịch bởi:"
 
-msgid "This game was found at"
+msgid "You have successfully logged out."
 msgstr ""
 
-msgid "You have successfully logged out."
+msgid "This game was found at"
 msgstr ""
 
 msgid "Data Quality"
@@ -1856,6 +1867,9 @@ msgstr ""
 msgid "Display Language"
 msgstr ""
 
+msgid "Speedlimit Offset"
+msgstr ""
+
 #, csharp-format
 msgid "Changed update source to '{0}'."
 msgstr ""
@@ -1870,9 +1884,6 @@ msgstr ""
 
 msgid "Render Vision Cameras"
 msgstr ""
-
-msgid "Match Game"
-msgstr "Khớp với trò chơi"
 
 msgid "Imperial"
 msgstr "Hệ Anh (Imperial)"
@@ -1929,6 +1940,9 @@ msgstr ""
 
 msgid "Unknown Version"
 msgstr "Phiên bản không xác định"
+
+msgid "ETS2LA will offset the speedlimit by this percentage."
+msgstr ""
 
 msgid ""
 "Your system has less than 20GB of RAM. Extreme data fidelity uses "
@@ -2101,6 +2115,9 @@ msgstr ""
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr "Chưa cài đặt đủ các phụ thuộc của plugin {0}."
+
+#~ msgid "Match Game"
+#~ msgstr "Khớp với trò chơi"
 
 #~ msgid "Ignore Traffic Rules"
 #~ msgstr "Bỏ qua luật giao thông"

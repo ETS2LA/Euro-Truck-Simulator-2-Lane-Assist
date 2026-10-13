@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-11 14:28:18+0300\n"
+"POT-Creation-Date: 2026-10-13 21:39:57+0300\n"
 "PO-Revision-Date: 2026-10-05 12:09+0000\n"
 "Last-Translator: Kubex70 <kubex70@ets2la.com>\n"
 "Language-Team: Polish <http://weblate.ets2la.com/projects/ets2la/ets2la/pl/"
@@ -137,11 +137,11 @@ msgstr "Rozpoczęcie wiązania dla sterowania {0} ({1})"
 msgid "Failed to enable dependency: {0}"
 msgstr "Nie udało się włączyć zależności: {0}"
 
-msgid "Only Show Official News"
-msgstr "Pokaż tylko oficjalne wiadomości"
-
 msgid "Main"
 msgstr "Główne"
+
+msgid "Only Show Official News"
+msgstr "Pokaż tylko oficjalne wiadomości"
 
 #, csharp-format
 msgid ""
@@ -364,6 +364,11 @@ msgstr "Odłączono joystick: [gray italic]({0})[/]"
 #, csharp-format
 msgid "Update to {0}"
 msgstr "Aktualizacja do {0}"
+
+#, csharp-format
+msgid ""
+"When receiving a speedlimit of {0} {1}, we will set the speed to {2} {3}."
+msgstr ""
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating axis behavior."
@@ -762,9 +767,6 @@ msgstr ""
 "spowoduje niedziałanie wszystkich funkcji zależnych od nakładki, w tym AR i "
 "HUD-u."
 
-msgid "Warnings & Overrides"
-msgstr "Ostrzeżenia i obejścia"
-
 msgid "Overrides"
 msgstr "Nadpisania"
 
@@ -793,6 +795,9 @@ msgstr ""
 #, csharp-format
 msgid "Failed to load library plugin from [gray]{0}[/]: {1}"
 msgstr "Nie udało się załadować biblioteki pluginu z [gray]{0}[/]: {1}"
+
+msgid "Game"
+msgstr ""
 
 #, csharp-format
 msgid "Updated bindings for control: {0} ({1}) to Device: {2}, Control: {3}"
@@ -916,12 +921,12 @@ msgstr "Login"
 msgid "SDK Installed"
 msgstr "Zainstalowano zestaw SDK"
 
-msgid "Current Speed"
-msgstr "Aktualna prędkość"
-
 #, csharp-format
 msgid "Bound control {0} ({1}) to device {2} and control {3}"
 msgstr "Powiąż sterowanie {0} ({1}) z urządzeniem {2} i sterowaniem {3}"
+
+msgid "Current Speed"
+msgstr "Aktualna prędkość"
 
 msgid "miles per hour"
 msgstr "mile na godzinę"
@@ -1144,12 +1149,12 @@ msgstr[0] "znaleziono {0} węzeł"
 msgstr[1] "znaleziono {0} węzły"
 msgstr[2] "znaleziono {0} węzłów"
 
+msgid "Open Source"
+msgstr "Open Source"
+
 #, csharp-format
 msgid "<span class=\"font-semibold\">{0}</span> until {1}"
 msgstr "<span class=\"font-semibold\">{0}</span> do {1}"
-
-msgid "Open Source"
-msgstr "Open Source"
 
 msgid "Did you remember to restart after installing them?"
 msgstr "Czy zapamiętałeś zrestartować po tym jak je zainstalowałeś?"
@@ -1264,6 +1269,9 @@ msgstr "<span class=\"font-semibold\">{0}</span> o {1}"
 
 msgid "Normal"
 msgstr "Normalny"
+
+msgid "ETS2LA will offset the speedlimit by this amount."
+msgstr ""
 
 msgid "Unknown Control"
 msgstr "Nieznana kontrola"
@@ -1584,6 +1592,9 @@ msgstr "Ponowne uruchamianie ETS2LA..."
 
 msgid "ETS2LA is running."
 msgstr "ETS2LA jest uruchomiony."
+
+msgid "Warnings"
+msgstr ""
 
 msgid "Restart"
 msgstr "Uruchom ponownie"
@@ -1959,11 +1970,11 @@ msgstr "Wybrany plik nie jest plikiem core.scs ."
 msgid "Translated by:"
 msgstr "Przetłumaczone przez:"
 
-msgid "This game was found at"
-msgstr "Tę grę znaleziono pod adresem"
-
 msgid "You have successfully logged out."
 msgstr ""
+
+msgid "This game was found at"
+msgstr "Tę grę znaleziono pod adresem"
 
 msgid "Data Quality"
 msgstr "Jakość danych"
@@ -2007,6 +2018,9 @@ msgstr ""
 msgid "Display Language"
 msgstr "Wyświetlany język"
 
+msgid "Speedlimit Offset"
+msgstr ""
+
 #, csharp-format
 msgid "Changed update source to '{0}'."
 msgstr "Zmieniono źródło aktualizacji na '{0}'."
@@ -2021,9 +2035,6 @@ msgstr "Inicjalizacja wersji GLFW: {0}"
 
 msgid "Render Vision Cameras"
 msgstr "Renderuj kamery wizyjne"
-
-msgid "Match Game"
-msgstr "Dopasuj do gry"
 
 msgid "Imperial"
 msgstr "Imperialne"
@@ -2080,6 +2091,9 @@ msgstr ""
 
 msgid "Unknown Version"
 msgstr "Nieznana wersja"
+
+msgid "ETS2LA will offset the speedlimit by this percentage."
+msgstr ""
 
 msgid ""
 "Your system has less than 20GB of RAM. Extreme data fidelity uses "
@@ -2260,6 +2274,12 @@ msgstr ""
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr "Nie wszystkie zależności dla pluginu {0} są zainstalowane."
+
+#~ msgid "Warnings & Overrides"
+#~ msgstr "Ostrzeżenia i obejścia"
+
+#~ msgid "Match Game"
+#~ msgstr "Dopasuj do gry"
 
 #~ msgid "Ignore Traffic Rules"
 #~ msgstr "Ignoruj przepisy ruchu drogowego"

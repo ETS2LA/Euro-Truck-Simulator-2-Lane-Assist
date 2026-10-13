@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-11 14:28:18+0300\n"
+"POT-Creation-Date: 2026-10-13 21:39:57+0300\n"
 "PO-Revision-Date: 2026-08-30 16:09+0000\n"
 "Last-Translator: retroposition <retroposition@ets2la.com>\n"
 "Language-Team: French <http://weblate.ets2la.com/projects/ets2la/ets2la/fr/"
@@ -135,11 +135,11 @@ msgstr "Démarrage de l'association pour la commande {0} ({1})"
 msgid "Failed to enable dependency: {0}"
 msgstr "Échec de l'activation de la dépendance : {0}"
 
-msgid "Only Show Official News"
-msgstr ""
-
 msgid "Main"
 msgstr "Principal"
+
+msgid "Only Show Official News"
+msgstr ""
 
 #, csharp-format
 msgid ""
@@ -357,6 +357,11 @@ msgstr "Joystick déconnecté : [gray italic]({0})[/]"
 #, csharp-format
 msgid "Update to {0}"
 msgstr "Mettre à jour vers {0}"
+
+#, csharp-format
+msgid ""
+"When receiving a speedlimit of {0} {1}, we will set the speed to {2} {3}."
+msgstr ""
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating axis behavior."
@@ -752,9 +757,6 @@ msgid ""
 "HUD."
 msgstr ""
 
-msgid "Warnings & Overrides"
-msgstr "Avertissements et forçages"
-
 msgid "Overrides"
 msgstr "Forçages"
 
@@ -785,6 +787,9 @@ msgstr ""
 #, csharp-format
 msgid "Failed to load library plugin from [gray]{0}[/]: {1}"
 msgstr "Échec du chargement de la bibliothèque depuis [gray]{0}[/] : {1}"
+
+msgid "Game"
+msgstr ""
 
 #, csharp-format
 msgid "Updated bindings for control: {0} ({1}) to Device: {2}, Control: {3}"
@@ -905,12 +910,12 @@ msgstr ""
 msgid "SDK Installed"
 msgstr "SDK installé"
 
-msgid "Current Speed"
-msgstr "Vitesse actuelle"
-
 #, csharp-format
 msgid "Bound control {0} ({1}) to device {2} and control {3}"
 msgstr "Commande {0} ({1}) associée au périphérique {2} et à la commande {3}"
+
+msgid "Current Speed"
+msgstr "Vitesse actuelle"
 
 msgid "miles per hour"
 msgstr "miles par heure"
@@ -1133,11 +1138,11 @@ msgid_plural "found {0} nodes"
 msgstr[0] "{0} nœud trouvé"
 msgstr[1] "{0} nœuds trouvés"
 
-#, csharp-format
-msgid "<span class=\"font-semibold\">{0}</span> until {1}"
+msgid "Open Source"
 msgstr ""
 
-msgid "Open Source"
+#, csharp-format
+msgid "<span class=\"font-semibold\">{0}</span> until {1}"
 msgstr ""
 
 msgid "Did you remember to restart after installing them?"
@@ -1251,6 +1256,9 @@ msgstr ""
 
 msgid "Normal"
 msgstr "Normal"
+
+msgid "ETS2LA will offset the speedlimit by this amount."
+msgstr ""
 
 msgid "Unknown Control"
 msgstr "Commande inconnue"
@@ -1568,6 +1576,9 @@ msgstr "Redémarrage d'ETS2LA..."
 
 msgid "ETS2LA is running."
 msgstr "ETS2LA est en cours d'exécution."
+
+msgid "Warnings"
+msgstr ""
 
 msgid "Restart"
 msgstr "Redémarrer"
@@ -1944,11 +1955,11 @@ msgstr "Le fichier sélectionné n'est pas un fichier core.scs."
 msgid "Translated by:"
 msgstr "Traduit par :"
 
-msgid "This game was found at"
-msgstr "Ce jeu a été trouvé à"
-
 msgid "You have successfully logged out."
 msgstr ""
+
+msgid "This game was found at"
+msgstr "Ce jeu a été trouvé à"
 
 msgid "Data Quality"
 msgstr "Qualité des données"
@@ -1992,6 +2003,9 @@ msgstr ""
 msgid "Display Language"
 msgstr "Langue d'affichage"
 
+msgid "Speedlimit Offset"
+msgstr ""
+
 #, csharp-format
 msgid "Changed update source to '{0}'."
 msgstr "Source de mise à jour changée pour « {0} »."
@@ -2006,9 +2020,6 @@ msgstr "Initialisation de GLFW version : {0}"
 
 msgid "Render Vision Cameras"
 msgstr "Afficher les caméras de vision"
-
-msgid "Match Game"
-msgstr "Comme le jeu"
 
 msgid "Imperial"
 msgstr "Impérial"
@@ -2066,6 +2077,9 @@ msgstr ""
 
 msgid "Unknown Version"
 msgstr "Version inconnue"
+
+msgid "ETS2LA will offset the speedlimit by this percentage."
+msgstr ""
 
 msgid ""
 "Your system has less than 20GB of RAM. Extreme data fidelity uses "
@@ -2246,6 +2260,12 @@ msgstr ""
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr "Il manque des dépendances pour le plugin {0}."
+
+#~ msgid "Warnings & Overrides"
+#~ msgstr "Avertissements et forçages"
+
+#~ msgid "Match Game"
+#~ msgstr "Comme le jeu"
 
 #~ msgid "Ignore Traffic Rules"
 #~ msgstr "Ignorer les règles de circulation"

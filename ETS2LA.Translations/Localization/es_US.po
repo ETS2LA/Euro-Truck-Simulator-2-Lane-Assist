@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-11 14:28:18+0300\n"
+"POT-Creation-Date: 2026-10-13 21:39:57+0300\n"
 "PO-Revision-Date: 2026-10-09 21:59+0000\n"
 "Last-Translator: McAs13 <tsumiguel@ets2la.com>\n"
 "Language-Team: Spanish (American) <http://weblate.ets2la.com/projects/ets2la/"
@@ -136,11 +136,11 @@ msgstr "Iniciando enlace para el control {0} ({1})"
 msgid "Failed to enable dependency: {0}"
 msgstr "Error al habilitar la dependencia: {0}"
 
-msgid "Only Show Official News"
-msgstr "Mostrar solo noticias oficiales"
-
 msgid "Main"
 msgstr "Principal"
+
+msgid "Only Show Official News"
+msgstr "Mostrar solo noticias oficiales"
 
 #, csharp-format
 msgid ""
@@ -364,6 +364,11 @@ msgstr "Joystick desconectado: [gray italic]({0})[/]"
 #, csharp-format
 msgid "Update to {0}"
 msgstr "Actualizar a {0}"
+
+#, csharp-format
+msgid ""
+"When receiving a speedlimit of {0} {1}, we will set the speed to {2} {3}."
+msgstr ""
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating axis behavior."
@@ -766,9 +771,6 @@ msgstr ""
 "pantalla en negro, a costa de inutilizar todas las funciones que dependen de "
 "la superposición, incluyendo la RA y el HUD."
 
-msgid "Warnings & Overrides"
-msgstr "Advertencias y anulaciones"
-
 msgid "Overrides"
 msgstr "Anulaciones"
 
@@ -799,6 +801,9 @@ msgstr ""
 #, csharp-format
 msgid "Failed to load library plugin from [gray]{0}[/]: {1}"
 msgstr "Error al cargar el plugin de biblioteca desde [gray]{0}[/]: {1}"
+
+msgid "Game"
+msgstr ""
 
 #, csharp-format
 msgid "Updated bindings for control: {0} ({1}) to Device: {2}, Control: {3}"
@@ -920,12 +925,12 @@ msgstr "Iniciar sesión"
 msgid "SDK Installed"
 msgstr "SDK instalado"
 
-msgid "Current Speed"
-msgstr "Velocidad actual"
-
 #, csharp-format
 msgid "Bound control {0} ({1}) to device {2} and control {3}"
 msgstr "Control {0} ({1}) vinculado al dispositivo {2} y control {3}"
+
+msgid "Current Speed"
+msgstr "Velocidad actual"
 
 msgid "miles per hour"
 msgstr "millas por hora"
@@ -1147,12 +1152,12 @@ msgid_plural "found {0} nodes"
 msgstr[0] "se encontró {0} nodo"
 msgstr[1] "se encontraron {0} nodos"
 
+msgid "Open Source"
+msgstr "Código abierto"
+
 #, csharp-format
 msgid "<span class=\"font-semibold\">{0}</span> until {1}"
 msgstr "<span class=\"font-semibold\">{0}</span> hasta el {1}"
-
-msgid "Open Source"
-msgstr "Código abierto"
 
 msgid "Did you remember to restart after installing them?"
 msgstr "¿Recordaste reiniciar después de instalarlos?"
@@ -1266,6 +1271,9 @@ msgstr "<span class=\"font-semibold\">{0}</span> el {1}"
 
 msgid "Normal"
 msgstr "Normal"
+
+msgid "ETS2LA will offset the speedlimit by this amount."
+msgstr ""
 
 msgid "Unknown Control"
 msgstr "Control desconocido"
@@ -1589,6 +1597,9 @@ msgstr "Reiniciando ETS2LA..."
 
 msgid "ETS2LA is running."
 msgstr "ETS2LA está en ejecución."
+
+msgid "Warnings"
+msgstr ""
 
 msgid "Restart"
 msgstr "Reiniciar"
@@ -1971,11 +1982,11 @@ msgstr "El archivo seleccionado no es un archivo core.scs."
 msgid "Translated by:"
 msgstr "Traducido por:"
 
-msgid "This game was found at"
-msgstr "Este juego se encontró en"
-
 msgid "You have successfully logged out."
 msgstr "Has cerrado sesión correctamente."
+
+msgid "This game was found at"
+msgstr "Este juego se encontró en"
 
 msgid "Data Quality"
 msgstr "Calidad de los datos"
@@ -2019,6 +2030,9 @@ msgstr ""
 msgid "Display Language"
 msgstr "Idioma de visualización"
 
+msgid "Speedlimit Offset"
+msgstr ""
+
 #, csharp-format
 msgid "Changed update source to '{0}'."
 msgstr "Se cambió la fuente de actualización a '{0}'."
@@ -2033,9 +2047,6 @@ msgstr "Inicializando la versión de GLFW: {0}"
 
 msgid "Render Vision Cameras"
 msgstr "Renderizar cámaras de visión"
-
-msgid "Match Game"
-msgstr "Coincidir con el juego"
 
 msgid "Imperial"
 msgstr "Imperial"
@@ -2096,6 +2107,9 @@ msgstr ""
 
 msgid "Unknown Version"
 msgstr "Versión desconocida"
+
+msgid "ETS2LA will offset the speedlimit by this percentage."
+msgstr ""
 
 msgid ""
 "Your system has less than 20GB of RAM. Extreme data fidelity uses "
@@ -2283,6 +2297,12 @@ msgstr ""
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr "No todas las dependencias para el plugin {0} están instaladas."
+
+#~ msgid "Warnings & Overrides"
+#~ msgstr "Advertencias y anulaciones"
+
+#~ msgid "Match Game"
+#~ msgstr "Coincidir con el juego"
 
 #~ msgid "Ignore Traffic Rules"
 #~ msgstr "Ignorar normas de tráfico"

@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-11 14:28:18+0300\n"
+"POT-Creation-Date: 2026-10-13 21:39:57+0300\n"
 "PO-Revision-Date: 2026-10-07 22:38+0000\n"
 "Last-Translator: Tema <tema@ets2la.com>\n"
 "Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/ets2la/ru/"
@@ -134,11 +134,11 @@ msgstr "Начало привязки элемента управления {0} 
 msgid "Failed to enable dependency: {0}"
 msgstr "Не удалось включить зависимость: {0}"
 
-msgid "Only Show Official News"
-msgstr "Показывать только официальные новости"
-
 msgid "Main"
 msgstr "Основное"
+
+msgid "Only Show Official News"
+msgstr "Показывать только официальные новости"
 
 #, csharp-format
 msgid ""
@@ -361,6 +361,11 @@ msgstr "Отключён джойстик: [gray italic]({0})[/]"
 #, csharp-format
 msgid "Update to {0}"
 msgstr "Обновить до {0}"
+
+#, csharp-format
+msgid ""
+"When receiving a speedlimit of {0} {1}, we will set the speed to {2} {3}."
+msgstr ""
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating axis behavior."
@@ -760,9 +765,6 @@ msgstr ""
 "Полностью отключает оверлей. Это устранит проблему чёрного экрана, но "
 "нарушит работу всех функций, зависящих от оверлея, включая AR и HUD."
 
-msgid "Warnings & Overrides"
-msgstr "Предупреждения и переопределения"
-
 msgid "Overrides"
 msgstr "Переопределения"
 
@@ -793,6 +795,9 @@ msgstr ""
 #, csharp-format
 msgid "Failed to load library plugin from [gray]{0}[/]: {1}"
 msgstr "Не удалось загрузить плагин-библиотеку из [gray]{0}[/]: {1}"
+
+msgid "Game"
+msgstr ""
 
 #, csharp-format
 msgid "Updated bindings for control: {0} ({1}) to Device: {2}, Control: {3}"
@@ -915,12 +920,12 @@ msgstr "Войти"
 msgid "SDK Installed"
 msgstr "SDK установлен"
 
-msgid "Current Speed"
-msgstr "Текущая скорость"
-
 #, csharp-format
 msgid "Bound control {0} ({1}) to device {2} and control {3}"
 msgstr "Элемент управления {0} ({1}) привязан к устройству {2} и элементу {3}"
+
+msgid "Current Speed"
+msgstr "Текущая скорость"
 
 msgid "miles per hour"
 msgstr "мили в час"
@@ -1139,12 +1144,12 @@ msgstr[0] "Найден {0} узел"
 msgstr[1] "Найдено {0} узла"
 msgstr[2] "Найдено {0} узлов"
 
+msgid "Open Source"
+msgstr "Открытый исходный код"
+
 #, csharp-format
 msgid "<span class=\"font-semibold\">{0}</span> until {1}"
 msgstr "<span class=\"font-semibold\">{0}</span> до {1}"
-
-msgid "Open Source"
-msgstr "Открытый исходный код"
 
 msgid "Did you remember to restart after installing them?"
 msgstr "Не забыли перезапустить ETS2LA после установки?"
@@ -1258,6 +1263,9 @@ msgstr "<span class=\"font-semibold\">{0}</span> в {1}"
 
 msgid "Normal"
 msgstr "Нормально"
+
+msgid "ETS2LA will offset the speedlimit by this amount."
+msgstr ""
 
 msgid "Unknown Control"
 msgstr "Неизвестный элемент управления"
@@ -1577,6 +1585,9 @@ msgstr "Перезапуск ETS2LA..."
 
 msgid "ETS2LA is running."
 msgstr "ETS2LA работает."
+
+msgid "Warnings"
+msgstr ""
 
 msgid "Restart"
 msgstr "Перезапустить"
@@ -1955,11 +1966,11 @@ msgstr "Выбранный файл не является файлом core.scs.
 msgid "Translated by:"
 msgstr "Перевод:"
 
-msgid "This game was found at"
-msgstr "Игра найдена по пути"
-
 msgid "You have successfully logged out."
 msgstr "Вы успешно вышли из аккаунта."
+
+msgid "This game was found at"
+msgstr "Игра найдена по пути"
 
 msgid "Data Quality"
 msgstr "Качество данных"
@@ -2003,6 +2014,9 @@ msgstr ""
 msgid "Display Language"
 msgstr "Язык интерфейса"
 
+msgid "Speedlimit Offset"
+msgstr ""
+
 #, csharp-format
 msgid "Changed update source to '{0}'."
 msgstr "Источник обновлений изменён на '{0}'."
@@ -2017,9 +2031,6 @@ msgstr "Инициализация GLFW версии {0}"
 
 msgid "Render Vision Cameras"
 msgstr "Отображать камеры компьютерного зрения"
-
-msgid "Match Game"
-msgstr "Как в игре"
 
 msgid "Imperial"
 msgstr "Имперская система"
@@ -2079,6 +2090,9 @@ msgstr ""
 
 msgid "Unknown Version"
 msgstr "Неизвестная версия"
+
+msgid "ETS2LA will offset the speedlimit by this percentage."
+msgstr ""
 
 msgid ""
 "Your system has less than 20GB of RAM. Extreme data fidelity uses "
@@ -2265,6 +2279,12 @@ msgstr ""
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr "Не все зависимости для плагина {0} установлены."
+
+#~ msgid "Warnings & Overrides"
+#~ msgstr "Предупреждения и переопределения"
+
+#~ msgid "Match Game"
+#~ msgstr "Как в игре"
 
 #~ msgid "Ignore Traffic Rules"
 #~ msgstr "Игнорировать правила дорожного движения"
