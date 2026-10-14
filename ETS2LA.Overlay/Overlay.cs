@@ -508,6 +508,9 @@ public class OverlayHandler
             case "Korean":
                 fontName = "NotoSansKR";
                 break;
+            case "Thai":
+                fontName = "NotoSansThai";
+                break;
             case "Vietnamese":
                 fontName = "NotoSans";
                 break;

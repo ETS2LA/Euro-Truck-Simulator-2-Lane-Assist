@@ -8,6 +8,7 @@
 - `feat` Added new *TooltipIcon* component, it displays an information icon with a tooltip when hovered over.
 - `fix` Fixed a bug where a changing speedlimit would incorrectly determine the offset when a maximum speed is set.
 - `translation` Updated supported languages, *Thai* is now available.
+- `translation` Added *NotoSansThai* font support to overlay.
 
 #### Thank you to today's sponsor... You!
 Development is possible thanks to our [sponsors](https://github.com/sponsors/Tumppi066). Please consider supporting if you like the project and have the means to do so.

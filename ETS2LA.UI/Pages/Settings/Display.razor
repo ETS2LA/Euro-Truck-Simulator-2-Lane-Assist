@@ -234,7 +234,7 @@
              SelectedIndex="@CurrentUnits"
              SelectedIndexChanged="OnDisplayUnitChanged"/>
     <Dropdown Title=@(_("Display Language"))
-            Description=@(_("The language ETS2LA will be displayed at. Translations are provided by the community, we cannot guarantee their accuracy.") + "\n\n" + _("Translated by:") + "\n\n" + string.Join("\n", LanguageCredits(SupportedLanguages[CurrentLanguage].Code)))
+            Description=@(_("The language ETS2LA will be displayed at. Translations are provided by the community, we cannot guarantee their accuracy.") + "<br/><br/>" + _("Translated by:") + "<br/>" + string.Join("<br/>", LanguageCredits(SupportedLanguages[CurrentLanguage].Code)))
             Options="@displayLanguageOptions"
             SelectedIndex="@CurrentLanguage"
             SelectedIndexChanged="OnDisplayLanguageChanged"/>
