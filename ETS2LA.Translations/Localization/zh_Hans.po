@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-10-13 21:39:57+0300\n"
-"PO-Revision-Date: 2026-10-14 01:58+0000\n"
+"PO-Revision-Date: 2026-10-14 12:59+0000\n"
 "Last-Translator: BGYdook <bgydook@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/ets2la/zh_Hans/>\n"
@@ -1877,7 +1877,7 @@ msgid "Display Language"
 msgstr "显示语言"
 
 msgid "Speedlimit Offset"
-msgstr "速度限速偏移量"
+msgstr "速度限制偏移量"
 
 #, csharp-format
 msgid "Changed update source to '{0}'."
