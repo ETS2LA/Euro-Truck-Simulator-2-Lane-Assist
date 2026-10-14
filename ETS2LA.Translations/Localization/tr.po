@@ -5,10 +5,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-10-14 15:39:15+0300\n"
-"PO-Revision-Date: 2026-10-12 09:08+0000\n"
+"PO-Revision-Date: 2026-10-15 14:01+0000\n"
 "Last-Translator: Yhuyy <yhuyy@ets2la.com>\n"
-"Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/ets2la/tr/"
-">\n"
+"Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/ets2la/tr/>"
+"\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,8 +19,9 @@ msgstr ""
 msgid "Max Overlay Framerate"
 msgstr "Maksimum Arayüz FPS'i"
 
+#, fuzzy
 msgid "ETS2LA will offset the speedlimit by this amount."
-msgstr ""
+msgstr "ETS2LA, hız limitini belirtilen bu değer kadar arttıracak/azaltacaktır."
 
 #, csharp-format
 msgid ""
@@ -34,10 +35,10 @@ msgid "bar"
 msgstr "bar"
 
 msgid "Translated by:"
-msgstr ""
+msgstr "Çeviren:"
 
 msgid "Confirm Account Removal"
-msgstr ""
+msgstr "Hesap Kaldırmayı Onayla"
 
 msgid ""
 "ETS2LA uses a control setup that should be similar to real life systems. You "
@@ -57,6 +58,9 @@ msgid ""
 "Consider supporting us by becoming a <span class=\"font-bold text-text-"
 "l\">GitHub Sponsor</span> to cover ongoing development and operational costs."
 msgstr ""
+"Devam eden geliştirme ve işletim maliyetlerine yardım etmek için <span class"
+"=\"font-bold text-text-l\">GitHub Sponsoru</span> olarak bizi desteklemeyi "
+"düşünebilirsiniz."
 
 #, csharp-format
 msgid "This might take a while... ({0}/{1})"
@@ -77,12 +81,11 @@ msgid "Failed to create GLFW window"
 msgstr "GLFW penceresi oluşturulamadı"
 
 msgid "Starting download..."
-msgstr ""
+msgstr "İndirme başlatılıyor..."
 
 msgid "Collision Avoidance"
 msgstr "Çarpışma Önleme"
 
-#, fuzzy
 msgid "Successfully opened memory for output."
 msgstr "Çıktı için bellek başarıyla açıldı."
 
@@ -101,12 +104,14 @@ msgid "Interaction Mode"
 msgstr "Etkileşim Modu"
 
 msgid "And to those who've decided to remain anonymous!"
-msgstr ""
+msgstr "Ve anonim kalmayı tercih edenlere!"
 
 msgid ""
 "An error occurred while trying to remove your account. Please try again "
 "later. Error: "
 msgstr ""
+"Hesabınız kaldırılmaya çalışırken bir hata oluştu. Lütfen daha sonra tekrar "
+"deneyin. Hata: "
 
 msgid "Install Update and Restart"
 msgstr "Güncellemeyi yükleyin ve yeniden başlatın"
@@ -147,32 +152,32 @@ msgid "Fast"
 msgstr "Hızlı"
 
 msgid "Desired Speed: "
-msgstr ""
+msgstr "Hedef Hız: "
 
 msgid "K"
 msgstr "K"
 
 msgid "Installing..."
-msgstr ""
+msgstr "Yükleniyor..."
 
 msgid "Error in camera update loop."
 msgstr "Kamera güncelleme döngüsünde hata."
 
 msgid "Before we begin."
-msgstr ""
+msgstr "Başlamadan Önce."
 
 msgid "Like ETS2LA?"
-msgstr ""
+msgstr "ETS2LA'i seviyor musunuz?"
 
 msgid "Unchanged / Unavailable"
 msgstr "Değişmedi / Kullanılamaz"
 
 #, csharp-format
 msgid "Failed to uninstall SDK from '{0}' to '{1}': {2}"
-msgstr ""
+msgstr "SDK '{0}' konumundan '{1}' konumuna kaldırılırken hata oluştu: {2}"
 
 msgid "Catalogue"
-msgstr ""
+msgstr "Katalog"
 
 msgid "Traffic Lights"
 msgstr "Trafik işıkları"
@@ -194,14 +199,18 @@ msgstr "Yüklenenleri Gizle"
 #, csharp-format
 msgid "Plugin '{0}' is missing its DLL at '{1}' and has been removed."
 msgstr ""
+"'{0}' eklentisinin '{1}' konumundaki DLL dosyası bulunamadı ve eklenti "
+"kaldırıldı."
 
 msgid ""
 "This allows ETS2LA to render in multiple viewports, meaning you can move "
 "overlay windows to any monitor."
 msgstr ""
+"Bu özellik, ETS2LA'in birden fazla pencerede görünmesini sağlar; böylece "
+"arayüz pencerelerini istediğiniz monitöre taşıyabilirsiniz."
 
 msgid "Display Units: "
-msgstr ""
+msgstr "Ekran Birimleri: "
 
 msgid "Vision Cameras"
 msgstr "Görüş Kameraları"
@@ -210,13 +219,13 @@ msgid "Only Show Official News"
 msgstr "Yalnızca Resmi Haberleri Göster"
 
 msgid "ETS2LA will offset the speedlimit by this percentage."
-msgstr ""
+msgstr "ETS2LA, hız sınırını bu yüzde oranında kaydıracaktır."
 
 msgid "Your account has been successfully removed."
 msgstr "Hesabınız başarıyla kaldırıldı."
 
 msgid "Contact us on GitHub"
-msgstr ""
+msgstr "GitHub üzerinden bizimle iletişime geçin"
 
 #, csharp-format
 msgid "Failed to read log file at '{0}': {1}"
@@ -231,9 +240,12 @@ msgstr ""
 msgid ""
 "Failed to fetch available plugins. Please check your internet connection."
 msgstr ""
+"Kullanılabilir eklentiler alınamadı. Lütfen İnternet bağlantınızı kontrol "
+"edin."
 
+#, fuzzy
 msgid "Keybind is Toggle"
-msgstr ""
+msgstr "Kısayol tuşu: Aç/Kapat"
 
 #, csharp-format
 msgid "Error rendering window {0}: {1}"
@@ -243,20 +255,21 @@ msgstr "{0} penceresinin görüntülenmesi sırasında hata oluştu: {1}"
 msgid ""
 "Installation at '{0}' is not currently running, waiting for load of profile."
 msgstr ""
+"'{0}' konumundaki kurulum şu anda çalışmıyor, profilin yüklenmesi bekleniyor."
 
 #, csharp-format
 msgid "Discovered {0} manually installed library"
 msgid_plural "Discovered {0} manually installed libraries."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Elle yüklenmiş {0} kütüphane tespit edildi."
+msgstr[1] "Elle yüklenmiş {0} kütüphane tespit edildi."
 
-#, csharp-format
+#, csharp-format, fuzzy
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
-msgstr ""
+msgstr "Yüklendi kütüphane eklentisi [gray]{0}[/] konumu: [gray]{1}[/]."
 
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
-msgstr ""
+msgstr "{0} eklentisinin tüm bağımlılıkları kurulu değil."
 
 msgid "Install Plugins"
 msgstr "Eklentileri Yükle"
@@ -266,8 +279,11 @@ msgid ""
 "find issues with it's driving and safety. <span class=\"text-text-accent "
 "font-bold\">Do not leave ETS2LA unattended, especially in multiplayer.</span>"
 msgstr ""
+"Bu, son derece deneysel bir programdır. ETS2LA mükemmel değildir sürüşünde "
+"ve güvenliğinde sorunlarla karşılaşabilirsiniz. <span class=\"text-text-"
+"accent font-bold\">ETS2LA’yı gözetimsiz bırakmayın, özellikle çok oyunculu "
+"modda.</span>"
 
-#, fuzzy
 msgid "You must restart ETS2LA for the font size change to take effect."
 msgstr ""
 "Yazı boyutu değişikliğinin uygulanması için ETS2LA'yı yeniden başlatmanız "
@@ -280,23 +296,24 @@ msgstr ""
 "Kimlik doğrulama gereklidir. İstemci, istenen yanıtı alabilmek için "
 "kimliğini doğrulamalıdır."
 
-#, fuzzy
 msgid "Logout Successful"
 msgstr "Çıkış Başarılı"
 
 #, csharp-format
 msgid "Plugin with ID [gray]{0}[/] is already loaded, skipping duplicate."
-msgstr ""
+msgstr "[gray]{0}[/] kimlikli eklenti zaten yüklü, yinelenen kopya atlanıyor."
 
 msgid "Start Game"
-msgstr ""
+msgstr "Oyunu Başlat"
 
 msgid "Units and Language"
-msgstr ""
+msgstr "Birimler ve Dil"
 
 #, csharp-format
 msgid "Unloading parsed map data for installation at '{0}'"
 msgstr ""
+"'{0}' konumundaki kurulum için işlenen harita verileri bellekten "
+"kaldırılıyor."
 
 msgid "Enable"
 msgstr "Etkinleştir"
@@ -305,25 +322,29 @@ msgid "SDKs are currently installed."
 msgstr "SDK'lar şu anda yüklü durumda."
 
 msgid "Max Render Distance"
-msgstr ""
+msgstr "Maksimum Görüş Mesafesi"
 
+#, fuzzy
 msgid "Game is still running"
-msgstr ""
+msgstr "Oyun hâlâ çalışıyor"
 
 msgid "Speed Limit Warning"
 msgstr "Hız Sınırı Uyarısı"
 
 msgid "Imperial"
-msgstr ""
+msgstr "İmperyal"
 
 msgid "Assists Enabled: "
-msgstr ""
+msgstr "Yardımcılar Etkinleştirildi: "
 
 msgid ""
 "Your system has less than 20GB of RAM. Extreme data fidelity uses "
 "significant amounts of RAM, and may cause your system to become unstable. "
 "Please select a lower fidelity."
 msgstr ""
+"Sisteminizde 20 GB'tan az RAM bulunuyor. Aşırı yüksek veri hassasiyeti "
+"önemli miktarda RAM kullanır ve sisteminizin dengesiz hale gelmesine neden "
+"olabilir. Lütfen daha düşük bir hassasiyet seviyesi seçin."
 
 msgid "Additional"
 msgstr "Ek olarak"
@@ -338,7 +359,7 @@ msgid "Installed {0}"
 msgstr "Yüklendi {0}"
 
 msgid "Account Removal Error"
-msgstr ""
+msgstr "Hesap Kaldırma Hatası"
 
 msgid "Visual"
 msgstr "Görsel"
@@ -346,20 +367,23 @@ msgstr "Görsel"
 #, csharp-format
 msgid "Overlay is disabled in settings, skipping window registration for {0}."
 msgstr ""
+"Arayüz ayarlardan devre dışı bırakıldı, {0} için pencere kaydı atlanıyor."
 
 msgid ""
 "Adjust the quality of the curves used for path planning and visualization. "
 "By default this matches the game."
 msgstr ""
+"Yol planlaması ve görselleştirmede kullanılan eğrilerin kalitesini "
+"ayarlayın. Varsayılan olarak bu değer oyunla aynıdır."
 
 msgid "View Public Telemetry"
-msgstr ""
+msgstr "Genel telemetriyi görüntüle"
 
 msgid "Final Disclaimer <span class=\"description\">2/2</span>"
 msgstr ""
 
 msgid "°C"
-msgstr ""
+msgstr "°C"
 
 msgid "Overrides"
 msgstr "Geçersiz kılmalar"
@@ -377,7 +401,7 @@ msgstr "En Son Sürüm: {0}"
 
 #, csharp-format
 msgid "Failed to shutdown plugin {0}: {1}"
-msgstr ""
+msgstr "{0} adlı eklenti kapatılamadı: {1}"
 
 msgid "Anonymous Telemetry"
 msgstr "Anonim Telemetri"
@@ -386,6 +410,8 @@ msgid ""
 "You cannot register an account yet, this page is only for logging in with an "
 "existing developer account."
 msgstr ""
+"Henüz yeni bir hesap oluşturamazsınız, bu sayfa yalnızca mevcut bir "
+"geliştirici hesabıyla giriş yapmak içindir."
 
 msgid "Failed to add game"
 msgstr "Oyun eklenemedi"
@@ -424,24 +450,24 @@ msgstr ""
 "42..."
 
 msgid "Data Quality"
-msgstr ""
+msgstr "Veri Kalitesi"
 
 #, csharp-format
 msgid "Error in AR rendering: {0}"
-msgstr ""
+msgstr "AR işleme hatası: {0}"
 
 #, csharp-format
 msgid "Discovered {0} library in total"
 msgid_plural "Discovered {0} libraries in total."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Toplam {0} kütüphane bulundu"
+msgstr[1] "Toplam {0} kütüphane bulundu."
 
 msgid "Settings"
 msgstr "Ayarlar"
 
-#, csharp-format
+#, csharp-format, fuzzy
 msgid "Loaded plugin: [gray]{0}[/] from [gray]{1}[/]."
-msgstr ""
+msgstr "Eklenti yüklendi: [gray]{0}[/] konumundan [gray]{1}[/]."
 
 msgid "Metric"
 msgstr "Metrik"
@@ -450,31 +476,32 @@ msgid "Medium"
 msgstr "Orta"
 
 msgid "You may need to restart the game to apply this change."
-msgstr ""
+msgstr "Bu değişikliği uygulamak için oyunu yeniden başlatmanız gerekir."
 
-#, csharp-format
+#, csharp-format, fuzzy
 msgid "{0} m/s ({1} in {2})"
-msgstr ""
+msgstr "{0} m/s ({2} içinde {1})"
 
 msgid "Game added"
-msgstr ""
+msgstr "Oyun eklendi"
 
 #, csharp-format
 msgid "Unregistered control: {0} ({1})"
 msgstr ""
 
+#, fuzzy
 msgid "Binding thread started with no control to bind."
-msgstr ""
+msgstr "Tuş ataması iş parçacığı, atanacak kontrol olmadan başlatıldı."
 
 msgid "Login Failed"
 msgstr "Giriş Başarısız"
 
 #, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
-msgstr ""
+msgstr "Yardım Modu: <span class=\"text-text-accent font-bold\">{0}</span>"
 
 msgid "Latest News"
-msgstr ""
+msgstr "Son Haberler"
 
 msgid "SDKs need to be installed."
 msgstr "SDK'ların yüklenmesi gerekiyor."
@@ -496,7 +523,7 @@ msgid "Update available: {0}"
 msgstr "Güncelleme mevcut: {0}"
 
 msgid "I understand, now let me in!"
-msgstr ""
+msgstr "Anladım, şimdi beni içeri al!"
 
 #, csharp-format
 msgid "Assists Enabled: <span class=\"text-text-accent font-bold\">{0}</span>"
@@ -516,15 +543,15 @@ msgstr ""
 #, csharp-format
 msgid "Fetched {0} plugin from {1}"
 msgid_plural "Fetched {0} plugins from {1}"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{1} konumundan {0} eklenti alındı"
+msgstr[1] "{1} konumundan {0} eklenti alındı"
 
 #, csharp-format
 msgid "Failed to open joystick {0}."
 msgstr "{0} joystick'i açılamadı."
 
 msgid "Next"
-msgstr ""
+msgstr "Sonraki"
 
 msgid ""
 "This setting only loads roads and intersections visible on the in game map. "
@@ -544,14 +571,18 @@ msgstr ""
 msgid "Not Connected"
 msgstr "Bağlı Değil"
 
+#, fuzzy
 msgid "I won't leave ETS2LA unattended"
-msgstr ""
+msgstr "ETS2LA'i gözetimsiz bırakmayacağım"
 
 msgid ""
 "Some mods implement additional maps like japan.mbd or russia.mbd. If you "
 "find your mods are not loading properly, try enabling this option. This is "
 "known to be required for RusMap."
 msgstr ""
+"Bazı modlar japan.mbd veya russia.mbd gibi ek haritalar içerir. Modlarınızın "
+"düzgün yüklenmediğini fark ederseniz bu seçeneği etkinleştirmeyi deneyin. Bu "
+"ayarın RusMap için gerekli olduğu bilinmektedir."
 
 #, csharp-format
 msgid ""
@@ -575,10 +606,11 @@ msgstr ""
 
 #, csharp-format
 msgid "Plugin with ID {0} not found in available plugins."
-msgstr ""
+msgstr "{0} Kimlikli eklenti kullanılabilir eklentiler arasında bulunamadı."
 
+#, fuzzy
 msgid "Cancel/MODE"
-msgstr ""
+msgstr "İptal/MOD"
 
 msgid "State Info"
 msgstr "Durum Bilgisi"
@@ -588,7 +620,7 @@ msgstr "Trafik güncelleme döngüsünde hata oluştu."
 
 #, csharp-format
 msgid "Error in AR OpenGL pass: {0}"
-msgstr ""
+msgstr "AR OpenGL adımında hata: {0}"
 
 #, csharp-format
 msgid "Error while applying update: {0}"
@@ -611,7 +643,7 @@ msgstr ""
 "çarpışma önleme özelliğini devre dışı bırakır."
 
 msgid "Failed to log in. Please check your credentials and try again."
-msgstr ""
+msgstr "Giriş yapılamadı. Lütfen bilgilerinizi kontrol edip tekrar deneyin."
 
 #, csharp-format
 msgid "Camera {0} ({1}x{2})"
@@ -625,7 +657,7 @@ msgstr ""
 "ayarlayın. Acil frenleme bu ayardan etkilenmez."
 
 msgid "Game"
-msgstr ""
+msgstr "Oyun"
 
 msgid "Stay on Top"
 msgstr "Her zaman üstte"
@@ -641,12 +673,14 @@ msgid "Failed to initialize overlay, ImGui initialization failed."
 msgstr "Overlay başlatılamadı, ImGui başlatma işlemi başarısız oldu."
 
 msgid "ft"
-msgstr ""
+msgstr "ft"
 
 msgid ""
 "Changing this option requires a restart of ETS2LA to take effect. Restart "
 "now?"
 msgstr ""
+"Bu seçeneğin değiştirilmesi ETS2LA'in yeniden başlatılmasını gerektirir. "
+"Şimdi yeniden başlatılsın mı?"
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
@@ -664,18 +698,23 @@ msgid ""
 msgstr ""
 
 msgid "Translate News Articles"
-msgstr ""
+msgstr "Haber Makalelerini Çevir"
 
 msgid ""
 "You do not have permission to access this resource. The server understood "
 "the request but refuses to authorize it."
 msgstr ""
+"Bu kaynağa erişim izniniz yok. Sunucu isteği anladı ancak yetkilendirmeyi "
+"reddediyor."
 
 msgid ""
 "When this key is held, the overlay will receive mouse input and allow you to "
 "interact with it. NOTE: Interaction with items below the overlay is not "
 "possible during this time."
 msgstr ""
+"Bu tuş basılı tutulduğunda, arayüz fare girdisini alır ve arayüzle "
+"etkileşime girmenize olanak tanır. NOT: Bu süre zarfında arayüzün altındaki "
+"ögelerle etkileşim kurmak mümkün değildir."
 
 msgid ""
 "Ensure you don't have any mods installed in the root directory. Those have "
@@ -686,27 +725,27 @@ msgstr ""
 
 #, csharp-format
 msgid "Error rendering context menu for window {0}: {1}"
-msgstr ""
+msgstr "{0} penceresi için içerik menüsü oluşturulurken hata oluştu: {1}"
 
 msgid "Unknown Control"
-msgstr ""
+msgstr "Bilinmeyen Denetim"
 
 msgid "GitHub Sponsorship"
-msgstr ""
+msgstr "GitHub Sponsorluğu"
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for event subscription."
 msgstr ""
 
 msgid "Waiting..."
-msgstr ""
+msgstr "Bekleniyor..."
 
 #, csharp-format
 msgid "Failed to read version from '{0}': {1}"
 msgstr "'{0}' adresinden sürüm okunamadı: {1}"
 
 msgid "Support Multiple Viewports"
-msgstr ""
+msgstr "Birden fazla görünüm alanını destekle"
 
 msgid "The server timed out waiting for the request from the client."
 msgstr "Sunucu, istemciden gelecek isteği beklerken zaman aşımına uğradı."
