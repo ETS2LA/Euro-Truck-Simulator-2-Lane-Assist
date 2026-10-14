@@ -2,12 +2,13 @@
 # goodnightan <goodnightan@ets2la.com>, 2026.
 # Lun <lun@ets2la.com>, 2026.
 # MRUIAW <mruiaw@ets2la.com>, 2026.
+# BGYdook <bgydook@ets2la.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-10-13 21:39:57+0300\n"
-"PO-Revision-Date: 2026-10-11 15:13+0000\n"
-"Last-Translator: goodnightan <goodnightan@ets2la.com>\n"
+"PO-Revision-Date: 2026-10-14 01:58+0000\n"
+"Last-Translator: BGYdook <bgydook@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/ets2la/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -352,7 +353,7 @@ msgstr "更新到 {0}"
 #, csharp-format
 msgid ""
 "When receiving a speedlimit of {0} {1}, we will set the speed to {2} {3}."
-msgstr ""
+msgstr "当获取限速为 {0} {1} 时，我们会将速度设置为 {2} {3}。"
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating axis behavior."
@@ -755,7 +756,7 @@ msgid "Failed to load library plugin from [gray]{0}[/]: {1}"
 msgstr "从 [gray]{0}[/] 加载库插件失败：{1}"
 
 msgid "Game"
-msgstr ""
+msgstr "游戏"
 
 #, csharp-format
 msgid "Updated bindings for control: {0} ({1}) to Device: {2}, Control: {3}"
@@ -1187,7 +1188,7 @@ msgid "Normal"
 msgstr "标准"
 
 msgid "ETS2LA will offset the speedlimit by this amount."
-msgstr ""
+msgstr "ETS2LA将根据这个数值来调整限速。"
 
 msgid "Unknown Control"
 msgstr "未知控件"
@@ -1484,7 +1485,7 @@ msgid "ETS2LA is running."
 msgstr "ETS2LA 已启动。"
 
 msgid "Warnings"
-msgstr ""
+msgstr "警告"
 
 msgid "Restart"
 msgstr "重新启动"
@@ -1876,7 +1877,7 @@ msgid "Display Language"
 msgstr "显示语言"
 
 msgid "Speedlimit Offset"
-msgstr ""
+msgstr "速度限速偏移量"
 
 #, csharp-format
 msgid "Changed update source to '{0}'."
@@ -1950,7 +1951,7 @@ msgid "Unknown Version"
 msgstr "未知版本"
 
 msgid "ETS2LA will offset the speedlimit by this percentage."
-msgstr ""
+msgstr "ETS2LA 将根据这个百分比来调整限速。"
 
 msgid ""
 "Your system has less than 20GB of RAM. Extreme data fidelity uses "
