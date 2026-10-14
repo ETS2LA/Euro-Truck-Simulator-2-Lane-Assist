@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-10-14 15:39:15+0300\n"
-"PO-Revision-Date: 2026-10-09 21:59+0000\n"
+"PO-Revision-Date: 2026-10-15 14:02+0000\n"
 "Last-Translator: McAs13 <tsumiguel@ets2la.com>\n"
 "Language-Team: Spanish (American) <http://weblate.ets2la.com/projects/ets2la/"
 "ets2la/es_US/>\n"
@@ -19,7 +19,7 @@ msgid "Max Overlay Framerate"
 msgstr "Framerate máximo de la superposición"
 
 msgid "ETS2LA will offset the speedlimit by this amount."
-msgstr ""
+msgstr "ETS2LA desplazará el límite de velocidad en esta cantidad."
 
 #, csharp-format
 msgid ""
@@ -180,7 +180,7 @@ msgid "Catalogue"
 msgstr "Catálogo"
 
 msgid "Traffic Lights"
-msgstr ""
+msgstr "Semáforos"
 
 msgid ""
 "The maximum speed ETS2LA will accelerate to. It might still drift over this "
@@ -217,7 +217,7 @@ msgid "Only Show Official News"
 msgstr "Mostrar solo noticias oficiales"
 
 msgid "ETS2LA will offset the speedlimit by this percentage."
-msgstr ""
+msgstr "ETS2LA desplazará el límite de velocidad en este porcentaje."
 
 msgid "Your account has been successfully removed."
 msgstr "Tu cuenta ha sido eliminada correctamente."
@@ -283,6 +283,7 @@ msgstr ""
 
 msgid "You must restart ETS2LA for the font size change to take effect."
 msgstr ""
+"Debes reiniciar ETS2LA para que el cambio de tamaño de fuente surta efecto."
 
 msgid ""
 "Authentication is required. The client must authenticate itself to get the "
@@ -300,7 +301,7 @@ msgstr ""
 "El plugin con ID [gray]{0}[/] ya está cargado, se omitirá el duplicado."
 
 msgid "Start Game"
-msgstr ""
+msgstr "Iniciar juego"
 
 msgid "Units and Language"
 msgstr "Unidades e idioma"
@@ -346,6 +347,8 @@ msgid ""
 "The font size of the overlay. This can be used to scale the overlay to your "
 "monitor's DPI settings."
 msgstr ""
+"El tamaño de fuente de la superposición. Esto se puede usar para escalar la "
+"superposición según la configuración de PPP de tu monitor."
 
 #, csharp-format
 msgid "Installed {0}"
@@ -647,7 +650,7 @@ msgstr ""
 "aceleración. El frenado de emergencia no se ve afectado."
 
 msgid "Game"
-msgstr ""
+msgstr "Juego"
 
 msgid "Stay on Top"
 msgstr "Mantener siempre visible"
@@ -1403,13 +1406,13 @@ msgid "An error occurred while loading map data: {0}"
 msgstr "Se produjo un error al cargar los datos del mapa: {0}"
 
 msgid "The selected game executable was not found."
-msgstr ""
+msgstr "No se encontró el ejecutable del juego seleccionado."
 
 msgid "This game was found at"
 msgstr "Este juego se encontró en"
 
 msgid "Gates"
-msgstr ""
+msgstr "Barreras"
 
 msgid "Recommended Plugins"
 msgstr "Plugins recomendados"
@@ -1552,7 +1555,7 @@ msgid "Error playing audio file {0}: {1}"
 msgstr "Error al reproducir el archivo de audio {0}: {1}"
 
 msgid "Warnings"
-msgstr ""
+msgstr "Advertencias"
 
 msgid ""
 "Gateway timeout. The server was acting as a gateway or proxy and did not "
@@ -1591,7 +1594,7 @@ msgid "Failed to initialize SDL3 input backend."
 msgstr "Error al inicializar el backend de entrada SDL3."
 
 msgid "Open Update Page"
-msgstr ""
+msgstr "Abrir página de actualización"
 
 #, csharp-format
 msgid "Found {0} (version: {1}) at '{2}'"
@@ -1610,6 +1613,8 @@ msgstr "Panel de control"
 msgid ""
 "When receiving a speedlimit of {0} {1}, we will set the speed to {2} {3}."
 msgstr ""
+"Al recibir un límite de velocidad de {0} {1}, estableceremos la velocidad en "
+"{2} {3}."
 
 #, csharp-format
 msgid "Changed update source to '{0}'."
@@ -1619,7 +1624,7 @@ msgid "Thank you to the following people for their ongoing support:"
 msgstr "Gracias a las siguientes personas por su apoyo continuo:"
 
 msgid "Enabled Traffic Rules"
-msgstr ""
+msgstr "Normas de tráfico activadas"
 
 msgid ""
 "This setting includes all available data, most of which is redundant. <span "
@@ -1780,6 +1785,9 @@ msgid ""
 "Select which traffic rules ETS2LA should obey. More might be added later, "
 "and all plugins won't necessarily support all rules."
 msgstr ""
+"Selecciona qué normas de tráfico debe obedecer ETS2LA. Podrían añadirse más "
+"en el futuro, y no todos los plugins admitirán necesariamente todas las "
+"normas."
 
 msgid "Far"
 msgstr "Larga"
@@ -1798,7 +1806,7 @@ msgstr ""
 "la velocidad actual del control de crucero?"
 
 msgid "Open SDK Settings"
-msgstr ""
+msgstr "Abrir configuración del SDK"
 
 msgid "This page hasn't been created yet, but it's coming <i>soon</i>."
 msgstr "Esta página aún no se ha creado, pero llegará <i>pronto</i>."
@@ -1816,7 +1824,7 @@ msgid "psi"
 msgstr "psi"
 
 msgid "Game not found"
-msgstr ""
+msgstr "Juego no encontrado"
 
 msgid "gal"
 msgstr "gal"
@@ -1904,7 +1912,7 @@ msgid "I understand"
 msgstr "Entiendo"
 
 msgid "Select the game you wish to start."
-msgstr ""
+msgstr "Selecciona el juego que deseas iniciar."
 
 msgid "No updates available."
 msgstr "No hay actualizaciones disponibles."
@@ -1940,7 +1948,7 @@ msgid "You have successfully logged in as {0}."
 msgstr "Has iniciado sesión correctamente como {0}."
 
 msgid "Speedlimit Offset"
-msgstr ""
+msgstr "Desfase del límite de velocidad"
 
 msgid "Account Removal Failed"
 msgstr "Error al eliminar la cuenta"
@@ -1988,7 +1996,7 @@ msgid "Show Plugin Updates"
 msgstr "Mostrar actualizaciones de plugins"
 
 msgid "Speed Limits"
-msgstr ""
+msgstr "Límites de velocidad"
 
 #, csharp-format
 msgid "Error initializing memory mapped file: {0}"
@@ -2021,7 +2029,7 @@ msgstr[0] "se encontró {0} carretera"
 msgstr[1] "se encontraron {0} carreteras"
 
 msgid "Overlay Font Size"
-msgstr ""
+msgstr "Tamaño de fuente de la superposición"
 
 msgid "You are running the latest version."
 msgstr "Estás usando la última versión."
