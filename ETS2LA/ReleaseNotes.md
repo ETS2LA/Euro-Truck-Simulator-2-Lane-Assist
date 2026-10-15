@@ -1,4 +1,4 @@
-### `NIGHTLY` ETS2LA C# 2026.10.5146
+### ETS2LA C# 2026.10.5159
 - `feat` Updated settings UI, it's now more compact to fit more settings on screen.
 - `feat` Added *Speedlimit Offset* settings, allowing you to offset speedlimits by a static value and percentage.
 - `feat` Improved tooltip visibility.
