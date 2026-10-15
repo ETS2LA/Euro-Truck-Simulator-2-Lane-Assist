@@ -122,7 +122,11 @@ public class LineWithGradient : IDisposable
 
         gl.Disable(GLEnableCap.DepthTest);
         gl.Enable(GLEnableCap.Blend);
-        gl.BlendFunc(GLBlendingFactor.SrcAlpha, GLBlendingFactor.OneMinusSrcAlpha);
+        gl.BlendFuncSeparate(
+            GLBlendingFactor.SrcAlpha,
+            GLBlendingFactor.OneMinusSrcAlpha,
+            GLBlendingFactor.One,
+            GLBlendingFactor.OneMinusSrcAlpha);
 
         gl.UseProgram(ProgramID);
         gl.BindVertexArray(vao);

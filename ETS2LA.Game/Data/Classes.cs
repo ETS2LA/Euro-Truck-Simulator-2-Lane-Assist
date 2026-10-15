@@ -1107,7 +1107,8 @@ public class PrefabPath
     ///  Get the point at the specified distance along the path. Distance must be between 0 and path length.
     /// </summary>
     /// <param name="distance">Distance along the path to interpolate.</param>
-    /// <returns></returns>
+    /// <param name="additionalOffset">Additional offset to apply to the interpolated point.</param>
+    /// <returns>The interpolated point, or null if the distance is out of bounds.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Distance is out of bounds.</exception>
     public OrientedPoint? InterpolateDist(float distance, float additionalOffset = 0)
     {
@@ -1136,7 +1137,8 @@ public class PrefabPath
                 if (additionalOffset != 0)
                 {
                     Vector3 normal = Vector3.Normalize(Vector3.Transform(Vector3.UnitX, point.Rotation));
-                    point.Position += normal * additionalOffset;
+                    // TODO: This is negative due to the way ParsedRoad is done, maybe it should be positive on both?
+                    point.Position -= normal * additionalOffset;
                 }
 
                 return point;
@@ -1153,12 +1155,13 @@ public class PrefabPath
     ///  Get the point at the specified factor along the path. Factor must be between 0 and 1.
     /// </summary>
     /// <param name="t">Factor along the path to interpolate.</param>
+    /// <param name="additionalOffset">Additional offset to apply to the interpolated point.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentOutOfRangeException">Factor is out of bounds.</exception>
-    public OrientedPoint? Interpolate(float t)
+    public OrientedPoint? Interpolate(float t, float additionalOffset = 0)
     {
         if (t < 0 || t > 1) throw new ArgumentOutOfRangeException(nameof(t), "t must be between 0 and 1");
-        return InterpolateDist(t * Length);
+        return InterpolateDist(t * Length, additionalOffset);
     }
 
     /// <summary>

@@ -349,8 +349,8 @@ public class ARRenderer
             return;
 
         Vector3 camPos = cameraData.position;
-        float nearFadeStart = 30f;
-        float nearFadeEnd = 10f;
+        float nearFadeStart = 35f;
+        float nearFadeEnd = 15f;
         float farFadeStart = 60f;
         float farFadeEnd = 150f;
         float secondaryColorFadeStart = secondaryColorDist - 10f;

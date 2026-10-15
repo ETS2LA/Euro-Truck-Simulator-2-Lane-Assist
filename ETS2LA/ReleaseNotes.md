@@ -7,6 +7,8 @@
 - `feat` Updated *Switch* component, it now has an ON/OFF label.
 - `feat` Added new *TooltipIcon* component, it displays an information icon with a tooltip when hovered over.
 - `fix` Fixed a bug where a changing speedlimit would incorrectly determine the offset when a maximum speed is set.
+- `fix` ETS2LA.Overlay shaders now use `glBlendFuncSeparate` instead of `glBlendFunc` to fix issues with colors on Windows.
+- `fix` ParsedPrefab curves' interpolation now supports an additional offset, this was previously missing even though it's supported by the base class.
 - `translation` Updated supported languages, *Thai* is now available.
 - `translation` Added *NotoSansThai* font support to overlay.
 

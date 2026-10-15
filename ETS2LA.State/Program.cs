@@ -11,6 +11,8 @@ using ETS2LA.Notifications;
 using static ETS2LA.Translations.T;
 using ETS2LA.Game.PmdFiles;
 
+using System.Collections.Generic;
+
 namespace ETS2LA.State;
 
 public enum DrivingMode
@@ -197,6 +199,13 @@ public class ApplicationState
         }
     }
 
+    private float ApplyOffsets(float speedlimit)
+    {
+        speedlimit += speedlimit * stateSettings.DesiredSpeedPercentageOffset / 100;
+        speedlimit += stateSettings.DesiredSpeedStaticOffset;
+        return speedlimit;
+    }
+
     private void HandleSpeedLimitChanged(float newSpeedLimit)
     {
         if (!AssistanceSettings.Current.EnabledTrafficRules.Contains(TrafficRule.Speedlimits))
@@ -206,8 +215,7 @@ public class ApplicationState
             return;
 
         newSpeedLimit = Math.Max(newSpeedLimit, 0);
-        newSpeedLimit += newSpeedLimit * stateSettings.DesiredSpeedPercentageOffset / 100;
-        newSpeedLimit += stateSettings.DesiredSpeedStaticOffset;
+        newSpeedLimit = ApplyOffsets(newSpeedLimit);
 
         float offset = 0;
         if (lastSpeedLimit != 0)
@@ -216,7 +224,7 @@ public class ApplicationState
         if (newSpeedLimit == 0)
             newSpeedLimit = stateSettings.FallbackSpeed;
 
-        bool wasBelowLimit = lastSpeedLimit < AssistanceSettings.Current.MaximumSpeed;
+        bool wasBelowLimit = AssistanceSettings.Current.MaximumSpeed > 1 && lastSpeedLimit < AssistanceSettings.Current.MaximumSpeed;
         lastSpeedLimit = newSpeedLimit;
         DesiredSpeed = newSpeedLimit + (wasBelowLimit ? offset : 0);
         RoundToNearestUnit();
@@ -270,11 +278,7 @@ public class ApplicationState
             // SET if speed is 0
             if (DesiredSpeed == 0)
             {
-                DesiredSpeed = latestTelemetryData.truckFloat.speedLimit;
-                if (DesiredSpeed == 0) // Game is closed or we're in a menu/depot
-                {
-                    DesiredSpeed = stateSettings.FallbackSpeed;
-                }
+                DesiredSpeed = ApplyOffsets(latestTelemetryData.truckFloat.speedLimit != 0 ? latestTelemetryData.truckFloat.speedLimit : stateSettings.FallbackSpeed);
             }
 
             EnableAssists = true;
@@ -311,9 +315,9 @@ public class ApplicationState
             if (assistanceSettings.SetSpeedBehaviourOption == SetSpeedBehaviour.CurrentSpeed)
                 DesiredSpeed = latestTelemetryData.truckFloat.speed;
             else if (assistanceSettings.SetSpeedBehaviourOption == SetSpeedBehaviour.SpeedLimit)
-                DesiredSpeed = latestTelemetryData.truckFloat.speedLimit != 0 ?
+                DesiredSpeed = ApplyOffsets(latestTelemetryData.truckFloat.speedLimit != 0 ?
                                latestTelemetryData.truckFloat.speedLimit :
-                               stateSettings.FallbackSpeed;
+                               stateSettings.FallbackSpeed);
 
             EnableAssists = true;
             return;

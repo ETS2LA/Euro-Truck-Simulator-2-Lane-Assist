@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-14 15:38:17+0300\n"
-"PO-Revision-Date: 2026-10-14 15:38:17+0300\n"
+"POT-Creation-Date: 2026-10-15 21:18:52+0300\n"
+"PO-Revision-Date: 2026-10-15 21:18:52+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -55,8 +55,8 @@ msgid ""
 "visualization on a single monitor setup, this is recommended."
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:186
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:165
+#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:186
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating bindings."
 msgstr ""
@@ -119,8 +119,8 @@ msgstr ""
 msgid "Error loading map data from '{0}': {1}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Data.razor:11
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:53
+#: ../../../ETS2LA.UI/Pages/Settings/Data.razor:11
 msgid "Medium"
 msgstr ""
 
@@ -156,7 +156,7 @@ msgstr ""
 msgid "Only Show Official News"
 msgstr ""
 
-#: ../../../ETS2LA.Networking/Plugins/Client.cs:144
+#: ../../../ETS2LA.Networking/Plugins/client.cs:144
 #, csharp-format
 msgid ""
 "Version {0} of plugin with ID {1} is not compatible with the current "
@@ -250,8 +250,8 @@ msgstr ""
 msgid "The step size for changing the cruise control speed."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account.razor:169
 #: ../../../ETS2LA.UI/Pages/Home.razor:310
+#: ../../../ETS2LA.UI/Pages/Settings/Account.razor:169
 msgid "Press anywhere outside the dialog to close it."
 msgstr ""
 
@@ -306,7 +306,7 @@ msgstr ""
 msgid "Enable Memory Output for Pedals"
 msgstr ""
 
-#: ../../../ETS2LA.Networking/Plugins/Client.cs:253
+#: ../../../ETS2LA.Networking/Plugins/client.cs:253
 #, csharp-format
 msgid "Successfully updated plugin with ID {0}."
 msgstr ""
@@ -327,21 +327,21 @@ msgstr ""
 msgid "Additional"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/PluginStep.razor:56
-msgid "Install Plugins"
-msgstr ""
-
 #: ../../../ETS2LA.Overlay/Window/Console.cs:54
 msgid "Show Fewer Logs"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/DisclaimerStep1.razor:21
-msgid "I won't leave ETS2LA unattended"
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/PluginStep.razor:56
+msgid "Install Plugins"
 msgstr ""
 
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:81
 #, csharp-format
 msgid "Error while downloading update: {0}"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/DisclaimerStep1.razor:21
+msgid "I won't leave ETS2LA unattended"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:74
@@ -389,7 +389,7 @@ msgstr ""
 msgid "Logout Successful"
 msgstr ""
 
-#: ../../../ETS2LA.Networking/Plugins/Client.cs:300
+#: ../../../ETS2LA.Networking/Plugins/client.cs:300
 #, csharp-format
 msgid "Successfully uninstalled plugin with ID {0}."
 msgstr ""
@@ -420,8 +420,8 @@ msgid ""
 "When receiving a speedlimit of {0} {1}, we will set the speed to {2} {3}."
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:201
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:180
+#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:201
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating axis behavior."
 msgstr ""
@@ -530,7 +530,7 @@ msgstr ""
 msgid "Data Fidelity"
 msgstr ""
 
-#: ../../../ETS2LA.Networking/Plugins/Client.cs:240
+#: ../../../ETS2LA.Networking/Plugins/client.cs:240
 #, csharp-format
 msgid "Failed to uninstall current version of plugin with ID {0}."
 msgstr ""
@@ -553,14 +553,14 @@ msgstr ""
 msgid "Backend shutdown complete."
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:141
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:121
+#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:141
 #, csharp-format
 msgid "Control with ID '{0}' not found for event subscription."
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:166
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:156
+#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:166
 #, csharp-format
 msgid "Unregistered control: {0} ({1})"
 msgstr ""
@@ -609,7 +609,7 @@ msgstr ""
 msgid "You took a wrong turn!"
 msgstr ""
 
-#: ../../../ETS2LA.State/Program.cs:107
+#: ../../../ETS2LA.State/Program.cs:109
 msgid "Adaptive Cruise Control Only"
 msgstr ""
 
@@ -672,7 +672,7 @@ msgid ""
 "ETS2LA.</span>"
 msgstr ""
 
-#: ../../../ETS2LA.Networking/Plugins/Client.cs:290
+#: ../../../ETS2LA.Networking/Plugins/client.cs:290
 #, csharp-format
 msgid "Apparent plugin directory {0} does not exist."
 msgstr ""
@@ -717,7 +717,7 @@ msgstr ""
 msgid "Speed Limit Warning"
 msgstr ""
 
-#: ../../../ETS2LA.State/Program.cs:227
+#: ../../../ETS2LA.State/Program.cs:229
 msgid "Speed limit changed"
 msgstr ""
 
@@ -772,7 +772,7 @@ msgstr ""
 msgid "Current Version: {0}"
 msgstr ""
 
-#: ../../../ETS2LA.Networking/Plugins/Client.cs:233
+#: ../../../ETS2LA.Networking/Plugins/client.cs:233
 #, csharp-format
 msgid "No update available for plugin with ID {0}."
 msgstr ""
@@ -826,7 +826,7 @@ msgstr ""
 msgid "Open Update Page"
 msgstr ""
 
-#: ../../../ETS2LA.Networking/Plugins/Client.cs:262
+#: ../../../ETS2LA.Networking/Plugins/client.cs:262
 #, csharp-format
 msgid "Installed plugin with ID {0} not found."
 msgstr ""
@@ -926,13 +926,13 @@ msgstr ""
 msgid "Game"
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:182
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:172
+#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:182
 #, csharp-format
 msgid "Updated bindings for control: {0} ({1}) to Device: {2}, Control: {3}"
 msgstr ""
 
-#: ../../../ETS2LA.State/Program.cs:251
+#: ../../../ETS2LA.State/Program.cs:253
 msgid ""
 "Driving mode changed, press Cancel/MODE again to cycle through the modes."
 msgstr ""
@@ -954,7 +954,7 @@ msgstr ""
 msgid "Restart Now"
 msgstr ""
 
-#: ../../../ETS2LA.State/Program.cs:228
+#: ../../../ETS2LA.State/Program.cs:230
 #, csharp-format
 msgid "New limit {0} {1}"
 msgstr ""
@@ -974,8 +974,8 @@ msgid ""
 "has only slight differences to metric."
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:170
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:149
+#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:170
 #, csharp-format
 msgid "Control with ID '{0}' not found for unregistration."
 msgstr ""
@@ -992,7 +992,7 @@ msgstr ""
 msgid "Failed to shutdown plugin {0}: {1}"
 msgstr ""
 
-#: ../../../ETS2LA.Networking/Plugins/Client.cs:88
+#: ../../../ETS2LA.Networking/Plugins/client.cs:88
 #, csharp-format
 msgid "Plugin with ID {0} not found in available plugins."
 msgstr ""
@@ -1048,13 +1048,13 @@ msgstr ""
 msgid "Account Removal Error"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/FinishStep.razor:24
-msgid "You can enable the plugins we installed in a previous step here."
-msgstr ""
-
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:465
 #, csharp-format
 msgid "Failed to disable {0}: {1}"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/FinishStep.razor:24
+msgid "You can enable the plugins we installed in a previous step here."
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Account.razor:187
@@ -1248,7 +1248,7 @@ msgstr ""
 msgid "You are running the latest version."
 msgstr ""
 
-#: ../../../ETS2LA.Networking/Plugins/Client.cs:190
+#: ../../../ETS2LA.Networking/Plugins/client.cs:190
 #, csharp-format
 msgid "Failed to download plugin with ID {0} from {1}. Status code: {2}"
 msgstr ""
@@ -1353,13 +1353,9 @@ msgid ""
 "can rebind the default controls on the right side."
 msgstr ""
 
-#: ../../../ETS2LA.Networking/Plugins/Client.cs:247
+#: ../../../ETS2LA.Networking/Plugins/client.cs:247
 #, csharp-format
 msgid "Failed to install latest version of plugin with ID {0}."
-msgstr ""
-
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/DisclaimerStep2.razor:21
-msgid "I understand, now let me in!"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:51
@@ -1367,6 +1363,10 @@ msgstr ""
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
 "on {2}GitHub{3}."
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/DisclaimerStep2.razor:21
+msgid "I understand, now let me in!"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:257
@@ -1379,14 +1379,14 @@ msgid ""
 "be used to improve performance on lower-end hardware."
 msgstr ""
 
-#: ../../../ETS2LA.Networking/Plugins/Client.cs:75
+#: ../../../ETS2LA.Networking/Plugins/client.cs:75
 #, csharp-format
 msgid "Fetched {0} plugin from {1}"
 msgid_plural "Fetched {0} plugins from {1}"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../../../ETS2LA.State/Program.cs:135
+#: ../../../ETS2LA.State/Program.cs:137
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:15
 msgid "Metric"
 msgstr ""
@@ -1417,8 +1417,8 @@ msgstr ""
 msgid "Failed to read log file at '{0}': {1}"
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:197
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:186
+#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:197
 #, csharp-format
 msgid "Updated axis behavior for control: {0} ({1}) to {2}"
 msgstr ""
@@ -1430,9 +1430,9 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/EnsureGameClosed.razor:52
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/PluginStep.razor:57
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/SDKStep.razor:17
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/OverlayStep.razor:27
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/ControlsStep.razor:48
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/OverlayStep.razor:27
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/SDKStep.razor:17
 msgid "Continue"
 msgstr ""
 
@@ -1520,8 +1520,8 @@ msgstr ""
 msgid "liters"
 msgstr ""
 
-#: ../../../ETS2LA.Networking/Plugins/Client.cs:104
-#: ../../../ETS2LA.Networking/Plugins/Client.cs:129
+#: ../../../ETS2LA.Networking/Plugins/client.cs:104
+#: ../../../ETS2LA.Networking/Plugins/client.cs:129
 #, csharp-format
 msgid "No valid versions found for plugin with ID {0}."
 msgstr ""
@@ -1627,7 +1627,7 @@ msgstr ""
 msgid "Changelog"
 msgstr ""
 
-#: ../../../ETS2LA.State/Program.cs:68
+#: ../../../ETS2LA.State/Program.cs:70
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
 msgstr ""
@@ -1637,7 +1637,7 @@ msgstr ""
 msgid "Currently running at {0} FPS."
 msgstr ""
 
-#: ../../../ETS2LA.Networking/Plugins/Client.cs:139
+#: ../../../ETS2LA.Networking/Plugins/client.cs:139
 #, csharp-format
 msgid "Version {0} not found for plugin with ID {1}."
 msgstr ""
@@ -1694,7 +1694,7 @@ msgid_plural "Found {0} game installations."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../../../ETS2LA.State/Program.cs:137
+#: ../../../ETS2LA.State/Program.cs:139
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:17
 msgid "Scientific"
 msgstr ""
@@ -1812,8 +1812,8 @@ msgstr ""
 msgid "kilometers per hour"
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:152
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:133
+#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:152
 #, csharp-format
 msgid "Control with ID '{0}' not found for event unsubscription."
 msgstr ""
@@ -1828,7 +1828,7 @@ msgstr ""
 msgid "Failed to unload plugin load context: {0}"
 msgstr ""
 
-#: ../../../ETS2LA.Networking/Plugins/Client.cs:157
+#: ../../../ETS2LA.Networking/Plugins/client.cs:157
 #, csharp-format
 msgid "No download URL found for plugin with ID {0} in region {1}."
 msgstr ""
@@ -1877,7 +1877,7 @@ msgstr ""
 msgid "Tried to disable {0}, but it was not found among loaded plugins."
 msgstr ""
 
-#: ../../../ETS2LA.State/Program.cs:108
+#: ../../../ETS2LA.State/Program.cs:110
 msgid "Full Self-Driving"
 msgstr ""
 
@@ -1928,7 +1928,7 @@ msgstr ""
 msgid "Disable All"
 msgstr ""
 
-#: ../../../ETS2LA.Networking/Plugins/Client.cs:79
+#: ../../../ETS2LA.Networking/Plugins/client.cs:79
 msgid ""
 "Failed to fetch available plugins. Please check your internet connection."
 msgstr ""
@@ -1946,7 +1946,7 @@ msgstr ""
 msgid "Please close the game before continuing with the onboarding process."
 msgstr ""
 
-#: ../../../ETS2LA.Networking/Plugins/Client.cs:225
+#: ../../../ETS2LA.Networking/Plugins/client.cs:225
 #, csharp-format
 msgid "Successfully installed plugin {0} ({1}, {2})"
 msgstr ""
@@ -2032,10 +2032,10 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Utils.cs:55
 #: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:16
-#: ../../../ETS2LA.UI/Pages/Settings/Data.razor:32
-#: ../../../ETS2LA.UI/Pages/Settings/Data.razor:100
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:167
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:199
+#: ../../../ETS2LA.UI/Pages/Settings/Data.razor:32
+#: ../../../ETS2LA.UI/Pages/Settings/Data.razor:100
 msgid "Restart Required"
 msgstr ""
 
@@ -2150,7 +2150,7 @@ msgstr ""
 msgid "Extreme"
 msgstr ""
 
-#: ../../../ETS2LA.Networking/Plugins/Client.cs:274
+#: ../../../ETS2LA.Networking/Plugins/client.cs:274
 #, csharp-format
 msgid ""
 "Cannot uninstall plugin with ID {0} because the following installed plugins "
@@ -2183,18 +2183,13 @@ msgstr ""
 msgid "Target Speed: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
 msgstr ""
 
-#: ../../../ETS2LA.Game/SDK/ParkedVehicles.cs:108
-#: ../../../ETS2LA.Game/SDK/Navigation.cs:122
 #: ../../../ETS2LA.Game/SDK/Camera.cs:130
-#: ../../../ETS2LA.Game/SDK/Semaphores.cs:176
+#: ../../../ETS2LA.Game/SDK/Navigation.cs:122
+#: ../../../ETS2LA.Game/SDK/ParkedVehicles.cs:108
 #: ../../../ETS2LA.Game/SDK/Traffic.cs:159
+#: ../../../ETS2LA.Game/SDK/Semaphores.cs:176
 #, csharp-format
 msgid "Error initializing memory mapped file: {0}"
-msgstr ""
-
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/ControlsStep.razor:43
-#, csharp-format
-msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:204
@@ -2202,6 +2197,11 @@ msgstr ""
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:217
 #, csharp-format
 msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/ControlsStep.razor:43
+#, csharp-format
+msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:28
@@ -2222,8 +2222,8 @@ msgstr ""
 msgid "SET Behaviour"
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:133
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:113
+#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:133
 #, csharp-format
 msgid "Registered control: {0} [gray italic]({1})[/]"
 msgstr ""
@@ -2264,7 +2264,7 @@ msgstr ""
 msgid "Use this button to extend the sidebar."
 msgstr ""
 
-#: ../../../ETS2LA.State/Program.cs:109
+#: ../../../ETS2LA.State/Program.cs:111
 msgid "Lane Assist Only"
 msgstr ""
 
@@ -2330,7 +2330,7 @@ msgstr ""
 msgid "Inner Exception: {0}"
 msgstr ""
 
-#: ../../../ETS2LA.Networking/Plugins/Client.cs:116
+#: ../../../ETS2LA.Networking/Plugins/client.cs:116
 #, csharp-format
 msgid "Plugin with ID {0} not found."
 msgstr ""
@@ -2378,7 +2378,7 @@ msgstr ""
 msgid "Render Vision Cameras"
 msgstr ""
 
-#: ../../../ETS2LA.State/Program.cs:136
+#: ../../../ETS2LA.State/Program.cs:138
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:16
 msgid "Imperial"
 msgstr ""
@@ -2567,7 +2567,7 @@ msgstr ""
 msgid "Finished loading plugins"
 msgstr ""
 
-#: ../../../ETS2LA.Networking/Plugins/Client.cs:170
+#: ../../../ETS2LA.Networking/Plugins/client.cs:170
 #, csharp-format
 msgid "Failed to install dependency {0} for plugin {1}."
 msgstr ""
@@ -2606,9 +2606,9 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Utils.cs:56
 #: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:17
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:168
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:33
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:101
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:168
 msgid ""
 "Changing this option requires a restart of ETS2LA to take effect. Restart "
 "now?"
@@ -2618,7 +2618,7 @@ msgstr ""
 msgid "And to those who've decided to remain anonymous!"
 msgstr ""
 
-#: ../../../ETS2LA.Networking/Plugins/Client.cs:52
+#: ../../../ETS2LA.Networking/Plugins/client.cs:52
 msgid "Plugin Installer"
 msgstr ""
 
@@ -2631,16 +2631,16 @@ msgstr ""
 msgid "Display Units: "
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:237
-msgid ""
-"The language ETS2LA will be displayed at. Translations are provided by the "
-"community, we cannot guarantee their accuracy."
-msgstr ""
-
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:121
 msgid ""
 "Warning: Your system has less than 20GB of RAM. You can only select up to "
 "High."
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:237
+msgid ""
+"The language ETS2LA will be displayed at. Translations are provided by the "
+"community, we cannot guarantee their accuracy."
 msgstr ""
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:304
@@ -2669,7 +2669,7 @@ msgid ""
 "on our Discord server."
 msgstr ""
 
-#: ../../../ETS2LA.Networking/Plugins/Client.cs:177
+#: ../../../ETS2LA.Networking/Plugins/client.cs:177
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr ""
