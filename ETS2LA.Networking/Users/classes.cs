@@ -4,7 +4,8 @@ namespace ETS2LA.Networking.Users;
 public enum UserRole
 {
     User,
-    Admin
+    Admin,
+    Developer
 }
 
 [Serializable]

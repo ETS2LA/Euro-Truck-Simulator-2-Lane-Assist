@@ -34,7 +34,13 @@ public class UserApiClient
             }
 
             using var httpClient = new HttpClient();
-            var response = await httpClient.PostAsync($"{apiServer.Value.BaseUrl}/users/login?username={Uri.EscapeDataString(username)}&otpcode={Uri.EscapeDataString(otpcode)}", null);
+            var payload = new
+            {
+                username = username,
+                otpcode = otpcode
+            };
+            var content = new StringContent(JsonSerializer.Serialize(payload), System.Text.Encoding.UTF8, "application/json");
+            var response = await httpClient.PostAsync($"{apiServer.Value.BaseUrl}/users/login", content);
             response.EnsureSuccessStatusCode();
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
