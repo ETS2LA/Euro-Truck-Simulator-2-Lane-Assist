@@ -9,6 +9,24 @@
 @inject NavigationManager Navigation
 
 @code {
+    // NOTE: Sanitation is also done on the server side, this is just a client-side check to 
+    // provide immediate feedback to the user.
+
+    private const int UsernameMinLength = 3;
+    private const int UsernameMaxLength = 32;
+
+    private static readonly System.Text.RegularExpressions.Regex UsernameRegex =
+        new(@"^[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?$",
+            System.Text.RegularExpressions.RegexOptions.Compiled);
+    
+    private static readonly HashSet<string> ReservedUsernames = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "admin", "administrator", "root", "system", "support", "moderator", "mod",
+        "staff", "official", "ets2la", "anonymous", "null", "undefined", "me", "you",
+        "tumppi066", "developer", "dev", "test", "tester", "guest", "user", "account", "login",
+        "ets2la-admin", "ets2la-support", "ets2la-moderator",
+    };
+
     private User? CurrentUser => NetworkingSettings.Current.CurrentUser;
 
     private string Username { get; set; } = string.Empty;
@@ -17,8 +35,64 @@
     private bool LoginMode { get; set; } = true;
     private RegisterResponse? RegisterResponse { get; set; } = null;
 
+    private string? SanitizeUsername()
+    {
+        // remove whitespace
+        Username = System.Text.RegularExpressions.Regex.Replace(Username?.Trim() ?? string.Empty, @"\s+", "");
+
+        if (string.IsNullOrEmpty(Username))
+        {
+            return _("Please enter a username.");
+        }
+
+        if (Username.Length < UsernameMinLength)
+        {
+            return _("Your username must be at least {0} characters long.", UsernameMinLength);
+        }
+
+        if (Username.Length > UsernameMaxLength)
+        {
+            return _("Your username must be at most {0} characters long.", UsernameMaxLength);
+        }
+
+        if (!UsernameRegex.IsMatch(Username))
+        {
+            return _("Your username may only contain letters, numbers, underscores, hyphens and periods, and must start and end with a letter or number.");
+        }
+
+        if (Username.Contains("..") || Username.Contains("__") || Username.Contains("--"))
+        {
+            return _("Your username may not contain repeated separators.");
+        }
+
+        if (ReservedUsernames.Contains(Username))
+        {
+            return _("The username {0} is reserved. Please choose a different username.", Username);
+        }
+
+        return null;
+    }
+
+    private void ShowValidationError(string message)
+    {
+        NotificationHandler.Current.SendNotification(new Notifications.Notification
+        {
+            Id = Guid.NewGuid().ToString(),
+            Title = _("Invalid Input"),
+            Content = message,
+            Level = NotificationLevel.Warning
+        });
+    }
+
     private async Task Login()
     {
+        var usernameError = SanitizeUsername();
+        if (usernameError != null)
+        {
+            ShowValidationError(usernameError);
+            return;
+        }
+
         try
         {
             var user = await NetworkingClient.Current.UserClient.Login(Username, OtpCode);
@@ -63,6 +137,13 @@
 
     private async Task RegisterFlow()
     {
+        var usernameError = SanitizeUsername();
+        if (usernameError != null)
+        {
+            ShowValidationError(usernameError);
+            return;
+        }
+
         try
         {
             var response = await NetworkingClient.Current.UserClient.Register(Username);
@@ -155,6 +236,7 @@
                     @bind-Value="Username"
                     Placeholder="@(_("Username"))"
                     Class="w-full" />
+            <p class="description">@((MarkupString)_("<span class=\"text-text-accent\">Usernames are case-sensitive.</span><br/>Your username must be between {0} and {1} characters long, and may only contain letters, numbers, underscores, hyphens and periods. It must start and end with a letter or number.", UsernameMinLength, UsernameMaxLength))</p>
 
             <button class="button mt-2" @onclick="RegisterFlow">@(_("Register"))</button>
             <button class="description mt-2 text-start hover:underline cursor-pointer" @onclick="() => LoginMode = true">@(_("Already have an account? Log in here."))</button>

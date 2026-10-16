@@ -1,16 +1,7 @@
-### ETS2LA C# 2026.10.5159
-- `feat` Updated settings UI, it's now more compact to fit more settings on screen.
-- `feat` Added *Speedlimit Offset* settings, allowing you to offset speedlimits by a static value and percentage.
-- `feat` Improved tooltip visibility.
-- `feat` Updated *Slider* component, it will now display the current value in a tooltip while hovering over.
-- `feat` Added new *SectionTitle* component.
-- `feat` Updated *Switch* component, it now has an ON/OFF label.
-- `feat` Added new *TooltipIcon* component, it displays an information icon with a tooltip when hovered over.
-- `fix` Fixed a bug where a changing speedlimit would incorrectly determine the offset when a maximum speed is set.
-- `fix` ETS2LA.Overlay shaders now use `glBlendFuncSeparate` instead of `glBlendFunc` to fix issues with colors on Windows.
-- `fix` ParsedPrefab curves' interpolation now supports an additional offset, this was previously missing even though it's supported by the base class.
-- `translation` Updated supported languages, *Thai* is now available.
-- `translation` Added *NotoSansThai* font support to overlay.
+### ETS2LA C# 2026.10.5163
+- `feat` Added JSInterop file for clipboard copy functionality.
+- `feat` You can create an ETS2LA account and log in. There is no functionality yet, you can however reserve your username.
+- `feat` Synced *ETS2LA.Networking* with the latest *service* update.
 
 #### Thank you to today's sponsor... You!
 Development is possible thanks to our [sponsors](https://github.com/sponsors/Tumppi066). Please consider supporting if you like the project and have the means to do so.
