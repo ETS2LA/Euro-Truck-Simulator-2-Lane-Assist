@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-10-15 21:19:15+0300\n"
-"PO-Revision-Date: 2026-10-11 10:18+0000\n"
+"PO-Revision-Date: 2026-10-16 20:08+0000\n"
 "Last-Translator: cooper153826 <cooper153826@ets2la.com>\n"
 "Language-Team: Thai <http://weblate.ets2la.com/projects/ets2la/ets2la/th/>\n"
 "Language: th\n"
@@ -64,7 +64,7 @@ msgstr ""
 "ETS2LA คาดไว้"
 
 msgid "Gates"
-msgstr ""
+msgstr "รั้ว"
 
 msgid "Game SDK"
 msgstr "SDK ของเกม"
@@ -93,7 +93,7 @@ msgid "Become a GitHub Sponsor"
 msgstr "สนับสนุนโปรเจกต์ผ่าน GitHub Sponsors"
 
 msgid "Game not found"
-msgstr ""
+msgstr "ไม่เจอเกม"
 
 msgid "If you've not yet installed it, you can find it in the catalogue."
 msgstr "หากยังไม่ได้ติดตั้ง สามารถค้นหาได้ในคลัง"
@@ -347,6 +347,7 @@ msgstr "อัปเดตเป็น {0}"
 msgid ""
 "When receiving a speedlimit of {0} {1}, we will set the speed to {2} {3}."
 msgstr ""
+"เมื่อได้รับข้อมูลจำกัดความเร็วที่ {0} {1}, ระบบจะปรับความเร็วเป็น {2} {3}"
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating axis behavior."
@@ -527,13 +528,13 @@ msgstr ""
 "GitHub{4}"
 
 msgid "You must restart ETS2LA for the font size change to take effect."
-msgstr ""
+msgstr "คุณต้องรีสตาร์ท ETS2LA เพื่อให้การเปลี่ยนขนาดตัวอักษรมีผล"
 
 msgid "Uninstall"
 msgstr "ถอนการติดตั้ง"
 
 msgid "Enabled Traffic Rules"
-msgstr ""
+msgstr "กฎจราจรใช้งานอยู่"
 
 msgid ""
 "Anonymous telemetry helps us improve ETS2LA by giving us insights into "
@@ -667,13 +668,13 @@ msgid "meters per second"
 msgstr "เมตรต่อวินาที"
 
 msgid "Traffic Lights"
-msgstr ""
+msgstr "ไฟจราจร"
 
 msgid "Update check skipped, using already cached result."
 msgstr "ข้ามการตรวจสอบอัปเดต โดยใช้ผลที่แคชไว้"
 
 msgid "Open Update Page"
-msgstr ""
+msgstr "เปิดหน้าต่างอัปเดต"
 
 #, csharp-format
 msgid "Installed plugin with ID {0} not found."
@@ -755,7 +756,7 @@ msgid "Failed to load library plugin from [gray]{0}[/]: {1}"
 msgstr "โหลด Library Plugin จาก [gray]{0}[/] ไม่สำเร็จ: {1}"
 
 msgid "Game"
-msgstr ""
+msgstr "เกม"
 
 #, csharp-format
 msgid "Updated bindings for control: {0} ({1}) to Device: {2}, Control: {3}"
@@ -912,7 +913,7 @@ msgid "Unknown manifest type: {0}"
 msgstr "ประเภท Manifest ที่ไม่รู้จัก: {0}"
 
 msgid "Overlay Font Size"
-msgstr ""
+msgstr "ขนาดตัวอักษรบนหน้าต่าง Overlay"
 
 msgid ""
 "Ensure you don't have any mods installed in the root directory. Those have "
@@ -1134,6 +1135,7 @@ msgid ""
 "The font size of the overlay. This can be used to scale the overlay to your "
 "monitor's DPI settings."
 msgstr ""
+"กำหนดขนาดตัวอักษรของ Overlay เพื่อปรับขนาด Overlay ให้เหมาะสมกับการตั้งค่า DPI ของจอภาพ"
 
 msgid "Error in telemetry update loop."
 msgstr "เกิดข้อผิดพลาดในลูปอัปเดต Telemetry"
@@ -1187,7 +1189,7 @@ msgid "Normal"
 msgstr "ปกติ"
 
 msgid "ETS2LA will offset the speedlimit by this amount."
-msgstr ""
+msgstr "ETS2LA จะปรับค่าจำกัดความเร็วเพิ่มหรือลดตามค่าที่กำหนดไว้"
 
 msgid "Unknown Control"
 msgstr "การควบคุมที่ไม่รู้จัก"
@@ -1386,17 +1388,17 @@ msgid "An error occurred while loading map data: {0}"
 msgstr "เกิดข้อผิดพลาดขณะโหลดข้อมูลแผนที่: {0}"
 
 msgid "The selected game executable was not found."
-msgstr ""
+msgstr "ไม่พบไฟล์ Executable ของเกมที่เลือกไว้"
 
 #, csharp-format
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
 msgstr "โหลด Library Plugin: [gray]{0}[/] จาก [gray]{1}[/] แล้ว"
 
 msgid "Select the game you wish to start."
-msgstr ""
+msgstr "เลือกเกมที่คุณต้องการเปิดใช้งาน"
 
 msgid "Speed Limits"
-msgstr ""
+msgstr "จำกัดความเร็ว"
 
 msgid "Responsiveness"
 msgstr "ความรวดเร็วในการตอบสนอง"
@@ -1446,6 +1448,8 @@ msgid ""
 "Select which traffic rules ETS2LA should obey. More might be added later, "
 "and all plugins won't necessarily support all rules."
 msgstr ""
+"เลือกกฎจราจรที่ต้องการให้ ETS2LA ปฏิบัติตาม โดยอาจมีการเพิ่มกฎใหม่ในอนาคต และ Plugin "
+"บางตัวอาจไม่รองรับกฎทั้งหมด"
 
 msgid "kilometers per hour"
 msgstr "กิโลเมตรต่อชั่วโมง"
@@ -1482,7 +1486,7 @@ msgid "ETS2LA is running."
 msgstr "ETS2LA กำลังทำงาน"
 
 msgid "Warnings"
-msgstr ""
+msgstr "คำเตือน"
 
 msgid "Restart"
 msgstr "รีสตาร์ต"
@@ -1738,7 +1742,7 @@ msgid "Deleted '{0}'"
 msgstr "ลบ '{0}' แล้ว"
 
 msgid "Open SDK Settings"
-msgstr ""
+msgstr "เปิดหน้าต่างการตั้งค่า SDK"
 
 #, csharp-format
 msgid "Target Speed: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
@@ -1790,7 +1794,7 @@ msgid "Please see the logs for more information."
 msgstr "โปรดดู Log สำหรับข้อมูลเพิ่มเติม"
 
 msgid "Start Game"
-msgstr ""
+msgstr "เริ่มเกม"
 
 msgid "Binding Timed Out"
 msgstr "หมดเวลาการกำหนดปุ่ม"
@@ -1841,7 +1845,7 @@ msgid "Data Quality"
 msgstr "คุณภาพข้อมูล"
 
 msgid "Overlay"
-msgstr "หน้าต่างซ้อนทับ"
+msgstr "Overlay(หน้าต่างซ้อนทับ)"
 
 #, csharp-format
 msgid "Error in AR OpenGL pass: {0}"
@@ -1878,7 +1882,7 @@ msgid "Display Language"
 msgstr "ภาษาที่แสดง"
 
 msgid "Speedlimit Offset"
-msgstr ""
+msgstr "ค่าชดเชยจำกัดความเร็ว"
 
 #, csharp-format
 msgid "Changed update source to '{0}'."
@@ -1952,7 +1956,7 @@ msgid "Unknown Version"
 msgstr "ไม่ทราบเวอร์ชั่น"
 
 msgid "ETS2LA will offset the speedlimit by this percentage."
-msgstr ""
+msgstr "ETS2LA จะปรับค่าจำกัดความเร็วเพิ่มหรือลดตามเปอร์เซ็นต์ที่กำหนด"
 
 msgid ""
 "Your system has less than 20GB of RAM. Extreme data fidelity uses "
@@ -1989,7 +1993,7 @@ msgid "Checking for updates..."
 msgstr "กำลังเช็คอัปเดต"
 
 msgid "Catalogue"
-msgstr "คลังรายการ"
+msgstr "คลังปลั๊กอิน"
 
 msgid "Starting ETS2LA..."
 msgstr "กำลังเริ่ม ETS2LA..."
