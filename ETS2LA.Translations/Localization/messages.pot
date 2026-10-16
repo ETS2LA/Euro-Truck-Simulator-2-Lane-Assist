@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-16 23:05:19+0300\n"
-"PO-Revision-Date: 2026-10-16 23:05:19+0300\n"
+"POT-Creation-Date: 2026-10-16 23:14:00+0300\n"
+"PO-Revision-Date: 2026-10-16 23:14:01+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -59,8 +59,8 @@ msgid ""
 "visualization on a single monitor setup, this is recommended."
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:186
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:165
+#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:186
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating bindings."
 msgstr ""
@@ -89,7 +89,7 @@ msgid ""
 "When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:243
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:234
 msgid "Register"
 msgstr ""
 
@@ -141,7 +141,7 @@ msgid ""
 "When the game reports itself being paused, ETS2LA won't render AR elements."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:62
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:60
 msgid ""
 "Your username may only contain letters, numbers, underscores, hyphens and "
 "periods, and must start and end with a letter or number."
@@ -190,7 +190,7 @@ msgstr[1] ""
 msgid "Binding for control {0} ({1}) timed out."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:202
+#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:158
 msgid "Remove Account"
 msgstr ""
 
@@ -264,19 +264,19 @@ msgstr ""
 msgid "The step size for changing the cruise control speed."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:47
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:45
 msgid "Please enter a username."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:52
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:50
 #, csharp-format
 msgid "Your username must be at least {0} characters long."
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Home.razor:311
 #: ../../../ETS2LA.UI/Pages/Home.razor:322
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:233
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:238
+#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:189
+#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:194
 msgid "Press anywhere outside the dialog to close it."
 msgstr ""
 
@@ -284,7 +284,7 @@ msgstr ""
 msgid "Welcome to ETS2LA!"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:131
+#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:87
 msgid "Account Removal Failed"
 msgstr ""
 
@@ -340,7 +340,7 @@ msgstr ""
 msgid "Look in the top left corner."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:88
+#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:44
 msgid "Failed to log out. Please try again."
 msgstr ""
 
@@ -352,21 +352,21 @@ msgstr ""
 msgid "Additional"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/PluginStep.razor:56
-msgid "Install Plugins"
-msgstr ""
-
 #: ../../../ETS2LA.Overlay/Window/Console.cs:54
 msgid "Show Fewer Logs"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/DisclaimerStep1.razor:21
-msgid "I won't leave ETS2LA unattended"
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/PluginStep.razor:56
+msgid "Install Plugins"
 msgstr ""
 
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:81
 #, csharp-format
 msgid "Error while downloading update: {0}"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/DisclaimerStep1.razor:21
+msgid "I won't leave ETS2LA unattended"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:74
@@ -391,7 +391,7 @@ msgstr ""
 msgid "Fast"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:241
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:232
 #, csharp-format
 msgid ""
 "<span class=\"text-text-accent\">Usernames are "
@@ -414,7 +414,7 @@ msgid ""
 "example controls how quickly ETS2LA will lane-change."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:98
+#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:54
 msgid "Logout Successful"
 msgstr ""
 
@@ -449,8 +449,8 @@ msgid ""
 "When receiving a speedlimit of {0} {1}, we will set the speed to {2} {3}."
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:201
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:180
+#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:201
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating axis behavior."
 msgstr ""
@@ -530,8 +530,7 @@ msgstr ""
 msgid "Are you sure?"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:45
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:110
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:101
 #, csharp-format
 msgid "You have successfully logged in as {0}."
 msgstr ""
@@ -575,7 +574,7 @@ msgid ""
 "invalid response from an inbound server."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:244
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:235
 msgid "Already have an account? Log in here."
 msgstr ""
 
@@ -587,21 +586,21 @@ msgstr ""
 msgid "Backend shutdown complete."
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:141
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:121
+#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:141
 #, csharp-format
 msgid "Control with ID '{0}' not found for event subscription."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:228
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:219
 msgid ""
 "Please add the OTP code to your authentication app.<br/><span "
 "class=\"text-text-accent\">Do not close the page before you have added the code. We cannot "
 "recover accounts once they are created!</span>"
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:166
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:156
+#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:166
 #, csharp-format
 msgid "Unregistered control: {0} ({1})"
 msgstr ""
@@ -737,7 +736,7 @@ msgstr ""
 msgid "Please enable the Visualization Sockets plugin."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:143
+#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:99
 msgid "Your account has been successfully removed."
 msgstr ""
 
@@ -762,7 +761,7 @@ msgstr ""
 msgid "Speed limit changed"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:67
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:65
 msgid "Your username may not contain repeated separators."
 msgstr ""
 
@@ -831,8 +830,7 @@ msgstr ""
 msgid "Slow"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:56
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:121
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:112
 msgid "Login Failed"
 msgstr ""
 
@@ -881,8 +879,7 @@ msgstr ""
 msgid "Audio"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:68
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:133
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:124
 msgid "Login Error"
 msgstr ""
 
@@ -917,7 +914,7 @@ msgstr ""
 msgid "State Info"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:231
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:222
 msgid "Back to Login"
 msgstr ""
 
@@ -930,18 +927,18 @@ msgstr ""
 msgid "Error in AR rendering: {0}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:205
+#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:161
 msgid ""
 "Some 3rd party websites might want access to your account.<br/>You can press "
 "the button below to display your JWT token."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:176
-msgid "Collision Avoidance"
+#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:193
+msgid "If you're streaming or recording, now's the time to hide this window."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:237
-msgid "If you're streaming or recording, now's the time to hide this window."
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:176
+msgid "Collision Avoidance"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:258
@@ -972,11 +969,11 @@ msgstr ""
 msgid "Camera {0} ({1}x{2})"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:206
+#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:162
 msgid "Display JWT Token"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:83
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:81
 msgid "Invalid Input"
 msgstr ""
 
@@ -995,8 +992,8 @@ msgstr ""
 msgid "Game"
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:182
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:172
+#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:182
 #, csharp-format
 msgid "Updated bindings for control: {0} ({1}) to Device: {2}, Control: {3}"
 msgstr ""
@@ -1043,8 +1040,8 @@ msgid ""
 "has only slight differences to metric."
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:170
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:149
+#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:170
 #, csharp-format
 msgid "Control with ID '{0}' not found for unregistration."
 msgstr ""
@@ -1066,11 +1063,11 @@ msgstr ""
 msgid "Plugin with ID {0} not found in available plugins."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:232
+#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:188
 msgid "Confirm Account Removal"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:231
+#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:187
 msgid ""
 "Removing your account will delete all your data from our servers. This action "
 "cannot be undone."
@@ -1113,7 +1110,7 @@ msgstr[1] ""
 msgid "Pascals"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:156
+#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:112
 msgid "Account Removal Error"
 msgstr ""
 
@@ -1126,7 +1123,7 @@ msgstr ""
 msgid "You can enable the plugins we installed in a previous step here."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:221
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:212
 msgid "Login"
 msgstr ""
 
@@ -1152,7 +1149,7 @@ msgstr ""
 msgid "Limit Overlay Framerate"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:235
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:226
 msgid ""
 "You'll be asked to save an OTP authentication code after registration. We do "
 "not store or ask for passwords, as those aren't required for authentication."
@@ -1213,8 +1210,8 @@ msgstr ""
 msgid "Download progress: {0}%"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:157
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:110
+#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:157
 msgid "Search for plugins..."
 msgstr ""
 
@@ -1260,7 +1257,7 @@ msgstr ""
 msgid "bar"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:142
+#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:98
 msgid "Account Removed"
 msgstr ""
 
@@ -1334,8 +1331,8 @@ msgid ""
 "plugins."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:198
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:146
+#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:198
 msgid "No plugins found."
 msgstr ""
 
@@ -1433,10 +1430,6 @@ msgstr ""
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/DisclaimerStep2.razor:21
-msgid "I understand, now let me in!"
-msgstr ""
-
 #: ../../../ETS2LA.UI/Pages/Error.razor:51
 #, csharp-format
 msgid ""
@@ -1444,7 +1437,11 @@ msgid ""
 "on {2}GitHub{3}."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:160
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/DisclaimerStep2.razor:21
+msgid "I understand, now let me in!"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:151
 #, csharp-format
 msgid ""
 "You have successfully registered as {0}. Please add the OTP code to your "
@@ -1499,8 +1496,8 @@ msgstr ""
 msgid "Failed to read log file at '{0}': {1}"
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:197
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:186
+#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:197
 #, csharp-format
 msgid "Updated axis behavior for control: {0} ({1}) to {2}"
 msgstr ""
@@ -1633,8 +1630,7 @@ msgstr ""
 msgid "Simplified Graphics"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:57
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:122
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:113
 msgid "Failed to log in. Please check your credentials and try again."
 msgstr ""
 
@@ -1642,8 +1638,8 @@ msgstr ""
 msgid "Steering Sensitivity"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:226
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:204
+#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:226
 msgid "Disabled"
 msgstr ""
 
@@ -1684,8 +1680,7 @@ msgstr ""
 msgid "L"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:69
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:134
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:125
 msgid ""
 "An error occurred while trying to log in. Please try again later. Error: "
 msgstr ""
@@ -1726,7 +1721,7 @@ msgstr ""
 msgid "Version {0} not found for plugin with ID {1}."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:113
+#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:69
 msgid ""
 "An error occurred while trying to log out. Please try again later. Error: "
 msgstr ""
@@ -1736,8 +1731,7 @@ msgstr ""
 msgid "Invalid file"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:44
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:109
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:100
 msgid "Login Successful"
 msgstr ""
 
@@ -1768,11 +1762,11 @@ msgid ""
 "Manually added game at '{0}' no longer contains a game executable, skipping."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:112
+#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:68
 msgid "Logout Error"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:222
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:213
 msgid "Don't have an account?<br/>Register a new one now, no emails required!"
 msgstr ""
 
@@ -1831,7 +1825,7 @@ msgstr ""
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:72
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:70
 #, csharp-format
 msgid "The username {0} is reserved. Please choose a different username."
 msgstr ""
@@ -1906,8 +1900,8 @@ msgstr ""
 msgid "kilometers per hour"
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:152
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:133
+#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:152
 #, csharp-format
 msgid "Control with ID '{0}' not found for event unsubscription."
 msgstr ""
@@ -2036,7 +2030,7 @@ msgstr ""
 msgid "Overlay is disabled in settings, skipping window registration for {0}."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:184
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:175
 msgid "Registration Failed"
 msgstr ""
 
@@ -2044,11 +2038,11 @@ msgstr ""
 msgid "Please close the game before continuing with the onboarding process."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:159
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:150
 msgid "Registration Successful"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:57
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:55
 #, csharp-format
 msgid "Your username must be at most {0} characters long."
 msgstr ""
@@ -2163,7 +2157,7 @@ msgstr ""
 msgid "kilograms"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:171
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:162
 msgid "Username Taken"
 msgstr ""
 
@@ -2225,7 +2219,7 @@ msgstr ""
 msgid "Recommended Plugins"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:132
+#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:88
 msgid "Failed to remove account. Please try again."
 msgstr ""
 
@@ -2262,7 +2256,7 @@ msgid ""
 "depend on it: {1}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:200
+#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:156
 #, csharp-format
 msgid ""
 "You are currently logged in as <span class=\"text-text-l\">{0}</span>. [{1}]"
@@ -2294,18 +2288,13 @@ msgstr ""
 msgid "Target Speed: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
 msgstr ""
 
+#: ../../../ETS2LA.Game/SDK/ParkedVehicles.cs:108
 #: ../../../ETS2LA.Game/SDK/Navigation.cs:122
 #: ../../../ETS2LA.Game/SDK/Camera.cs:130
-#: ../../../ETS2LA.Game/SDK/ParkedVehicles.cs:108
 #: ../../../ETS2LA.Game/SDK/Semaphores.cs:176
 #: ../../../ETS2LA.Game/SDK/Traffic.cs:159
 #, csharp-format
 msgid "Error initializing memory mapped file: {0}"
-msgstr ""
-
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/ControlsStep.razor:43
-#, csharp-format
-msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:204
@@ -2313,6 +2302,11 @@ msgstr ""
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:217
 #, csharp-format
 msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/ControlsStep.razor:43
+#, csharp-format
+msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:28
@@ -2333,8 +2327,8 @@ msgstr ""
 msgid "SET Behaviour"
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:133
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:113
+#: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:133
 #, csharp-format
 msgid "Registered control: {0} [gray italic]({1})[/]"
 msgstr ""
@@ -2401,12 +2395,12 @@ msgstr ""
 msgid "The selected file is not a core.scs file."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:237
-msgid "Translated by:"
+#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:55
+msgid "You have successfully logged out."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:99
-msgid "You have successfully logged out."
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:237
+msgid "Translated by:"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:81
@@ -2461,7 +2455,7 @@ msgid ""
 "request but refuses to authorize it."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:197
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:188
 msgid "Registration Error"
 msgstr ""
 
@@ -2506,7 +2500,7 @@ msgstr ""
 msgid "m/s"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:172
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:163
 #, csharp-format
 msgid "The username {0} is already taken. Please choose a different username."
 msgstr ""
@@ -2529,7 +2523,7 @@ msgstr ""
 msgid "Invalid directory"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:203
+#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:159
 msgid "Logout"
 msgstr ""
 
@@ -2556,11 +2550,11 @@ msgid ""
 "while depending on the number of articles and your internet connection."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:243
+#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:199
 msgid "You are not logged in. Open this page again to login."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:209
+#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:165
 msgid "Only copy this to trusted websites, it can do ANYTHING on your behalf."
 msgstr ""
 
@@ -2600,7 +2594,7 @@ msgstr ""
 msgid "Desired Speed: "
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:201
+#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:157
 #, csharp-format
 msgid ""
 "Your token will expire on <span class=\"text-text-l\">{0}</span>, you'll be "
@@ -2612,7 +2606,7 @@ msgstr ""
 msgid "meters"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:157
+#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:113
 msgid ""
 "An error occurred while trying to remove your account. Please try again "
 "later. Error: "
@@ -2630,7 +2624,7 @@ msgid_plural "Discovered {0} manually installed plugins."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:198
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:189
 msgid ""
 "An error occurred while trying to register. Please try again later. Error: "
 msgstr ""
@@ -2731,13 +2725,13 @@ msgstr ""
 msgid "Final Disclaimer <span class=\"description\">2/2</span>"
 msgstr ""
 
+#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:43
+msgid "Logout Failed"
+msgstr ""
+
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:143
 #, csharp-format
 msgid "Snap to each 10 {0}"
-msgstr ""
-
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:87
-msgid "Logout Failed"
 msgstr ""
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:70

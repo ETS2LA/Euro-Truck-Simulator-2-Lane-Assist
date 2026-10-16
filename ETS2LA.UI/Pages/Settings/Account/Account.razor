@@ -28,50 +28,6 @@
         }
     }
 
-    private async Task Login()
-    {
-        try
-        {
-            var user = await NetworkingClient.Current.UserClient.Login(Username, OtpCode);
-            if (user != null)
-            {
-                NetworkingSettings.Current.CurrentUser = user;
-                NetworkingSettings.Current.Save();
-                Logger.Info($"User {user.Username} logged in successfully.");
-                NotificationHandler.Current.SendNotification(new Notifications.Notification
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Title = _("Login Successful"),
-                    Content = _("You have successfully logged in as {0}.", user.Username),
-                    Level = NotificationLevel.Success
-                });
-                WindowState.Current.RequestFullReload();
-            }
-            else
-            {
-                Logger.Warn($"Login failed for user {Username}. Invalid credentials.");
-                NotificationHandler.Current.SendNotification(new Notifications.Notification
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Title = _("Login Failed"),
-                    Content = _("Failed to log in. Please check your credentials and try again."),
-                    Level = NotificationLevel.Danger
-                });
-            }
-        }
-        catch (Exception ex)
-        {
-            Logger.Error($"An error occurred during login for user {Username}: {ex.Message}");
-            NotificationHandler.Current.SendNotification(new Notifications.Notification
-            {
-                Id = Guid.NewGuid().ToString(),
-                Title = _("Login Error"),
-                Content = _("An error occurred while trying to log in. Please try again later. Error: ") + ex.Message,
-                Level = NotificationLevel.Danger
-            });
-        }
-    }
-
     private async Task Logout()
     {
         try

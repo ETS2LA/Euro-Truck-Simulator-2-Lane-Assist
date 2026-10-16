@@ -86,13 +86,6 @@
 
     private async Task Login()
     {
-        var usernameError = SanitizeUsername();
-        if (usernameError != null)
-        {
-            ShowValidationError(usernameError);
-            return;
-        }
-
         try
         {
             var user = await NetworkingClient.Current.UserClient.Login(Username, OtpCode);

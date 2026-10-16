@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-16 23:04:11+0300\n"
-"PO-Revision-Date: 2026-10-16 23:04:11+0300\n"
+"POT-Creation-Date: 2026-10-16 23:12:33+0300\n"
+"PO-Revision-Date: 2026-10-16 23:12:33+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -45,6 +45,15 @@ msgstr ""
 msgid ""
 "Your token will expire on <span class=\"text-text-l\">{0}</span>, you'll be "
 "asked to login again then."
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:239
+#, csharp-format
+msgid ""
+"<span class=\"text-text-accent\">Usernames are "
+"case-sensitive.</span><br/>Your username must be between {0} and {1} characters long, and may only contain "
+"letters, numbers, underscores, hyphens and periods. It must start and end "
+"with a letter or number."
 msgstr ""
 
 #: ../../../ETS2LA.Game/Output/Output.cs:103
@@ -135,7 +144,7 @@ msgid "I understand"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:56
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:122
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:119
 msgid "Login Failed"
 msgstr ""
 
@@ -204,7 +213,7 @@ msgstr ""
 msgid "Failed to acquire joystick [gray italic]({0})[/]: {1}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:199
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:196
 msgid ""
 "An error occurred while trying to register. Please try again later. Error: "
 msgstr ""
@@ -375,16 +384,16 @@ msgid "{0} not found in supported languages."
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:68
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:134
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:131
 msgid "Login Error"
-msgstr ""
-
-#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:39
-msgid "Check For Updates"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:58
 msgid "The game has been added successfully."
+msgstr ""
+
+#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:39
+msgid "Check For Updates"
 msgstr ""
 
 #: ../../../ETS2LA.Game/SDK/Semaphores.cs:146
@@ -488,7 +497,7 @@ msgid "Curve Quality"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:45
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:111
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:108
 #, csharp-format
 msgid "You have successfully logged in as {0}."
 msgstr ""
@@ -676,7 +685,7 @@ msgid ""
 "driving."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:223
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:220
 msgid "Don't have an account?<br/>Register a new one now, no emails required!"
 msgstr ""
 
@@ -918,7 +927,7 @@ msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:44
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:110
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:107
 msgid "Login Successful"
 msgstr ""
 
@@ -1071,7 +1080,7 @@ msgstr ""
 msgid "Unknown Version"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:53
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:50
 #, csharp-format
 msgid "Your username must be at least {0} characters long."
 msgstr ""
@@ -1320,7 +1329,7 @@ msgstr ""
 msgid "LoaderException: {0}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:185
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:182
 msgid "Registration Failed"
 msgstr ""
 
@@ -1333,7 +1342,7 @@ msgstr ""
 msgid "Error while checking for updates: {0}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:161
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:158
 #, csharp-format
 msgid ""
 "You have successfully registered as {0}. Please add the OTP code to your "
@@ -1401,7 +1410,7 @@ msgstr ""
 msgid "If you've not yet installed it, you can find it in the catalogue."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:48
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:45
 msgid "Please enter a username."
 msgstr ""
 
@@ -1491,8 +1500,8 @@ msgstr ""
 msgid "Account"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:204
 #: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:226
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:204
 msgid "Disabled"
 msgstr ""
 
@@ -1502,7 +1511,7 @@ msgid ""
 "request but refuses to authorize it."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:232
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:229
 msgid "Back to Login"
 msgstr ""
 
@@ -1523,7 +1532,7 @@ msgstr ""
 msgid "Thank you to the following people for their ongoing support:"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:63
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:60
 msgid ""
 "Your username may only contain letters, numbers, underscores, hyphens and "
 "periods, and must start and end with a letter or number."
@@ -1571,10 +1580,10 @@ msgid ""
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/ControlsStep.razor:48
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/OverlayStep.razor:27
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/SDKStep.razor:17
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/EnsureGameClosed.razor:52
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/OverlayStep.razor:27
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/PluginStep.razor:57
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/SDKStep.razor:17
 msgid "Continue"
 msgstr ""
 
@@ -1725,12 +1734,12 @@ msgid ""
 "When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:64
-msgid "Contact Us"
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:195
+msgid "Registration Error"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:198
-msgid "Registration Error"
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:64
+msgid "Contact Us"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/WelcomeStep.razor:70
@@ -1866,7 +1875,7 @@ msgstr ""
 msgid "Error in parked vehicles update loop."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:172
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:169
 msgid "Username Taken"
 msgstr ""
 
@@ -1914,15 +1923,15 @@ msgstr ""
 msgid "Changed update source to '{0}'."
 msgstr ""
 
-#: ../../../ETS2LA.State/Units.cs:228
-#: ../../../ETS2LA.State/Units.cs:302
-msgid "K"
-msgstr ""
-
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:236
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:233
 msgid ""
 "You'll be asked to save an OTP authentication code after registration. We do "
 "not store or ask for passwords, as those aren't required for authentication."
+msgstr ""
+
+#: ../../../ETS2LA.State/Units.cs:228
+#: ../../../ETS2LA.State/Units.cs:302
+msgid "K"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/WelcomeStep.razor:73
@@ -2055,7 +2064,7 @@ msgid ""
 "control. This will time out in {0} seconds."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:160
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:157
 msgid "Registration Successful"
 msgstr ""
 
@@ -2065,7 +2074,7 @@ msgid ""
 "High."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:58
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:55
 #, csharp-format
 msgid "Your username must be at most {0} characters long."
 msgstr ""
@@ -2102,7 +2111,7 @@ msgstr ""
 msgid "Contact us on Discord"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:245
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:242
 msgid "Already have an account? Log in here."
 msgstr ""
 
@@ -2180,15 +2189,7 @@ msgstr ""
 msgid "Latest News"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:242
-#, csharp-format
-msgid ""
-"Your username must be between {0} and {1} characters long, and may only "
-"contain letters, numbers, underscores, hyphens and periods. It must start and end "
-"with a letter or number."
-msgstr ""
-
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:173
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:170
 #, csharp-format
 msgid "The username {0} is already taken. Please choose a different username."
 msgstr ""
@@ -2198,7 +2199,7 @@ msgstr ""
 msgid "Successfully installed SDK version '{0}' to '{1}'"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:84
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:81
 msgid "Invalid Input"
 msgstr ""
 
@@ -2221,7 +2222,7 @@ msgstr ""
 msgid "Update available: {0}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:229
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:226
 msgid ""
 "Please add the OTP code to your authentication app.<br/><span "
 "class=\"text-text-accent\">Do not close the page before you have added the code. We cannot "
@@ -2283,10 +2284,10 @@ msgid ""
 "When receiving a speedlimit of {0} {1}, we will set the speed to {2} {3}."
 msgstr ""
 
-#: ../../../ETS2LA.Game/SDK/ParkedVehicles.cs:108
-#: ../../../ETS2LA.Game/SDK/Navigation.cs:122
 #: ../../../ETS2LA.Game/SDK/Camera.cs:130
+#: ../../../ETS2LA.Game/SDK/ParkedVehicles.cs:108
 #: ../../../ETS2LA.Game/SDK/Semaphores.cs:176
+#: ../../../ETS2LA.Game/SDK/Navigation.cs:122
 #: ../../../ETS2LA.Game/SDK/Traffic.cs:159
 #, csharp-format
 msgid "Error initializing memory mapped file: {0}"
@@ -2335,7 +2336,7 @@ msgid ""
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:69
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:135
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:132
 msgid ""
 "An error occurred while trying to log in. Please try again later. Error: "
 msgstr ""
@@ -2386,7 +2387,7 @@ msgstr ""
 msgid "Speed Limits"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:244
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:241
 msgid "Register"
 msgstr ""
 
@@ -2459,7 +2460,7 @@ msgstr ""
 msgid "Game SDK"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:73
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:70
 #, csharp-format
 msgid "The username {0} is reserved. Please choose a different username."
 msgstr ""
@@ -2567,7 +2568,7 @@ msgid "Failed to refresh joysticks: {0}"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:57
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:123
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:120
 msgid "Failed to log in. Please check your credentials and try again."
 msgstr ""
 
@@ -2641,7 +2642,7 @@ msgstr ""
 msgid "Failed to install SDK version '{0}' to '{1}': {2}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:222
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:219
 msgid "Login"
 msgstr ""
 
@@ -2693,7 +2694,7 @@ msgstr ""
 msgid "No Update Available"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:68
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:65
 msgid "Your username may not contain repeated separators."
 msgstr ""
 
