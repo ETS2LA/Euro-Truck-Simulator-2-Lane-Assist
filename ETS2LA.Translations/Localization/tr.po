@@ -4,11 +4,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-15 21:19:15+0300\n"
+"POT-Creation-Date: 2026-10-16 23:05:19+0300\n"
 "PO-Revision-Date: 2026-10-16 20:08+0000\n"
 "Last-Translator: Yhuyy <yhuyy@ets2la.com>\n"
-"Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/ets2la/tr/>"
-"\n"
+"Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/ets2la/tr/"
+">\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,6 +35,9 @@ msgstr "Her zaman üstte"
 
 msgid "Display"
 msgstr "Görüntü"
+
+msgid "Go to Account Settings"
+msgstr ""
 
 #, fuzzy
 msgid "Overlay Interaction"
@@ -84,6 +87,9 @@ msgstr ""
 "Hızı değiştirirken en yakın 10'luk değere sabitleyin. Örn. 37 -> 39 -> 40 -> "
 "42..."
 
+msgid "Register"
+msgstr ""
+
 msgid "kg"
 msgstr "kg"
 
@@ -123,6 +129,11 @@ msgid ""
 "When the game reports itself being paused, ETS2LA won't render AR elements."
 msgstr ""
 "Oyun duraklatıldığını bildirdiğinde ETS2LA, AR ögelerini görüntülemeyecektir."
+
+msgid ""
+"Your username may only contain letters, numbers, underscores, hyphens and "
+"periods, and must start and end with a letter or number."
+msgstr ""
 
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
@@ -228,6 +239,13 @@ msgstr "Pencereyle etkileşim kuramıyorsanız, CTRL+R tuşlarına basın."
 msgid "The step size for changing the cruise control speed."
 msgstr "Hız sabitleyici hızı artırma/azaltma miktarı."
 
+msgid "Please enter a username."
+msgstr ""
+
+#, csharp-format
+msgid "Your username must be at least {0} characters long."
+msgstr ""
+
 #, fuzzy
 msgid "Press anywhere outside the dialog to close it."
 msgstr "Kapatmak için iletişim kutusunun dışında herhangi bir yere basın."
@@ -296,19 +314,19 @@ msgstr "Görsel"
 msgid "Additional"
 msgstr "Ek olarak"
 
-msgid "Show Fewer Logs"
-msgstr "Daha az günlük göster"
-
 msgid "Install Plugins"
 msgstr "Eklentileri Yükle"
 
-#, csharp-format
-msgid "Error while downloading update: {0}"
-msgstr "Güncelleme indirilirken hata oluştu: {0}"
+msgid "Show Fewer Logs"
+msgstr "Daha az günlük göster"
 
 #, fuzzy
 msgid "I won't leave ETS2LA unattended"
 msgstr "ETS2LA'i gözetimsiz bırakmayacağım"
+
+#, csharp-format
+msgid "Error while downloading update: {0}"
+msgstr "Güncelleme indirilirken hata oluştu: {0}"
 
 msgid "Keyboard"
 msgstr "Klavye"
@@ -329,8 +347,12 @@ msgid "Fast"
 msgstr "Hızlı"
 
 #, csharp-format
-msgid "You are currently logged in as {0}."
-msgstr "Şu anda {0} olarak giriş yapmış durumdasınız."
+msgid ""
+"<span class=\"text-text-accent\">Usernames are case-sensitive.</span><br/"
+">Your username must be between {0} and {1} characters long, and may only "
+"contain letters, numbers, underscores, hyphens and periods. It must start "
+"and end with a letter or number."
+msgstr ""
 
 msgid "Install Update and Restart"
 msgstr "Güncellemeyi yükleyin ve yeniden başlatın"
@@ -488,6 +510,9 @@ msgstr ""
 "Geçersiz ağ geçidi. Sunucu, ağ geçidi veya proxy işlevi görürken, gelen "
 "sunucudan geçersiz bir yanıt aldı."
 
+msgid "Already have an account? Log in here."
+msgstr ""
+
 msgid "The server timed out waiting for the request from the client."
 msgstr "Sunucu, istemciden gelecek isteği beklerken zaman aşımına uğradı."
 
@@ -496,6 +521,12 @@ msgstr "Backend kapatma işlemi tamamlandı."
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for event subscription."
+msgstr ""
+
+msgid ""
+"Please add the OTP code to your authentication app.<br/><span class=\"text-"
+"text-accent\">Do not close the page before you have added the code. We "
+"cannot recover accounts once they are created!</span>"
 msgstr ""
 
 #, csharp-format
@@ -615,11 +646,11 @@ msgstr "Geç"
 msgid "Please enable the Visualization Sockets plugin."
 msgstr ""
 
-msgid "Force Map Load"
-msgstr "Harita Yüklemeyi Zorla"
-
 msgid "Your account has been successfully removed."
 msgstr "Hesabınız başarıyla kaldırıldı."
+
+msgid "Force Map Load"
+msgstr "Harita Yüklemeyi Zorla"
 
 #, csharp-format
 msgid "Failed to uninstall SDK version '{0}' from '{1}': {2}"
@@ -633,6 +664,9 @@ msgstr "Hız Sınırı Uyarısı"
 
 msgid "Speed limit changed"
 msgstr "Hız sınırı değiştirildi"
+
+msgid "Your username may not contain repeated separators."
+msgstr ""
 
 #, csharp-format
 msgid "Discovered {0} plugins in total."
@@ -751,6 +785,9 @@ msgstr "Ayarlamalar"
 msgid "State Info"
 msgstr "Durum Bilgisi"
 
+msgid "Back to Login"
+msgstr ""
+
 msgid "Contact us on GitHub"
 msgstr "GitHub üzerinden bizimle iletişime geçin"
 
@@ -758,8 +795,16 @@ msgstr "GitHub üzerinden bizimle iletişime geçin"
 msgid "Error in AR rendering: {0}"
 msgstr "AR işleme hatası: {0}"
 
+msgid ""
+"Some 3rd party websites might want access to your account.<br/>You can press "
+"the button below to display your JWT token."
+msgstr ""
+
 msgid "Collision Avoidance"
 msgstr "Çarpışma Önleme"
+
+msgid "If you're streaming or recording, now's the time to hide this window."
+msgstr ""
 
 msgid ""
 "Disables the overlay entirely. This will fix the black screen issue at the "
@@ -786,6 +831,12 @@ msgstr ""
 #, csharp-format
 msgid "Camera {0} ({1}x{2})"
 msgstr "Kamera {0} ({1}x{2})"
+
+msgid "Display JWT Token"
+msgstr ""
+
+msgid "Invalid Input"
+msgstr ""
 
 msgid ""
 "This setting only loads roads and intersections visible on the in game map. "
@@ -922,6 +973,11 @@ msgid "miles per hour"
 msgstr "mil/saat"
 
 msgid "Limit Overlay Framerate"
+msgstr ""
+
+msgid ""
+"You'll be asked to save an OTP authentication code after registration. We do "
+"not store or ask for passwords, as those aren't required for authentication."
 msgstr ""
 
 msgid "Wiki / FAQ"
@@ -1157,6 +1213,9 @@ msgstr ""
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr ""
 
+msgid "I understand, now let me in!"
+msgstr "Anladım, şimdi beni içeri al!"
+
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
@@ -1165,8 +1224,11 @@ msgstr ""
 "Bunun bir hata olduğunu düşünüyorsanız, lütfen bunu {0}Discord "
 "Sunucusunda{1} veya {2}GitHub'da{3} bildirin."
 
-msgid "I understand, now let me in!"
-msgstr "Anladım, şimdi beni içeri al!"
+#, csharp-format
+msgid ""
+"You have successfully registered as {0}. Please add the OTP code to your "
+"authentication app."
+msgstr ""
 
 msgid "Disable Overlay"
 msgstr ""
@@ -1417,6 +1479,9 @@ msgstr ""
 msgid "Logout Error"
 msgstr ""
 
+msgid "Don't have an account?<br/>Register a new one now, no emails required!"
+msgstr ""
+
 #, csharp-format
 msgid "Found {0} game installation."
 msgid_plural "Found {0} game installations."
@@ -1463,6 +1528,10 @@ msgstr ""
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
 msgstr "Yüklendi kütüphane eklentisi [gray]{0}[/] konumu: [gray]{1}[/]."
 
+#, csharp-format
+msgid "The username {0} is reserved. Please choose a different username."
+msgstr ""
+
 msgid "Select the game you wish to start."
 msgstr ""
 
@@ -1507,13 +1576,13 @@ msgid "Found {0} (version: {1}) at '{2}'"
 msgstr "'{2}' konumunda {0} (sürüm: {1}) bulundu"
 
 msgid ""
-"We can render elements in the game world using the overlay. This will use "
-"additional CPU and GPU resources."
+"Select which traffic rules ETS2LA should obey. More might be added later, "
+"and all plugins won't necessarily support all rules."
 msgstr ""
 
 msgid ""
-"Select which traffic rules ETS2LA should obey. More might be added later, "
-"and all plugins won't necessarily support all rules."
+"We can render elements in the game world using the overlay. This will use "
+"additional CPU and GPU resources."
 msgstr ""
 
 msgid "kilometers per hour"
@@ -1630,7 +1699,17 @@ msgid "Overlay is disabled in settings, skipping window registration for {0}."
 msgstr ""
 "Arayüz ayarlardan devre dışı bırakıldı, {0} için pencere kaydı atlanıyor."
 
+msgid "Registration Failed"
+msgstr ""
+
 msgid "Please close the game before continuing with the onboarding process."
+msgstr ""
+
+msgid "Registration Successful"
+msgstr ""
+
+#, csharp-format
+msgid "Your username must be at most {0} characters long."
 msgstr ""
 
 #, csharp-format
@@ -1660,13 +1739,6 @@ msgstr "K"
 
 msgid "Window"
 msgstr "Pencere"
-
-msgid ""
-"You cannot register an account yet, this page is only for logging in with an "
-"existing developer account."
-msgstr ""
-"Henüz yeni bir hesap oluşturamazsınız, bu sayfa yalnızca mevcut bir "
-"geliştirici hesabıyla giriş yapmak içindir."
 
 msgid ""
 "If you see a fully black screen, see the FAQ at <span class=\"description "
@@ -1717,6 +1789,9 @@ msgid "Audio playback canceled"
 msgstr ""
 
 msgid "kilograms"
+msgstr ""
+
+msgid "Username Taken"
 msgstr ""
 
 msgid "ft"
@@ -1802,6 +1877,11 @@ msgid ""
 "depend on it: {1}"
 msgstr ""
 
+#, csharp-format
+msgid ""
+"You are currently logged in as <span class=\"text-text-l\">{0}</span>. [{1}]"
+msgstr ""
+
 msgid ""
 "We will pause the game when we detect instability or the steering is "
 "unresponsive / disables itself for other reasons."
@@ -1828,12 +1908,12 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr ""
 
 #, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr ""
-
-#, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr "Yardım Modu: <span class=\"text-text-accent font-bold\">{0}</span>"
+
+#, csharp-format
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgstr ""
 
 msgid "View Public Telemetry"
 msgstr "Genel telemetriyi görüntüle"
@@ -1909,10 +1989,10 @@ msgstr ""
 msgid "Translated by:"
 msgstr "Çeviren:"
 
-msgid "This game was found at"
+msgid "You have successfully logged out."
 msgstr ""
 
-msgid "You have successfully logged out."
+msgid "This game was found at"
 msgstr ""
 
 msgid "Data Quality"
@@ -1954,6 +2034,9 @@ msgstr ""
 "Bu kaynağa erişim izniniz yok. Sunucu isteği anladı ancak yetkilendirmeyi "
 "reddediyor."
 
+msgid "Registration Error"
+msgstr ""
+
 msgid "Display Language"
 msgstr ""
 
@@ -1982,6 +2065,10 @@ msgid "Unpacking Mods"
 msgstr ""
 
 msgid "m/s"
+msgstr ""
+
+#, csharp-format
+msgid "The username {0} is already taken. Please choose a different username."
 msgstr ""
 
 #, csharp-format
@@ -2019,6 +2106,12 @@ msgid ""
 "while depending on the number of articles and your internet connection."
 msgstr ""
 
+msgid "You are not logged in. Open this page again to login."
+msgstr ""
+
+msgid "Only copy this to trusted websites, it can do ANYTHING on your behalf."
+msgstr ""
+
 msgid "Map Data Parsed"
 msgstr ""
 
@@ -2049,6 +2142,12 @@ msgstr ""
 msgid "Desired Speed: "
 msgstr "Hedef Hız: "
 
+#, csharp-format
+msgid ""
+"Your token will expire on <span class=\"text-text-l\">{0}</span>, you'll be "
+"asked to login again then."
+msgstr ""
+
 msgid "meters"
 msgstr ""
 
@@ -2067,6 +2166,10 @@ msgid "Discovered {0} manually installed plugin."
 msgid_plural "Discovered {0} manually installed plugins."
 msgstr[0] "{0} adet elle kurulmuş eklenti bulundu."
 msgstr[1] "{0} adet elle kurulmuş eklenti bulundu."
+
+msgid ""
+"An error occurred while trying to register. Please try again later. Error: "
+msgstr ""
 
 msgid "Checking for updates..."
 msgstr ""
@@ -2101,6 +2204,11 @@ msgstr ""
 
 msgid "Next"
 msgstr "Sonraki"
+
+msgid ""
+"Your session has expired or you don't have a connection to our servers. "
+"Please log in again if you wish to use server-side features."
+msgstr ""
 
 msgid "Demo Window"
 msgstr ""
@@ -2205,6 +2313,17 @@ msgstr ""
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr "{0} eklentisinin tüm bağımlılıkları kurulu değil."
+
+#, csharp-format
+#~ msgid "You are currently logged in as {0}."
+#~ msgstr "Şu anda {0} olarak giriş yapmış durumdasınız."
+
+#~ msgid ""
+#~ "You cannot register an account yet, this page is only for logging in with "
+#~ "an existing developer account."
+#~ msgstr ""
+#~ "Henüz yeni bir hesap oluşturamazsınız, bu sayfa yalnızca mevcut bir "
+#~ "geliştirici hesabıyla giriş yapmak içindir."
 
 #~ msgid "Warnings & Overrides"
 #~ msgstr "Uyarılar ve Geçersiz Kılma İşlemleri"

@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-15 21:19:15+0300\n"
+"POT-Creation-Date: 2026-10-16 23:05:19+0300\n"
 "PO-Revision-Date: 2026-10-15 14:01+0000\n"
 "Last-Translator: Ketchup1812 <ketchup1812@ets2la.com>\n"
 "Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/ets2la/sk/"
@@ -33,6 +33,9 @@ msgstr "Nechať na vrchu"
 
 msgid "Display"
 msgstr "Zobrazovanie"
+
+msgid "Go to Account Settings"
+msgstr ""
 
 msgid "Overlay Interaction"
 msgstr "Interakcia s prekrývacím prvkom"
@@ -81,6 +84,9 @@ msgid ""
 "When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."
 msgstr "Pri zmene rýchlosti nastavte najbližšiu 10, 37 -> 39 -> 40 -> 42..."
 
+msgid "Register"
+msgstr ""
+
 msgid "kg"
 msgstr "kg"
 
@@ -120,6 +126,11 @@ msgstr "Maximálna rýchlosť"
 msgid ""
 "When the game reports itself being paused, ETS2LA won't render AR elements."
 msgstr "Keď hra zaznamená, že je pozastavená, ETS2LA prestane vykresľovať."
+
+msgid ""
+"Your username may only contain letters, numbers, underscores, hyphens and "
+"periods, and must start and end with a letter or number."
+msgstr ""
 
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
@@ -224,6 +235,13 @@ msgstr "Ak nemôžete interagovať s oknom, stlačte klávesovú skratku CTRL+R.
 msgid "The step size for changing the cruise control speed."
 msgstr "Veľkosť kroku pri zmene rýchlosti tempomatu."
 
+msgid "Please enter a username."
+msgstr ""
+
+#, csharp-format
+msgid "Your username must be at least {0} characters long."
+msgstr ""
+
 msgid "Press anywhere outside the dialog to close it."
 msgstr "Kliknutím kamkoľvek mimo dialógového okna ho zatvoríte."
 
@@ -292,18 +310,18 @@ msgstr "Vizuálne"
 msgid "Additional"
 msgstr "Dodatočné"
 
+msgid "Install Plugins"
+msgstr "Nainštalujte pluginy"
+
 msgid "Show Fewer Logs"
 msgstr "Zobraziť menej záznamov"
 
-msgid "Install Plugins"
-msgstr "Nainštalujte pluginy"
+msgid "I won't leave ETS2LA unattended"
+msgstr "Nenechám ETS2LA bez dozoru"
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
 msgstr "Chyba pri sťahovaní aktualizácie: {0}"
-
-msgid "I won't leave ETS2LA unattended"
-msgstr "Nenechám ETS2LA bez dozoru"
 
 msgid "Keyboard"
 msgstr "Klávesnica"
@@ -324,8 +342,12 @@ msgid "Fast"
 msgstr "Rýchlo"
 
 #, csharp-format
-msgid "You are currently logged in as {0}."
-msgstr "Momentálne ste prihlásení ako {0}."
+msgid ""
+"<span class=\"text-text-accent\">Usernames are case-sensitive.</span><br/"
+">Your username must be between {0} and {1} characters long, and may only "
+"contain letters, numbers, underscores, hyphens and periods. It must start "
+"and end with a letter or number."
+msgstr ""
 
 msgid "Install Update and Restart"
 msgstr "Nainštalujte aktualizáciu a reštartujte"
@@ -480,6 +502,9 @@ msgstr ""
 "Chyba brány. Server, ktorý fungoval ako brána alebo proxy, prijal neplatnú "
 "odpoveď od prichádzajúceho servera."
 
+msgid "Already have an account? Log in here."
+msgstr ""
+
 msgid "The server timed out waiting for the request from the client."
 msgstr "Serveru vypršal časový limit pri čakaní na požiadavku od klienta."
 
@@ -489,6 +514,12 @@ msgstr "Vypnutie backendu bolo úspešne dokončené."
 #, csharp-format
 msgid "Control with ID '{0}' not found for event subscription."
 msgstr "Kontrola s ID „{0}“ nebola nájdené pre predplatné."
+
+msgid ""
+"Please add the OTP code to your authentication app.<br/><span class=\"text-"
+"text-accent\">Do not close the page before you have added the code. We "
+"cannot recover accounts once they are created!</span>"
+msgstr ""
 
 #, csharp-format
 msgid "Unregistered control: {0} ({1})"
@@ -609,11 +640,11 @@ msgstr "Neskoro"
 msgid "Please enable the Visualization Sockets plugin."
 msgstr "Prosím, aktivujte plugin Visualization Sockets."
 
-msgid "Force Map Load"
-msgstr "Vynútiť načítanie mapy"
-
 msgid "Your account has been successfully removed."
 msgstr "Váš účet bol úspešne odstránený."
+
+msgid "Force Map Load"
+msgstr "Vynútiť načítanie mapy"
 
 #, csharp-format
 msgid "Failed to uninstall SDK version '{0}' from '{1}': {2}"
@@ -628,6 +659,9 @@ msgstr "Upozornenie na rýchlostný limit"
 
 msgid "Speed limit changed"
 msgstr "Zmena rýchlostného obmedzenia"
+
+msgid "Your username may not contain repeated separators."
+msgstr ""
 
 #, csharp-format
 msgid "Discovered {0} plugins in total."
@@ -747,6 +781,9 @@ msgstr "Úpravy"
 msgid "State Info"
 msgstr "Informácie o stave"
 
+msgid "Back to Login"
+msgstr ""
+
 msgid "Contact us on GitHub"
 msgstr "Kontaktujte nás na GitHube"
 
@@ -754,8 +791,16 @@ msgstr "Kontaktujte nás na GitHube"
 msgid "Error in AR rendering: {0}"
 msgstr "Chyba pri vykresľovaní AR: {0}"
 
+msgid ""
+"Some 3rd party websites might want access to your account.<br/>You can press "
+"the button below to display your JWT token."
+msgstr ""
+
 msgid "Collision Avoidance"
 msgstr "Predchádzanie zrážkam"
+
+msgid "If you're streaming or recording, now's the time to hide this window."
+msgstr ""
 
 msgid ""
 "Disables the overlay entirely. This will fix the black screen issue at the "
@@ -784,6 +829,12 @@ msgstr ""
 #, csharp-format
 msgid "Camera {0} ({1}x{2})"
 msgstr "Kamera {0} ({1}×{2})"
+
+msgid "Display JWT Token"
+msgstr ""
+
+msgid "Invalid Input"
+msgstr ""
 
 msgid ""
 "This setting only loads roads and intersections visible on the in game map. "
@@ -933,6 +984,11 @@ msgstr "míle za hodinu"
 
 msgid "Limit Overlay Framerate"
 msgstr "Obmedziť snímkovú frekvenciu prekrývania"
+
+msgid ""
+"You'll be asked to save an OTP authentication code after registration. We do "
+"not store or ask for passwords, as those aren't required for authentication."
+msgstr ""
 
 msgid "Wiki / FAQ"
 msgstr "Wiki / FAQ"
@@ -1182,6 +1238,9 @@ msgstr ""
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr "Nepodarilo sa nainštalovať najnovšiu verziu pluginu s ID {0}."
 
+msgid "I understand, now let me in!"
+msgstr "Rozumiem, tak ma teraz pusťte dnu!"
+
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
@@ -1190,8 +1249,11 @@ msgstr ""
 "Ak si myslíte, že ide o chybu, nahláste ju prosím na {0}Discord serveri{1} "
 "alebo na {2}GitHube{3}."
 
-msgid "I understand, now let me in!"
-msgstr "Rozumiem, tak ma teraz pusťte dnu!"
+#, csharp-format
+msgid ""
+"You have successfully registered as {0}. Please add the OTP code to your "
+"authentication app."
+msgstr ""
 
 msgid "Disable Overlay"
 msgstr "Vypnúť prekrývanie"
@@ -1452,6 +1514,9 @@ msgstr ""
 msgid "Logout Error"
 msgstr "Chyba pri odhlásení"
 
+msgid "Don't have an account?<br/>Register a new one now, no emails required!"
+msgstr ""
+
 #, csharp-format
 msgid "Found {0} game installation."
 msgid_plural "Found {0} game installations."
@@ -1498,6 +1563,10 @@ msgstr "Vybraný spustiteľný súbor hry nebol nájdený."
 #, csharp-format
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
 msgstr "Načítaný plugin knižnice: [gray]{0}[/] z [gray]{1}[/]."
+
+#, csharp-format
+msgid "The username {0} is reserved. Please choose a different username."
+msgstr ""
 
 msgid "Select the game you wish to start."
 msgstr "Vyberte hru, ktorú chcete spustiť."
@@ -1546,19 +1615,19 @@ msgid "Found {0} (version: {1}) at '{2}'"
 msgstr "Našlo sa {0} (verzia: {1}) v „{2}“"
 
 msgid ""
-"We can render elements in the game world using the overlay. This will use "
-"additional CPU and GPU resources."
-msgstr ""
-"Pomocou prekrývacieho okna môžeme vykresľovať prvky v hernom svete. To bude "
-"vyžadovať dodatočné zdroje procesora a grafickej karty."
-
-msgid ""
 "Select which traffic rules ETS2LA should obey. More might be added later, "
 "and all plugins won't necessarily support all rules."
 msgstr ""
 "Vyberte, ktoré dopravné pravidlá má ETS2LA dodržiavať. Neskôr môžu byť "
 "pridané ďalšie pravidlá a nie všetky pluginy budú nutne podporovať všetky "
 "pravidlá."
+
+msgid ""
+"We can render elements in the game world using the overlay. This will use "
+"additional CPU and GPU resources."
+msgstr ""
+"Pomocou prekrývacieho okna môžeme vykresľovať prvky v hernom svete. To bude "
+"vyžadovať dodatočné zdroje procesora a grafickej karty."
 
 msgid "kilometers per hour"
 msgstr "kilometre za hodinu"
@@ -1677,8 +1746,18 @@ msgstr ""
 "V nastaveniach je funkcia prekrývania vypnutá, registrácia okna pre {0} sa "
 "preskočí."
 
+msgid "Registration Failed"
+msgstr ""
+
 msgid "Please close the game before continuing with the onboarding process."
 msgstr "Pred pokračovaním v procese prípravy prosím hru zatvorte."
+
+msgid "Registration Successful"
+msgstr ""
+
+#, csharp-format
+msgid "Your username must be at most {0} characters long."
+msgstr ""
 
 #, csharp-format
 msgid "Successfully installed plugin {0} ({1}, {2})"
@@ -1706,13 +1785,6 @@ msgstr "K"
 
 msgid "Window"
 msgstr "Okno"
-
-msgid ""
-"You cannot register an account yet, this page is only for logging in with an "
-"existing developer account."
-msgstr ""
-"Zatiaľ si nemôžete vytvoriť účet, táto stránka slúži iba na prihlásenie sa "
-"pomocou existujúceho vývojárskeho účtu."
 
 msgid ""
 "If you see a fully black screen, see the FAQ at <span class=\"description "
@@ -1767,6 +1839,9 @@ msgstr "Prehrávanie zvuku bolo zrušené"
 
 msgid "kilograms"
 msgstr "kilogramy"
+
+msgid "Username Taken"
+msgstr ""
 
 msgid "ft"
 msgstr "ft"
@@ -1861,6 +1936,11 @@ msgstr ""
 "Plugin s ID {0} nie je možné odinštalovať, pretože na ňom závisia "
 "nasledujúce nainštalované pluginy: {1}"
 
+#, csharp-format
+msgid ""
+"You are currently logged in as <span class=\"text-text-l\">{0}</span>. [{1}]"
+msgstr ""
+
 msgid ""
 "We will pause the game when we detect instability or the steering is "
 "unresponsive / disables itself for other reasons."
@@ -1892,12 +1972,12 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr "Chyba pri inicializácii súboru mapovaného v pamäti: {0}"
 
 #, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr "Nepodarilo sa načítať plugin z [gray]{0}[/]: {1}"
-
-#, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr "Režim asistenta: <span class=\"text-text-accent font-bold\">{0}</span>"
+
+#, csharp-format
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgstr "Nepodarilo sa načítať plugin z [gray]{0}[/]: {1}"
 
 msgid "View Public Telemetry"
 msgstr "Zobraziť verejnú telemetriu"
@@ -1980,11 +2060,11 @@ msgstr "Vybraný súbor nie je súbor typu core.scs."
 msgid "Translated by:"
 msgstr "Preložil:"
 
-msgid "This game was found at"
-msgstr "Túto hru sme našli v"
-
 msgid "You have successfully logged out."
 msgstr "Úspešne ste sa odhlásili."
+
+msgid "This game was found at"
+msgstr "Túto hru sme našli v"
 
 msgid "Data Quality"
 msgstr "Kvalita údajov"
@@ -2025,6 +2105,9 @@ msgstr ""
 "Nemáte oprávnenie na prístup k tomuto zdroju. Server požiadavku pochopil, "
 "ale odmietol ju autorizovať."
 
+msgid "Registration Error"
+msgstr ""
+
 msgid "Display Language"
 msgstr "Jazyk zobrazenia"
 
@@ -2054,6 +2137,10 @@ msgstr "Rozbaľovanie modov"
 
 msgid "m/s"
 msgstr "m/s"
+
+#, csharp-format
+msgid "The username {0} is already taken. Please choose a different username."
+msgstr ""
 
 #, csharp-format
 msgid "Click to {0} this window"
@@ -2091,6 +2178,12 @@ msgstr ""
 "Preložte novinové články do zvoleného jazyka zobrazenia. Môže to chvíľu "
 "trvať v závislosti od počtu článkov a vášho internetového pripojenia."
 
+msgid "You are not logged in. Open this page again to login."
+msgstr ""
+
+msgid "Only copy this to trusted websites, it can do ANYTHING on your behalf."
+msgstr ""
+
 msgid "Map Data Parsed"
 msgstr "Údaje z mapy boli spracované"
 
@@ -2123,6 +2216,12 @@ msgstr "Verzia SDK „{0}“ bola úspešne odinštalovaná z „{1}“"
 msgid "Desired Speed: "
 msgstr "Požadovaná rýchlosť: "
 
+#, csharp-format
+msgid ""
+"Your token will expire on <span class=\"text-text-l\">{0}</span>, you'll be "
+"asked to login again then."
+msgstr ""
+
 msgid "meters"
 msgstr "metre"
 
@@ -2142,6 +2241,10 @@ msgid_plural "Discovered {0} manually installed plugins."
 msgstr[0] "Našiel sa {0} ručne nainštalovaný plugin."
 msgstr[1] "Našli sa {0} ručne nainštalované pluginy."
 msgstr[2] "Našlo sa {0} ručne nainštalovaných pluginov."
+
+msgid ""
+"An error occurred while trying to register. Please try again later. Error: "
+msgstr ""
 
 msgid "Checking for updates..."
 msgstr "Hľadám aktualizácie..."
@@ -2177,6 +2280,11 @@ msgstr "Správanie klávesových skratiek"
 
 msgid "Next"
 msgstr "Ďalej"
+
+msgid ""
+"Your session has expired or you don't have a connection to our servers. "
+"Please log in again if you wish to use server-side features."
+msgstr ""
 
 msgid "Demo Window"
 msgstr "Ukážkové okno"
@@ -2291,6 +2399,17 @@ msgstr ""
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr "Nie sú nainštalované všetky závislosti pre plugin {0}."
+
+#, csharp-format
+#~ msgid "You are currently logged in as {0}."
+#~ msgstr "Momentálne ste prihlásení ako {0}."
+
+#~ msgid ""
+#~ "You cannot register an account yet, this page is only for logging in with "
+#~ "an existing developer account."
+#~ msgstr ""
+#~ "Zatiaľ si nemôžete vytvoriť účet, táto stránka slúži iba na prihlásenie "
+#~ "sa pomocou existujúceho vývojárskeho účtu."
 
 #~ msgid "Warnings & Overrides"
 #~ msgstr "Upozornenia a prepisovanie"

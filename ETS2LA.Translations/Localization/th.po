@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-15 21:19:15+0300\n"
+"POT-Creation-Date: 2026-10-16 23:05:19+0300\n"
 "PO-Revision-Date: 2026-10-16 20:08+0000\n"
 "Last-Translator: cooper153826 <cooper153826@ets2la.com>\n"
 "Language-Team: Thai <http://weblate.ets2la.com/projects/ets2la/ets2la/th/>\n"
@@ -31,6 +31,9 @@ msgstr "แสดงหน้าต่างไว้ด้านบนเสม
 
 msgid "Display"
 msgstr "การแสดงผล"
+
+msgid "Go to Account Settings"
+msgstr ""
 
 msgid "Overlay Interaction"
 msgstr "การโต้ตอบกับ Overlay"
@@ -78,6 +81,9 @@ msgid ""
 msgstr ""
 "เมื่อปรับความเร็ว ให้ปรับเข้าหาค่าที่ใกล้เคียงทุก 10 หน่วย เช่น 37 -> 39 -> 40 -> 42..."
 
+msgid "Register"
+msgstr ""
+
 msgid "kg"
 msgstr "กก."
 
@@ -115,6 +121,11 @@ msgstr "ความเร็วสูงสุด"
 msgid ""
 "When the game reports itself being paused, ETS2LA won't render AR elements."
 msgstr "เมื่อเกมรายงานว่าหยุดชั่วคราว ETS2LA จะไม่แสดงองค์ประกอบ AR"
+
+msgid ""
+"Your username may only contain letters, numbers, underscores, hyphens and "
+"periods, and must start and end with a letter or number."
+msgstr ""
 
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
@@ -209,6 +220,13 @@ msgstr "หากกดหรือโต้ตอบกับหน้าต่
 msgid "The step size for changing the cruise control speed."
 msgstr "ขนาดขั้นในการปรับความเร็ว Cruise Control"
 
+msgid "Please enter a username."
+msgstr ""
+
+#, csharp-format
+msgid "Your username must be at least {0} characters long."
+msgstr ""
+
 msgid "Press anywhere outside the dialog to close it."
 msgstr "กดบริเวณนอกกล่องโต้ตอบเพื่อปิด"
 
@@ -276,18 +294,18 @@ msgstr "ภาพและการแสดงผล"
 msgid "Additional"
 msgstr "เพิ่มเติม"
 
+msgid "Install Plugins"
+msgstr "ติดตั้งปลั๊กอิน"
+
 msgid "Show Fewer Logs"
 msgstr "แสดง Log น้อยลง"
 
-msgid "Install Plugins"
-msgstr "ติดตั้งปลั๊กอิน"
+msgid "I won't leave ETS2LA unattended"
+msgstr "ฉันจะไม่ปล่อยให้ ETS2LA ทำงานโดยไม่มีคนดูแล"
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
 msgstr "ดาวน์โหลดอัปเดตไม่สำเร็จ: {0}"
-
-msgid "I won't leave ETS2LA unattended"
-msgstr "ฉันจะไม่ปล่อยให้ ETS2LA ทำงานโดยไม่มีคนดูแล"
 
 msgid "Keyboard"
 msgstr "คีย์บอร์ด"
@@ -306,8 +324,12 @@ msgid "Fast"
 msgstr "เร็ว"
 
 #, csharp-format
-msgid "You are currently logged in as {0}."
-msgstr "ขณะนี้คุณเข้าสู่ระบบในชื่อ {0}"
+msgid ""
+"<span class=\"text-text-accent\">Usernames are case-sensitive.</span><br/"
+">Your username must be between {0} and {1} characters long, and may only "
+"contain letters, numbers, underscores, hyphens and periods. It must start "
+"and end with a letter or number."
+msgstr ""
 
 msgid "Install Update and Restart"
 msgstr "ติดตั้งอัปเดตและรีสตาร์ท"
@@ -346,8 +368,7 @@ msgstr "อัปเดตเป็น {0}"
 #, csharp-format
 msgid ""
 "When receiving a speedlimit of {0} {1}, we will set the speed to {2} {3}."
-msgstr ""
-"เมื่อได้รับข้อมูลจำกัดความเร็วที่ {0} {1}, ระบบจะปรับความเร็วเป็น {2} {3}"
+msgstr "เมื่อได้รับข้อมูลจำกัดความเร็วที่ {0} {1}, ระบบจะปรับความเร็วเป็น {2} {3}"
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating axis behavior."
@@ -455,6 +476,9 @@ msgstr ""
 "Bad Gateway: เซิร์ฟเวอร์ที่ทำหน้าที่เป็น Gateway หรือ Proxy "
 "ได้รับการตอบกลับที่ไม่ถูกต้องจากเซิร์ฟเวอร์ต้นทาง"
 
+msgid "Already have an account? Log in here."
+msgstr ""
+
 msgid "The server timed out waiting for the request from the client."
 msgstr "เซิร์ฟเวอร์หมดเวลารอคำขอจากไคลเอนต์"
 
@@ -464,6 +488,12 @@ msgstr "ปิด Backend เรียบร้อยแล้ว"
 #, csharp-format
 msgid "Control with ID '{0}' not found for event subscription."
 msgstr "ไม่พบ Control ID '{0}' สำหรับสมัครรับ Event"
+
+msgid ""
+"Please add the OTP code to your authentication app.<br/><span class=\"text-"
+"text-accent\">Do not close the page before you have added the code. We "
+"cannot recover accounts once they are created!</span>"
+msgstr ""
 
 #, csharp-format
 msgid "Unregistered control: {0} ({1})"
@@ -578,11 +608,11 @@ msgstr "ช้า"
 msgid "Please enable the Visualization Sockets plugin."
 msgstr "โปรดเปิดใช้งานปลั๊กอิน Visualization Sockets"
 
-msgid "Force Map Load"
-msgstr "บังคับโหลดแผนที่"
-
 msgid "Your account has been successfully removed."
 msgstr "ลบบัญชีของคุณสำเร็จแล้ว"
+
+msgid "Force Map Load"
+msgstr "บังคับโหลดแผนที่"
 
 #, csharp-format
 msgid "Failed to uninstall SDK version '{0}' from '{1}': {2}"
@@ -596,6 +626,9 @@ msgstr "แจ้งเตือนเมื่อขับเกินควา
 
 msgid "Speed limit changed"
 msgstr "ความเร็วสูงสุดที่อนุญาตเปลี่ยนแล้ว"
+
+msgid "Your username may not contain repeated separators."
+msgstr ""
 
 #, csharp-format
 msgid "Discovered {0} plugins in total."
@@ -710,6 +743,9 @@ msgstr "ปรับแต่ง"
 msgid "State Info"
 msgstr "ข้อมูลสถานะ"
 
+msgid "Back to Login"
+msgstr ""
+
 msgid "Contact us on GitHub"
 msgstr "ติดต่อเราทาง GitHub"
 
@@ -717,8 +753,16 @@ msgstr "ติดต่อเราทาง GitHub"
 msgid "Error in AR rendering: {0}"
 msgstr "เกิดข้อผิดพลาดใน AR rendering: {0}"
 
+msgid ""
+"Some 3rd party websites might want access to your account.<br/>You can press "
+"the button below to display your JWT token."
+msgstr ""
+
 msgid "Collision Avoidance"
 msgstr "ระบบหลีกเลี่ยงการชน"
+
+msgid "If you're streaming or recording, now's the time to hide this window."
+msgstr ""
 
 msgid ""
 "Disables the overlay entirely. This will fix the black screen issue at the "
@@ -745,6 +789,12 @@ msgstr ""
 #, csharp-format
 msgid "Camera {0} ({1}x{2})"
 msgstr "กล้อง {0} ({1}x{2})"
+
+msgid "Display JWT Token"
+msgstr ""
+
+msgid "Invalid Input"
+msgstr ""
 
 msgid ""
 "This setting only loads roads and intersections visible on the in game map. "
@@ -878,6 +928,11 @@ msgstr "ไมล์ต่อชั่วโมง"
 
 msgid "Limit Overlay Framerate"
 msgstr "จำกัดอัตราเฟรมของ Overlay"
+
+msgid ""
+"You'll be asked to save an OTP authentication code after registration. We do "
+"not store or ask for passwords, as those aren't required for authentication."
+msgstr ""
 
 msgid "Wiki / FAQ"
 msgstr "Wiki / คำถามที่พบบ่อย"
@@ -1105,14 +1160,20 @@ msgstr ""
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr "ติดตั้งปลั๊กอิน ID {0} เวอร์ชันล่าสุดไม่สำเร็จ"
 
+msgid "I understand, now let me in!"
+msgstr "ฉันเข้าใจ, ตอนนี้ให้ฉันเข้า!"
+
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
 "on {2}GitHub{3}."
 msgstr "หากคิดว่าเป็นบั๊ก โปรดรายงานใน {0}Discord Server{1} หรือบน {2}GitHub{3}"
 
-msgid "I understand, now let me in!"
-msgstr "ฉันเข้าใจ, ตอนนี้ให้ฉันเข้า!"
+#, csharp-format
+msgid ""
+"You have successfully registered as {0}. Please add the OTP code to your "
+"authentication app."
+msgstr ""
 
 msgid "Disable Overlay"
 msgstr "ปิด Overlay"
@@ -1350,6 +1411,9 @@ msgstr "เกมที่เพิ่มด้วยตนเองใน '{0}'
 msgid "Logout Error"
 msgstr "ข้อผิดพลาดในการออกจากระบบ"
 
+msgid "Don't have an account?<br/>Register a new one now, no emails required!"
+msgstr ""
+
 #, csharp-format
 msgid "Found {0} game installation."
 msgid_plural "Found {0} game installations."
@@ -1393,6 +1457,10 @@ msgstr "ไม่พบไฟล์ Executable ของเกมที่เล
 #, csharp-format
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
 msgstr "โหลด Library Plugin: [gray]{0}[/] จาก [gray]{1}[/] แล้ว"
+
+#, csharp-format
+msgid "The username {0} is reserved. Please choose a different username."
+msgstr ""
 
 msgid "Select the game you wish to start."
 msgstr "เลือกเกมที่คุณต้องการเปิดใช้งาน"
@@ -1438,18 +1506,18 @@ msgid "Found {0} (version: {1}) at '{2}'"
 msgstr "เจอ {0} (เวอร์ชั่น: {1}) ที่ '{2}'"
 
 msgid ""
-"We can render elements in the game world using the overlay. This will use "
-"additional CPU and GPU resources."
-msgstr ""
-"เราสามารถใช้ Overlay เรนเดอร์องค์ประกอบในโลกของเกมได้ โดยจะใช้ทรัพยากร CPU และ GPU "
-"เพิ่มเติม"
-
-msgid ""
 "Select which traffic rules ETS2LA should obey. More might be added later, "
 "and all plugins won't necessarily support all rules."
 msgstr ""
 "เลือกกฎจราจรที่ต้องการให้ ETS2LA ปฏิบัติตาม โดยอาจมีการเพิ่มกฎใหม่ในอนาคต และ Plugin "
 "บางตัวอาจไม่รองรับกฎทั้งหมด"
+
+msgid ""
+"We can render elements in the game world using the overlay. This will use "
+"additional CPU and GPU resources."
+msgstr ""
+"เราสามารถใช้ Overlay เรนเดอร์องค์ประกอบในโลกของเกมได้ โดยจะใช้ทรัพยากร CPU และ GPU "
+"เพิ่มเติม"
 
 msgid "kilometers per hour"
 msgstr "กิโลเมตรต่อชั่วโมง"
@@ -1556,8 +1624,18 @@ msgstr "ฟุต"
 msgid "Overlay is disabled in settings, skipping window registration for {0}."
 msgstr "ปิด Overlay ในการตั้งค่าอยู่ ข้ามการลงทะเบียนหน้าต่างสำหรับ {0}"
 
+msgid "Registration Failed"
+msgstr ""
+
 msgid "Please close the game before continuing with the onboarding process."
 msgstr "โปรดปิดเกมก่อนดำเนินขั้นตอนตั้งค่าเริ่มต้นต่อ"
+
+msgid "Registration Successful"
+msgstr ""
+
+#, csharp-format
+msgid "Your username must be at most {0} characters long."
+msgstr ""
 
 #, csharp-format
 msgid "Successfully installed plugin {0} ({1}, {2})"
@@ -1585,11 +1663,6 @@ msgstr "เคลวิน"
 
 msgid "Window"
 msgstr "หน้าต่าง"
-
-msgid ""
-"You cannot register an account yet, this page is only for logging in with an "
-"existing developer account."
-msgstr "ขณะนี้ยังสมัครบัญชีไม่ได้ หน้านี้มีไว้สำหรับเข้าสู่ระบบด้วยบัญชีนักพัฒนาที่มีอยู่เท่านั้น"
 
 msgid ""
 "If you see a fully black screen, see the FAQ at <span class=\"description "
@@ -1642,6 +1715,9 @@ msgstr "ยกเลิกการเล่นเสียงแล้ว"
 
 msgid "kilograms"
 msgstr "กิโลกรัม"
+
+msgid "Username Taken"
+msgstr ""
 
 msgid "ft"
 msgstr "ฟุต"
@@ -1725,6 +1801,11 @@ msgid ""
 "depend on it: {1}"
 msgstr "ไม่สามารถถอนการติดตั้งปลั๊กอิน ID {0} เพราะปลั๊กอินที่ติดตั้งต่อไปนี้ต้องใช้งาน: {1}"
 
+#, csharp-format
+msgid ""
+"You are currently logged in as <span class=\"text-text-l\">{0}</span>. [{1}]"
+msgstr ""
+
 msgid ""
 "We will pause the game when we detect instability or the steering is "
 "unresponsive / disables itself for other reasons."
@@ -1754,12 +1835,12 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr "เกิดข้อผิดพลาดขณะเริ่มต้นไฟล์ Memory-Mapped: {0}"
 
 #, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr "โหลดปลั๊กอินจาก [gray]{0}[/] ไม่สำเร็จ: {1}"
-
-#, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr "โหมดการช่วยเหลือ: <span class=\"text-text-accent font-bold\">{0}</span>"
+
+#, csharp-format
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgstr "โหลดปลั๊กอินจาก [gray]{0}[/] ไม่สำเร็จ: {1}"
 
 msgid "View Public Telemetry"
 msgstr "ดู Telemetry สาธารณะ"
@@ -1835,11 +1916,11 @@ msgstr "ไฟล์ที่เลือกไม่ใช่ core.scs"
 msgid "Translated by:"
 msgstr "แปลโดย:"
 
-msgid "This game was found at"
-msgstr "เกมนี้เจอที่"
-
 msgid "You have successfully logged out."
 msgstr "ออกจากระบบสำเร็จแล้ว"
+
+msgid "This game was found at"
+msgstr "เกมนี้เจอที่"
 
 msgid "Data Quality"
 msgstr "คุณภาพข้อมูล"
@@ -1878,6 +1959,9 @@ msgid ""
 "the request but refuses to authorize it."
 msgstr "คุณไม่มีสิทธิ์เข้าถึงทรัพยากรนี้ เซิร์ฟเวอร์เข้าใจคำขอแต่ไม่อนุญาตให้เข้าถึง"
 
+msgid "Registration Error"
+msgstr ""
+
 msgid "Display Language"
 msgstr "ภาษาที่แสดง"
 
@@ -1907,6 +1991,10 @@ msgstr "กำลังแตกไฟล์ Mod"
 
 msgid "m/s"
 msgstr "เมตร/วินาที"
+
+#, csharp-format
+msgid "The username {0} is already taken. Please choose a different username."
+msgstr ""
 
 #, csharp-format
 msgid "Click to {0} this window"
@@ -1944,6 +2032,12 @@ msgstr ""
 "แปลบทความข่าวเป็นภาษาที่เลือกแสดง "
 "อาจใช้เวลาสักครู่ขึ้นอยู่กับจำนวนบทความและการเชื่อมต่ออินเทอร์เน็ต"
 
+msgid "You are not logged in. Open this page again to login."
+msgstr ""
+
+msgid "Only copy this to trusted websites, it can do ANYTHING on your behalf."
+msgstr ""
+
 msgid "Map Data Parsed"
 msgstr "วิเคราะห์ข้อมูลแผนที่เสร็จแล้ว"
 
@@ -1973,6 +2067,12 @@ msgstr "ถอนการติดตั้ง SDK เวอร์ชัน '{0
 msgid "Desired Speed: "
 msgstr "ความเร็วที่ต้องการ: "
 
+#, csharp-format
+msgid ""
+"Your token will expire on <span class=\"text-text-l\">{0}</span>, you'll be "
+"asked to login again then."
+msgstr ""
+
 msgid "meters"
 msgstr "เมตร"
 
@@ -1988,6 +2088,10 @@ msgstr "°C"
 msgid "Discovered {0} manually installed plugin."
 msgid_plural "Discovered {0} manually installed plugins."
 msgstr[0] "พบปลั๊กอินที่ติดตั้งด้วยตนเอง {0} รายการ"
+
+msgid ""
+"An error occurred while trying to register. Please try again later. Error: "
+msgstr ""
 
 msgid "Checking for updates..."
 msgstr "กำลังเช็คอัปเดต"
@@ -2022,6 +2126,11 @@ msgstr "พฤติกรรมของปุ่มลัด"
 
 msgid "Next"
 msgstr "ต่อไป"
+
+msgid ""
+"Your session has expired or you don't have a connection to our servers. "
+"Please log in again if you wish to use server-side features."
+msgstr ""
 
 msgid "Demo Window"
 msgstr "หน้าต่างสาธิต"
@@ -2127,6 +2236,15 @@ msgstr ""
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr "ยังติดตั้ง Dependency สำหรับปลั๊กอิน {0} ไม่ครบ"
+
+#, csharp-format
+#~ msgid "You are currently logged in as {0}."
+#~ msgstr "ขณะนี้คุณเข้าสู่ระบบในชื่อ {0}"
+
+#~ msgid ""
+#~ "You cannot register an account yet, this page is only for logging in with "
+#~ "an existing developer account."
+#~ msgstr "ขณะนี้ยังสมัครบัญชีไม่ได้ หน้านี้มีไว้สำหรับเข้าสู่ระบบด้วยบัญชีนักพัฒนาที่มีอยู่เท่านั้น"
 
 #~ msgid "Warnings & Overrides"
 #~ msgstr "คำเตือนและการแทนที่ค่า"

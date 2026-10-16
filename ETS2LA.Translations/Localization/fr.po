@@ -4,11 +4,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-15 21:19:15+0300\n"
+"POT-Creation-Date: 2026-10-16 23:05:19+0300\n"
 "PO-Revision-Date: 2026-10-15 20:45+0000\n"
 "Last-Translator: Hugo <hugo@ets2la.com>\n"
-"Language-Team: French <http://weblate.ets2la.com/projects/ets2la/ets2la/fr/>"
-"\n"
+"Language-Team: French <http://weblate.ets2la.com/projects/ets2la/ets2la/fr/"
+">\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,6 +36,9 @@ msgstr "Rester au-dessus"
 
 msgid "Display"
 msgstr "Affichage"
+
+msgid "Go to Account Settings"
+msgstr ""
 
 msgid "Overlay Interaction"
 msgstr "Interaction avec l'overlay"
@@ -84,6 +87,9 @@ msgstr ""
 "Lors de la modification de la vitesse, aligner sur la dizaine la plus "
 "proche. Par ex. 37 -> 39 -> 40 -> 42..."
 
+msgid "Register"
+msgstr ""
+
 msgid "kg"
 msgstr "kg"
 
@@ -125,6 +131,11 @@ msgid ""
 msgstr ""
 "Lorsque le jeu se signale comme étant en pause, ETS2LA n'affichera pas les "
 "éléments AR."
+
+msgid ""
+"Your username may only contain letters, numbers, underscores, hyphens and "
+"periods, and must start and end with a letter or number."
+msgstr ""
 
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
@@ -226,6 +237,13 @@ msgstr "Si vous ne pouvez pas interagir avec la fenêtre, appuyez sur CTRL+R."
 msgid "The step size for changing the cruise control speed."
 msgstr "Le pas de modification de la vitesse du régulateur de vitesse."
 
+msgid "Please enter a username."
+msgstr ""
+
+#, csharp-format
+msgid "Your username must be at least {0} characters long."
+msgstr ""
+
 msgid "Press anywhere outside the dialog to close it."
 msgstr ""
 
@@ -291,18 +309,18 @@ msgstr "Visuel"
 msgid "Additional"
 msgstr "Autres"
 
+msgid "Install Plugins"
+msgstr "Installer les plugins"
+
 msgid "Show Fewer Logs"
 msgstr "Afficher moins de journaux"
 
-msgid "Install Plugins"
-msgstr "Installer les plugins"
+msgid "I won't leave ETS2LA unattended"
+msgstr "Je ne laisserai pas ETS2LA sans surveillance"
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
 msgstr "Erreur lors du téléchargement de la mise à jour : {0}"
-
-msgid "I won't leave ETS2LA unattended"
-msgstr "Je ne laisserai pas ETS2LA sans surveillance"
 
 msgid "Keyboard"
 msgstr "Clavier"
@@ -323,7 +341,11 @@ msgid "Fast"
 msgstr "Rapide"
 
 #, csharp-format
-msgid "You are currently logged in as {0}."
+msgid ""
+"<span class=\"text-text-accent\">Usernames are case-sensitive.</span><br/"
+">Your username must be between {0} and {1} characters long, and may only "
+"contain letters, numbers, underscores, hyphens and periods. It must start "
+"and end with a letter or number."
 msgstr ""
 
 msgid "Install Update and Restart"
@@ -479,6 +501,9 @@ msgstr ""
 "Mauvaise passerelle. Le serveur, agissant en tant que passerelle ou proxy, a "
 "reçu une réponse non valide d'un serveur en amont."
 
+msgid "Already have an account? Log in here."
+msgstr ""
+
 msgid "The server timed out waiting for the request from the client."
 msgstr "Le serveur a expiré en attendant la requête du client."
 
@@ -489,6 +514,12 @@ msgstr "Arrêt du backend terminé."
 msgid "Control with ID '{0}' not found for event subscription."
 msgstr ""
 "Commande avec l'ID « {0} » introuvable pour l'abonnement à l'événement."
+
+msgid ""
+"Please add the OTP code to your authentication app.<br/><span class=\"text-"
+"text-accent\">Do not close the page before you have added the code. We "
+"cannot recover accounts once they are created!</span>"
+msgstr ""
 
 #, csharp-format
 msgid "Unregistered control: {0} ({1})"
@@ -605,11 +636,11 @@ msgstr "Tard"
 msgid "Please enable the Visualization Sockets plugin."
 msgstr ""
 
-msgid "Force Map Load"
-msgstr "Forcer le chargement de la carte"
-
 msgid "Your account has been successfully removed."
 msgstr ""
+
+msgid "Force Map Load"
+msgstr "Forcer le chargement de la carte"
 
 #, csharp-format
 msgid "Failed to uninstall SDK version '{0}' from '{1}': {2}"
@@ -625,6 +656,9 @@ msgstr "Alerte de limite de vitesse"
 
 msgid "Speed limit changed"
 msgstr "Limite de vitesse modifiée"
+
+msgid "Your username may not contain repeated separators."
+msgstr ""
 
 #, csharp-format
 msgid "Discovered {0} plugins in total."
@@ -744,6 +778,9 @@ msgstr "Ajustements"
 msgid "State Info"
 msgstr "Informations d'état"
 
+msgid "Back to Login"
+msgstr ""
+
 msgid "Contact us on GitHub"
 msgstr ""
 
@@ -751,8 +788,16 @@ msgstr ""
 msgid "Error in AR rendering: {0}"
 msgstr "Erreur lors du rendu AR : {0}"
 
+msgid ""
+"Some 3rd party websites might want access to your account.<br/>You can press "
+"the button below to display your JWT token."
+msgstr ""
+
 msgid "Collision Avoidance"
 msgstr "Anticollision"
+
+msgid "If you're streaming or recording, now's the time to hide this window."
+msgstr ""
 
 msgid ""
 "Disables the overlay entirely. This will fix the black screen issue at the "
@@ -779,6 +824,12 @@ msgstr ""
 #, csharp-format
 msgid "Camera {0} ({1}x{2})"
 msgstr "Caméra {0} ({1}x{2})"
+
+msgid "Display JWT Token"
+msgstr ""
+
+msgid "Invalid Input"
+msgstr ""
 
 msgid ""
 "This setting only loads roads and intersections visible on the in game map. "
@@ -925,6 +976,11 @@ msgstr "miles par heure"
 
 msgid "Limit Overlay Framerate"
 msgstr "Limiter la fréquence d'images de l'overlay"
+
+msgid ""
+"You'll be asked to save an OTP authentication code after registration. We do "
+"not store or ask for passwords, as those aren't required for authentication."
+msgstr ""
 
 msgid "Wiki / FAQ"
 msgstr "Wiki / FAQ"
@@ -1173,6 +1229,9 @@ msgid "Failed to install latest version of plugin with ID {0}."
 msgstr ""
 "Échec de l'installation de la dernière version du plugin avec l'ID {0}."
 
+msgid "I understand, now let me in!"
+msgstr "J'ai compris, laissez-moi entrer !"
+
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
@@ -1181,8 +1240,11 @@ msgstr ""
 "Si vous pensez qu'il s'agit d'un bug, veuillez le signaler sur le {0}serveur "
 "Discord{1} ou sur {2}GitHub{3}."
 
-msgid "I understand, now let me in!"
-msgstr "J'ai compris, laissez-moi entrer !"
+#, csharp-format
+msgid ""
+"You have successfully registered as {0}. Please add the OTP code to your "
+"authentication app."
+msgstr ""
 
 msgid "Disable Overlay"
 msgstr ""
@@ -1434,6 +1496,9 @@ msgstr ""
 msgid "Logout Error"
 msgstr ""
 
+msgid "Don't have an account?<br/>Register a new one now, no emails required!"
+msgstr ""
+
 #, csharp-format
 msgid "Found {0} game installation."
 msgid_plural "Found {0} game installations."
@@ -1480,6 +1545,10 @@ msgstr ""
 #, csharp-format
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
 msgstr "Bibliothèque chargée : [gray]{0}[/] depuis [gray]{1}[/]."
+
+#, csharp-format
+msgid "The username {0} is reserved. Please choose a different username."
+msgstr ""
 
 msgid "Select the game you wish to start."
 msgstr ""
@@ -1530,16 +1599,16 @@ msgid "Found {0} (version: {1}) at '{2}'"
 msgstr "{0} trouvé (version : {1}) à l'emplacement « {2} »"
 
 msgid ""
+"Select which traffic rules ETS2LA should obey. More might be added later, "
+"and all plugins won't necessarily support all rules."
+msgstr ""
+
+msgid ""
 "We can render elements in the game world using the overlay. This will use "
 "additional CPU and GPU resources."
 msgstr ""
 "Nous pouvons afficher des éléments dans le monde du jeu à l'aide de "
 "l'overlay. Cela utilisera des ressources CPU et GPU supplémentaires."
-
-msgid ""
-"Select which traffic rules ETS2LA should obey. More might be added later, "
-"and all plugins won't necessarily support all rules."
-msgstr ""
 
 msgid "kilometers per hour"
 msgstr "kilomètres par heure"
@@ -1655,7 +1724,17 @@ msgstr "pieds"
 msgid "Overlay is disabled in settings, skipping window registration for {0}."
 msgstr ""
 
+msgid "Registration Failed"
+msgstr ""
+
 msgid "Please close the game before continuing with the onboarding process."
+msgstr ""
+
+msgid "Registration Successful"
+msgstr ""
+
+#, csharp-format
+msgid "Your username must be at most {0} characters long."
 msgstr ""
 
 #, csharp-format
@@ -1684,11 +1763,6 @@ msgstr "K"
 
 msgid "Window"
 msgstr "Fenêtre"
-
-msgid ""
-"You cannot register an account yet, this page is only for logging in with an "
-"existing developer account."
-msgstr ""
 
 msgid ""
 "If you see a fully black screen, see the FAQ at <span class=\"description "
@@ -1741,6 +1815,9 @@ msgstr "Lecture audio annulée"
 
 msgid "kilograms"
 msgstr "kilogrammes"
+
+msgid "Username Taken"
+msgstr ""
 
 msgid "ft"
 msgstr "ft"
@@ -1836,6 +1913,11 @@ msgstr ""
 "Impossible de désinstaller le plugin avec l'ID {0} car les plugins installés "
 "suivants en dépendent : {1}"
 
+#, csharp-format
+msgid ""
+"You are currently logged in as <span class=\"text-text-l\">{0}</span>. [{1}]"
+msgstr ""
+
 msgid ""
 "We will pause the game when we detect instability or the steering is "
 "unresponsive / disables itself for other reasons."
@@ -1867,13 +1949,13 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr "Erreur lors de l'initialisation du fichier mappé en mémoire : {0}"
 
 #, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr "Échec du chargement du plugin depuis [gray]{0}[/] : {1}"
-
-#, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 "Mode assistance : <span class=\"text-text-accent font-bold\">{0}</span>"
+
+#, csharp-format
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgstr "Échec du chargement du plugin depuis [gray]{0}[/] : {1}"
 
 msgid "View Public Telemetry"
 msgstr "Afficher la télémétrie publique"
@@ -1958,11 +2040,11 @@ msgstr "Le fichier sélectionné n'est pas un fichier core.scs."
 msgid "Translated by:"
 msgstr "Traduit par :"
 
-msgid "This game was found at"
-msgstr "Ce jeu a été trouvé à"
-
 msgid "You have successfully logged out."
 msgstr ""
+
+msgid "This game was found at"
+msgstr "Ce jeu a été trouvé à"
 
 msgid "Data Quality"
 msgstr "Qualité des données"
@@ -2003,6 +2085,9 @@ msgstr ""
 "Vous n'avez pas la permission d'accéder à cette ressource. Le serveur a "
 "compris la requête mais refuse de l'autoriser."
 
+msgid "Registration Error"
+msgstr ""
+
 msgid "Display Language"
 msgstr "Langue d'affichage"
 
@@ -2032,6 +2117,10 @@ msgstr "Décompression des mods"
 
 msgid "m/s"
 msgstr "m/s"
+
+#, csharp-format
+msgid "The username {0} is already taken. Please choose a different username."
+msgstr ""
 
 #, csharp-format
 msgid "Click to {0} this window"
@@ -2068,6 +2157,12 @@ msgid ""
 "while depending on the number of articles and your internet connection."
 msgstr ""
 
+msgid "You are not logged in. Open this page again to login."
+msgstr ""
+
+msgid "Only copy this to trusted websites, it can do ANYTHING on your behalf."
+msgstr ""
+
 msgid "Map Data Parsed"
 msgstr "Données de carte analysées"
 
@@ -2100,6 +2195,12 @@ msgstr "Version « {0} » du SDK désinstallée avec succès depuis « {1} »"
 msgid "Desired Speed: "
 msgstr "Vitesse souhaitée : "
 
+#, csharp-format
+msgid ""
+"Your token will expire on <span class=\"text-text-l\">{0}</span>, you'll be "
+"asked to login again then."
+msgstr ""
+
 msgid "meters"
 msgstr "mètres"
 
@@ -2116,6 +2217,10 @@ msgid "Discovered {0} manually installed plugin."
 msgid_plural "Discovered {0} manually installed plugins."
 msgstr[0] "{0} plugin installé manuellement détecté."
 msgstr[1] "{0} plugins installés manuellement détectés."
+
+msgid ""
+"An error occurred while trying to register. Please try again later. Error: "
+msgstr ""
 
 msgid "Checking for updates..."
 msgstr "Recherche de mises à jour..."
@@ -2153,6 +2258,11 @@ msgstr "Comportement des touches"
 
 msgid "Next"
 msgstr "Suivant"
+
+msgid ""
+"Your session has expired or you don't have a connection to our servers. "
+"Please log in again if you wish to use server-side features."
+msgstr ""
 
 msgid "Demo Window"
 msgstr "Fenêtre de démonstration"

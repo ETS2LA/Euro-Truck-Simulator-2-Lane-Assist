@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-15 21:19:15+0300\n"
+"POT-Creation-Date: 2026-10-16 23:05:19+0300\n"
 "PO-Revision-Date: 2026-09-13 12:43+0000\n"
 "Last-Translator: bot_lapis <botlapis@ets2la.com>\n"
 "Language-Team: Korean <http://weblate.ets2la.com/projects/ets2la/ets2la/ko/"
@@ -32,6 +32,9 @@ msgstr ""
 
 msgid "Display"
 msgstr "디스플레이"
+
+msgid "Go to Account Settings"
+msgstr ""
 
 msgid "Overlay Interaction"
 msgstr "오버레이 제어"
@@ -77,6 +80,9 @@ msgid ""
 msgstr ""
 "속도를 변경할 때 가장 가까운 10 단위로 맞춥니다. 예: 37 → 39 → 40 → 42..."
 
+msgid "Register"
+msgstr ""
+
 msgid "kg"
 msgstr "kg"
 
@@ -115,6 +121,11 @@ msgid ""
 "When the game reports itself being paused, ETS2LA won't render AR elements."
 msgstr ""
 "게임이 일시정지 상태라고 보고하면, ETS2LA는 AR 요소를 렌더링하지 않습니다."
+
+msgid ""
+"Your username may only contain letters, numbers, underscores, hyphens and "
+"periods, and must start and end with a letter or number."
+msgstr ""
 
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
@@ -213,6 +224,13 @@ msgstr "창과 상호작용할 수 없다면 CTRL+R을 누르세요."
 msgid "The step size for changing the cruise control speed."
 msgstr "크루즈 컨트롤 속도를 변경할 때의 단계 크기입니다."
 
+msgid "Please enter a username."
+msgstr ""
+
+#, csharp-format
+msgid "Your username must be at least {0} characters long."
+msgstr ""
+
 msgid "Press anywhere outside the dialog to close it."
 msgstr ""
 
@@ -278,18 +296,18 @@ msgstr "비주얼"
 msgid "Additional"
 msgstr "추가"
 
+msgid "Install Plugins"
+msgstr "플러그인 설치"
+
 msgid "Show Fewer Logs"
 msgstr "로그 적게 보기"
 
-msgid "Install Plugins"
-msgstr "플러그인 설치"
+msgid "I won't leave ETS2LA unattended"
+msgstr "ETS2LA를 방치하지 않겠습니다"
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
 msgstr "업데이트를 다운로드하는 중 오류가 발생했습니다: {0}"
-
-msgid "I won't leave ETS2LA unattended"
-msgstr "ETS2LA를 방치하지 않겠습니다"
 
 msgid "Keyboard"
 msgstr "키보드"
@@ -309,7 +327,11 @@ msgid "Fast"
 msgstr "고속"
 
 #, csharp-format
-msgid "You are currently logged in as {0}."
+msgid ""
+"<span class=\"text-text-accent\">Usernames are case-sensitive.</span><br/"
+">Your username must be between {0} and {1} characters long, and may only "
+"contain letters, numbers, underscores, hyphens and periods. It must start "
+"and end with a letter or number."
 msgstr ""
 
 msgid "Install Update and Restart"
@@ -460,6 +482,9 @@ msgstr ""
 "잘못된 게이트웨이. 게이트웨이 또는 프록시 역할을 하던 서버가 내부 서버로부터 "
 "잘못된 응답을 받았습니다."
 
+msgid "Already have an account? Log in here."
+msgstr ""
+
 msgid "The server timed out waiting for the request from the client."
 msgstr "서버가 클라이언트의 요청을 기다리다 시간 초과되었습니다."
 
@@ -469,6 +494,12 @@ msgstr "백엔드 종료 완료."
 #, csharp-format
 msgid "Control with ID '{0}' not found for event subscription."
 msgstr "이벤트 구독을 위한 '{0}' ID의 컨트롤을 찾을 수 없습니다."
+
+msgid ""
+"Please add the OTP code to your authentication app.<br/><span class=\"text-"
+"text-accent\">Do not close the page before you have added the code. We "
+"cannot recover accounts once they are created!</span>"
+msgstr ""
 
 #, csharp-format
 msgid "Unregistered control: {0} ({1})"
@@ -582,11 +613,11 @@ msgstr "늦게"
 msgid "Please enable the Visualization Sockets plugin."
 msgstr ""
 
-msgid "Force Map Load"
-msgstr "맵 강제 로드"
-
 msgid "Your account has been successfully removed."
 msgstr ""
+
+msgid "Force Map Load"
+msgstr "맵 강제 로드"
 
 #, csharp-format
 msgid "Failed to uninstall SDK version '{0}' from '{1}': {2}"
@@ -600,6 +631,9 @@ msgstr "속도 제한 경고"
 
 msgid "Speed limit changed"
 msgstr "제한 속도 변경됨"
+
+msgid "Your username may not contain repeated separators."
+msgstr ""
 
 #, csharp-format
 msgid "Discovered {0} plugins in total."
@@ -715,6 +749,9 @@ msgstr "설정 조정"
 msgid "State Info"
 msgstr "상태 정보"
 
+msgid "Back to Login"
+msgstr ""
+
 msgid "Contact us on GitHub"
 msgstr "GitHub에서 문의하세요"
 
@@ -722,8 +759,16 @@ msgstr "GitHub에서 문의하세요"
 msgid "Error in AR rendering: {0}"
 msgstr "AR 렌더링 중 오류가 발생했습니다: {0}"
 
+msgid ""
+"Some 3rd party websites might want access to your account.<br/>You can press "
+"the button below to display your JWT token."
+msgstr ""
+
 msgid "Collision Avoidance"
 msgstr "충돌 방지"
+
+msgid "If you're streaming or recording, now's the time to hide this window."
+msgstr ""
 
 msgid ""
 "Disables the overlay entirely. This will fix the black screen issue at the "
@@ -748,6 +793,12 @@ msgstr ""
 #, csharp-format
 msgid "Camera {0} ({1}x{2})"
 msgstr "카메라 {0} ({1}x{2}"
+
+msgid "Display JWT Token"
+msgstr ""
+
+msgid "Invalid Input"
+msgstr ""
 
 msgid ""
 "This setting only loads roads and intersections visible on the in game map. "
@@ -886,6 +937,11 @@ msgstr "마일/시간"
 
 msgid "Limit Overlay Framerate"
 msgstr "오버레이 프레임레이트 제한"
+
+msgid ""
+"You'll be asked to save an OTP authentication code after registration. We do "
+"not store or ask for passwords, as those aren't required for authentication."
+msgstr ""
 
 msgid "Wiki / FAQ"
 msgstr "위키 / FAQ"
@@ -1104,13 +1160,19 @@ msgstr ""
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr ""
 
+msgid "I understand, now let me in!"
+msgstr ""
+
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
 "on {2}GitHub{3}."
 msgstr ""
 
-msgid "I understand, now let me in!"
+#, csharp-format
+msgid ""
+"You have successfully registered as {0}. Please add the OTP code to your "
+"authentication app."
 msgstr ""
 
 msgid "Disable Overlay"
@@ -1346,6 +1408,9 @@ msgstr ""
 msgid "Logout Error"
 msgstr ""
 
+msgid "Don't have an account?<br/>Register a new one now, no emails required!"
+msgstr ""
+
 #, csharp-format
 msgid "Found {0} game installation."
 msgid_plural "Found {0} game installations."
@@ -1387,6 +1452,10 @@ msgstr ""
 
 #, csharp-format
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
+msgstr ""
+
+#, csharp-format
+msgid "The username {0} is reserved. Please choose a different username."
 msgstr ""
 
 msgid "Select the game you wish to start."
@@ -1431,13 +1500,13 @@ msgid "Found {0} (version: {1}) at '{2}'"
 msgstr ""
 
 msgid ""
-"We can render elements in the game world using the overlay. This will use "
-"additional CPU and GPU resources."
+"Select which traffic rules ETS2LA should obey. More might be added later, "
+"and all plugins won't necessarily support all rules."
 msgstr ""
 
 msgid ""
-"Select which traffic rules ETS2LA should obey. More might be added later, "
-"and all plugins won't necessarily support all rules."
+"We can render elements in the game world using the overlay. This will use "
+"additional CPU and GPU resources."
 msgstr ""
 
 msgid "kilometers per hour"
@@ -1545,7 +1614,17 @@ msgstr ""
 msgid "Overlay is disabled in settings, skipping window registration for {0}."
 msgstr ""
 
+msgid "Registration Failed"
+msgstr ""
+
 msgid "Please close the game before continuing with the onboarding process."
+msgstr ""
+
+msgid "Registration Successful"
+msgstr ""
+
+#, csharp-format
+msgid "Your username must be at most {0} characters long."
 msgstr ""
 
 #, csharp-format
@@ -1573,11 +1652,6 @@ msgid "K"
 msgstr "K"
 
 msgid "Window"
-msgstr ""
-
-msgid ""
-"You cannot register an account yet, this page is only for logging in with an "
-"existing developer account."
 msgstr ""
 
 msgid ""
@@ -1628,6 +1702,9 @@ msgid "Audio playback canceled"
 msgstr ""
 
 msgid "kilograms"
+msgstr ""
+
+msgid "Username Taken"
 msgstr ""
 
 msgid "ft"
@@ -1708,6 +1785,11 @@ msgid ""
 "depend on it: {1}"
 msgstr ""
 
+#, csharp-format
+msgid ""
+"You are currently logged in as <span class=\"text-text-l\">{0}</span>. [{1}]"
+msgstr ""
+
 msgid ""
 "We will pause the game when we detect instability or the steering is "
 "unresponsive / disables itself for other reasons."
@@ -1734,11 +1816,11 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr ""
 
 #, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 
 #, csharp-format
-msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
 msgstr ""
 
 msgid "View Public Telemetry"
@@ -1810,10 +1892,10 @@ msgstr ""
 msgid "Translated by:"
 msgstr ""
 
-msgid "This game was found at"
+msgid "You have successfully logged out."
 msgstr ""
 
-msgid "You have successfully logged out."
+msgid "This game was found at"
 msgstr ""
 
 msgid "Data Quality"
@@ -1853,6 +1935,9 @@ msgid ""
 "the request but refuses to authorize it."
 msgstr ""
 
+msgid "Registration Error"
+msgstr ""
+
 msgid "Display Language"
 msgstr ""
 
@@ -1881,6 +1966,10 @@ msgid "Unpacking Mods"
 msgstr ""
 
 msgid "m/s"
+msgstr ""
+
+#, csharp-format
+msgid "The username {0} is already taken. Please choose a different username."
 msgstr ""
 
 #, csharp-format
@@ -1917,6 +2006,12 @@ msgid ""
 "while depending on the number of articles and your internet connection."
 msgstr ""
 
+msgid "You are not logged in. Open this page again to login."
+msgstr ""
+
+msgid "Only copy this to trusted websites, it can do ANYTHING on your behalf."
+msgstr ""
+
 msgid "Map Data Parsed"
 msgstr ""
 
@@ -1944,6 +2039,12 @@ msgstr ""
 msgid "Desired Speed: "
 msgstr ""
 
+#, csharp-format
+msgid ""
+"Your token will expire on <span class=\"text-text-l\">{0}</span>, you'll be "
+"asked to login again then."
+msgstr ""
+
 msgid "meters"
 msgstr ""
 
@@ -1959,6 +2060,10 @@ msgstr ""
 msgid "Discovered {0} manually installed plugin."
 msgid_plural "Discovered {0} manually installed plugins."
 msgstr[0] "수동으로 설치된 플러그인 {0}개를 발견했습니다."
+
+msgid ""
+"An error occurred while trying to register. Please try again later. Error: "
+msgstr ""
 
 msgid "Checking for updates..."
 msgstr ""
@@ -1992,6 +2097,11 @@ msgid "Keybind Behaviour"
 msgstr ""
 
 msgid "Next"
+msgstr ""
+
+msgid ""
+"Your session has expired or you don't have a connection to our servers. "
+"Please log in again if you wish to use server-side features."
 msgstr ""
 
 msgid "Demo Window"

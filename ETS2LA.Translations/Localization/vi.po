@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-15 21:19:15+0300\n"
+"POT-Creation-Date: 2026-10-16 23:05:19+0300\n"
 "PO-Revision-Date: 2026-08-26 18:07+0000\n"
 "Last-Translator: phucc <phucc@ets2la.com>\n"
 "Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/ets2la/"
@@ -33,6 +33,9 @@ msgstr ""
 
 msgid "Display"
 msgstr "Hiển thị"
+
+msgid "Go to Account Settings"
+msgstr ""
 
 msgid "Overlay Interaction"
 msgstr "Tương tác với giao diện nổi"
@@ -79,6 +82,9 @@ msgstr ""
 "Khi thay đổi tốc độ, tự làm tròn về số chia hết cho 10 gần nhất. Ví dụ 37 -> "
 "39 -> 40 ->42..."
 
+msgid "Register"
+msgstr ""
+
 msgid "kg"
 msgstr "kg"
 
@@ -115,6 +121,11 @@ msgid ""
 "When the game reports itself being paused, ETS2LA won't render AR elements."
 msgstr ""
 "Khi trò chơi ở trạng thái tạm dừng, ETS2LA sẽ không hiện thị các yếu tố AR."
+
+msgid ""
+"Your username may only contain letters, numbers, underscores, hyphens and "
+"periods, and must start and end with a letter or number."
+msgstr ""
 
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
@@ -212,6 +223,13 @@ msgstr ""
 msgid "The step size for changing the cruise control speed."
 msgstr "Mức tăng/giảm mỗi lần thay đổi tốc độ ga tự động."
 
+msgid "Please enter a username."
+msgstr ""
+
+#, csharp-format
+msgid "Your username must be at least {0} characters long."
+msgstr ""
+
 msgid "Press anywhere outside the dialog to close it."
 msgstr ""
 
@@ -275,18 +293,18 @@ msgstr "Giao diện"
 msgid "Additional"
 msgstr "Bổ sung"
 
+msgid "Install Plugins"
+msgstr ""
+
 msgid "Show Fewer Logs"
 msgstr ""
 
-msgid "Install Plugins"
+msgid "I won't leave ETS2LA unattended"
 msgstr ""
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
 msgstr "Lỗi khi đang tải bản cập nhật: {0}"
-
-msgid "I won't leave ETS2LA unattended"
-msgstr ""
 
 msgid "Keyboard"
 msgstr "Bàn phím"
@@ -307,7 +325,11 @@ msgid "Fast"
 msgstr "Nhanh"
 
 #, csharp-format
-msgid "You are currently logged in as {0}."
+msgid ""
+"<span class=\"text-text-accent\">Usernames are case-sensitive.</span><br/"
+">Your username must be between {0} and {1} characters long, and may only "
+"contain letters, numbers, underscores, hyphens and periods. It must start "
+"and end with a letter or number."
 msgstr ""
 
 msgid "Install Update and Restart"
@@ -455,6 +477,9 @@ msgstr ""
 "Cổng kết nối lỗi (Bad gateway). Máy chủ đóng vai trò trung gian không nhận "
 "được phản hồi hợp lệ từ máy chủ đích."
 
+msgid "Already have an account? Log in here."
+msgstr ""
+
 msgid "The server timed out waiting for the request from the client."
 msgstr ""
 "Hết thời gian chờ yêu cầu máy chủ do phía khách (client) không gửi dữ liệu."
@@ -465,6 +490,12 @@ msgstr "Hoàn tất tắt hệ thống backend."
 #, csharp-format
 msgid "Control with ID '{0}' not found for event subscription."
 msgstr "Không tìm thấy điều khiển có ID '{0}' để đăng kí sự kiện."
+
+msgid ""
+"Please add the OTP code to your authentication app.<br/><span class=\"text-"
+"text-accent\">Do not close the page before you have added the code. We "
+"cannot recover accounts once they are created!</span>"
+msgstr ""
 
 #, csharp-format
 msgid "Unregistered control: {0} ({1})"
@@ -576,11 +607,11 @@ msgstr ""
 msgid "Please enable the Visualization Sockets plugin."
 msgstr ""
 
-msgid "Force Map Load"
-msgstr "Bắt buộc tải bản đồ"
-
 msgid "Your account has been successfully removed."
 msgstr ""
+
+msgid "Force Map Load"
+msgstr "Bắt buộc tải bản đồ"
 
 #, csharp-format
 msgid "Failed to uninstall SDK version '{0}' from '{1}': {2}"
@@ -593,6 +624,9 @@ msgid "Speed Limit Warning"
 msgstr "Cảnh báo tốc độ giới hạn"
 
 msgid "Speed limit changed"
+msgstr ""
+
+msgid "Your username may not contain repeated separators."
 msgstr ""
 
 #, csharp-format
@@ -709,6 +743,9 @@ msgstr "Tùy chỉnh"
 msgid "State Info"
 msgstr "Thông tin trạng thái"
 
+msgid "Back to Login"
+msgstr ""
+
 msgid "Contact us on GitHub"
 msgstr ""
 
@@ -716,8 +753,16 @@ msgstr ""
 msgid "Error in AR rendering: {0}"
 msgstr "Lỗi khi hiển thị AR: {0}"
 
+msgid ""
+"Some 3rd party websites might want access to your account.<br/>You can press "
+"the button below to display your JWT token."
+msgstr ""
+
 msgid "Collision Avoidance"
 msgstr "Tránh va chạm"
+
+msgid "If you're streaming or recording, now's the time to hide this window."
+msgstr ""
 
 msgid ""
 "Disables the overlay entirely. This will fix the black screen issue at the "
@@ -744,6 +789,12 @@ msgstr ""
 #, csharp-format
 msgid "Camera {0} ({1}x{2})"
 msgstr "Camera {0} ({1}x{2})"
+
+msgid "Display JWT Token"
+msgstr ""
+
+msgid "Invalid Input"
+msgstr ""
 
 msgid ""
 "This setting only loads roads and intersections visible on the in game map. "
@@ -879,6 +930,11 @@ msgstr ""
 
 msgid "Limit Overlay Framerate"
 msgstr "Giới hạn tốc độ khung hình của lớp phủ (Overlay)"
+
+msgid ""
+"You'll be asked to save an OTP authentication code after registration. We do "
+"not store or ask for passwords, as those aren't required for authentication."
+msgstr ""
 
 msgid "Wiki / FAQ"
 msgstr "Wiki / Câu hỏi thường gặp"
@@ -1104,13 +1160,19 @@ msgstr ""
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr ""
 
+msgid "I understand, now let me in!"
+msgstr ""
+
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
 "on {2}GitHub{3}."
 msgstr ""
 
-msgid "I understand, now let me in!"
+#, csharp-format
+msgid ""
+"You have successfully registered as {0}. Please add the OTP code to your "
+"authentication app."
 msgstr ""
 
 msgid "Disable Overlay"
@@ -1349,6 +1411,9 @@ msgstr ""
 msgid "Logout Error"
 msgstr ""
 
+msgid "Don't have an account?<br/>Register a new one now, no emails required!"
+msgstr ""
+
 #, csharp-format
 msgid "Found {0} game installation."
 msgid_plural "Found {0} game installations."
@@ -1392,6 +1457,10 @@ msgstr ""
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
 msgstr "Đã nạp plugin thư viện: [gray]{0}[/] from [gray]{1}[/]."
 
+#, csharp-format
+msgid "The username {0} is reserved. Please choose a different username."
+msgstr ""
+
 msgid "Select the game you wish to start."
 msgstr ""
 
@@ -1434,13 +1503,13 @@ msgid "Found {0} (version: {1}) at '{2}'"
 msgstr ""
 
 msgid ""
-"We can render elements in the game world using the overlay. This will use "
-"additional CPU and GPU resources."
+"Select which traffic rules ETS2LA should obey. More might be added later, "
+"and all plugins won't necessarily support all rules."
 msgstr ""
 
 msgid ""
-"Select which traffic rules ETS2LA should obey. More might be added later, "
-"and all plugins won't necessarily support all rules."
+"We can render elements in the game world using the overlay. This will use "
+"additional CPU and GPU resources."
 msgstr ""
 
 msgid "kilometers per hour"
@@ -1547,7 +1616,17 @@ msgstr ""
 msgid "Overlay is disabled in settings, skipping window registration for {0}."
 msgstr ""
 
+msgid "Registration Failed"
+msgstr ""
+
 msgid "Please close the game before continuing with the onboarding process."
+msgstr ""
+
+msgid "Registration Successful"
+msgstr ""
+
+#, csharp-format
+msgid "Your username must be at most {0} characters long."
 msgstr ""
 
 #, csharp-format
@@ -1575,11 +1654,6 @@ msgid "K"
 msgstr "K"
 
 msgid "Window"
-msgstr ""
-
-msgid ""
-"You cannot register an account yet, this page is only for logging in with an "
-"existing developer account."
 msgstr ""
 
 msgid ""
@@ -1633,6 +1707,9 @@ msgstr ""
 
 msgid "kilograms"
 msgstr "kg"
+
+msgid "Username Taken"
+msgstr ""
 
 msgid "ft"
 msgstr "ft"
@@ -1717,6 +1794,11 @@ msgid ""
 msgstr ""
 "Không thể xóa plugin với ID {0} vì các plugin sau đang phụ thuộc vào nó: {1}"
 
+#, csharp-format
+msgid ""
+"You are currently logged in as <span class=\"text-text-l\">{0}</span>. [{1}]"
+msgstr ""
+
 msgid ""
 "We will pause the game when we detect instability or the steering is "
 "unresponsive / disables itself for other reasons."
@@ -1743,12 +1825,12 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr ""
 
 #, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr "Nạp plugin không thành công từ [gray]{0}[/]: {1}"
-
-#, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
+
+#, csharp-format
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgstr "Nạp plugin không thành công từ [gray]{0}[/]: {1}"
 
 msgid "View Public Telemetry"
 msgstr "Xem dữ liệu thu thập từ xa công khai"
@@ -1819,10 +1901,10 @@ msgstr ""
 msgid "Translated by:"
 msgstr "Được dịch bởi:"
 
-msgid "This game was found at"
+msgid "You have successfully logged out."
 msgstr ""
 
-msgid "You have successfully logged out."
+msgid "This game was found at"
 msgstr ""
 
 msgid "Data Quality"
@@ -1864,6 +1946,9 @@ msgstr ""
 "Bạn không có quyền để truy cập vào tài nguyên này. Máy chủ đã hiểu yêu cầu "
 "nhưng từ chối cấp phép."
 
+msgid "Registration Error"
+msgstr ""
+
 msgid "Display Language"
 msgstr ""
 
@@ -1893,6 +1978,10 @@ msgstr "Đang giải nén mod"
 
 msgid "m/s"
 msgstr "m/s"
+
+#, csharp-format
+msgid "The username {0} is already taken. Please choose a different username."
+msgstr ""
 
 #, csharp-format
 msgid "Click to {0} this window"
@@ -1928,6 +2017,12 @@ msgid ""
 "while depending on the number of articles and your internet connection."
 msgstr ""
 
+msgid "You are not logged in. Open this page again to login."
+msgstr ""
+
+msgid "Only copy this to trusted websites, it can do ANYTHING on your behalf."
+msgstr ""
+
 msgid "Map Data Parsed"
 msgstr "Đã phân tích dữ liệu bản đồ"
 
@@ -1961,6 +2056,12 @@ msgstr ""
 msgid "Desired Speed: "
 msgstr "Tốc độ mong muốn. "
 
+#, csharp-format
+msgid ""
+"Your token will expire on <span class=\"text-text-l\">{0}</span>, you'll be "
+"asked to login again then."
+msgstr ""
+
 msgid "meters"
 msgstr "mét"
 
@@ -1976,6 +2077,10 @@ msgstr "°C"
 msgid "Discovered {0} manually installed plugin."
 msgid_plural "Discovered {0} manually installed plugins."
 msgstr[0] "Phát hiện {0} plugin được cài đặt thủ công."
+
+msgid ""
+"An error occurred while trying to register. Please try again later. Error: "
+msgstr ""
 
 msgid "Checking for updates..."
 msgstr ""
@@ -2009,6 +2114,11 @@ msgid "Keybind Behaviour"
 msgstr ""
 
 msgid "Next"
+msgstr ""
+
+msgid ""
+"Your session has expired or you don't have a connection to our servers. "
+"Please log in again if you wish to use server-side features."
 msgstr ""
 
 msgid "Demo Window"

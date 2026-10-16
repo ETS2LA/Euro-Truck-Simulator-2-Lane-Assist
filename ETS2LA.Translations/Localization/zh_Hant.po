@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-15 21:19:15+0300\n"
+"POT-Creation-Date: 2026-10-16 23:05:19+0300\n"
 "PO-Revision-Date: 2026-10-14 00:52+0000\n"
 "Last-Translator: Lun <lun@ets2la.com>\n"
 "Language-Team: Chinese (Traditional Han script) <http://weblate.ets2la.com/"
@@ -32,6 +32,9 @@ msgstr "視窗置頂"
 
 msgid "Display"
 msgstr "顯示"
+
+msgid "Go to Account Settings"
+msgstr ""
 
 msgid "Overlay Interaction"
 msgstr "疊加層互動"
@@ -78,6 +81,9 @@ msgid ""
 "When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."
 msgstr "變更速度時，接近 10 的倍數會自動對齊。例如：37 -> 39 -> 40 -> 42..."
 
+msgid "Register"
+msgstr ""
+
 msgid "kg"
 msgstr "kg"
 
@@ -115,6 +121,11 @@ msgstr "最高速度"
 msgid ""
 "When the game reports itself being paused, ETS2LA won't render AR elements."
 msgstr "當遊戲處於暫停狀態時，ETS2LA 不會顯示 AR 元素。"
+
+msgid ""
+"Your username may only contain letters, numbers, underscores, hyphens and "
+"periods, and must start and end with a letter or number."
+msgstr ""
 
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
@@ -210,6 +221,13 @@ msgstr "如果無法操作視窗，請按 CTRL+R。"
 msgid "The step size for changing the cruise control speed."
 msgstr "調整巡航速度時，每次變更的級距。"
 
+msgid "Please enter a username."
+msgstr ""
+
+#, csharp-format
+msgid "Your username must be at least {0} characters long."
+msgstr ""
+
 msgid "Press anywhere outside the dialog to close it."
 msgstr "點擊對話框外的任意位置即可關閉。"
 
@@ -277,18 +295,18 @@ msgstr "視覺提示"
 msgid "Additional"
 msgstr "其他"
 
+msgid "Install Plugins"
+msgstr "安裝插件"
+
 msgid "Show Fewer Logs"
 msgstr "顯示較少記錄"
 
-msgid "Install Plugins"
-msgstr "安裝插件"
+msgid "I won't leave ETS2LA unattended"
+msgstr "我不會讓 ETS2LA 在無人監督下運行"
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
 msgstr "下載更新時發生錯誤：{0}"
-
-msgid "I won't leave ETS2LA unattended"
-msgstr "我不會讓 ETS2LA 在無人監督下運行"
 
 msgid "Keyboard"
 msgstr "鍵盤"
@@ -307,8 +325,12 @@ msgid "Fast"
 msgstr "快"
 
 #, csharp-format
-msgid "You are currently logged in as {0}."
-msgstr "你目前以 {0} 登入。"
+msgid ""
+"<span class=\"text-text-accent\">Usernames are case-sensitive.</span><br/"
+">Your username must be between {0} and {1} characters long, and may only "
+"contain letters, numbers, underscores, hyphens and periods. It must start "
+"and end with a letter or number."
+msgstr ""
 
 msgid "Install Update and Restart"
 msgstr "安裝更新並重新啟動"
@@ -451,6 +473,9 @@ msgid ""
 "invalid response from an inbound server."
 msgstr "閘道錯誤。伺服器作為閘道或代理伺服器時，從上游伺服器收到無效回應。"
 
+msgid "Already have an account? Log in here."
+msgstr ""
+
 msgid "The server timed out waiting for the request from the client."
 msgstr "伺服器等待用戶端傳送請求時逾時。"
 
@@ -460,6 +485,12 @@ msgstr "後端已完成關閉。"
 #, csharp-format
 msgid "Control with ID '{0}' not found for event subscription."
 msgstr "訂閱事件時找不到 ID 為「{0}」的控制項。"
+
+msgid ""
+"Please add the OTP code to your authentication app.<br/><span class=\"text-"
+"text-accent\">Do not close the page before you have added the code. We "
+"cannot recover accounts once they are created!</span>"
+msgstr ""
 
 #, csharp-format
 msgid "Unregistered control: {0} ({1})"
@@ -574,11 +605,11 @@ msgstr "較晚"
 msgid "Please enable the Visualization Sockets plugin."
 msgstr "請啟用 Visualization Sockets 插件。"
 
-msgid "Force Map Load"
-msgstr "強制載入地圖"
-
 msgid "Your account has been successfully removed."
 msgstr "你的帳號已成功刪除。"
+
+msgid "Force Map Load"
+msgstr "強制載入地圖"
 
 #, csharp-format
 msgid "Failed to uninstall SDK version '{0}' from '{1}': {2}"
@@ -592,6 +623,9 @@ msgstr "速限警告"
 
 msgid "Speed limit changed"
 msgstr "速限已變更"
+
+msgid "Your username may not contain repeated separators."
+msgstr ""
 
 #, csharp-format
 msgid "Discovered {0} plugins in total."
@@ -704,6 +738,9 @@ msgstr "設定"
 msgid "State Info"
 msgstr "狀態資訊"
 
+msgid "Back to Login"
+msgstr ""
+
 msgid "Contact us on GitHub"
 msgstr "透過 GitHub 聯絡我們"
 
@@ -711,8 +748,16 @@ msgstr "透過 GitHub 聯絡我們"
 msgid "Error in AR rendering: {0}"
 msgstr "AR 渲染時發生錯誤：{0}"
 
+msgid ""
+"Some 3rd party websites might want access to your account.<br/>You can press "
+"the button below to display your JWT token."
+msgstr ""
+
 msgid "Collision Avoidance"
 msgstr "防碰撞"
+
+msgid "If you're streaming or recording, now's the time to hide this window."
+msgstr ""
 
 msgid ""
 "Disables the overlay entirely. This will fix the black screen issue at the "
@@ -739,6 +784,12 @@ msgstr ""
 #, csharp-format
 msgid "Camera {0} ({1}x{2})"
 msgstr "攝影機 {0}（{1}×{2}）"
+
+msgid "Display JWT Token"
+msgstr ""
+
+msgid "Invalid Input"
+msgstr ""
 
 msgid ""
 "This setting only loads roads and intersections visible on the in game map. "
@@ -872,6 +923,11 @@ msgstr "英里每小時"
 
 msgid "Limit Overlay Framerate"
 msgstr "限制疊加層影格率"
+
+msgid ""
+"You'll be asked to save an OTP authentication code after registration. We do "
+"not store or ask for passwords, as those aren't required for authentication."
+msgstr ""
 
 msgid "Wiki / FAQ"
 msgstr "維基 / 常見問題"
@@ -1098,6 +1154,9 @@ msgstr ""
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr "ID 為 {0} 的插件最新版本安裝失敗。"
 
+msgid "I understand, now let me in!"
+msgstr "我知道了，現在讓我進去吧！"
+
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
@@ -1105,8 +1164,11 @@ msgid ""
 msgstr ""
 "如果你認為這是一個錯誤，請在 {0}Discord 伺服器{1} 或 {2}GitHub{3} 回報。"
 
-msgid "I understand, now let me in!"
-msgstr "我知道了，現在讓我進去吧！"
+#, csharp-format
+msgid ""
+"You have successfully registered as {0}. Please add the OTP code to your "
+"authentication app."
+msgstr ""
 
 msgid "Disable Overlay"
 msgstr "停用疊加層"
@@ -1343,6 +1405,9 @@ msgstr "手動新增的遊戲路徑「{0}」已找不到遊戲執行檔，將略
 msgid "Logout Error"
 msgstr "登出錯誤"
 
+msgid "Don't have an account?<br/>Register a new one now, no emails required!"
+msgstr ""
+
 #, csharp-format
 msgid "Found {0} game installation."
 msgid_plural "Found {0} game installations."
@@ -1386,6 +1451,10 @@ msgstr "找不到所選遊戲的執行檔。"
 #, csharp-format
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
 msgstr "已從 [gray]{1}[/] 載入函式庫插件：[gray]{0}[/]。"
+
+#, csharp-format
+msgid "The username {0} is reserved. Please choose a different username."
+msgstr ""
 
 msgid "Select the game you wish to start."
 msgstr "請選擇要啟動的遊戲。"
@@ -1431,16 +1500,16 @@ msgid "Found {0} (version: {1}) at '{2}'"
 msgstr "在「{2}」找到 {0}（版本：{1}）"
 
 msgid ""
-"We can render elements in the game world using the overlay. This will use "
-"additional CPU and GPU resources."
-msgstr "我們可以透過疊加層在遊戲世界中渲染元素。這會額外使用 CPU 和 GPU 資源。"
-
-msgid ""
 "Select which traffic rules ETS2LA should obey. More might be added later, "
 "and all plugins won't necessarily support all rules."
 msgstr ""
 "選擇要讓 ETS2LA 遵守的交通規則。未來可能會新增更多規則，但並非所有插件都支援"
 "全部規則。"
+
+msgid ""
+"We can render elements in the game world using the overlay. This will use "
+"additional CPU and GPU resources."
+msgstr "我們可以透過疊加層在遊戲世界中渲染元素。這會額外使用 CPU 和 GPU 資源。"
 
 msgid "kilometers per hour"
 msgstr "公里每小時"
@@ -1547,8 +1616,18 @@ msgstr "英尺"
 msgid "Overlay is disabled in settings, skipping window registration for {0}."
 msgstr "疊加層已在設定中停用，略過 {0} 的視窗註冊。"
 
+msgid "Registration Failed"
+msgstr ""
+
 msgid "Please close the game before continuing with the onboarding process."
 msgstr "請先關閉遊戲，再繼續進行初始設定流程。"
+
+msgid "Registration Successful"
+msgstr ""
+
+#, csharp-format
+msgid "Your username must be at most {0} characters long."
+msgstr ""
 
 #, csharp-format
 msgid "Successfully installed plugin {0} ({1}, {2})"
@@ -1576,11 +1655,6 @@ msgstr "K"
 
 msgid "Window"
 msgstr "視窗"
-
-msgid ""
-"You cannot register an account yet, this page is only for logging in with an "
-"existing developer account."
-msgstr "目前尚無法註冊帳號，此頁面僅供使用現有的開發者帳號登入。"
 
 msgid ""
 "If you see a fully black screen, see the FAQ at <span class=\"description "
@@ -1633,6 +1707,9 @@ msgstr "音訊播放已取消"
 
 msgid "kilograms"
 msgstr "公斤"
+
+msgid "Username Taken"
+msgstr ""
 
 msgid "ft"
 msgstr "ft"
@@ -1714,6 +1791,11 @@ msgid ""
 "depend on it: {1}"
 msgstr "無法解除安裝 ID 為 {0} 的插件，因為下列已安裝的插件依賴此插件：{1}"
 
+#, csharp-format
+msgid ""
+"You are currently logged in as <span class=\"text-text-l\">{0}</span>. [{1}]"
+msgstr ""
+
 msgid ""
 "We will pause the game when we detect instability or the steering is "
 "unresponsive / disables itself for other reasons."
@@ -1741,12 +1823,12 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr "初始化記憶體對應檔案時發生錯誤：{0}"
 
 #, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr "從 [gray]{0}[/] 載入插件失敗：{1}"
-
-#, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr "輔助模式：<span class=\"text-text-accent font-bold\">{0}</span>"
+
+#, csharp-format
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgstr "從 [gray]{0}[/] 載入插件失敗：{1}"
 
 msgid "View Public Telemetry"
 msgstr "查看公開遙測資料"
@@ -1822,11 +1904,11 @@ msgstr "所選的檔案不是 core.scs 檔案。"
 msgid "Translated by:"
 msgstr "翻譯者："
 
-msgid "This game was found at"
-msgstr "此遊戲位於"
-
 msgid "You have successfully logged out."
 msgstr "你已成功登出。"
+
+msgid "This game was found at"
+msgstr "此遊戲位於"
 
 msgid "Data Quality"
 msgstr "資料品質"
@@ -1865,6 +1947,9 @@ msgid ""
 "the request but refuses to authorize it."
 msgstr "你沒有存取此資源的權限。伺服器已理解此請求，但拒絕授權此次存取。"
 
+msgid "Registration Error"
+msgstr ""
+
 msgid "Display Language"
 msgstr "顯示語言"
 
@@ -1894,6 +1979,10 @@ msgstr "解包模組中"
 
 msgid "m/s"
 msgstr "m/s"
+
+#, csharp-format
+msgid "The username {0} is already taken. Please choose a different username."
+msgstr ""
 
 #, csharp-format
 msgid "Click to {0} this window"
@@ -1930,6 +2019,12 @@ msgid ""
 msgstr ""
 "將新聞文章翻譯成你選擇的顯示語言。所需時間會視文章數量及網路連線狀況而定。"
 
+msgid "You are not logged in. Open this page again to login."
+msgstr ""
+
+msgid "Only copy this to trusted websites, it can do ANYTHING on your behalf."
+msgstr ""
+
 msgid "Map Data Parsed"
 msgstr "地圖資料解析完成"
 
@@ -1959,6 +2054,12 @@ msgstr "已成功從「{1}」解除安裝 SDK 版本「{0}」"
 msgid "Desired Speed: "
 msgstr "目標速度： "
 
+#, csharp-format
+msgid ""
+"Your token will expire on <span class=\"text-text-l\">{0}</span>, you'll be "
+"asked to login again then."
+msgstr ""
+
 msgid "meters"
 msgstr "公尺"
 
@@ -1974,6 +2075,10 @@ msgstr "°C"
 msgid "Discovered {0} manually installed plugin."
 msgid_plural "Discovered {0} manually installed plugins."
 msgstr[0] "發現 {0} 個手動安裝的插件。"
+
+msgid ""
+"An error occurred while trying to register. Please try again later. Error: "
+msgstr ""
 
 msgid "Checking for updates..."
 msgstr "正在檢查更新..."
@@ -2008,6 +2113,11 @@ msgstr "按鍵行為"
 
 msgid "Next"
 msgstr "下一步"
+
+msgid ""
+"Your session has expired or you don't have a connection to our servers. "
+"Please log in again if you wish to use server-side features."
+msgstr ""
 
 msgid "Demo Window"
 msgstr "示範視窗"
@@ -2113,6 +2223,15 @@ msgstr ""
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr "插件 {0} 的依賴項目尚未全部安裝。"
+
+#, csharp-format
+#~ msgid "You are currently logged in as {0}."
+#~ msgstr "你目前以 {0} 登入。"
+
+#~ msgid ""
+#~ "You cannot register an account yet, this page is only for logging in with "
+#~ "an existing developer account."
+#~ msgstr "目前尚無法註冊帳號，此頁面僅供使用現有的開發者帳號登入。"
 
 #~ msgid "Warnings & Overrides"
 #~ msgstr "警告與行為"
