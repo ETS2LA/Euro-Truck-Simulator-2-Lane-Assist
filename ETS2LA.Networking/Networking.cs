@@ -2,6 +2,7 @@
 using ETS2LA.Networking.Plugins;
 using ETS2LA.Networking.Updates;
 using ETS2LA.Networking.News;
+using ETS2LA.Logging;
 
 namespace ETS2LA.Networking;
 
@@ -20,6 +21,8 @@ public class NetworkingClient
     public NewsApiClient News { get; } = new();
     public UserApiClient UserClient { get; } = new();
 
+    public bool TokenExpired = false;
+
     public NetworkingClient()
     {
         if (NetworkingSettings.Current.CurrentApiServer == null)
@@ -36,5 +39,45 @@ public class NetworkingClient
 
         Plugins.FetchAvailablePluginsAsync();
         News.FetchAvailableNewsAsync();
+
+        // Update user info on startup, basically check if the token is up to date.
+        Task.Run(async () =>
+        {
+            try
+            {
+                var currentUser = NetworkingSettings.Current.CurrentUser;
+                if (currentUser != null && !string.IsNullOrEmpty(currentUser.JwtToken))
+                {
+                    var userInfo = await UserClient.GetUserInfo(currentUser);
+                    if (userInfo != null)
+                    {
+                        NetworkingSettings.Current.CurrentUser = new Users.User
+                        {
+                            Id = currentUser.Id,
+                            Username = userInfo.Value.username,
+                            JwtToken = currentUser.JwtToken,
+                            Expiry = currentUser.Expiry,
+                            Role = userInfo.Value.role,
+                            Paddle = userInfo.Value.paddle
+                        };
+                        NetworkingSettings.Current.Save();
+                    } 
+                    else
+                    {
+                        Logger.Warn("Failed to retrieve user info on startup, clearing current user. Please login again.");
+                        NetworkingSettings.Current.CurrentUser = new Users.User();
+                        NetworkingSettings.Current.Save();
+                        TokenExpired = true;
+                    }
+                }
+            } 
+            catch (Exception ex)
+            {
+                Logger.Warn($"Failed to update user info on startup: {ex.Message}");
+                NetworkingSettings.Current.CurrentUser = new Users.User();
+                NetworkingSettings.Current.Save();
+                TokenExpired = true;
+            }
+        });
     }
 }

@@ -6,6 +6,8 @@
 @using ETS2LA.Notifications
 @using ETS2LA.Logging
 @layout Shared.Layouts.SettingsLayout
+@inject NavigationManager Navigation
+@inject IJSRuntime JS
 
 @code {
     private User? CurrentUser => NetworkingSettings.Current.CurrentUser;
@@ -14,6 +16,17 @@
     private string OtpCode { get; set; } = string.Empty;
 
     private bool WantsToRemoveAccount { get; set; } = false;
+    private bool WantsToDisplayJwtToken { get; set; } = false;
+    private bool DisplayJwtToken { get; set; } = false;
+    private bool JwtTokenCopied { get; set; } = false;
+    
+    protected override void OnInitialized()
+    {
+        if (CurrentUser == null || CurrentUser.JwtToken == null || DateTime.UtcNow >= CurrentUser.Expiry)
+        {
+            Navigation.NavigateTo("/settings/account/login");
+        }
+    }
 
     private async Task Login()
     {
@@ -154,37 +167,80 @@
             WantsToRemoveAccount = false;
         }
     }
+
+    private async Task CopyJwtToken()
+    {
+        if (CurrentUser?.JwtToken == null)
+        {
+            return;
+        }
+
+        try
+        {
+            bool success = await JS.InvokeAsync<bool>("copyToClipboard", CurrentUser.JwtToken);
+            if (success)
+            {
+                JwtTokenCopied = true;
+                StateHasChanged();
+                await Task.Delay(2000);
+                JwtTokenCopied = false;
+                StateHasChanged();
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Error($"Failed to copy JWT token to clipboard: {ex.Message}");
+        }
+    }
 }
 
 <div class="flex flex-col w-full p-5 px-8 gap-3">
     @if (CurrentUser != null && CurrentUser.JwtToken != null && DateTime.UtcNow < CurrentUser.Expiry)
     {
-        <p class="description">@(_("You are currently logged in as {0}.", CurrentUser.Username))</p>
+        <p class="description">@((MarkupString)_("You are currently logged in as <span class=\"text-text-l\">{0}</span>. [{1}]", CurrentUser.Username, CurrentUser.Role.ToString()))</p>
+        <p class="description">@((MarkupString)_("Your token will expire on <span class=\"text-text-l\">{0}</span>, you'll be asked to login again then.", CurrentUser.Expiry.ToLocalTime().ToString("f")))</p>
         <button class="button mt-2" @onclick="() => WantsToRemoveAccount = true">@(_("Remove Account"))</button>
         <button class="button" @onclick="Logout">@(_("Logout"))</button>
+
+        <p class="description mt-4">@((MarkupString)_("Some 3rd party websites might want access to your account.<br/>You can press the button below to display your JWT token."))</p>
+        <button class="button" @onclick="() => WantsToDisplayJwtToken = true">@(_("Display JWT Token"))</button>
+        @if (DisplayJwtToken)
+        {
+            <p class="description text-text-accent mt-2">@((MarkupString)_("Only copy this to trusted websites, it can do ANYTHING on your behalf."))</p>
+            <div class="bg-bg-dark border border-border rounded-md p-2 mt-1 flex items-start gap-2">
+                <p class="text-[12px] break-all flex-1">@CurrentUser.JwtToken</p>
+                <button class="button shrink-0" @onclick="CopyJwtToken" title="@_("Copy to clipboard")">
+                    @if (JwtTokenCopied)
+                    {
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 6 9 17l-5-5"/>
+                        </svg>
+                    }
+                    else
+                    {
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+                            <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+                        </svg>
+                    }
+                </button>
+            </div>
+        }
 
         <Dialog Open="@WantsToRemoveAccount" OpenChanged="@(value => DialogClosed(value))" Class="w-full max-w-md">
             <p>@(_("Removing your account will delete all your data from our servers. This action cannot be undone."))</p>
             <button class="button button-accent w-full! mt-3" @onclick="RemoveAccount">@(_("Confirm Account Removal"))</button>
             <p class="description mt-2">@_("Press anywhere outside the dialog to close it.")</p>
         </Dialog>
+
+        <Dialog Open="@WantsToDisplayJwtToken" OpenChanged="@(value => {WantsToDisplayJwtToken = value; DisplayJwtToken = true;})" Class="w-full max-w-md">
+            <p>@(_("If you're streaming or recording, now's the time to hide this window."))</p>
+            <p class="description mt-2">@_("Press anywhere outside the dialog to close it.")</p>
+        </Dialog>
     }
     else
     {
-        <Input Title="@(_("Username"))"
-                Description=""
-                @bind-Value="Username"
-                Placeholder="@(_("Username"))"
-                Class="w-full" />
-
-        <OTP Title="@(_("One Time Password"))"
-                Description="@(_("Enter the OTP generated by your authenticator app."))"
-                @bind-Value="OtpCode"
-                Length="6"
-                DashIndex="3"
-                Class="w-full" />
-        
-        <button class="button mt-2" @onclick="Login">@(_("Login"))</button>
-        <p class="mt-2 description">@(_("You cannot register an account yet, this page is only for logging in with an existing developer account."))</p>
+        <p class="description">@(_("You are not logged in. Login using the button below."))</p>
+        <a href="/settings/account/login" target="_blank" class="button mt-2">@(_("Login"))</a>
     }
 </div>

@@ -31,6 +31,7 @@
     bool sponsorBadgeFailed = false;
 
     bool NewsSettingsDialogOpen = false;
+    bool UserExpiredDialogueOpen => NetworkingClient.Current.TokenExpired;
 
     private static readonly MarkdownPipeline Pipeline = 
         new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
@@ -307,6 +308,17 @@
                     Description=@_("Translate news articles to your selected display language. This may take a while depending on the number of articles and your internet connection.")
                     Value="@WindowSettings.Current.TranslateNews"
                     ValueChanged="@((bool value) => WindowSettings.Current.TranslateNews = value)" />
+            <p class="description mt-2">@_("Press anywhere outside the dialog to close it.")</p>
+        </div>
+    </Dialog>
+
+    <Dialog Open="@UserExpiredDialogueOpen" OpenChanged="@((bool value) => { if (!value) NetworkingClient.Current.TokenExpired = false; })">
+        <div class="flex flex-col gap-4">
+            <p>@(_("Your session has expired or you don't have a connection to our servers. Please log in again if you wish to use server-side features."))</p>
+            <button class="button button-accent w-full! mt-3" @onclick=@(() => { 
+                NetworkingClient.Current.TokenExpired = false; 
+                Navigation.NavigateTo("/settings/account", true); 
+            })>@(_("Go to Account Settings"))</button>
             <p class="description mt-2">@_("Press anywhere outside the dialog to close it.")</p>
         </div>
     </Dialog>

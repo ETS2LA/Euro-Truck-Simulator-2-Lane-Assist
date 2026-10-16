@@ -31,7 +31,14 @@
             <p class="font-bold">ETS2LA</p>
             <p class="text-[12px] mb-px"></p>
           </div>
-          <p class="description text-[11px] font-medium -my-0.5">@currentVersion</p>
+          @try
+          {
+            <p class="description text-[11px] font-medium -my-0.5">@currentVersion</p>
+          }
+          catch
+          {
+            <p class="description text-[11px] font-medium -my-0.5">unknown</p>
+          }
         </div>
 
         <div class="absolute top-0 right-0 w-6 h-6 flex items-center justify-center cursor-pointer" @onclick="() => { WindowState.Current.IsSidebarOpen = !WindowState.Current.IsSidebarOpen; WindowState.Current.RequestFullReload(); }">

@@ -1,0 +1,163 @@
+@page "/settings/account/login"
+@using ETS2LA.Networking
+@using ETS2LA.Networking.Users
+@using ETS2LA.Networking.Settings
+@using ETS2LA.UI.Shared.Components
+@using ETS2LA.Notifications
+@using ETS2LA.Logging
+@layout Shared.Layouts.SettingsLayout
+@inject NavigationManager Navigation
+
+@code {
+    private User? CurrentUser => NetworkingSettings.Current.CurrentUser;
+
+    private string Username { get; set; } = string.Empty;
+    private string OtpCode { get; set; } = string.Empty;
+
+    private bool LoginMode { get; set; } = true;
+    private RegisterResponse? RegisterResponse { get; set; } = null;
+
+    private async Task Login()
+    {
+        try
+        {
+            var user = await NetworkingClient.Current.UserClient.Login(Username, OtpCode);
+            if (user != null)
+            {
+                NetworkingSettings.Current.CurrentUser = user;
+                NetworkingSettings.Current.Save();
+                Logger.Info($"User {user.Username} logged in successfully.");
+                NotificationHandler.Current.SendNotification(new Notifications.Notification
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Title = _("Login Successful"),
+                    Content = _("You have successfully logged in as {0}.", user.Username),
+                    Level = NotificationLevel.Success
+                });
+                Navigation.NavigateTo("/settings/account");
+            }
+            else
+            {
+                Logger.Warn($"Login failed for user {Username}. Invalid credentials.");
+                NotificationHandler.Current.SendNotification(new Notifications.Notification
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Title = _("Login Failed"),
+                    Content = _("Failed to log in. Please check your credentials and try again."),
+                    Level = NotificationLevel.Danger
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Error($"An error occurred during login for user {Username}: {ex.Message}");
+            NotificationHandler.Current.SendNotification(new Notifications.Notification
+            {
+                Id = Guid.NewGuid().ToString(),
+                Title = _("Login Error"),
+                Content = _("An error occurred while trying to log in. Please try again later. Error: ") + ex.Message,
+                Level = NotificationLevel.Danger
+            });
+        }
+    }
+
+    private async Task RegisterFlow()
+    {
+        try
+        {
+            var response = await NetworkingClient.Current.UserClient.Register(Username);
+            if (response != null && response.HasValue && string.IsNullOrEmpty(response.Value.error))
+            {
+                RegisterResponse = response;
+                Logger.Info($"User {Username} registered successfully.");
+                NotificationHandler.Current.SendNotification(new Notifications.Notification
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Title = _("Registration Successful"),
+                    Content = _("You have successfully registered as {0}. Please add the OTP code to your authentication app.", Username),
+                    Level = NotificationLevel.Success
+                });
+            }
+            else if (response != null && response.HasValue && !string.IsNullOrEmpty(response.Value.error))
+            {
+                if (response.Value.error.Contains("409"))
+                {
+                    NotificationHandler.Current.SendNotification(new Notifications.Notification
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Title = _("Username Taken"),
+                        Content = _("The username {0} is already taken. Please choose a different username.", Username),
+                        Level = NotificationLevel.Danger
+                    });
+                    Username = string.Empty;
+                    InvokeAsync(StateHasChanged);
+                }
+                else
+                {
+                    Logger.Warn($"Registration failed for user {Username} due to {response.Value.error}");
+                    NotificationHandler.Current.SendNotification(new Notifications.Notification
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Title = _("Registration Failed"),
+                        Content = response.Value.error,
+                        Level = NotificationLevel.Danger
+                    });
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Error($"An error occurred during registration for user {Username}: {ex.Message}");
+            NotificationHandler.Current.SendNotification(new Notifications.Notification
+            {
+                Id = Guid.NewGuid().ToString(),
+                Title = _("Registration Error"),
+                Content = _("An error occurred while trying to register. Please try again later. Error: ") + ex.Message,
+                Level = NotificationLevel.Danger
+            });
+        }
+    }
+}
+
+<div class="flex flex-col w-108 p-5 px-8 gap-3">
+    @if (LoginMode)
+    {
+        <Input Title="@(_("Username"))"
+                Description=""
+                @bind-Value="Username"
+                Placeholder="@(_("Username"))"
+                Class="w-full" />
+
+        <OTP Title="@(_("One Time Password"))"
+                Description="@(_("Enter the OTP generated by your authenticator app."))"
+                @bind-Value="OtpCode"
+                Length="6"
+                DashIndex="3"
+                Class="w-full" />
+        
+        <button class="button mt-2" @onclick="Login">@(_("Login"))</button>
+        <button class="description mt-2 text-start hover:underline cursor-pointer" @onclick="() => LoginMode = false">@((MarkupString)_("Don't have an account?<br/>Register a new one now, no emails required!"))</button>
+    }
+    else
+    {
+        if (RegisterResponse != null && RegisterResponse.HasValue)
+        {
+            <p class="description">@((MarkupString)_("Please add the OTP code to your authentication app.<br/><span class=\"text-text-accent\">Do not close the page before you have added the code. We cannot recover accounts once they are created!</span>"))</p>
+            <img class="size-30 rounded-sm mt-2" src="@RegisterResponse.Value.authQrCode" alt="@(_("QR Code for OTP"))" />
+            <p class="description mt-2">@RegisterResponse.Value.authUrl</p>
+            <button class="button mt-2" @onclick="() => LoginMode = true">@(_("Back to Login"))</button>   
+        }
+        else
+        {
+            <p class="description">@(_("You'll be asked to save an OTP authentication code after registration. We do not store or ask for passwords, as those aren't required for authentication."))</p>
+            <Input Title="@(_("Username"))"
+                    Description=""
+                    @bind-Value="Username"
+                    Placeholder="@(_("Username"))"
+                    Class="w-full" />
+
+            <button class="button mt-2" @onclick="RegisterFlow">@(_("Register"))</button>
+            <button class="description mt-2 text-start hover:underline cursor-pointer" @onclick="() => LoginMode = true">@(_("Already have an account? Log in here."))</button>
+        }
+    }
+</div>
