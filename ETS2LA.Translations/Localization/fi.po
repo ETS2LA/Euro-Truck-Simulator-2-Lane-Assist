@@ -3,10 +3,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-10-17 00:27:53+0300\n"
-"PO-Revision-Date: 2026-10-14 00:03+0000\n"
+"PO-Revision-Date: 2026-10-17 09:16+0000\n"
 "Last-Translator: Tumppi066 <contact@ets2la.com>\n"
-"Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/ets2la/fi/"
-">\n"
+"Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/ets2la/fi/>"
+"\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,7 +35,7 @@ msgid "Display"
 msgstr "Grafiikat"
 
 msgid "Go to Account Settings"
-msgstr ""
+msgstr "Tilin asetuksiin"
 
 msgid "Overlay Interaction"
 msgstr "Peitekuvan kanssa interaktio"
@@ -85,7 +85,7 @@ msgstr ""
 "Kun vaihdat nopeutta, valitsemme lähimmän 10. Esim. 37 -> 39 -> 40 -> 42..."
 
 msgid "Register"
-msgstr ""
+msgstr "Rekisteröidy"
 
 msgid "kg"
 msgstr "kg"
@@ -132,6 +132,8 @@ msgid ""
 "Your username may only contain letters, numbers, underscores, hyphens and "
 "periods, and must start and end with a letter or number."
 msgstr ""
+"Käyttäjätunnuksesi voi sisältää vain kirjaimia, numeroita, viivoja ja "
+"pisteitä. Sen pitää alkaa ja loppua numeroon. (äöå ei tuettu)"
 
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
@@ -234,11 +236,11 @@ msgid "The step size for changing the cruise control speed."
 msgstr "Vakionopeudensäätimen nopeuden säädön askelkoko."
 
 msgid "Please enter a username."
-msgstr ""
+msgstr "Anna käyttäjätunnus."
 
 #, csharp-format
 msgid "Your username must be at least {0} characters long."
-msgstr ""
+msgstr "Käyttäjätunnuksesi on oltava ainakin {0} kirjainta pitkä."
 
 msgid "Press anywhere outside the dialog to close it."
 msgstr "Paina dialogin ulkopuolelle sulkeaksesi sen."
@@ -314,7 +316,7 @@ msgid "Install Plugins"
 msgstr "Asenna Lisäosat"
 
 msgid "Your login token is invalid or expired."
-msgstr ""
+msgstr "Kirjautumisavaimesi on vanhentunut."
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
@@ -346,6 +348,10 @@ msgid ""
 "contain letters, numbers, underscores, hyphens and periods. It must start "
 "and end with a letter or number."
 msgstr ""
+"<span class=\"text-text-accent\">Kirjainkoko merkitsee.</span><br/"
+">Käyttäjätunnuksesi on oltava {0} - {1} merkkiä pitkä, ja se voi sisältää "
+"vaik kirjaimia (ei äöå), numeroita, viivoja ja pisteitä. Sen täytyy alkaa ja "
+"loppua kirjaimeen tai numeroon."
 
 msgid "Install Update and Restart"
 msgstr "Asenna päivitys ja käynnistä uudelleen"
@@ -504,7 +510,7 @@ msgstr ""
 "(tai puuttuvan) vastauksen seuraavalta palvelimenlta."
 
 msgid "Already have an account? Log in here."
-msgstr ""
+msgstr "On jo tili? Kirjaudu täältä."
 
 msgid "The server timed out waiting for the request from the client."
 msgstr ""
@@ -523,6 +529,9 @@ msgid ""
 "text-accent\">Do not close the page before you have added the code. We "
 "cannot recover accounts once they are created!</span>"
 msgstr ""
+"Lisää OTP -koodi vahvistuskoodi sovellukseesi.<br/><span class=\"text-text-"
+"accent\">Älä sulje sivua ennen kuin olet lisännyt koodin. Me emme voi "
+"palauttaa tiliä rekisteröinnin jälkeen!</span>"
 
 #, csharp-format
 msgid "Unregistered control: {0} ({1})"
@@ -655,7 +664,7 @@ msgid "Failed to initialize overlay, ImGui initialization failed."
 msgstr "Peitekuvan käynnistys epäonnistui, ImGui ei käynnistynyt."
 
 msgid "Your account is not allowed to use the chatbot."
-msgstr ""
+msgstr "Tilisi ei saa käyttää keskustelubottia."
 
 msgid "Speed Limit Warning"
 msgstr "Nopeusrajoituksen varoitus"
@@ -664,7 +673,7 @@ msgid "Speed limit changed"
 msgstr "Nopeusrajoitus muuttui"
 
 msgid "Your username may not contain repeated separators."
-msgstr ""
+msgstr "Käyttäjätunnuksessasi ei saa olla peräkkäisiä erottimia."
 
 #, csharp-format
 msgid "Discovered {0} plugins in total."
@@ -709,6 +718,8 @@ msgid ""
 "The following information is sent along with each message to help the "
 "chatbot provide better answers. It does not contain any personal information."
 msgstr ""
+"Seuraava informaatio sisältyy jokaiseen botille lähetettyyn viestiin. "
+"Informaatiossa ei ole yksityistä tietoa."
 
 #, csharp-format
 msgid "No update available for plugin with ID {0}."
@@ -788,7 +799,7 @@ msgid "State Info"
 msgstr "Sovelluksen Tila"
 
 msgid "Back to Login"
-msgstr ""
+msgstr "Takaisin kirjautumiseen"
 
 msgid "Contact us on GitHub"
 msgstr "Ota yhteyttä GitHubissa"
@@ -801,9 +812,11 @@ msgid ""
 "Some 3rd party websites might want access to your account.<br/>You can press "
 "the button below to display your JWT token."
 msgstr ""
+"Jotkut kolmannen osapuolen sivut voivat tarvita tilisi hallinnan.<br/>Voit "
+"painaa alla olevaa nappia JWT avaimen näyttämiseen."
 
 msgid "If you're streaming or recording, now's the time to hide this window."
-msgstr ""
+msgstr "Nyt on hyvä aika piilottaa tämä ikkuna streameistä tai tallennuksista."
 
 msgid "Collision Avoidance"
 msgstr "Törmäyksen Esto"
@@ -838,10 +851,10 @@ msgid "Camera {0} ({1}x{2})"
 msgstr "Kamera {0} ({1}x{2})"
 
 msgid "Display JWT Token"
-msgstr ""
+msgstr "Näytä JWT avain"
 
 msgid "Invalid Input"
-msgstr ""
+msgstr "Virheellinen syöte"
 
 msgid ""
 "This setting only loads roads and intersections visible on the in game map. "
@@ -904,6 +917,10 @@ msgid ""
 "class=\"text-text-l\">Shift+Enter</span>. Some basic information is sent "
 "along with each message, <span class=\"text-text-l\">click to display</span>."
 msgstr ""
+"Lähetä <span class=\"text-text-l\">Enterillä</span>, uusi rivi <span class"
+"=\"text-text-l\">Shift+Enter</span>. Joitain perustietoja lähetetään viestin "
+"mukana, <span class=\"text-text-l\">paina tästä</span> nähdäksesi nämä "
+"tiedot."
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for unregistration."
@@ -914,6 +931,8 @@ msgid ""
 "I'm sorry, but I cannot answer that question. Please ask something else "
 "ETS2LA related."
 msgstr ""
+"Anteeksi, mutta en voi vastata tuohon viestiin. Kysy jotain muuta ETS2LA:han "
+"liittyvää."
 
 msgid ""
 "Your system has less than 16GB of RAM. High data fidelity uses significant "
@@ -955,6 +974,8 @@ msgid ""
 "This chatbot is provided for free by <span class=\"text-text-l\">lun011666</"
 "span>.<br/>For the sake of the community, we ask you not to abuse access."
 msgstr ""
+"Tämän keskustelubotin tarjoaa ilmaiseksi <span class=\"text-text-l\""
+">lun011666</span>.<br/>Yhteisön vuoksi, ethän väärinkäytä pääsyä."
 
 #, csharp-format
 msgid "{0} not found in supported languages."
@@ -1005,6 +1026,8 @@ msgid ""
 "You'll be asked to save an OTP authentication code after registration. We do "
 "not store or ask for passwords, as those aren't required for authentication."
 msgstr ""
+"Sinulta vaaditaan OTP -koodin tallennusta rekisteröinnin jälkeen. Emme pyydä "
+"tai tallenna salasanoja, sillä ne eivät ole tarpeellisia kirjautumiseen."
 
 msgid "Wiki / FAQ"
 msgstr "Wiki / UKK"
@@ -1263,6 +1286,8 @@ msgid ""
 "You have successfully registered as {0}. Please add the OTP code to your "
 "authentication app."
 msgstr ""
+"Olet rekisteröinyt käyttäjän {0}. Tallenna alla oleva OTP -koodi jollain "
+"sovelluksella (esim Google Authenticator)."
 
 msgid "Disable Overlay"
 msgstr "Poista peitekuva käytöstä"
@@ -1435,7 +1460,7 @@ msgid "No updates available."
 msgstr "Päivityksiä ei ole saatavilla."
 
 msgid "Please log in to use the chatbot."
-msgstr ""
+msgstr "Kirjaudu sisään käyttääksesi keskustelubottia."
 
 #, csharp-format
 msgid "Error rendering overlay: {0}"
@@ -1526,7 +1551,7 @@ msgid "Logout Error"
 msgstr "Uloskirjautumisen yhteydessä tapahtui virhe"
 
 msgid "Don't have an account?<br/>Register a new one now, no emails required!"
-msgstr ""
+msgstr "Ei vielä tiliä?<br/>Rekisteröidyppä! Me ei vaadita sähköposteja!"
 
 #, csharp-format
 msgid "Found {0} game installation."
@@ -1576,7 +1601,7 @@ msgstr "Ladatiin kirjasto [gray]{0}[/] paikasta [gray]{1}[/]."
 
 #, csharp-format
 msgid "The username {0} is reserved. Please choose a different username."
-msgstr ""
+msgstr "Käyttäjätunnus {0} on varattu. Valitsethan jonkin muun."
 
 msgid "Select the game you wish to start."
 msgstr "Valitse peli jonka haluat käynnistää."
@@ -1646,7 +1671,7 @@ msgstr ""
 "lopettamista varten."
 
 msgid "Chatbot"
-msgstr ""
+msgstr "Keskustelubotti"
 
 #, csharp-format
 msgid "Binding {0}"
@@ -1755,20 +1780,20 @@ msgid "Overlay is disabled in settings, skipping window registration for {0}."
 msgstr "Peitekuva poistettu käytöstä, ohitetaan ikkunan {0} rekisteröinti."
 
 msgid "Request cancelled."
-msgstr ""
+msgstr "Pyyntö peruutettu."
 
 msgid "Registration Failed"
-msgstr ""
+msgstr "Rekisteröinti epäonnistui"
 
 msgid "Please close the game before continuing with the onboarding process."
 msgstr "Suljethan pelin ennen perehdytyksen jatkamista."
 
 msgid "Registration Successful"
-msgstr ""
+msgstr "Rekisteröinti onnistui"
 
 #, csharp-format
 msgid "Your username must be at most {0} characters long."
-msgstr ""
+msgstr "Käyttäjätunnuksesi voi olla enintään {0} kirjainta pitkä."
 
 #, csharp-format
 msgid "Successfully installed plugin {0} ({1}, {2})"
@@ -1840,7 +1865,7 @@ msgid "No map data found for installation at '{0}'. Is the installation valid?"
 msgstr "Karttadataa ei voitu ladata pelille {0}, onko se oikein ladattu?"
 
 msgid "Please log in before using the chatbot."
-msgstr ""
+msgstr "Kirjaudu sisään ennen keskustelubotin käyttöä."
 
 #, csharp-format
 msgid "Error rendering context menu for window {0}: {1}"
@@ -1853,7 +1878,7 @@ msgid "kilograms"
 msgstr "kilogrammaa"
 
 msgid "Username Taken"
-msgstr ""
+msgstr "Käyttäjätunnus on jo olemassa"
 
 msgid "ft"
 msgstr "ft"
@@ -1950,7 +1975,7 @@ msgstr ""
 #, csharp-format
 msgid ""
 "You are currently logged in as <span class=\"text-text-l\">{0}</span>. [{1}]"
-msgstr ""
+msgstr "Hei <span class=\"text-text-l\">{0}</span>, tilisi status on [{1}]."
 
 msgid ""
 "We will pause the game when we detect instability or the steering is "
@@ -1990,7 +2015,7 @@ msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr "Ajomuoto: <span class=\"text-text-accent font-bold\">{0}</span>"
 
 msgid "Thinking..."
-msgstr ""
+msgstr "Ajattelee..."
 
 msgid "Adjust the volume of the audio output."
 msgstr "Säädä äänenvoimakkuutta."
@@ -2118,7 +2143,7 @@ msgstr ""
 "ei vastaa siihen."
 
 msgid "Registration Error"
-msgstr ""
+msgstr "Rekisteröinnin virhe"
 
 msgid "Display Language"
 msgstr "Kieli"
@@ -2152,7 +2177,7 @@ msgstr "m/s"
 
 #, csharp-format
 msgid "The username {0} is already taken. Please choose a different username."
-msgstr ""
+msgstr "Käyttäjätunnus {0} on jo otettu. Valitsethan toisen käyttäjätunnuksen."
 
 #, csharp-format
 msgid "Click to {0} this window"
@@ -2191,10 +2216,12 @@ msgstr ""
 "artikkeleiden määrästä ja verkon nopeudesta."
 
 msgid "You are not logged in. Open this page again to login."
-msgstr ""
+msgstr "Et ole kirjautunut sisään. Avaa tämä sivu uudelleen."
 
 msgid "Only copy this to trusted websites, it can do ANYTHING on your behalf."
 msgstr ""
+"Kopioi tämä vain luotetuihin nettisivuihin, ne voivat tehdä MITÄ VAIN "
+"puolestasi."
 
 msgid "Map Data Parsed"
 msgstr "Karttadata ladattu"
@@ -2230,6 +2257,8 @@ msgid ""
 "Your token will expire on <span class=\"text-text-l\">{0}</span>, you'll be "
 "asked to login again then."
 msgstr ""
+"Kirjautumisavaimesi vanhenee <span class=\"text-text-l\">{0}</span>. "
+"Pyydämme sinua kirjautumaan sisään uudelleen tuolloin."
 
 msgid "meters"
 msgstr "metriä"
@@ -2252,6 +2281,8 @@ msgstr[1] "Löydettiin {0} manuaalisesti asennettua lisäosaa."
 msgid ""
 "An error occurred while trying to register. Please try again later. Error: "
 msgstr ""
+"Rekisteröinnin yhteydessä tapahtui virhe. Kokeile myöhemmin uudelleen. Virhe:"
+" "
 
 msgid "Checking for updates..."
 msgstr "Tarkastetaan päivityksiä..."
@@ -2293,6 +2324,8 @@ msgid ""
 "Your session has expired or you don't have a connection to our servers. "
 "Please log in again if you wish to use server-side features."
 msgstr ""
+"Kirjautumisavaimesi vanheni, tai sinulla ei ole palveliimme yhteyttä. "
+"Kirjaudu uudelleen sisään jos haluat käyttää palvelimen vaativia toimintoja."
 
 msgid "Demo Window"
 msgstr "Demoikkuna"
