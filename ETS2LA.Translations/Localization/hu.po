@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-16 23:14:00+0300\n"
+"POT-Creation-Date: 2026-10-17 00:27:53+0300\n"
 "PO-Revision-Date: 2026-09-21 15:01+0000\n"
 "Last-Translator: delilevente <delilevente@ets2la.com>\n"
 "Language-Team: Hungarian <http://weblate.ets2la.com/projects/ets2la/ets2la/"
@@ -285,6 +285,9 @@ msgstr ""
 
 msgid "Install Plugins"
 msgstr "Pluginok telepítése"
+
+msgid "Your login token is invalid or expired."
+msgstr ""
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
@@ -591,6 +594,9 @@ msgstr ""
 "Nem sikerült elindítani az overlay-t, az ImGui inicializálása sikertelen "
 "volt."
 
+msgid "Your account is not allowed to use the chatbot."
+msgstr ""
+
 msgid "Speed Limit Warning"
 msgstr ""
 
@@ -638,6 +644,11 @@ msgstr ""
 #, csharp-format
 msgid "Current Version: {0}"
 msgstr "Jelenlegi verzió: {0}"
+
+msgid ""
+"The following information is sent along with each message to help the "
+"chatbot provide better answers. It does not contain any personal information."
+msgstr ""
 
 #, csharp-format
 msgid "No update available for plugin with ID {0}."
@@ -810,8 +821,19 @@ msgid ""
 "has only slight differences to metric."
 msgstr ""
 
+msgid ""
+"Send using <span class=\"text-text-l\">Enter</span>, new line with <span "
+"class=\"text-text-l\">Shift+Enter</span>. Some basic information is sent "
+"along with each message, <span class=\"text-text-l\">click to display</span>."
+msgstr ""
+
 #, csharp-format
 msgid "Control with ID '{0}' not found for unregistration."
+msgstr ""
+
+msgid ""
+"I'm sorry, but I cannot answer that question. Please ask something else "
+"ETS2LA related."
 msgstr ""
 
 msgid ""
@@ -846,6 +868,11 @@ msgid "Driving"
 msgstr "Vezetés"
 
 msgid "Failed to initialize SDL3 input backend."
+msgstr ""
+
+msgid ""
+"This chatbot is provided for free by <span class=\"text-text-l\">lun011666</"
+"span>.<br/>For the sake of the community, we ask you not to abuse access."
 msgstr ""
 
 #, csharp-format
@@ -1277,6 +1304,9 @@ msgstr ""
 msgid "No updates available."
 msgstr "Nincs elérhető frissítés."
 
+msgid "Please log in to use the chatbot."
+msgstr ""
+
 #, csharp-format
 msgid "Error rendering overlay: {0}"
 msgstr ""
@@ -1304,10 +1334,10 @@ msgstr ""
 msgid "Font file not found at {0}"
 msgstr ""
 
-msgid "Changelog"
+msgid "No release notes available."
 msgstr ""
 
-msgid "No release notes available."
+msgid "Changelog"
 msgstr ""
 
 #, csharp-format
@@ -1467,6 +1497,9 @@ msgstr "kilométer per óra"
 msgid "Control with ID '{0}' not found for event unsubscription."
 msgstr ""
 
+msgid "Chatbot"
+msgstr ""
+
 #, csharp-format
 msgid "Binding {0}"
 msgstr ""
@@ -1563,6 +1596,9 @@ msgstr "láb"
 msgid "Overlay is disabled in settings, skipping window registration for {0}."
 msgstr ""
 
+msgid "Request cancelled."
+msgstr ""
+
 msgid "Registration Failed"
 msgstr ""
 
@@ -1641,6 +1677,9 @@ msgstr "Értettem"
 
 #, csharp-format
 msgid "No map data found for installation at '{0}'. Is the installation valid?"
+msgstr ""
+
+msgid "Please log in before using the chatbot."
 msgstr ""
 
 #, csharp-format
@@ -1770,10 +1809,13 @@ msgstr ""
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 
-msgid "View Public Telemetry"
+msgid "Thinking..."
 msgstr ""
 
 msgid "Adjust the volume of the audio output."
+msgstr ""
+
+msgid "View Public Telemetry"
 msgstr ""
 
 #, csharp-format
@@ -2087,11 +2129,11 @@ msgstr ""
 msgid "Final Disclaimer <span class=\"description\">2/2</span>"
 msgstr ""
 
-msgid "Logout Failed"
-msgstr ""
-
 #, csharp-format
 msgid "Snap to each 10 {0}"
+msgstr ""
+
+msgid "Logout Failed"
 msgstr ""
 
 #, csharp-format

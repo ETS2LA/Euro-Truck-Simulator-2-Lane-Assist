@@ -2,11 +2,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-16 23:14:00+0300\n"
+"POT-Creation-Date: 2026-10-17 00:27:53+0300\n"
 "PO-Revision-Date: 2026-10-16 21:30+0000\n"
 "Last-Translator: Ketchup1812 <ketchup1812@ets2la.com>\n"
-"Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/ets2la/sk/>"
-"\n"
+"Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/ets2la/sk/"
+">\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -317,6 +317,9 @@ msgstr "Zobraziť menej záznamov"
 
 msgid "Install Plugins"
 msgstr "Nainštalujte pluginy"
+
+msgid "Your login token is invalid or expired."
+msgstr ""
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
@@ -663,6 +666,9 @@ msgid "Failed to initialize overlay, ImGui initialization failed."
 msgstr ""
 "Nepodarilo sa inicializovať prekrývací prvok, inicializácia ImGui zlyhala."
 
+msgid "Your account is not allowed to use the chatbot."
+msgstr ""
+
 msgid "Speed Limit Warning"
 msgstr "Upozornenie na rýchlostný limit"
 
@@ -711,6 +717,11 @@ msgstr "Chyba pri načítaní údajov mapy"
 #, csharp-format
 msgid "Current Version: {0}"
 msgstr "Aktuálna verzia: {0}"
+
+msgid ""
+"The following information is sent along with each message to help the "
+"chatbot provide better answers. It does not contain any personal information."
+msgstr ""
 
 #, csharp-format
 msgid "No update available for plugin with ID {0}."
@@ -908,9 +919,20 @@ msgstr ""
 "Jednotky, ktoré ETS2LA používa pri zobrazovaní informácií používateľovi. "
 "Vedecký systém sa od metrického líši len minimálne."
 
+msgid ""
+"Send using <span class=\"text-text-l\">Enter</span>, new line with <span "
+"class=\"text-text-l\">Shift+Enter</span>. Some basic information is sent "
+"along with each message, <span class=\"text-text-l\">click to display</span>."
+msgstr ""
+
 #, csharp-format
 msgid "Control with ID '{0}' not found for unregistration."
 msgstr "Kontrola s ID „{0}“ nebola nájdené pre zrušenie registrácie."
+
+msgid ""
+"I'm sorry, but I cannot answer that question. Please ask something else "
+"ETS2LA related."
+msgstr ""
 
 msgid ""
 "Your system has less than 16GB of RAM. High data fidelity uses significant "
@@ -950,6 +972,11 @@ msgstr "Šoférovanie"
 
 msgid "Failed to initialize SDL3 input backend."
 msgstr "Nepodarilo sa inicializovať vstupný backend SDL3."
+
+msgid ""
+"This chatbot is provided for free by <span class=\"text-text-l\">lun011666</"
+"span>.<br/>For the sake of the community, we ask you not to abuse access."
+msgstr ""
 
 #, csharp-format
 msgid "{0} not found in supported languages."
@@ -1444,6 +1471,9 @@ msgstr ""
 msgid "No updates available."
 msgstr "Nie sú k dispozícii žiadne aktualizácie."
 
+msgid "Please log in to use the chatbot."
+msgstr ""
+
 #, csharp-format
 msgid "Error rendering overlay: {0}"
 msgstr "Chyba pri vykresľovaní prekrývacieho prvku: {0}"
@@ -1472,11 +1502,11 @@ msgstr "Nepodarilo sa pridať hru"
 msgid "Font file not found at {0}"
 msgstr "Súbor s písmom sa nenašiel v {0}"
 
-msgid "Changelog"
-msgstr "Zoznam zmien"
-
 msgid "No release notes available."
 msgstr "Poznámky k verzii nie sú k dispozícii."
+
+msgid "Changelog"
+msgstr "Zoznam zmien"
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1656,6 +1686,9 @@ msgstr "kilometre za hodinu"
 msgid "Control with ID '{0}' not found for event unsubscription."
 msgstr "Kontrola s ID „{0}“ nebola nájdené pre zrušenie predplatného."
 
+msgid "Chatbot"
+msgstr ""
+
 #, csharp-format
 msgid "Binding {0}"
 msgstr "Mapujem {0}"
@@ -1766,6 +1799,9 @@ msgstr ""
 "V nastaveniach je funkcia prekrývania vypnutá, registrácia okna pre {0} sa "
 "preskočí."
 
+msgid "Request cancelled."
+msgstr ""
+
 msgid "Registration Failed"
 msgstr "Registrácia sa nepodarila"
 
@@ -1849,6 +1885,9 @@ msgid "No map data found for installation at '{0}'. Is the installation valid?"
 msgstr ""
 "Nenašli sa žiadne mapové údaje pre inštaláciu v umiestnení „{0}“. Je táto "
 "inštalácia platná?"
+
+msgid "Please log in before using the chatbot."
+msgstr ""
 
 #, csharp-format
 msgid "Error rendering context menu for window {0}: {1}"
@@ -2000,11 +2039,14 @@ msgstr "Nepodarilo sa načítať plugin z [gray]{0}[/]: {1}"
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr "Režim asistenta: <span class=\"text-text-accent font-bold\">{0}</span>"
 
-msgid "View Public Telemetry"
-msgstr "Zobraziť verejnú telemetriu"
+msgid "Thinking..."
+msgstr ""
 
 msgid "Adjust the volume of the audio output."
 msgstr "Upravte hlasitosť zvukového výstupu."
+
+msgid "View Public Telemetry"
+msgstr "Zobraziť verejnú telemetriu"
 
 #, csharp-format
 msgid ""
@@ -2353,12 +2395,12 @@ msgstr "Chýbajúca závislosť: {0}"
 msgid "Final Disclaimer <span class=\"description\">2/2</span>"
 msgstr "Záverečné upozornenie <span class=\"description\">2/2</span>"
 
-msgid "Logout Failed"
-msgstr "Odhlásenie sa nepodarilo"
-
 #, csharp-format
 msgid "Snap to each 10 {0}"
 msgstr "Zarovnať po každých 10 {0}"
+
+msgid "Logout Failed"
+msgstr "Odhlásenie sa nepodarilo"
 
 #, csharp-format
 msgid "Created plugin directory: [gray]{0}[/]"

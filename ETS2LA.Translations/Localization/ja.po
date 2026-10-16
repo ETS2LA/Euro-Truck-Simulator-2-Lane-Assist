@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-16 23:14:00+0300\n"
+"POT-Creation-Date: 2026-10-17 00:27:53+0300\n"
 "PO-Revision-Date: 2026-10-06 04:14+0000\n"
 "Last-Translator: Pastel <pastel@ets2la.com>\n"
 "Language-Team: Japanese <http://weblate.ets2la.com/projects/ets2la/ets2la/ja/"
@@ -312,6 +312,9 @@ msgstr "ログの表示数を減らす"
 
 msgid "Install Plugins"
 msgstr "プラグインのインストール"
+
+msgid "Your login token is invalid or expired."
+msgstr ""
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
@@ -643,6 +646,9 @@ msgstr "SDKバージョン「{0}」を「{1}」からアンインストールで
 msgid "Failed to initialize overlay, ImGui initialization failed."
 msgstr "オーバーレイの初期化に失敗しました。ImGuiの初期化に失敗しました。"
 
+msgid "Your account is not allowed to use the chatbot."
+msgstr ""
+
 msgid "Speed Limit Warning"
 msgstr "制限速度警告"
 
@@ -689,6 +695,11 @@ msgstr "地図データの読み込みに失敗しました"
 #, csharp-format
 msgid "Current Version: {0}"
 msgstr "現在のバージョン: {0}"
+
+msgid ""
+"The following information is sent along with each message to help the "
+"chatbot provide better answers. It does not contain any personal information."
+msgstr ""
 
 #, csharp-format
 msgid "No update available for plugin with ID {0}."
@@ -880,9 +891,20 @@ msgstr ""
 "ETS2LAがユーザーに情報を表示する際に使用する単位です。科学単位はメートル法と"
 "わずかな違いがあります。"
 
+msgid ""
+"Send using <span class=\"text-text-l\">Enter</span>, new line with <span "
+"class=\"text-text-l\">Shift+Enter</span>. Some basic information is sent "
+"along with each message, <span class=\"text-text-l\">click to display</span>."
+msgstr ""
+
 #, csharp-format
 msgid "Control with ID '{0}' not found for unregistration."
 msgstr "ID「{0}」の操作が見つからないため、登録解除できません。"
+
+msgid ""
+"I'm sorry, but I cannot answer that question. Please ask something else "
+"ETS2LA related."
+msgstr ""
 
 msgid ""
 "Your system has less than 16GB of RAM. High data fidelity uses significant "
@@ -920,6 +942,11 @@ msgstr "運転"
 
 msgid "Failed to initialize SDL3 input backend."
 msgstr "SDL3の入力バックエンドの初期化に失敗しました。"
+
+msgid ""
+"This chatbot is provided for free by <span class=\"text-text-l\">lun011666</"
+"span>.<br/>For the sake of the community, we ask you not to abuse access."
+msgstr ""
 
 #, csharp-format
 msgid "{0} not found in supported languages."
@@ -1397,6 +1424,9 @@ msgstr "インターネット接続や取得元によっては、時間がかか
 msgid "No updates available."
 msgstr "アップデートはありません。"
 
+msgid "Please log in to use the chatbot."
+msgstr ""
+
 #, csharp-format
 msgid "Error rendering overlay: {0}"
 msgstr "オーバーレイの表示中にエラーが発生しました: {0}"
@@ -1424,11 +1454,11 @@ msgstr "ゲームの追加に失敗しました"
 msgid "Font file not found at {0}"
 msgstr "フォントファイルが {0} に見つかりません"
 
-msgid "Changelog"
-msgstr "変更履歴"
-
 msgid "No release notes available."
 msgstr "リリースノートはありません。"
+
+msgid "Changelog"
+msgstr "変更履歴"
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1599,6 +1629,9 @@ msgstr "キロメートル毎時"
 msgid "Control with ID '{0}' not found for event unsubscription."
 msgstr "イベント登録解除対象のID「{0}」の操作が見つかりません。"
 
+msgid "Chatbot"
+msgstr ""
+
 #, csharp-format
 msgid "Binding {0}"
 msgstr "{0} を割り当て中"
@@ -1709,6 +1742,9 @@ msgstr ""
 "設定でオーバーレイが無効になっているため、{0} のウィンドウ登録をスキップしま"
 "す。"
 
+msgid "Request cancelled."
+msgstr ""
+
 msgid "Registration Failed"
 msgstr ""
 
@@ -1792,6 +1828,9 @@ msgid "No map data found for installation at '{0}'. Is the installation valid?"
 msgstr ""
 "「{0}」のインストール先にマップデータが見つかりません。インストール先は正しい"
 "ですか？"
+
+msgid "Please log in before using the chatbot."
+msgstr ""
 
 #, csharp-format
 msgid "Error rendering context menu for window {0}: {1}"
@@ -1940,11 +1979,14 @@ msgstr "プラグインを [gray]{0}[/] から読み込めませんでした: {1
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr "アシストモード: <span class=\"text-text-accent font-bold\">{0}</span>"
 
-msgid "View Public Telemetry"
-msgstr "公開テレメトリを表示"
+msgid "Thinking..."
+msgstr ""
 
 msgid "Adjust the volume of the audio output."
 msgstr "音声出力の音量を調整します。"
+
+msgid "View Public Telemetry"
+msgstr "公開テレメトリを表示"
 
 #, csharp-format
 msgid ""
@@ -2280,12 +2322,12 @@ msgstr "不足している依存関係: {0}"
 msgid "Final Disclaimer <span class=\"description\">2/2</span>"
 msgstr "最終的な免責事項 <span class=\"description\">2/2</span>"
 
-msgid "Logout Failed"
-msgstr ""
-
 #, csharp-format
 msgid "Snap to each 10 {0}"
 msgstr "10 {0}ごとにスナップ"
+
+msgid "Logout Failed"
+msgstr ""
 
 #, csharp-format
 msgid "Created plugin directory: [gray]{0}[/]"

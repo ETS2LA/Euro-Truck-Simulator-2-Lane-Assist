@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-16 23:14:00+0300\n"
+"POT-Creation-Date: 2026-10-17 00:27:53+0300\n"
 "PO-Revision-Date: 2026-10-15 14:02+0000\n"
 "Last-Translator: McAs13 <tsumiguel@ets2la.com>\n"
 "Language-Team: Spanish (American) <http://weblate.ets2la.com/projects/ets2la/"
@@ -319,6 +319,9 @@ msgstr "Mostrar menos registros"
 
 msgid "Install Plugins"
 msgstr "Instalar plugins"
+
+msgid "Your login token is invalid or expired."
+msgstr ""
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
@@ -661,6 +664,9 @@ msgid "Failed to initialize overlay, ImGui initialization failed."
 msgstr ""
 "Error al inicializar la superposición, falló la inicialización de ImGui."
 
+msgid "Your account is not allowed to use the chatbot."
+msgstr ""
+
 msgid "Speed Limit Warning"
 msgstr "Advertencia de límite de velocidad"
 
@@ -708,6 +714,11 @@ msgstr "Error al cargar los datos del mapa"
 #, csharp-format
 msgid "Current Version: {0}"
 msgstr "Versión actual: {0}"
+
+msgid ""
+"The following information is sent along with each message to help the "
+"chatbot provide better answers. It does not contain any personal information."
+msgstr ""
 
 #, csharp-format
 msgid "No update available for plugin with ID {0}."
@@ -904,9 +915,20 @@ msgstr ""
 "Las unidades que ETS2LA usará al mostrar información al usuario. Científico "
 "tiene solo ligeras diferencias con el sistema métrico."
 
+msgid ""
+"Send using <span class=\"text-text-l\">Enter</span>, new line with <span "
+"class=\"text-text-l\">Shift+Enter</span>. Some basic information is sent "
+"along with each message, <span class=\"text-text-l\">click to display</span>."
+msgstr ""
+
 #, csharp-format
 msgid "Control with ID '{0}' not found for unregistration."
 msgstr "No se encontró el control con ID '{0}' para anular el registro."
+
+msgid ""
+"I'm sorry, but I cannot answer that question. Please ask something else "
+"ETS2LA related."
+msgstr ""
 
 msgid ""
 "Your system has less than 16GB of RAM. High data fidelity uses significant "
@@ -946,6 +968,11 @@ msgstr "Conducción"
 
 msgid "Failed to initialize SDL3 input backend."
 msgstr "Error al inicializar el backend de entrada SDL3."
+
+msgid ""
+"This chatbot is provided for free by <span class=\"text-text-l\">lun011666</"
+"span>.<br/>For the sake of the community, we ask you not to abuse access."
+msgstr ""
 
 #, csharp-format
 msgid "{0} not found in supported languages."
@@ -1433,6 +1460,9 @@ msgstr ""
 msgid "No updates available."
 msgstr "No hay actualizaciones disponibles."
 
+msgid "Please log in to use the chatbot."
+msgstr ""
+
 #, csharp-format
 msgid "Error rendering overlay: {0}"
 msgstr "Error al renderizar la superposición: {0}"
@@ -1462,11 +1492,11 @@ msgstr "Error al añadir el juego"
 msgid "Font file not found at {0}"
 msgstr "No se encontró el archivo de fuente en {0}"
 
-msgid "Changelog"
-msgstr "Registro de cambios"
-
 msgid "No release notes available."
 msgstr "No hay notas de la versión disponibles."
+
+msgid "Changelog"
+msgstr "Registro de cambios"
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1645,6 +1675,9 @@ msgstr ""
 "No se encontró el control con ID '{0}' para cancelar la suscripción al "
 "evento."
 
+msgid "Chatbot"
+msgstr ""
+
 #, csharp-format
 msgid "Binding {0}"
 msgstr "Enlazando {0}"
@@ -1753,6 +1786,9 @@ msgstr ""
 "La superposición está desactivada en la configuración, se omitirá el "
 "registro de la ventana para {0}."
 
+msgid "Request cancelled."
+msgstr ""
+
 msgid "Registration Failed"
 msgstr ""
 
@@ -1838,6 +1874,9 @@ msgid "No map data found for installation at '{0}'. Is the installation valid?"
 msgstr ""
 "No se encontraron datos del mapa para la instalación en '{0}'. ¿Es válida la "
 "instalación?"
+
+msgid "Please log in before using the chatbot."
+msgstr ""
 
 #, csharp-format
 msgid "Error rendering context menu for window {0}: {1}"
@@ -1989,11 +2028,14 @@ msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 "Modo de asistencia: <span class=\"text-text-accent font-bold\">{0}</span>"
 
-msgid "View Public Telemetry"
-msgstr "Ver telemetría pública"
+msgid "Thinking..."
+msgstr ""
 
 msgid "Adjust the volume of the audio output."
 msgstr "Ajusta el volumen de la salida de audio."
+
+msgid "View Public Telemetry"
+msgstr "Ver telemetría pública"
 
 #, csharp-format
 msgid ""
@@ -2336,12 +2378,12 @@ msgstr "Dependencia faltante: {0}"
 msgid "Final Disclaimer <span class=\"description\">2/2</span>"
 msgstr "Aviso final <span class=\"description\">2/2</span>"
 
-msgid "Logout Failed"
-msgstr "Error al cerrar sesión"
-
 #, csharp-format
 msgid "Snap to each 10 {0}"
 msgstr "Ajustar a cada 10 {0}"
+
+msgid "Logout Failed"
+msgstr "Error al cerrar sesión"
 
 #, csharp-format
 msgid "Created plugin directory: [gray]{0}[/]"

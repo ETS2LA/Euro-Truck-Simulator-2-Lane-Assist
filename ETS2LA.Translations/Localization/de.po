@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-16 23:14:00+0300\n"
+"POT-Creation-Date: 2026-10-17 00:27:53+0300\n"
 "PO-Revision-Date: 2026-09-19 12:33+0000\n"
 "Last-Translator: ABOY <aboy@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/ets2la/de/"
@@ -303,6 +303,9 @@ msgstr "Zeige weniger Logs an"
 
 msgid "Install Plugins"
 msgstr "Plugins installieren"
+
+msgid "Your login token is invalid or expired."
+msgstr ""
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
@@ -631,6 +634,9 @@ msgstr ""
 "Fehlgeschlagen beim Initialisieren des Overlays, ImGui-Initialisierung "
 "fehlgeschlagen."
 
+msgid "Your account is not allowed to use the chatbot."
+msgstr ""
+
 msgid "Speed Limit Warning"
 msgstr "Geschwindigkeitswarnung"
 
@@ -678,6 +684,11 @@ msgstr "Fehler beim Laden der Karten-Daten"
 #, csharp-format
 msgid "Current Version: {0}"
 msgstr "Aktuelle Version: {0}"
+
+msgid ""
+"The following information is sent along with each message to help the "
+"chatbot provide better answers. It does not contain any personal information."
+msgstr ""
 
 #, csharp-format
 msgid "No update available for plugin with ID {0}."
@@ -867,9 +878,20 @@ msgstr ""
 "Die Einheiten, die ETS2LA bei der Anzeige von Informationen für den Benutzer "
 "verwendet. Wissenschaftlich unterscheidet sich nur geringfügig von Metrisch."
 
+msgid ""
+"Send using <span class=\"text-text-l\">Enter</span>, new line with <span "
+"class=\"text-text-l\">Shift+Enter</span>. Some basic information is sent "
+"along with each message, <span class=\"text-text-l\">click to display</span>."
+msgstr ""
+
 #, csharp-format
 msgid "Control with ID '{0}' not found for unregistration."
 msgstr "Steuerung mit der ID '{0}' nicht gefunden zum Entfernen."
+
+msgid ""
+"I'm sorry, but I cannot answer that question. Please ask something else "
+"ETS2LA related."
+msgstr ""
 
 msgid ""
 "Your system has less than 16GB of RAM. High data fidelity uses significant "
@@ -908,6 +930,11 @@ msgstr "Fahren"
 
 msgid "Failed to initialize SDL3 input backend."
 msgstr "Fehlgeschlagenes Initialisieren des SDL3-Eingabebacksends."
+
+msgid ""
+"This chatbot is provided for free by <span class=\"text-text-l\">lun011666</"
+"span>.<br/>For the sake of the community, we ask you not to abuse access."
+msgstr ""
 
 #, csharp-format
 msgid "{0} not found in supported languages."
@@ -1389,6 +1416,9 @@ msgstr ""
 msgid "No updates available."
 msgstr "Keine Updates verfügbar."
 
+msgid "Please log in to use the chatbot."
+msgstr ""
+
 #, csharp-format
 msgid "Error rendering overlay: {0}"
 msgstr "Fehler beim rendering des Overlays: {0}"
@@ -1417,11 +1447,11 @@ msgstr "Fehlgeschlagen beim Hinzufügen des Spiels"
 msgid "Font file not found at {0}"
 msgstr "Schriftdatei unter {0} nicht gefunden"
 
-msgid "Changelog"
-msgstr "Änderungsprotokoll"
-
 msgid "No release notes available."
 msgstr "Es liegen keine Versionshinweise vor."
+
+msgid "Changelog"
+msgstr "Änderungsprotokoll"
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1589,6 +1619,9 @@ msgstr "Kilometer pro Stunde"
 msgid "Control with ID '{0}' not found for event unsubscription."
 msgstr "Steuerung mit der ID '{0}' nicht gefunden um das Event zu beenden."
 
+msgid "Chatbot"
+msgstr ""
+
 #, csharp-format
 msgid "Binding {0}"
 msgstr "Zuordnung {0}"
@@ -1696,6 +1729,9 @@ msgstr "Fuß"
 msgid "Overlay is disabled in settings, skipping window registration for {0}."
 msgstr ""
 
+msgid "Request cancelled."
+msgstr ""
+
 msgid "Registration Failed"
 msgstr ""
 
@@ -1777,6 +1813,9 @@ msgid "No map data found for installation at '{0}'. Is the installation valid?"
 msgstr ""
 "Keine Karten-Daten für die Installation bei '{0}' gefunden. Ist die "
 "Installation gültig?"
+
+msgid "Please log in before using the chatbot."
+msgstr ""
 
 #, csharp-format
 msgid "Error rendering context menu for window {0}: {1}"
@@ -1925,11 +1964,14 @@ msgstr "Fehler beim Laden des Plugins von [gray]{0}[/]: {1}"
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 
-msgid "View Public Telemetry"
-msgstr "Öffentliche Telemetrie anzeigen"
+msgid "Thinking..."
+msgstr ""
 
 msgid "Adjust the volume of the audio output."
 msgstr "Passen Sie das Audioausgabeverhältnis an."
+
+msgid "View Public Telemetry"
+msgstr "Öffentliche Telemetrie anzeigen"
 
 #, csharp-format
 msgid ""
@@ -2264,12 +2306,12 @@ msgstr "Fehlende Abhängigkeit: {0}"
 msgid "Final Disclaimer <span class=\"description\">2/2</span>"
 msgstr "Letzte Vorwarnung <span class=\"description\">2/2</span>"
 
-msgid "Logout Failed"
-msgstr ""
-
 #, csharp-format
 msgid "Snap to each 10 {0}"
 msgstr "Richte aus auf alle 10 {0}"
+
+msgid "Logout Failed"
+msgstr ""
 
 #, csharp-format
 msgid "Created plugin directory: [gray]{0}[/]"

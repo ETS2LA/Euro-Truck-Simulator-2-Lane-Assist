@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-16 23:14:00+0300\n"
+"POT-Creation-Date: 2026-10-17 00:27:53+0300\n"
 "PO-Revision-Date: 2026-10-14 00:03+0000\n"
 "Last-Translator: Tumppi066 <contact@ets2la.com>\n"
 "Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/ets2la/fi/"
@@ -312,6 +312,9 @@ msgstr "Näytä vähemmän lokeja"
 
 msgid "Install Plugins"
 msgstr "Asenna Lisäosat"
+
+msgid "Your login token is invalid or expired."
+msgstr ""
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
@@ -651,6 +654,9 @@ msgstr "SDK:n version {0} poistaminen paikasta {1} epäonnistui: {2}"
 msgid "Failed to initialize overlay, ImGui initialization failed."
 msgstr "Peitekuvan käynnistys epäonnistui, ImGui ei käynnistynyt."
 
+msgid "Your account is not allowed to use the chatbot."
+msgstr ""
+
 msgid "Speed Limit Warning"
 msgstr "Nopeusrajoituksen varoitus"
 
@@ -698,6 +704,11 @@ msgstr "Virhe ladattaessa karttadataa"
 #, csharp-format
 msgid "Current Version: {0}"
 msgstr "Nykyinen versio: {0}"
+
+msgid ""
+"The following information is sent along with each message to help the "
+"chatbot provide better answers. It does not contain any personal information."
+msgstr ""
 
 #, csharp-format
 msgid "No update available for plugin with ID {0}."
@@ -888,10 +899,21 @@ msgstr ""
 "Yksiköt joita käytetään lähes kaikessa näytetyssä informaatiossa. "
 "Tieteellisten ero metrisiin on hyvin pieni."
 
+msgid ""
+"Send using <span class=\"text-text-l\">Enter</span>, new line with <span "
+"class=\"text-text-l\">Shift+Enter</span>. Some basic information is sent "
+"along with each message, <span class=\"text-text-l\">click to display</span>."
+msgstr ""
+
 #, csharp-format
 msgid "Control with ID '{0}' not found for unregistration."
 msgstr ""
 "Ohjainmääritystä jonka ID {0}, ei löytynyt rekisteröinnin poistamista varten."
+
+msgid ""
+"I'm sorry, but I cannot answer that question. Please ask something else "
+"ETS2LA related."
+msgstr ""
 
 msgid ""
 "Your system has less than 16GB of RAM. High data fidelity uses significant "
@@ -928,6 +950,11 @@ msgstr "Ajaminen"
 
 msgid "Failed to initialize SDL3 input backend."
 msgstr "SDL3 ohjainmääritysten taustapalvelun käynnistys epäonnistui."
+
+msgid ""
+"This chatbot is provided for free by <span class=\"text-text-l\">lun011666</"
+"span>.<br/>For the sake of the community, we ask you not to abuse access."
+msgstr ""
 
 #, csharp-format
 msgid "{0} not found in supported languages."
@@ -1407,6 +1434,9 @@ msgstr ""
 msgid "No updates available."
 msgstr "Päivityksiä ei ole saatavilla."
 
+msgid "Please log in to use the chatbot."
+msgstr ""
+
 #, csharp-format
 msgid "Error rendering overlay: {0}"
 msgstr "Virhe peitekuvan renderöinnissä: {0}"
@@ -1435,11 +1465,11 @@ msgstr "Virhe pelin lisäämisessä"
 msgid "Font file not found at {0}"
 msgstr "Fonttia {0} ei löytynyt"
 
-msgid "Changelog"
-msgstr "Muutosloki"
-
 msgid "No release notes available."
 msgstr "Muutoslokia ei saatavilla."
+
+msgid "Changelog"
+msgstr "Muutosloki"
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1615,6 +1645,9 @@ msgstr ""
 "Ohjainmääritystä jonka ID {0}, ei löytynyt tapahtuman kuuntelemisen "
 "lopettamista varten."
 
+msgid "Chatbot"
+msgstr ""
+
 #, csharp-format
 msgid "Binding {0}"
 msgstr "Määritetään {0}"
@@ -1721,6 +1754,9 @@ msgstr "jalkaa"
 msgid "Overlay is disabled in settings, skipping window registration for {0}."
 msgstr "Peitekuva poistettu käytöstä, ohitetaan ikkunan {0} rekisteröinti."
 
+msgid "Request cancelled."
+msgstr ""
+
 msgid "Registration Failed"
 msgstr ""
 
@@ -1802,6 +1838,9 @@ msgstr "Ymmärrän"
 #, csharp-format
 msgid "No map data found for installation at '{0}'. Is the installation valid?"
 msgstr "Karttadataa ei voitu ladata pelille {0}, onko se oikein ladattu?"
+
+msgid "Please log in before using the chatbot."
+msgstr ""
 
 #, csharp-format
 msgid "Error rendering context menu for window {0}: {1}"
@@ -1950,11 +1989,14 @@ msgstr "Lisäosan lataus paikasta [gray]{0}[/] epäonnistui: {1}"
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr "Ajomuoto: <span class=\"text-text-accent font-bold\">{0}</span>"
 
-msgid "View Public Telemetry"
-msgstr "Katso julkinen telemetria"
+msgid "Thinking..."
+msgstr ""
 
 msgid "Adjust the volume of the audio output."
 msgstr "Säädä äänenvoimakkuutta."
+
+msgid "View Public Telemetry"
+msgstr "Katso julkinen telemetria"
 
 #, csharp-format
 msgid ""
@@ -2289,12 +2331,12 @@ msgstr "Vaatimusta {0} ei löydy"
 msgid "Final Disclaimer <span class=\"description\">2/2</span>"
 msgstr "Viimeiset huomiot <span class=\"description\">2/2</span>"
 
-msgid "Logout Failed"
-msgstr "Uloskirjautuminen epäonnistui"
-
 #, csharp-format
 msgid "Snap to each 10 {0}"
 msgstr "Lovita jokaiseen 10 {0}"
+
+msgid "Logout Failed"
+msgstr "Uloskirjautuminen epäonnistui"
 
 #, csharp-format
 msgid "Created plugin directory: [gray]{0}[/]"

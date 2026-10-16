@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-16 23:14:00+0300\n"
+"POT-Creation-Date: 2026-10-17 00:27:53+0300\n"
 "PO-Revision-Date: 2026-10-14 00:52+0000\n"
 "Last-Translator: Lun <lun@ets2la.com>\n"
 "Language-Team: Chinese (Traditional Han script) <http://weblate.ets2la.com/"
@@ -300,6 +300,9 @@ msgstr "顯示較少記錄"
 
 msgid "Install Plugins"
 msgstr "安裝插件"
+
+msgid "Your login token is invalid or expired."
+msgstr ""
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
@@ -618,6 +621,9 @@ msgstr "無法從「{1}」解除安裝 SDK 版本「{0}」：{2}"
 msgid "Failed to initialize overlay, ImGui initialization failed."
 msgstr "疊加層初始化失敗，ImGui 初始化失敗。"
 
+msgid "Your account is not allowed to use the chatbot."
+msgstr ""
+
 msgid "Speed Limit Warning"
 msgstr "速限警告"
 
@@ -664,6 +670,11 @@ msgstr "載入地圖資料時發生錯誤"
 #, csharp-format
 msgid "Current Version: {0}"
 msgstr "目前版本：{0}"
+
+msgid ""
+"The following information is sent along with each message to help the "
+"chatbot provide better answers. It does not contain any personal information."
+msgstr ""
 
 #, csharp-format
 msgid "No update available for plugin with ID {0}."
@@ -840,9 +851,20 @@ msgid ""
 "has only slight differences to metric."
 msgstr "ETS2LA 向使用者顯示資訊時所使用的單位。科學單位制與公制僅有些微差異。"
 
+msgid ""
+"Send using <span class=\"text-text-l\">Enter</span>, new line with <span "
+"class=\"text-text-l\">Shift+Enter</span>. Some basic information is sent "
+"along with each message, <span class=\"text-text-l\">click to display</span>."
+msgstr ""
+
 #, csharp-format
 msgid "Control with ID '{0}' not found for unregistration."
 msgstr "取消註冊時找不到 ID 為「{0}」的控制項。"
+
+msgid ""
+"I'm sorry, but I cannot answer that question. Please ask something else "
+"ETS2LA related."
+msgstr ""
 
 msgid ""
 "Your system has less than 16GB of RAM. High data fidelity uses significant "
@@ -879,6 +901,11 @@ msgstr "駕駛"
 
 msgid "Failed to initialize SDL3 input backend."
 msgstr "SDL3 輸入後端初始化失敗。"
+
+msgid ""
+"This chatbot is provided for free by <span class=\"text-text-l\">lun011666</"
+"span>.<br/>For the sake of the community, we ask you not to abuse access."
+msgstr ""
 
 #, csharp-format
 msgid "{0} not found in supported languages."
@@ -1326,6 +1353,9 @@ msgstr "依照你的網路連線狀況和更新來源而定，可能需要一點
 msgid "No updates available."
 msgstr "沒有可用的更新。"
 
+msgid "Please log in to use the chatbot."
+msgstr ""
+
 #, csharp-format
 msgid "Error rendering overlay: {0}"
 msgstr "渲染疊加層時發生錯誤：{0}"
@@ -1353,11 +1383,11 @@ msgstr "遊戲新增失敗"
 msgid "Font file not found at {0}"
 msgstr "找不到字型檔案：{0}"
 
-msgid "Changelog"
-msgstr "更新日誌"
-
 msgid "No release notes available."
 msgstr "沒有可用的版本說明。"
+
+msgid "Changelog"
+msgstr "更新日誌"
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1518,6 +1548,9 @@ msgstr "公里每小時"
 msgid "Control with ID '{0}' not found for event unsubscription."
 msgstr "取消訂閱事件時找不到 ID 為「{0}」的控制項。"
 
+msgid "Chatbot"
+msgstr ""
+
 #, csharp-format
 msgid "Binding {0}"
 msgstr "正在綁定 {0}"
@@ -1616,6 +1649,9 @@ msgstr "英尺"
 msgid "Overlay is disabled in settings, skipping window registration for {0}."
 msgstr "疊加層已在設定中停用，略過 {0} 的視窗註冊。"
 
+msgid "Request cancelled."
+msgstr ""
+
 msgid "Registration Failed"
 msgstr ""
 
@@ -1697,6 +1733,9 @@ msgstr "我知道了"
 #, csharp-format
 msgid "No map data found for installation at '{0}'. Is the installation valid?"
 msgstr "遊戲安裝位置「{0}」中找不到地圖資料。此安裝位置是否有效？"
+
+msgid "Please log in before using the chatbot."
+msgstr ""
 
 #, csharp-format
 msgid "Error rendering context menu for window {0}: {1}"
@@ -1830,11 +1869,14 @@ msgstr "從 [gray]{0}[/] 載入插件失敗：{1}"
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr "輔助模式：<span class=\"text-text-accent font-bold\">{0}</span>"
 
-msgid "View Public Telemetry"
-msgstr "查看公開遙測資料"
+msgid "Thinking..."
+msgstr ""
 
 msgid "Adjust the volume of the audio output."
 msgstr "調整音訊輸出的音量。"
+
+msgid "View Public Telemetry"
+msgstr "查看公開遙測資料"
 
 #, csharp-format
 msgid ""
@@ -2154,12 +2196,12 @@ msgstr "缺少依賴項目：{0}"
 msgid "Final Disclaimer <span class=\"description\">2/2</span>"
 msgstr "最後提醒 <span class=\"description\">2/2</span>"
 
-msgid "Logout Failed"
-msgstr "登出失敗"
-
 #, csharp-format
 msgid "Snap to each 10 {0}"
 msgstr "對齊至 10 {0} 的倍數"
+
+msgid "Logout Failed"
+msgstr "登出失敗"
 
 #, csharp-format
 msgid "Created plugin directory: [gray]{0}[/]"

@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-16 23:14:00+0300\n"
+"POT-Creation-Date: 2026-10-17 00:27:53+0300\n"
 "PO-Revision-Date: 2026-10-16 20:08+0000\n"
 "Last-Translator: cooper153826 <cooper153826@ets2la.com>\n"
 "Language-Team: Thai <http://weblate.ets2la.com/projects/ets2la/ets2la/th/>\n"
@@ -299,6 +299,9 @@ msgstr "แสดง Log น้อยลง"
 
 msgid "Install Plugins"
 msgstr "ติดตั้งปลั๊กอิน"
+
+msgid "Your login token is invalid or expired."
+msgstr ""
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
@@ -621,6 +624,9 @@ msgstr "ถอนการติดตั้ง SDK เวอร์ชั่น 
 msgid "Failed to initialize overlay, ImGui initialization failed."
 msgstr "เริ่มต้น Overlay ไม่สำเร็จ เนื่องจากเริ่มต้น ImGui ไม่สำเร็จ"
 
+msgid "Your account is not allowed to use the chatbot."
+msgstr ""
+
 msgid "Speed Limit Warning"
 msgstr "แจ้งเตือนเมื่อขับเกินความเร็วที่กำหนด"
 
@@ -667,6 +673,11 @@ msgstr "โหลดข้อมูลแผนที่ไม่สำเร็
 #, csharp-format
 msgid "Current Version: {0}"
 msgstr "เวอร์ชันปัจจุบัน: {0}"
+
+msgid ""
+"The following information is sent along with each message to help the "
+"chatbot provide better answers. It does not contain any personal information."
+msgstr ""
 
 #, csharp-format
 msgid "No update available for plugin with ID {0}."
@@ -845,9 +856,20 @@ msgid ""
 "has only slight differences to metric."
 msgstr "หน่วยที่ ETS2LA ใช้แสดงข้อมูลแก่ผู้ใช้ แบบ Scientific ต่างจาก Metric เพียงเล็กน้อย"
 
+msgid ""
+"Send using <span class=\"text-text-l\">Enter</span>, new line with <span "
+"class=\"text-text-l\">Shift+Enter</span>. Some basic information is sent "
+"along with each message, <span class=\"text-text-l\">click to display</span>."
+msgstr ""
+
 #, csharp-format
 msgid "Control with ID '{0}' not found for unregistration."
 msgstr "ไม่พบ Control ID '{0}' สำหรับยกเลิกการลงทะเบียน"
+
+msgid ""
+"I'm sorry, but I cannot answer that question. Please ask something else "
+"ETS2LA related."
+msgstr ""
 
 msgid ""
 "Your system has less than 16GB of RAM. High data fidelity uses significant "
@@ -884,6 +906,11 @@ msgstr "กำลังขับ"
 
 msgid "Failed to initialize SDL3 input backend."
 msgstr "เริ่มต้น SDL3 Input Backend ไม่สำเร็จ"
+
+msgid ""
+"This chatbot is provided for free by <span class=\"text-text-l\">lun011666</"
+"span>.<br/>For the sake of the community, we ask you not to abuse access."
+msgstr ""
 
 #, csharp-format
 msgid "{0} not found in supported languages."
@@ -1332,6 +1359,9 @@ msgstr "อาจใช้เวลาสักครู่ ขึ้นอย�
 msgid "No updates available."
 msgstr "ไม่มีอัปเดต"
 
+msgid "Please log in to use the chatbot."
+msgstr ""
+
 #, csharp-format
 msgid "Error rendering overlay: {0}"
 msgstr "เกิดข้อผิดพลาดขณะเรนเดอร์ Overlay: {0}"
@@ -1359,11 +1389,11 @@ msgstr "เพิ่มเกมล้มเหลว"
 msgid "Font file not found at {0}"
 msgstr "ไม่พบไฟล์ฟอนต์ที่ {0}"
 
-msgid "Changelog"
-msgstr "บันทึกการเปลี่ยนแปลง"
-
 msgid "No release notes available."
 msgstr "ไม่มีบันทึกประจำเวอร์ชัน"
+
+msgid "Changelog"
+msgstr "บันทึกการเปลี่ยนแปลง"
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1526,6 +1556,9 @@ msgstr "กิโลเมตรต่อชั่วโมง"
 msgid "Control with ID '{0}' not found for event unsubscription."
 msgstr "ไม่พบ Control ID '{0}' สำหรับยกเลิกการสมัครรับ Event"
 
+msgid "Chatbot"
+msgstr ""
+
 #, csharp-format
 msgid "Binding {0}"
 msgstr "กำลังกำหนดปุ่ม {0}"
@@ -1624,6 +1657,9 @@ msgstr "ฟุต"
 msgid "Overlay is disabled in settings, skipping window registration for {0}."
 msgstr "ปิด Overlay ในการตั้งค่าอยู่ ข้ามการลงทะเบียนหน้าต่างสำหรับ {0}"
 
+msgid "Request cancelled."
+msgstr ""
+
 msgid "Registration Failed"
 msgstr ""
 
@@ -1705,6 +1741,9 @@ msgstr "ฉันเข้าใจ"
 #, csharp-format
 msgid "No map data found for installation at '{0}'. Is the installation valid?"
 msgstr "ไม่พบข้อมูลแผนที่สำหรับการติดตั้งที่ '{0}' การติดตั้งถูกต้องไหม?"
+
+msgid "Please log in before using the chatbot."
+msgstr ""
 
 #, csharp-format
 msgid "Error rendering context menu for window {0}: {1}"
@@ -1842,11 +1881,14 @@ msgstr "โหลดปลั๊กอินจาก [gray]{0}[/] ไม่ส�
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr "โหมดการช่วยเหลือ: <span class=\"text-text-accent font-bold\">{0}</span>"
 
-msgid "View Public Telemetry"
-msgstr "ดู Telemetry สาธารณะ"
+msgid "Thinking..."
+msgstr ""
 
 msgid "Adjust the volume of the audio output."
 msgstr "ปรับระดับเสียงเอาต์พุต"
+
+msgid "View Public Telemetry"
+msgstr "ดู Telemetry สาธารณะ"
 
 #, csharp-format
 msgid ""
@@ -2167,12 +2209,12 @@ msgstr "Dependency ที่ขาด: {0}"
 msgid "Final Disclaimer <span class=\"description\">2/2</span>"
 msgstr "ข้อจำกัดความรับผิดชอบสุดท้าย <span class=\"description\">2/2</span>"
 
-msgid "Logout Failed"
-msgstr "ออกจากระบบไม่สำเร็จ"
-
 #, csharp-format
 msgid "Snap to each 10 {0}"
 msgstr "ปรับเข้าหาทุก 10 {0}"
+
+msgid "Logout Failed"
+msgstr "ออกจากระบบไม่สำเร็จ"
 
 #, csharp-format
 msgid "Created plugin directory: [gray]{0}[/]"

@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-16 23:14:00+0300\n"
+"POT-Creation-Date: 2026-10-17 00:27:53+0300\n"
 "PO-Revision-Date: 2026-09-13 12:43+0000\n"
 "Last-Translator: bot_lapis <botlapis@ets2la.com>\n"
 "Language-Team: Korean <http://weblate.ets2la.com/projects/ets2la/ets2la/ko/"
@@ -301,6 +301,9 @@ msgstr "로그 적게 보기"
 
 msgid "Install Plugins"
 msgstr "플러그인 설치"
+
+msgid "Your login token is invalid or expired."
+msgstr ""
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
@@ -626,6 +629,9 @@ msgstr "SDK 버전 '{0}'을(를) '{1}'에서 제거하지 못했습니다: {2}"
 msgid "Failed to initialize overlay, ImGui initialization failed."
 msgstr "오버레이 초기화 실패, ImGui 초기화에 실패했습니다."
 
+msgid "Your account is not allowed to use the chatbot."
+msgstr ""
+
 msgid "Speed Limit Warning"
 msgstr "속도 제한 경고"
 
@@ -672,6 +678,11 @@ msgstr "맵 데이터 로드 오류"
 #, csharp-format
 msgid "Current Version: {0}"
 msgstr "현재 버전: {0}"
+
+msgid ""
+"The following information is sent along with each message to help the "
+"chatbot provide better answers. It does not contain any personal information."
+msgstr ""
 
 #, csharp-format
 msgid "No update available for plugin with ID {0}."
@@ -854,9 +865,20 @@ msgstr ""
 "ETS2LA가 사용자에게 정보를 표시할 때 사용할 단위입니다. Scientific은 Metric"
 "과 약간의 차이만 있습니다."
 
+msgid ""
+"Send using <span class=\"text-text-l\">Enter</span>, new line with <span "
+"class=\"text-text-l\">Shift+Enter</span>. Some basic information is sent "
+"along with each message, <span class=\"text-text-l\">click to display</span>."
+msgstr ""
+
 #, csharp-format
 msgid "Control with ID '{0}' not found for unregistration."
 msgstr "등록 해제를 위한 '{0}' ID의 컨트롤을 찾을 수 없습니다."
+
+msgid ""
+"I'm sorry, but I cannot answer that question. Please ask something else "
+"ETS2LA related."
+msgstr ""
 
 msgid ""
 "Your system has less than 16GB of RAM. High data fidelity uses significant "
@@ -893,6 +915,11 @@ msgstr "주행"
 
 msgid "Failed to initialize SDL3 input backend."
 msgstr "SDL3 입력 백엔드 초기화 실패."
+
+msgid ""
+"This chatbot is provided for free by <span class=\"text-text-l\">lun011666</"
+"span>.<br/>For the sake of the community, we ask you not to abuse access."
+msgstr ""
 
 #, csharp-format
 msgid "{0} not found in supported languages."
@@ -1328,6 +1355,9 @@ msgstr ""
 msgid "No updates available."
 msgstr ""
 
+msgid "Please log in to use the chatbot."
+msgstr ""
+
 #, csharp-format
 msgid "Error rendering overlay: {0}"
 msgstr ""
@@ -1355,10 +1385,10 @@ msgstr ""
 msgid "Font file not found at {0}"
 msgstr ""
 
-msgid "Changelog"
+msgid "No release notes available."
 msgstr ""
 
-msgid "No release notes available."
+msgid "Changelog"
 msgstr ""
 
 #, csharp-format
@@ -1516,6 +1546,9 @@ msgstr ""
 msgid "Control with ID '{0}' not found for event unsubscription."
 msgstr ""
 
+msgid "Chatbot"
+msgstr ""
+
 #, csharp-format
 msgid "Binding {0}"
 msgstr ""
@@ -1614,6 +1647,9 @@ msgstr ""
 msgid "Overlay is disabled in settings, skipping window registration for {0}."
 msgstr ""
 
+msgid "Request cancelled."
+msgstr ""
+
 msgid "Registration Failed"
 msgstr ""
 
@@ -1692,6 +1728,9 @@ msgstr ""
 
 #, csharp-format
 msgid "No map data found for installation at '{0}'. Is the installation valid?"
+msgstr ""
+
+msgid "Please log in before using the chatbot."
 msgstr ""
 
 #, csharp-format
@@ -1823,10 +1862,13 @@ msgstr ""
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 
-msgid "View Public Telemetry"
+msgid "Thinking..."
 msgstr ""
 
 msgid "Adjust the volume of the audio output."
+msgstr ""
+
+msgid "View Public Telemetry"
 msgstr ""
 
 #, csharp-format
@@ -2139,11 +2181,11 @@ msgstr ""
 msgid "Final Disclaimer <span class=\"description\">2/2</span>"
 msgstr ""
 
-msgid "Logout Failed"
-msgstr ""
-
 #, csharp-format
 msgid "Snap to each 10 {0}"
+msgstr ""
+
+msgid "Logout Failed"
 msgstr ""
 
 #, csharp-format
