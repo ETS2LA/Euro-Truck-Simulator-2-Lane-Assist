@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-16 23:05:19+0300\n"
-"PO-Revision-Date: 2026-10-15 14:01+0000\n"
+"POT-Creation-Date: 2026-10-16 23:14:00+0300\n"
+"PO-Revision-Date: 2026-10-16 20:18+0000\n"
 "Last-Translator: Ketchup1812 <ketchup1812@ets2la.com>\n"
 "Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/ets2la/sk/"
 ">\n"
@@ -35,7 +35,7 @@ msgid "Display"
 msgstr "Zobrazovanie"
 
 msgid "Go to Account Settings"
-msgstr ""
+msgstr "Prejsť do nastavení účtu"
 
 msgid "Overlay Interaction"
 msgstr "Interakcia s prekrývacím prvkom"
@@ -85,7 +85,7 @@ msgid ""
 msgstr "Pri zmene rýchlosti nastavte najbližšiu 10, 37 -> 39 -> 40 -> 42..."
 
 msgid "Register"
-msgstr ""
+msgstr "Registrácia"
 
 msgid "kg"
 msgstr "kg"
@@ -131,6 +131,8 @@ msgid ""
 "Your username may only contain letters, numbers, underscores, hyphens and "
 "periods, and must start and end with a letter or number."
 msgstr ""
+"Vaše používateľské meno môže obsahovať iba písmená, čísla, podčiarknutia, "
+"spojovníky a bodky a musí začínať a končiť písmenom alebo číslom."
 
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
@@ -236,11 +238,11 @@ msgid "The step size for changing the cruise control speed."
 msgstr "Veľkosť kroku pri zmene rýchlosti tempomatu."
 
 msgid "Please enter a username."
-msgstr ""
+msgstr "Zadajte prosím používateľské meno."
 
 #, csharp-format
 msgid "Your username must be at least {0} characters long."
-msgstr ""
+msgstr "Vaše používateľské meno musí mať aspoň {0} znakov."
 
 msgid "Press anywhere outside the dialog to close it."
 msgstr "Kliknutím kamkoľvek mimo dialógového okna ho zatvoríte."
@@ -310,18 +312,18 @@ msgstr "Vizuálne"
 msgid "Additional"
 msgstr "Dodatočné"
 
-msgid "Install Plugins"
-msgstr "Nainštalujte pluginy"
-
 msgid "Show Fewer Logs"
 msgstr "Zobraziť menej záznamov"
 
-msgid "I won't leave ETS2LA unattended"
-msgstr "Nenechám ETS2LA bez dozoru"
+msgid "Install Plugins"
+msgstr "Nainštalujte pluginy"
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
 msgstr "Chyba pri sťahovaní aktualizácie: {0}"
+
+msgid "I won't leave ETS2LA unattended"
+msgstr "Nenechám ETS2LA bez dozoru"
 
 msgid "Keyboard"
 msgstr "Klávesnica"
@@ -348,6 +350,10 @@ msgid ""
 "contain letters, numbers, underscores, hyphens and periods. It must start "
 "and end with a letter or number."
 msgstr ""
+"<span class=\"text-text-accent\">Pri používateľských menách sa rozlišujú "
+"veľké a malé písmená.</span><br/>Vaše používateľské meno musí mať dĺžku od "
+"{0} do {1} znakov a môže obsahovať iba písmená, čísla, podčiarknutia, "
+"spojovníky a bodky. Musí začínať a končiť písmenom alebo číslom."
 
 msgid "Install Update and Restart"
 msgstr "Nainštalujte aktualizáciu a reštartujte"
@@ -503,7 +509,7 @@ msgstr ""
 "odpoveď od prichádzajúceho servera."
 
 msgid "Already have an account? Log in here."
-msgstr ""
+msgstr "Máte už účet? Prihláste sa tu."
 
 msgid "The server timed out waiting for the request from the client."
 msgstr "Serveru vypršal časový limit pri čakaní na požiadavku od klienta."
@@ -520,6 +526,9 @@ msgid ""
 "text-accent\">Do not close the page before you have added the code. We "
 "cannot recover accounts once they are created!</span>"
 msgstr ""
+"Prosím, zadajte kód OTP do svojej autentifikačnej aplikácie.<br/><span "
+"class=\"text-text-accent\">Nezatvárajte túto stránku, kým kód nezadáte. Po "
+"vytvorení účtu už nie je možné ho obnoviť!</span>"
 
 #, csharp-format
 msgid "Unregistered control: {0} ({1})"
@@ -661,7 +670,7 @@ msgid "Speed limit changed"
 msgstr "Zmena rýchlostného obmedzenia"
 
 msgid "Your username may not contain repeated separators."
-msgstr ""
+msgstr "Vaše používateľské meno nesmie obsahovať opakujúce sa oddeľovače."
 
 #, csharp-format
 msgid "Discovered {0} plugins in total."
@@ -782,7 +791,7 @@ msgid "State Info"
 msgstr "Informácie o stave"
 
 msgid "Back to Login"
-msgstr ""
+msgstr "Späť na prihlásenie"
 
 msgid "Contact us on GitHub"
 msgstr "Kontaktujte nás na GitHube"
@@ -795,12 +804,16 @@ msgid ""
 "Some 3rd party websites might want access to your account.<br/>You can press "
 "the button below to display your JWT token."
 msgstr ""
-
-msgid "Collision Avoidance"
-msgstr "Predchádzanie zrážkam"
+"Niektoré webové stránky tretích strán môžu požadovať prístup k vášmu účtu."
+"<br/>Kliknutím na tlačidlo nižšie si môžete zobraziť svoj JWT token."
 
 msgid "If you're streaming or recording, now's the time to hide this window."
 msgstr ""
+"Ak práve streamujete alebo nahrávate, teraz je ten správny čas skryť toto "
+"okno."
+
+msgid "Collision Avoidance"
+msgstr "Predchádzanie zrážkam"
 
 msgid ""
 "Disables the overlay entirely. This will fix the black screen issue at the "
@@ -831,10 +844,10 @@ msgid "Camera {0} ({1}x{2})"
 msgstr "Kamera {0} ({1}×{2})"
 
 msgid "Display JWT Token"
-msgstr ""
+msgstr "Zobraziť JWT token"
 
 msgid "Invalid Input"
-msgstr ""
+msgstr "Neplatný vstup"
 
 msgid ""
 "This setting only loads roads and intersections visible on the in game map. "
@@ -989,6 +1002,8 @@ msgid ""
 "You'll be asked to save an OTP authentication code after registration. We do "
 "not store or ask for passwords, as those aren't required for authentication."
 msgstr ""
+"Po registrácii budete vyzvaní na uloženie overovacieho kódu OTP. Heslá "
+"neukladáme ani nevyžadujeme, keďže na overenie nie sú potrebné."
 
 msgid "Wiki / FAQ"
 msgstr "Wiki / FAQ"
@@ -1238,9 +1253,6 @@ msgstr ""
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr "Nepodarilo sa nainštalovať najnovšiu verziu pluginu s ID {0}."
 
-msgid "I understand, now let me in!"
-msgstr "Rozumiem, tak ma teraz pusťte dnu!"
-
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
@@ -1249,11 +1261,16 @@ msgstr ""
 "Ak si myslíte, že ide o chybu, nahláste ju prosím na {0}Discord serveri{1} "
 "alebo na {2}GitHube{3}."
 
+msgid "I understand, now let me in!"
+msgstr "Rozumiem, tak ma teraz pusťte dnu!"
+
 #, csharp-format
 msgid ""
 "You have successfully registered as {0}. Please add the OTP code to your "
 "authentication app."
 msgstr ""
+"Úspešne ste sa zaregistrovali ako {0}. Zadajte prosím kód OTP do vašej "
+"autentifikačnej aplikácie."
 
 msgid "Disable Overlay"
 msgstr "Vypnúť prekrývanie"
@@ -1516,6 +1533,8 @@ msgstr "Chyba pri odhlásení"
 
 msgid "Don't have an account?<br/>Register a new one now, no emails required!"
 msgstr ""
+"Nemáte účet?<br/>Zaregistrujte si nový hneď teraz, e-mailová adresa nie je "
+"potrebná!"
 
 #, csharp-format
 msgid "Found {0} game installation."
@@ -1567,6 +1586,7 @@ msgstr "Načítaný plugin knižnice: [gray]{0}[/] z [gray]{1}[/]."
 #, csharp-format
 msgid "The username {0} is reserved. Please choose a different username."
 msgstr ""
+"Používateľské meno {0} je obsadené. Zvoľte si prosím iné používateľské meno."
 
 msgid "Select the game you wish to start."
 msgstr "Vyberte hru, ktorú chcete spustiť."
@@ -1747,13 +1767,13 @@ msgstr ""
 "preskočí."
 
 msgid "Registration Failed"
-msgstr ""
+msgstr "Registrácia sa nepodarila"
 
 msgid "Please close the game before continuing with the onboarding process."
 msgstr "Pred pokračovaním v procese prípravy prosím hru zatvorte."
 
 msgid "Registration Successful"
-msgstr ""
+msgstr "Registrácia prebehla úspešne"
 
 #, csharp-format
 msgid "Your username must be at most {0} characters long."
@@ -1972,12 +1992,12 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr "Chyba pri inicializácii súboru mapovaného v pamäti: {0}"
 
 #, csharp-format
-msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
-msgstr "Režim asistenta: <span class=\"text-text-accent font-bold\">{0}</span>"
-
-#, csharp-format
 msgid "Failed to load plugin from [gray]{0}[/]: {1}"
 msgstr "Nepodarilo sa načítať plugin z [gray]{0}[/]: {1}"
+
+#, csharp-format
+msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
+msgstr "Režim asistenta: <span class=\"text-text-accent font-bold\">{0}</span>"
 
 msgid "View Public Telemetry"
 msgstr "Zobraziť verejnú telemetriu"
@@ -2057,11 +2077,11 @@ msgstr ""
 msgid "The selected file is not a core.scs file."
 msgstr "Vybraný súbor nie je súbor typu core.scs."
 
-msgid "Translated by:"
-msgstr "Preložil:"
-
 msgid "You have successfully logged out."
 msgstr "Úspešne ste sa odhlásili."
+
+msgid "Translated by:"
+msgstr "Preložil:"
 
 msgid "This game was found at"
 msgstr "Túto hru sme našli v"
@@ -2323,12 +2343,12 @@ msgstr "Chýbajúca závislosť: {0}"
 msgid "Final Disclaimer <span class=\"description\">2/2</span>"
 msgstr "Záverečné upozornenie <span class=\"description\">2/2</span>"
 
+msgid "Logout Failed"
+msgstr "Odhlásenie sa nepodarilo"
+
 #, csharp-format
 msgid "Snap to each 10 {0}"
 msgstr "Zarovnať po každých 10 {0}"
-
-msgid "Logout Failed"
-msgstr "Odhlásenie sa nepodarilo"
 
 #, csharp-format
 msgid "Created plugin directory: [gray]{0}[/]"

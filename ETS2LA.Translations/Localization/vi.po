@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-16 23:05:19+0300\n"
+"POT-Creation-Date: 2026-10-16 23:14:00+0300\n"
 "PO-Revision-Date: 2026-08-26 18:07+0000\n"
 "Last-Translator: phucc <phucc@ets2la.com>\n"
 "Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/ets2la/"
@@ -293,18 +293,18 @@ msgstr "Giao diện"
 msgid "Additional"
 msgstr "Bổ sung"
 
-msgid "Install Plugins"
-msgstr ""
-
 msgid "Show Fewer Logs"
 msgstr ""
 
-msgid "I won't leave ETS2LA unattended"
+msgid "Install Plugins"
 msgstr ""
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
 msgstr "Lỗi khi đang tải bản cập nhật: {0}"
+
+msgid "I won't leave ETS2LA unattended"
+msgstr ""
 
 msgid "Keyboard"
 msgstr "Bàn phím"
@@ -758,11 +758,11 @@ msgid ""
 "the button below to display your JWT token."
 msgstr ""
 
-msgid "Collision Avoidance"
-msgstr "Tránh va chạm"
-
 msgid "If you're streaming or recording, now's the time to hide this window."
 msgstr ""
+
+msgid "Collision Avoidance"
+msgstr "Tránh va chạm"
 
 msgid ""
 "Disables the overlay entirely. This will fix the black screen issue at the "
@@ -1160,13 +1160,13 @@ msgstr ""
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr ""
 
-msgid "I understand, now let me in!"
-msgstr ""
-
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
 "on {2}GitHub{3}."
+msgstr ""
+
+msgid "I understand, now let me in!"
 msgstr ""
 
 #, csharp-format
@@ -1825,12 +1825,12 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr ""
 
 #, csharp-format
-msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
-msgstr ""
-
-#, csharp-format
 msgid "Failed to load plugin from [gray]{0}[/]: {1}"
 msgstr "Nạp plugin không thành công từ [gray]{0}[/]: {1}"
+
+#, csharp-format
+msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
+msgstr ""
 
 msgid "View Public Telemetry"
 msgstr "Xem dữ liệu thu thập từ xa công khai"
@@ -1898,11 +1898,11 @@ msgstr ""
 msgid "The selected file is not a core.scs file."
 msgstr ""
 
-msgid "Translated by:"
-msgstr "Được dịch bởi:"
-
 msgid "You have successfully logged out."
 msgstr ""
+
+msgid "Translated by:"
+msgstr "Được dịch bởi:"
 
 msgid "This game was found at"
 msgstr ""
@@ -2156,12 +2156,12 @@ msgstr ""
 msgid "Final Disclaimer <span class=\"description\">2/2</span>"
 msgstr ""
 
+msgid "Logout Failed"
+msgstr ""
+
 #, csharp-format
 msgid "Snap to each 10 {0}"
 msgstr "Căn chỉnh theo mỗi 10 {0}"
-
-msgid "Logout Failed"
-msgstr ""
 
 #, csharp-format
 msgid "Created plugin directory: [gray]{0}[/]"
