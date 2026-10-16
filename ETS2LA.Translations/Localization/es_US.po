@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-16 23:05:19+0300\n"
+"POT-Creation-Date: 2026-10-16 23:14:00+0300\n"
 "PO-Revision-Date: 2026-10-15 14:02+0000\n"
 "Last-Translator: McAs13 <tsumiguel@ets2la.com>\n"
 "Language-Team: Spanish (American) <http://weblate.ets2la.com/projects/ets2la/"
@@ -314,18 +314,18 @@ msgstr "Visual"
 msgid "Additional"
 msgstr "Adicional"
 
-msgid "Install Plugins"
-msgstr "Instalar plugins"
-
 msgid "Show Fewer Logs"
 msgstr "Mostrar menos registros"
 
-msgid "I won't leave ETS2LA unattended"
-msgstr "No dejaré ETS2LA sin supervisión"
+msgid "Install Plugins"
+msgstr "Instalar plugins"
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
 msgstr "Error al descargar la actualización: {0}"
+
+msgid "I won't leave ETS2LA unattended"
+msgstr "No dejaré ETS2LA sin supervisión"
 
 msgid "Keyboard"
 msgstr "Teclado"
@@ -804,11 +804,11 @@ msgid ""
 "the button below to display your JWT token."
 msgstr ""
 
-msgid "Collision Avoidance"
-msgstr "Prevención de colisiones"
-
 msgid "If you're streaming or recording, now's the time to hide this window."
 msgstr ""
+
+msgid "Collision Avoidance"
+msgstr "Prevención de colisiones"
 
 msgid ""
 "Disables the overlay entirely. This will fix the black screen issue at the "
@@ -1243,9 +1243,6 @@ msgstr ""
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr "Error al instalar la última versión del plugin con ID {0}."
 
-msgid "I understand, now let me in!"
-msgstr "¡Entiendo, ahora déjame entrar!"
-
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
@@ -1253,6 +1250,9 @@ msgid ""
 msgstr ""
 "Si crees que esto es un error, repórtalo en el {0}Servidor de Discord{1} o "
 "en {2}GitHub{3}."
+
+msgid "I understand, now let me in!"
+msgstr "¡Entiendo, ahora déjame entrar!"
 
 #, csharp-format
 msgid ""
@@ -1981,13 +1981,13 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr "Error al inicializar el archivo mapeado en memoria: {0}"
 
 #, csharp-format
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgstr "Error al cargar el plugin desde [gray]{0}[/]: {1}"
+
+#, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 "Modo de asistencia: <span class=\"text-text-accent font-bold\">{0}</span>"
-
-#, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr "Error al cargar el plugin desde [gray]{0}[/]: {1}"
 
 msgid "View Public Telemetry"
 msgstr "Ver telemetría pública"
@@ -2067,11 +2067,11 @@ msgstr ""
 msgid "The selected file is not a core.scs file."
 msgstr "El archivo seleccionado no es un archivo core.scs."
 
-msgid "Translated by:"
-msgstr "Traducido por:"
-
 msgid "You have successfully logged out."
 msgstr "Has cerrado sesión correctamente."
+
+msgid "Translated by:"
+msgstr "Traducido por:"
 
 msgid "This game was found at"
 msgstr "Este juego se encontró en"
@@ -2336,12 +2336,12 @@ msgstr "Dependencia faltante: {0}"
 msgid "Final Disclaimer <span class=\"description\">2/2</span>"
 msgstr "Aviso final <span class=\"description\">2/2</span>"
 
+msgid "Logout Failed"
+msgstr "Error al cerrar sesión"
+
 #, csharp-format
 msgid "Snap to each 10 {0}"
 msgstr "Ajustar a cada 10 {0}"
-
-msgid "Logout Failed"
-msgstr "Error al cerrar sesión"
 
 #, csharp-format
 msgid "Created plugin directory: [gray]{0}[/]"

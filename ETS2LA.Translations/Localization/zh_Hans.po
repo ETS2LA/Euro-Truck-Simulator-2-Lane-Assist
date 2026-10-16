@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-16 23:05:19+0300\n"
+"POT-Creation-Date: 2026-10-16 23:14:00+0300\n"
 "PO-Revision-Date: 2026-10-14 12:59+0000\n"
 "Last-Translator: BGYdook <bgydook@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
@@ -301,18 +301,18 @@ msgstr "视觉提示"
 msgid "Additional"
 msgstr "其他"
 
-msgid "Install Plugins"
-msgstr "安装插件"
-
 msgid "Show Fewer Logs"
 msgstr "显示更少日志"
 
-msgid "I won't leave ETS2LA unattended"
-msgstr "我不会在无人看管的情况下运行 ETS2LA"
+msgid "Install Plugins"
+msgstr "安装插件"
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
 msgstr "下载更新时发生错误：{0}"
+
+msgid "I won't leave ETS2LA unattended"
+msgstr "我不会在无人看管的情况下运行 ETS2LA"
 
 msgid "Keyboard"
 msgstr "键盘"
@@ -759,11 +759,11 @@ msgid ""
 "the button below to display your JWT token."
 msgstr ""
 
-msgid "Collision Avoidance"
-msgstr "防碰撞"
-
 msgid "If you're streaming or recording, now's the time to hide this window."
 msgstr ""
+
+msgid "Collision Avoidance"
+msgstr "防碰撞"
 
 msgid ""
 "Disables the overlay entirely. This will fix the black screen issue at the "
@@ -1160,15 +1160,15 @@ msgstr ""
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr "ID 为 {0} 的插件最新版本安装失败。"
 
-msgid "I understand, now let me in!"
-msgstr "我明白了，现在让我进入！"
-
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
 "on {2}GitHub{3}."
 msgstr ""
 "如果你认为这是一个错误，请在 {0}Discord 服务器{1} 或 {2}GitHub{3} 报告。"
+
+msgid "I understand, now let me in!"
+msgstr "我明白了，现在让我进入！"
 
 #, csharp-format
 msgid ""
@@ -1831,12 +1831,12 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr "初始化内存映射文件时发生错误：{0}"
 
 #, csharp-format
-msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
-msgstr "辅助模式：<span class=\"text-text-accent font-bold\">{0}</span>"
-
-#, csharp-format
 msgid "Failed to load plugin from [gray]{0}[/]: {1}"
 msgstr "从 [gray]{0}[/] 加载插件失败：{1}"
+
+#, csharp-format
+msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
+msgstr "辅助模式：<span class=\"text-text-accent font-bold\">{0}</span>"
 
 msgid "View Public Telemetry"
 msgstr "查看公开遥测数据"
@@ -1909,11 +1909,11 @@ msgstr "解析仍会继续，但此文件中的信息将无法供 ETS2LA 使用�
 msgid "The selected file is not a core.scs file."
 msgstr "所选的文件不是 core.scs 文件。"
 
-msgid "Translated by:"
-msgstr "译者为："
-
 msgid "You have successfully logged out."
 msgstr "您已成功退出登录。"
+
+msgid "Translated by:"
+msgstr "译者为："
 
 msgid "This game was found at"
 msgstr "此游戏位于"
@@ -2163,12 +2163,12 @@ msgstr "缺少依赖项：{0}"
 msgid "Final Disclaimer <span class=\"description\">2/2</span>"
 msgstr "最终免责声明 <span class=\"description\">2/2</span>"
 
+msgid "Logout Failed"
+msgstr "退出登录失败"
+
 #, csharp-format
 msgid "Snap to each 10 {0}"
 msgstr "对齐至 10 {0} 的倍数"
-
-msgid "Logout Failed"
-msgstr "退出登录失败"
 
 #, csharp-format
 msgid "Created plugin directory: [gray]{0}[/]"

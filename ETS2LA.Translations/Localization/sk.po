@@ -2,11 +2,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-16 23:05:19+0300\n"
+"POT-Creation-Date: 2026-10-16 23:14:00+0300\n"
 "PO-Revision-Date: 2026-10-16 20:18+0000\n"
 "Last-Translator: Ketchup1812 <ketchup1812@ets2la.com>\n"
-"Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/ets2la/sk/>"
-"\n"
+"Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/ets2la/sk/"
+">\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -312,18 +312,18 @@ msgstr "Vizuálne"
 msgid "Additional"
 msgstr "Dodatočné"
 
-msgid "Install Plugins"
-msgstr "Nainštalujte pluginy"
-
 msgid "Show Fewer Logs"
 msgstr "Zobraziť menej záznamov"
 
-msgid "I won't leave ETS2LA unattended"
-msgstr "Nenechám ETS2LA bez dozoru"
+msgid "Install Plugins"
+msgstr "Nainštalujte pluginy"
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
 msgstr "Chyba pri sťahovaní aktualizácie: {0}"
+
+msgid "I won't leave ETS2LA unattended"
+msgstr "Nenechám ETS2LA bez dozoru"
 
 msgid "Keyboard"
 msgstr "Klávesnica"
@@ -526,8 +526,8 @@ msgid ""
 "text-accent\">Do not close the page before you have added the code. We "
 "cannot recover accounts once they are created!</span>"
 msgstr ""
-"Prosím, zadajte kód OTP do svojej autentifikačnej aplikácie.<br/><span class"
-"=\"text-text-accent\">Nezatvárajte túto stránku, kým kód nezadáte. Po "
+"Prosím, zadajte kód OTP do svojej autentifikačnej aplikácie.<br/><span "
+"class=\"text-text-accent\">Nezatvárajte túto stránku, kým kód nezadáte. Po "
 "vytvorení účtu už nie je možné ho obnoviť!</span>"
 
 #, csharp-format
@@ -804,16 +804,16 @@ msgid ""
 "Some 3rd party websites might want access to your account.<br/>You can press "
 "the button below to display your JWT token."
 msgstr ""
-"Niektoré webové stránky tretích strán môžu požadovať prístup k vášmu účtu.<"
-"br/>Kliknutím na tlačidlo nižšie si môžete zobraziť svoj JWT token."
-
-msgid "Collision Avoidance"
-msgstr "Predchádzanie zrážkam"
+"Niektoré webové stránky tretích strán môžu požadovať prístup k vášmu účtu."
+"<br/>Kliknutím na tlačidlo nižšie si môžete zobraziť svoj JWT token."
 
 msgid "If you're streaming or recording, now's the time to hide this window."
 msgstr ""
 "Ak práve streamujete alebo nahrávate, teraz je ten správny čas skryť toto "
 "okno."
+
+msgid "Collision Avoidance"
+msgstr "Predchádzanie zrážkam"
 
 msgid ""
 "Disables the overlay entirely. This will fix the black screen issue at the "
@@ -1253,9 +1253,6 @@ msgstr ""
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr "Nepodarilo sa nainštalovať najnovšiu verziu pluginu s ID {0}."
 
-msgid "I understand, now let me in!"
-msgstr "Rozumiem, tak ma teraz pusťte dnu!"
-
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
@@ -1263,6 +1260,9 @@ msgid ""
 msgstr ""
 "Ak si myslíte, že ide o chybu, nahláste ju prosím na {0}Discord serveri{1} "
 "alebo na {2}GitHube{3}."
+
+msgid "I understand, now let me in!"
+msgstr "Rozumiem, tak ma teraz pusťte dnu!"
 
 #, csharp-format
 msgid ""
@@ -1992,12 +1992,12 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr "Chyba pri inicializácii súboru mapovaného v pamäti: {0}"
 
 #, csharp-format
-msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
-msgstr "Režim asistenta: <span class=\"text-text-accent font-bold\">{0}</span>"
-
-#, csharp-format
 msgid "Failed to load plugin from [gray]{0}[/]: {1}"
 msgstr "Nepodarilo sa načítať plugin z [gray]{0}[/]: {1}"
+
+#, csharp-format
+msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
+msgstr "Režim asistenta: <span class=\"text-text-accent font-bold\">{0}</span>"
 
 msgid "View Public Telemetry"
 msgstr "Zobraziť verejnú telemetriu"
@@ -2077,11 +2077,11 @@ msgstr ""
 msgid "The selected file is not a core.scs file."
 msgstr "Vybraný súbor nie je súbor typu core.scs."
 
-msgid "Translated by:"
-msgstr "Preložil:"
-
 msgid "You have successfully logged out."
 msgstr "Úspešne ste sa odhlásili."
+
+msgid "Translated by:"
+msgstr "Preložil:"
 
 msgid "This game was found at"
 msgstr "Túto hru sme našli v"
@@ -2343,12 +2343,12 @@ msgstr "Chýbajúca závislosť: {0}"
 msgid "Final Disclaimer <span class=\"description\">2/2</span>"
 msgstr "Záverečné upozornenie <span class=\"description\">2/2</span>"
 
+msgid "Logout Failed"
+msgstr "Odhlásenie sa nepodarilo"
+
 #, csharp-format
 msgid "Snap to each 10 {0}"
 msgstr "Zarovnať po každých 10 {0}"
-
-msgid "Logout Failed"
-msgstr "Odhlásenie sa nepodarilo"
 
 #, csharp-format
 msgid "Created plugin directory: [gray]{0}[/]"
