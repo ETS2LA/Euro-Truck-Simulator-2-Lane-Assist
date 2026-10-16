@@ -1,0 +1,302 @@
+@using ETS2LA.Networking.Settings
+@using ETS2LA.Networking.Users
+@using ETS2LA.State
+@using ETS2LA.Backend.Plugins
+@using ETS2LA.Backend
+@using System.Net
+@using System.Net.Http.Headers
+@using System.Net.Http.Json
+@using System.Diagnostics
+@using System.Text
+@using System.Text.Json
+@using ETS2LA.UI.Shared.Components
+@using Markdig
+
+@page "/help/chatbot"
+
+@inject IJSRuntime JS
+
+@code {
+    private User? CurrentUser => NetworkingSettings.Current.CurrentUser;
+    string currentVersion = System.Reflection.Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3) ?? "unknown";
+
+    // Provided by lun011666, who also provides the ETS2LA discord server
+    // support bot. This is a free service, and we are grateful for it. 
+    // Please do not abuse it.
+    private const string Endpoint = "https://mandarinbot-api.lun011666.com/ask";
+
+    private static readonly MarkdownPipeline MarkdownPipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
+    private static readonly List<ChatMessage> Messages = new();
+    private CancellationTokenSource? requestCancellation;
+    private Stopwatch? thinkingTimer;
+
+    private bool ShowStateDialog { get; set; } = false;
+
+    private string Draft = string.Empty;
+    private string Status = string.Empty;
+    private string Error = string.Empty;
+    private bool IsSending;
+
+    private ElementReference inputElement;
+    private DotNetObjectReference<Chatbot>? selfReference;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender || CurrentUser == null || string.IsNullOrEmpty(CurrentUser.JwtToken) || DateTime.UtcNow >= CurrentUser.Expiry)
+            return;
+
+        selfReference = DotNetObjectReference.Create(this);
+        await JS.InvokeVoidAsync("chatInput.attach", inputElement, selfReference);
+    }
+
+    public void Dispose()
+    {
+        selfReference?.Dispose();
+    }
+
+    [JSInvokable]
+    public async Task OnEnterPressed()
+    {
+        await SendMessage();
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private object GetStateInfo()
+    {
+        var state = new
+        {
+            version = currentVersion,
+            language = StateSettingsHandler.Current.GetSettings().DisplayLanguage.EnglishName,
+            enabled_plugins = PluginBackend.Current.PluginHandler.LoadedPlugins
+                .Where(p => p._IsRunning)
+                .Select(p => new { id = p.Info.Id, name = p.Info.Name, version = p.Info.Version })
+                .ToArray(),
+            installed_plugins = PluginBackend.Current.PluginHandler.LoadedPlugins
+                .Select(p => new { id = p.Info.Id, name = p.Info.Name, version = p.Info.Version })
+                .ToArray(),
+            installed_libraries = PluginBackend.Current.PluginHandler.LoadedLibraryPlugins
+                .Select(l => new { id = l.Info.Id, name = l.Info.Name, version = l.Info.Version })
+                .ToArray(),
+            comment_from_client = "This ETS2LA client cannot send images, videos or other media. The user can only answer in text."
+        };
+
+        return state;
+    }
+
+    private async Task SendMessage()
+    {
+        var message = Draft.Trim();
+        if (string.IsNullOrEmpty(message) || IsSending)
+            return;
+
+        if (CurrentUser == null || string.IsNullOrEmpty(CurrentUser.JwtToken) || DateTime.UtcNow >= CurrentUser.Expiry)
+        {
+            Error = _("Please log in before using the chatbot.");
+            return;
+        }
+
+        Draft = string.Empty;
+        Error = string.Empty;
+        Status = _("Thinking...");
+
+        IsSending = true;
+        Messages.Add(new ChatMessage("user", message));
+        var assistant = new ChatMessage("assistant", string.Empty);
+        Messages.Add(assistant);
+        requestCancellation = new CancellationTokenSource(TimeSpan.FromSeconds(630));
+        thinkingTimer = Stopwatch.StartNew();
+
+        try
+        {
+            using var client = new HttpClient { Timeout = Timeout.InfiniteTimeSpan };
+            using var request = new HttpRequestMessage(HttpMethod.Post, Endpoint);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", CurrentUser.JwtToken);
+            request.Content = JsonContent.Create(new
+            {
+                message,
+                history = Messages
+                    .Take(Messages.Count - 2)
+                    .Select(item => new { role = item.Role, text = item.Text })
+                    .ToArray(),
+                state = GetStateInfo(),
+                stream = true
+            });
+
+            using var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, requestCancellation.Token);
+            
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+                throw new InvalidOperationException(_("Your login token is invalid or expired."));
+            if (response.StatusCode == HttpStatusCode.Forbidden)
+                throw new InvalidOperationException(_("Your account is not allowed to use the chatbot."));
+            response.EnsureSuccessStatusCode();
+
+            await ReadEvents(response, assistant, requestCancellation.Token);
+            Status = string.Empty;
+        }
+        catch (OperationCanceledException) when (requestCancellation?.IsCancellationRequested == true)
+        {
+            Status = _("Request cancelled.");
+        }
+        catch (Exception exception)
+        {
+            Error = exception.Message;
+            Messages.Remove(assistant);
+        }
+        finally
+        {
+            requestCancellation?.Dispose();
+            requestCancellation = null;
+            IsSending = false;
+        }
+    }
+
+    private async Task ReadEvents(HttpResponseMessage response, ChatMessage assistant, CancellationToken cancellationToken)
+    {
+        await using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
+        using var reader = new StreamReader(stream);
+        var eventName = string.Empty;
+        var data = new StringBuilder();
+
+        while (await reader.ReadLineAsync(cancellationToken) is { } line)
+        {
+            if (line.StartsWith("event:", StringComparison.OrdinalIgnoreCase))
+            {
+                eventName = line[6..].Trim();
+            }
+            else if (line.StartsWith("data:", StringComparison.OrdinalIgnoreCase))
+            {
+                if (data.Length > 0)
+                    data.Append('\n');
+                data.Append(line[5..].TrimStart());
+            }
+            else if (line.Length == 0)
+            {
+                ProcessEvent(eventName, data.ToString(), assistant);
+                eventName = string.Empty;
+                data.Clear();
+                await InvokeAsync(StateHasChanged);
+            }
+        }
+
+        ProcessEvent(eventName, data.ToString(), assistant);
+    }
+
+    private void ProcessEvent(string eventName, string data, ChatMessage assistant)
+    {
+        if (string.IsNullOrWhiteSpace(data))
+            return;
+
+        try
+        {
+            using var json = JsonDocument.Parse(data);
+            var root = json.RootElement;
+            var type = root.TryGetProperty("type", out var typeProperty) ? typeProperty.GetString() : eventName;
+            var text = GetString(root, "text") ?? GetString(root, "message") ?? GetString(root, "content") ?? GetString(root, "answer") ?? string.Empty;
+
+            if (string.Equals(type, "status", StringComparison.OrdinalIgnoreCase))
+            {
+                Status = DescribeStatus(root);
+            }
+            else if (string.Equals(type, "done", StringComparison.OrdinalIgnoreCase))
+            {
+                assistant.Text = text;
+                Status = string.Empty;
+            }
+            else if (string.Equals(type, "out_of_scope", StringComparison.OrdinalIgnoreCase))
+                assistant.Text += _("I'm sorry, but I cannot answer that question. Please ask something else ETS2LA related.");
+            else if (!string.IsNullOrEmpty(text))
+                assistant.Text += text;
+        }
+        catch (JsonException)
+        {
+            assistant.Text += data;
+        }
+    }
+
+    private static string DescribeStatus(JsonElement root)
+    {
+        var phase = GetString(root, "phase") ?? "progress";
+        var tool = GetString(root, "tool");
+        var model = GetString(root, "model");
+        var language = GetString(root, "language");
+        var details = tool != null ? $"Using tool: {tool}" : phase;
+        if (model != null)
+            details += $" ({model})";
+        if (language != null)
+            details += $" [{language}]";
+        return details.Count() > 0 ? char.ToUpper(details[0]) + details[1..] : _("Thinking...");
+    }
+
+    private string FormatElapsed() => thinkingTimer == null ? "0s" : $"{thinkingTimer.Elapsed.TotalSeconds:0}s";
+
+    private static string? GetString(JsonElement root, string propertyName) =>
+        root.TryGetProperty(propertyName, out var property) && property.ValueKind == JsonValueKind.String
+            ? property.GetString()
+            : null;
+
+    private void CancelRequest() => requestCancellation?.Cancel();
+
+    private sealed class ChatMessage(string role, string text)
+    {
+        public string Role { get; } = role;
+        public string Text { get; set; } = text;
+    }
+}
+
+<div class="flex h-full w-full flex-col gap-4 p-5 px-8">
+    @if (CurrentUser == null || string.IsNullOrEmpty(CurrentUser.JwtToken) || DateTime.UtcNow >= CurrentUser.Expiry)
+    {
+        <p class="description text-center">@_("Please log in to use the chatbot.")</p>
+    }
+    else
+    {
+        <div class="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto">
+            @if (Messages.Count == 0)
+            {
+                <p class="description m-auto text-center">@((MarkupString)_("This chatbot is provided for free by <span class=\"text-text-l\">lun011666</span>.<br/>For the sake of the community, we ask you not to abuse access."))</p>
+            }
+            @foreach (var message in Messages)
+            {
+                <div class="max-w-[85%] rounded-md p-3 @(message.Role == "user" ? "ml-auto bg-accent text-white" : "mr-auto bg-control-bg")">
+                    @if (message.Role == "assistant" && !string.IsNullOrWhiteSpace(message.Text))
+                    {
+                        <div class="[&_p]:mb-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_code]:rounded-sm [&_code]:bg-bg-dark [&_code]:px-1 whitespace-normal">@((MarkupString)Markdown.ToHtml(message.Text, MarkdownPipeline))</div>
+                    }
+                    else if (message.Role == "assistant" && string.IsNullOrWhiteSpace(message.Text))
+                    {
+                        <svg class="animate-spin h-5 w-5 text-text-l m-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    }
+                    else
+                    {
+                        <p class="whitespace-pre-wrap">@message.Text</p>
+                    }
+                </div>
+            }
+            @if (IsSending)
+            {
+                <p class="description">@Status - @FormatElapsed()</p>
+            }
+            @if (!string.IsNullOrEmpty(Error))
+            {
+                <p class="text-warning">@Error</p>
+            }
+        </div>
+
+        <form class="flex flex-col gap-2" @onsubmit="SendMessage" @onsubmit:preventDefault>
+            <textarea class="min-h-12 flex-1 resize-y rounded-md border border-border bg-control-bg p-3 text-text placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent"
+                    @ref="inputElement" @bind="Draft" @bind:event="oninput" placeholder="@_("Ask a question...")" rows="2" disabled="@IsSending"></textarea>
+            <p class="description hover:cursor-pointer hover:underline" @onclick="() => ShowStateDialog = true">@((MarkupString)_("Send using <span class=\"text-text-l\">Enter</span>, new line with <span class=\"text-text-l\">Shift+Enter</span>. Some basic information is sent along with each message, <span class=\"text-text-l\">click to display</span>."))</p>
+        </form>
+
+        <Dialog Open="@ShowStateDialog" OpenChanged="@(value => ShowStateDialog = value)" Class="w-full max-w-2xl">
+            <div class="flex flex-col gap-3">
+                <p class="description">@_("The following information is sent along with each message to help the chatbot provide better answers. It does not contain any personal information.")</p>
+                <pre class="max-h-[50vh] overflow-y-auto rounded-md border border-border bg-bg-dark p-3 text-sm"><code>@JsonSerializer.Serialize(GetStateInfo(), new JsonSerializerOptions { WriteIndented = true })</code></pre>
+                <p class="description mt-2">@_("Press anywhere outside the dialog to close it.")</p>
+            </div>
+        </Dialog>
+    }
+</div>

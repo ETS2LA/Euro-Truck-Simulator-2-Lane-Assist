@@ -215,7 +215,7 @@
             <p class="font-semibold description hover:underline hover:text-text-l transition-colors" @onclick="() => NewsSettingsDialogOpen = true">@(_("Settings"))</p>
         </div>
         <div class="flex flex-col gap-2">
-            @foreach (var wrapper in ArticleWrappers)
+            @foreach (var wrapper in ArticleWrappers.ToList())
             {
                 bool expanded = wrapper.IsExpanded;
                 string borderColor = expanded ? "border-accent-dark" : "border-bg-darker";

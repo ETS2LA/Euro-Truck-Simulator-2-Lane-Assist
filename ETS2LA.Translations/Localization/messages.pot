@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-16 23:14:00+0300\n"
-"PO-Revision-Date: 2026-10-16 23:14:01+0300\n"
+"POT-Creation-Date: 2026-10-17 00:27:53+0300\n"
+"PO-Revision-Date: 2026-10-17 00:27:53+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -275,6 +275,7 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Home.razor:311
 #: ../../../ETS2LA.UI/Pages/Home.razor:322
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:298
 #: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:189
 #: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:194
 msgid "Press anywhere outside the dialog to close it."
@@ -358,6 +359,10 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/PluginStep.razor:56
 msgid "Install Plugins"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:128
+msgid "Your login token is invalid or expired."
 msgstr ""
 
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:81
@@ -586,7 +591,6 @@ msgstr ""
 msgid "Backend shutdown complete."
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:121
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:141
 #, csharp-format
 msgid "Control with ID '{0}' not found for event subscription."
@@ -599,8 +603,8 @@ msgid ""
 "recover accounts once they are created!</span>"
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:156
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:166
+#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:156
 #, csharp-format
 msgid "Unregistered control: {0} ({1})"
 msgstr ""
@@ -753,6 +757,10 @@ msgstr ""
 msgid "Failed to initialize overlay, ImGui initialization failed."
 msgstr ""
 
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:130
+msgid "Your account is not allowed to use the chatbot."
+msgstr ""
+
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:187
 msgid "Speed Limit Warning"
 msgstr ""
@@ -814,6 +822,12 @@ msgstr ""
 #: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:172
 #, csharp-format
 msgid "Current Version: {0}"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:296
+msgid ""
+"The following information is sent along with each message to help the chatbot "
+"provide better answers. It does not contain any personal information."
 msgstr ""
 
 #: ../../../ETS2LA.Networking/Plugins/Client.cs:233
@@ -1040,10 +1054,23 @@ msgid ""
 "has only slight differences to metric."
 msgstr ""
 
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:291
+msgid ""
+"Send using <span class=\"text-text-l\">Enter</span>, new line with <span "
+"class=\"text-text-l\">Shift+Enter</span>. Some basic information is sent along "
+"with each message, <span class=\"text-text-l\">click to display</span>."
+msgstr ""
+
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:149
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:170
 #, csharp-format
 msgid "Control with ID '{0}' not found for unregistration."
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:206
+msgid ""
+"I'm sorry, but I cannot answer that question. Please ask something else "
+"ETS2LA related."
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:89
@@ -1087,6 +1114,12 @@ msgstr ""
 
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:51
 msgid "Failed to initialize SDL3 input backend."
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:256
+msgid ""
+"This chatbot is provided for free by <span "
+"class=\"text-text-l\">lun011666</span>.<br/>For the sake of the community, we ask you not to abuse access."
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/WelcomeStep.razor:29
@@ -1508,10 +1541,10 @@ msgid "Disabled plugin: [bold]{0}[/]"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/EnsureGameClosed.razor:52
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/SDKStep.razor:17
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/PluginStep.razor:57
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/ControlsStep.razor:48
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/OverlayStep.razor:27
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/SDKStep.razor:17
 msgid "Continue"
 msgstr ""
 
@@ -1661,6 +1694,10 @@ msgstr ""
 msgid "No updates available."
 msgstr ""
 
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:249
+msgid "Please log in to use the chatbot."
+msgstr ""
+
 #: ../../../ETS2LA.Overlay/Overlay.cs:250
 #, csharp-format
 msgid "Error rendering overlay: {0}"
@@ -1698,12 +1735,12 @@ msgstr ""
 msgid "Font file not found at {0}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:170
-msgid "Changelog"
-msgstr ""
-
 #: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:92
 msgid "No release notes available."
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:170
+msgid "Changelog"
 msgstr ""
 
 #: ../../../ETS2LA.State/Program.cs:70
@@ -1842,8 +1879,8 @@ msgstr ""
 msgid "Responsiveness"
 msgstr ""
 
-#: ../../../ETS2LA.Game/Installation.cs:266
 #: ../../../ETS2LA.Game/Data/Classes.cs:130
+#: ../../../ETS2LA.Game/Installation.cs:266
 msgid "Parsing Map Data"
 msgstr ""
 
@@ -1904,6 +1941,10 @@ msgstr ""
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:152
 #, csharp-format
 msgid "Control with ID '{0}' not found for event unsubscription."
+msgstr ""
+
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:65
+msgid "Chatbot"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:156
@@ -2030,6 +2071,10 @@ msgstr ""
 msgid "Overlay is disabled in settings, skipping window registration for {0}."
 msgstr ""
 
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:138
+msgid "Request cancelled."
+msgstr ""
+
 #: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:175
 msgid "Registration Failed"
 msgstr ""
@@ -2090,7 +2135,7 @@ msgid ""
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Home.razor:215
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:69
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:70
 msgid "Settings"
 msgstr ""
 
@@ -2141,6 +2186,10 @@ msgstr ""
 #: ../../../ETS2LA.Game/Installation.cs:289
 #, csharp-format
 msgid "No map data found for installation at '{0}'. Is the installation valid?"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:94
+msgid "Please log in before using the chatbot."
 msgstr ""
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:428
@@ -2289,8 +2338,8 @@ msgid "Target Speed: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
 msgstr ""
 
 #: ../../../ETS2LA.Game/SDK/ParkedVehicles.cs:108
-#: ../../../ETS2LA.Game/SDK/Navigation.cs:122
 #: ../../../ETS2LA.Game/SDK/Camera.cs:130
+#: ../../../ETS2LA.Game/SDK/Navigation.cs:122
 #: ../../../ETS2LA.Game/SDK/Semaphores.cs:176
 #: ../../../ETS2LA.Game/SDK/Traffic.cs:159
 #, csharp-format
@@ -2309,12 +2358,17 @@ msgstr ""
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:28
-msgid "View Public Telemetry"
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:100
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:227
+msgid "Thinking..."
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Audio.razor:24
 msgid "Adjust the volume of the audio output."
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:28
+msgid "View Public Telemetry"
 msgstr ""
 
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:135
@@ -2327,8 +2381,8 @@ msgstr ""
 msgid "SET Behaviour"
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:113
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:133
+#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:113
 #, csharp-format
 msgid "Registered control: {0} [gray italic]({1})[/]"
 msgstr ""
@@ -2725,13 +2779,13 @@ msgstr ""
 msgid "Final Disclaimer <span class=\"description\">2/2</span>"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:43
-msgid "Logout Failed"
-msgstr ""
-
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:143
 #, csharp-format
 msgid "Snap to each 10 {0}"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:43
+msgid "Logout Failed"
 msgstr ""
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:70
