@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-10-17 00:27:53+0300\n"
-"PO-Revision-Date: 2026-10-14 00:52+0000\n"
+"PO-Revision-Date: 2026-10-17 09:16+0000\n"
 "Last-Translator: Lun <lun@ets2la.com>\n"
 "Language-Team: Chinese (Traditional Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/ets2la/zh_Hant/>\n"
@@ -34,7 +34,7 @@ msgid "Display"
 msgstr "顯示"
 
 msgid "Go to Account Settings"
-msgstr ""
+msgstr "前往帳號設定"
 
 msgid "Overlay Interaction"
 msgstr "疊加層互動"
@@ -82,7 +82,7 @@ msgid ""
 msgstr "變更速度時，接近 10 的倍數會自動對齊。例如：37 -> 39 -> 40 -> 42..."
 
 msgid "Register"
-msgstr ""
+msgstr "註冊"
 
 msgid "kg"
 msgstr "kg"
@@ -125,7 +125,8 @@ msgstr "當遊戲處於暫停狀態時，ETS2LA 不會顯示 AR 元素。"
 msgid ""
 "Your username may only contain letters, numbers, underscores, hyphens and "
 "periods, and must start and end with a letter or number."
-msgstr ""
+msgstr "使用者名稱只能包含英文字母、數字、底線（_）、連字號（-）及句點（.），且必須以"
+"英文字母或數字開頭及結尾。"
 
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
@@ -222,11 +223,11 @@ msgid "The step size for changing the cruise control speed."
 msgstr "調整巡航速度時，每次變更的級距。"
 
 msgid "Please enter a username."
-msgstr ""
+msgstr "請輸入使用者名稱。"
 
 #, csharp-format
 msgid "Your username must be at least {0} characters long."
-msgstr ""
+msgstr "使用者名稱至少需要 {0} 個字元。"
 
 msgid "Press anywhere outside the dialog to close it."
 msgstr "點擊對話框外的任意位置即可關閉。"
@@ -302,7 +303,7 @@ msgid "Install Plugins"
 msgstr "安裝插件"
 
 msgid "Your login token is invalid or expired."
-msgstr ""
+msgstr "你的登入權杖無效或已過期。"
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
@@ -334,6 +335,9 @@ msgid ""
 "contain letters, numbers, underscores, hyphens and periods. It must start "
 "and end with a letter or number."
 msgstr ""
+"<span class=\"text-text-accent\">使用者名稱區分大小寫。</span><br/>使用者名稱"
+"長度必須介於 {0} 至 {1} 個字元之間，且只能包含英文字母、數字、底線（_）、連字"
+"號（-）及句點（.）。使用者名稱必須以英文字母或數字開頭及結尾。"
 
 msgid "Install Update and Restart"
 msgstr "安裝更新並重新啟動"
@@ -477,7 +481,7 @@ msgid ""
 msgstr "閘道錯誤。伺服器作為閘道或代理伺服器時，從上游伺服器收到無效回應。"
 
 msgid "Already have an account? Log in here."
-msgstr ""
+msgstr "已經有帳號了嗎？點此登入。"
 
 msgid "The server timed out waiting for the request from the client."
 msgstr "伺服器等待用戶端傳送請求時逾時。"
@@ -494,6 +498,9 @@ msgid ""
 "text-accent\">Do not close the page before you have added the code. We "
 "cannot recover accounts once they are created!</span>"
 msgstr ""
+"請將 OTP 驗證碼新增至你的驗證器應用程式。<br/><span class=\"text-text-"
+"accent\">新增驗證碼之前，請勿關閉此頁面。帳號建立後，我們將無法協助復原！</sp"
+"an>"
 
 #, csharp-format
 msgid "Unregistered control: {0} ({1})"
@@ -622,7 +629,7 @@ msgid "Failed to initialize overlay, ImGui initialization failed."
 msgstr "疊加層初始化失敗，ImGui 初始化失敗。"
 
 msgid "Your account is not allowed to use the chatbot."
-msgstr ""
+msgstr "你的帳號沒有使用聊天機器人的權限。"
 
 msgid "Speed Limit Warning"
 msgstr "速限警告"
@@ -631,7 +638,7 @@ msgid "Speed limit changed"
 msgstr "速限已變更"
 
 msgid "Your username may not contain repeated separators."
-msgstr ""
+msgstr "使用者名稱不得包含連續重複的分隔符號。"
 
 #, csharp-format
 msgid "Discovered {0} plugins in total."
@@ -674,7 +681,8 @@ msgstr "目前版本：{0}"
 msgid ""
 "The following information is sent along with each message to help the "
 "chatbot provide better answers. It does not contain any personal information."
-msgstr ""
+msgstr "每次傳送訊息時，都會一併傳送以下資訊，以協助聊天機器人提供更好的回答。這些資"
+"訊不包含任何個人資料。"
 
 #, csharp-format
 msgid "No update available for plugin with ID {0}."
@@ -750,7 +758,7 @@ msgid "State Info"
 msgstr "狀態資訊"
 
 msgid "Back to Login"
-msgstr ""
+msgstr "返回登入頁面"
 
 msgid "Contact us on GitHub"
 msgstr "透過 GitHub 聯絡我們"
@@ -762,10 +770,11 @@ msgstr "AR 渲染時發生錯誤：{0}"
 msgid ""
 "Some 3rd party websites might want access to your account.<br/>You can press "
 "the button below to display your JWT token."
-msgstr ""
+msgstr "部分第三方網站可能需要存取你的帳號。<br/>你可以點擊下方按鈕來顯示你的 JWT 權"
+"杖。"
 
 msgid "If you're streaming or recording, now's the time to hide this window."
-msgstr ""
+msgstr "如果你正在直播或錄影，請先隱藏此視窗。"
 
 msgid "Collision Avoidance"
 msgstr "防碰撞"
@@ -797,10 +806,10 @@ msgid "Camera {0} ({1}x{2})"
 msgstr "攝影機 {0}（{1}×{2}）"
 
 msgid "Display JWT Token"
-msgstr ""
+msgstr "顯示 JWT 權杖"
 
 msgid "Invalid Input"
-msgstr ""
+msgstr "輸入無效"
 
 msgid ""
 "This setting only loads roads and intersections visible on the in game map. "
@@ -856,6 +865,9 @@ msgid ""
 "class=\"text-text-l\">Shift+Enter</span>. Some basic information is sent "
 "along with each message, <span class=\"text-text-l\">click to display</span>."
 msgstr ""
+"按下 <span class=\"text-text-l\">Enter</span> 傳送訊息，按下 <span class"
+"=\"text-text-l\">Shift+Enter</span> 換行。每次傳送訊息時，都會一併傳送一些基"
+"本資訊，<span class=\"text-text-l\">點擊此處查看</span>。"
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for unregistration."
@@ -864,7 +876,7 @@ msgstr "取消註冊時找不到 ID 為「{0}」的控制項。"
 msgid ""
 "I'm sorry, but I cannot answer that question. Please ask something else "
 "ETS2LA related."
-msgstr ""
+msgstr "很抱歉，我無法回答這個問題。請改問其他與 ETS2LA 相關的問題。"
 
 msgid ""
 "Your system has less than 16GB of RAM. High data fidelity uses significant "
@@ -906,6 +918,8 @@ msgid ""
 "This chatbot is provided for free by <span class=\"text-text-l\">lun011666</"
 "span>.<br/>For the sake of the community, we ask you not to abuse access."
 msgstr ""
+"此聊天機器人由 <span class=\"text-text-l\">lun011666</span> 免費提供。<br/>為"
+"了維護社群的共同利益，請勿濫用此服務。"
 
 #, csharp-format
 msgid "{0} not found in supported languages."
@@ -954,7 +968,8 @@ msgstr "限制疊加層影格率"
 msgid ""
 "You'll be asked to save an OTP authentication code after registration. We do "
 "not store or ask for passwords, as those aren't required for authentication."
-msgstr ""
+msgstr "註冊後，你需要儲存 OTP 驗證碼。我們不會儲存或要求你提供密碼，因為身分驗證不需"
+"要使用密碼。"
 
 msgid "Wiki / FAQ"
 msgstr "維基 / 常見問題"
@@ -1195,7 +1210,7 @@ msgstr "我知道了，現在讓我進去吧！"
 msgid ""
 "You have successfully registered as {0}. Please add the OTP code to your "
 "authentication app."
-msgstr ""
+msgstr "你已成功註冊帳號 {0}。請將 OTP 驗證碼新增至你的驗證器應用程式。"
 
 msgid "Disable Overlay"
 msgstr "停用疊加層"
@@ -1354,7 +1369,7 @@ msgid "No updates available."
 msgstr "沒有可用的更新。"
 
 msgid "Please log in to use the chatbot."
-msgstr ""
+msgstr "請先登入才能使用聊天機器人。"
 
 #, csharp-format
 msgid "Error rendering overlay: {0}"
@@ -1436,7 +1451,7 @@ msgid "Logout Error"
 msgstr "登出錯誤"
 
 msgid "Don't have an account?<br/>Register a new one now, no emails required!"
-msgstr ""
+msgstr "還沒有帳號嗎？<br/>立即註冊新帳號，無需提供電子郵件！"
 
 #, csharp-format
 msgid "Found {0} game installation."
@@ -1484,7 +1499,7 @@ msgstr "已從 [gray]{1}[/] 載入函式庫插件：[gray]{0}[/]。"
 
 #, csharp-format
 msgid "The username {0} is reserved. Please choose a different username."
-msgstr ""
+msgstr "使用者名稱 {0} 不可使用，請選擇其他使用者名稱。"
 
 msgid "Select the game you wish to start."
 msgstr "請選擇要啟動的遊戲。"
@@ -1549,7 +1564,7 @@ msgid "Control with ID '{0}' not found for event unsubscription."
 msgstr "取消訂閱事件時找不到 ID 為「{0}」的控制項。"
 
 msgid "Chatbot"
-msgstr ""
+msgstr "聊天機器人"
 
 #, csharp-format
 msgid "Binding {0}"
@@ -1650,20 +1665,20 @@ msgid "Overlay is disabled in settings, skipping window registration for {0}."
 msgstr "疊加層已在設定中停用，略過 {0} 的視窗註冊。"
 
 msgid "Request cancelled."
-msgstr ""
+msgstr "請求已取消。"
 
 msgid "Registration Failed"
-msgstr ""
+msgstr "註冊失敗"
 
 msgid "Please close the game before continuing with the onboarding process."
 msgstr "請先關閉遊戲，再繼續進行初始設定流程。"
 
 msgid "Registration Successful"
-msgstr ""
+msgstr "註冊成功"
 
 #, csharp-format
 msgid "Your username must be at most {0} characters long."
-msgstr ""
+msgstr "使用者名稱最多只能包含 {0} 個字元。"
 
 #, csharp-format
 msgid "Successfully installed plugin {0} ({1}, {2})"
@@ -1735,7 +1750,7 @@ msgid "No map data found for installation at '{0}'. Is the installation valid?"
 msgstr "遊戲安裝位置「{0}」中找不到地圖資料。此安裝位置是否有效？"
 
 msgid "Please log in before using the chatbot."
-msgstr ""
+msgstr "請先登入才能使用聊天機器人。"
 
 #, csharp-format
 msgid "Error rendering context menu for window {0}: {1}"
@@ -1748,7 +1763,7 @@ msgid "kilograms"
 msgstr "公斤"
 
 msgid "Username Taken"
-msgstr ""
+msgstr "使用者名稱已被使用"
 
 msgid "ft"
 msgstr "ft"
@@ -1833,7 +1848,7 @@ msgstr "無法解除安裝 ID 為 {0} 的插件，因為下列已安裝的插件
 #, csharp-format
 msgid ""
 "You are currently logged in as <span class=\"text-text-l\">{0}</span>. [{1}]"
-msgstr ""
+msgstr "你目前以 <span class=\"text-text-l\">{0}</span> 登入。[{1}]"
 
 msgid ""
 "We will pause the game when we detect instability or the steering is "
@@ -1870,7 +1885,7 @@ msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr "輔助模式：<span class=\"text-text-accent font-bold\">{0}</span>"
 
 msgid "Thinking..."
-msgstr ""
+msgstr "思考中..."
 
 msgid "Adjust the volume of the audio output."
 msgstr "調整音訊輸出的音量。"
@@ -1990,7 +2005,7 @@ msgid ""
 msgstr "你沒有存取此資源的權限。伺服器已理解此請求，但拒絕授權此次存取。"
 
 msgid "Registration Error"
-msgstr ""
+msgstr "註冊時發生錯誤"
 
 msgid "Display Language"
 msgstr "顯示語言"
@@ -2024,7 +2039,7 @@ msgstr "m/s"
 
 #, csharp-format
 msgid "The username {0} is already taken. Please choose a different username."
-msgstr ""
+msgstr "使用者名稱 {0} 已被使用，請選擇其他使用者名稱。"
 
 #, csharp-format
 msgid "Click to {0} this window"
@@ -2062,10 +2077,10 @@ msgstr ""
 "將新聞文章翻譯成你選擇的顯示語言。所需時間會視文章數量及網路連線狀況而定。"
 
 msgid "You are not logged in. Open this page again to login."
-msgstr ""
+msgstr "你目前尚未登入。請重新開啟此頁面以進行登入。"
 
 msgid "Only copy this to trusted websites, it can do ANYTHING on your behalf."
-msgstr ""
+msgstr "請只將此權杖提供給你信任的網站，因為它可以讓網站以你的身分執行任何操作。"
 
 msgid "Map Data Parsed"
 msgstr "地圖資料解析完成"
@@ -2100,7 +2115,8 @@ msgstr "目標速度： "
 msgid ""
 "Your token will expire on <span class=\"text-text-l\">{0}</span>, you'll be "
 "asked to login again then."
-msgstr ""
+msgstr "你的登入權杖將於 <span class=\"text-text-l\">{0}</span> 到期，屆時你需要重新"
+"登入。"
 
 msgid "meters"
 msgstr "公尺"
@@ -2120,7 +2136,7 @@ msgstr[0] "發現 {0} 個手動安裝的插件。"
 
 msgid ""
 "An error occurred while trying to register. Please try again later. Error: "
-msgstr ""
+msgstr "嘗試註冊時發生錯誤。請稍後再試。錯誤： "
 
 msgid "Checking for updates..."
 msgstr "正在檢查更新..."
@@ -2159,7 +2175,8 @@ msgstr "下一步"
 msgid ""
 "Your session has expired or you don't have a connection to our servers. "
 "Please log in again if you wish to use server-side features."
-msgstr ""
+msgstr "你的登入工作階段已過期，或目前無法連線至我們的伺服器。如果你想使用伺服器端功"
+"能，請重新登入。"
 
 msgid "Demo Window"
 msgstr "示範視窗"
