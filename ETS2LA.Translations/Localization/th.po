@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-17 00:27:53+0300\n"
+"POT-Creation-Date: 2026-10-17 12:31:49+0300\n"
 "PO-Revision-Date: 2026-10-17 09:16+0000\n"
 "Last-Translator: cooper153826 <cooper153826@ets2la.com>\n"
 "Language-Team: Thai <http://weblate.ets2la.com/projects/ets2la/ets2la/th/>\n"
@@ -132,6 +132,9 @@ msgstr ""
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
 msgstr "เชื่อมต่อจอยสติ๊กแล้ว: [bold]{0}[/] [gray italic]({1})[/]"
+
+msgid "Username"
+msgstr ""
 
 #, csharp-format
 msgid "Starting binding for control {0} ({1})"
@@ -296,21 +299,21 @@ msgstr "ภาพและการแสดงผล"
 msgid "Additional"
 msgstr "เพิ่มเติม"
 
-msgid "Show Fewer Logs"
-msgstr "แสดง Log น้อยลง"
-
 msgid "Install Plugins"
 msgstr "ติดตั้งปลั๊กอิน"
+
+msgid "Show Fewer Logs"
+msgstr "แสดง Log น้อยลง"
 
 msgid "Your login token is invalid or expired."
 msgstr "Login Token ของคุณไม่ถูกต้องหรือหมดอายุแล้ว"
 
+msgid "I won't leave ETS2LA unattended"
+msgstr "ฉันจะไม่ปล่อยให้ ETS2LA ทำงานโดยไม่มีคนดูแล"
+
 #, csharp-format
 msgid "Error while downloading update: {0}"
 msgstr "ดาวน์โหลดอัปเดตไม่สำเร็จ: {0}"
-
-msgid "I won't leave ETS2LA unattended"
-msgstr "ฉันจะไม่ปล่อยให้ ETS2LA ทำงานโดยไม่มีคนดูแล"
 
 msgid "Keyboard"
 msgstr "คีย์บอร์ด"
@@ -335,10 +338,10 @@ msgid ""
 "contain letters, numbers, underscores, hyphens and periods. It must start "
 "and end with a letter or number."
 msgstr ""
-"<span class=\"text-text-accent\">Username "
-"ต้องตรงตามตัวพิมพ์เล็กและตัวพิมพ์ใหญ่</span><br/>Username ต้องมีความยาวตั้งแต่ {0} ถึง {1} "
-"ตัวอักษร และใช้ได้เฉพาะตัวอักษรภาษาอังกฤษ ตัวเลข ขีดล่าง (_) ขีดกลาง (-) และจุด (.) เท่านั้"
-"น โดยต้องขึ้นต้นและลงท้ายด้วยตัวอักษรหรือตัวเลข"
+"<span class=\"text-text-accent\">Username ต้องตรงตามตัวพิมพ์เล็กและตัวพิมพ์ใหญ่</"
+"span><br/>Username ต้องมีความยาวตั้งแต่ {0} ถึง {1} ตัวอักษร "
+"และใช้ได้เฉพาะตัวอักษรภาษาอังกฤษ ตัวเลข ขีดล่าง (_) ขีดกลาง (-) และจุด (.) เท่านั้น "
+"โดยต้องขึ้นต้นและลงท้ายด้วยตัวอักษรหรือตัวเลข"
 
 msgid "Install Update and Restart"
 msgstr "ติดตั้งอัปเดตและรีสตาร์ท"
@@ -503,8 +506,8 @@ msgid ""
 "text-accent\">Do not close the page before you have added the code. We "
 "cannot recover accounts once they are created!</span>"
 msgstr ""
-"กรุณาเพิ่มรหัส OTP ลงในแอปยืนยันตัวตนของคุณ<br/><span class=\"text-text-accent\""
-">อย่าเพิ่งปิดหน้านี้จนกว่าจะเพิ่มรหัสเรียบร้อย เพราะเมื่อสร้างบัญชีแล้ว "
+"กรุณาเพิ่มรหัส OTP ลงในแอปยืนยันตัวตนของคุณ<br/><span class=\"text-text-"
+"accent\">อย่าเพิ่งปิดหน้านี้จนกว่าจะเพิ่มรหัสเรียบร้อย เพราะเมื่อสร้างบัญชีแล้ว "
 "จะไม่สามารถกู้คืนบัญชีได้!</span>"
 
 #, csharp-format
@@ -633,11 +636,11 @@ msgstr "ถอนการติดตั้ง SDK เวอร์ชั่น 
 msgid "Failed to initialize overlay, ImGui initialization failed."
 msgstr "เริ่มต้น Overlay ไม่สำเร็จ เนื่องจากเริ่มต้น ImGui ไม่สำเร็จ"
 
-msgid "Your account is not allowed to use the chatbot."
-msgstr "บัญชีของคุณไม่ได้รับอนุญาตให้ใช้งาน Chatbot"
-
 msgid "Speed Limit Warning"
 msgstr "แจ้งเตือนเมื่อขับเกินความเร็วที่กำหนด"
+
+msgid "Your account is not allowed to use the chatbot."
+msgstr "บัญชีของคุณไม่ได้รับอนุญาตให้ใช้งาน Chatbot"
 
 msgid "Speed limit changed"
 msgstr "ความเร็วสูงสุดที่อนุญาตเปลี่ยนแล้ว"
@@ -782,11 +785,11 @@ msgstr ""
 "เว็บไซต์ภายนอกบางแห่งอาจต้องการเข้าถึงบัญชีของคุณ<br/>คุณสามารถกดปุ่มด้านล่างเพื่อแสดง JWT "
 "Token ของคุณได้"
 
-msgid "If you're streaming or recording, now's the time to hide this window."
-msgstr "หากคุณกำลังไลฟ์สตรีมหรือบันทึกหน้าจอ ควรซ่อนหน้าต่างนี้ตอนนี้"
-
 msgid "Collision Avoidance"
 msgstr "ระบบหลีกเลี่ยงการชน"
+
+msgid "If you're streaming or recording, now's the time to hide this window."
+msgstr "หากคุณกำลังไลฟ์สตรีมหรือบันทึกหน้าจอ ควรซ่อนหน้าต่างนี้ตอนนี้"
 
 msgid ""
 "Disables the overlay entirely. This will fix the black screen issue at the "
@@ -874,9 +877,10 @@ msgid ""
 "class=\"text-text-l\">Shift+Enter</span>. Some basic information is sent "
 "along with each message, <span class=\"text-text-l\">click to display</span>."
 msgstr ""
-"ส่งโดยใช้<span class=\"text-text-l\">Enter</span> ขึ้นบรรทัดใหม่โดย <span class"
-"=\"text-text-l\">Shift+Enter</span> ระบบจะส่งข้อมูลพื้นฐานบางอย่างไปพร้อมกับทุกข้อความ "
-"<span class=\"text-text-l\">คลิกเพื่อแสดง </span>"
+"ส่งโดยใช้<span class=\"text-text-l\">Enter</span> ขึ้นบรรทัดใหม่โดย <span "
+"class=\"text-text-l\">Shift+Enter</span> "
+"ระบบจะส่งข้อมูลพื้นฐานบางอย่างไปพร้อมกับทุกข้อความ <span class=\"text-text-"
+"l\">คลิกเพื่อแสดง </span>"
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for unregistration."
@@ -885,8 +889,7 @@ msgstr "ไม่พบ Control ID '{0}' สำหรับยกเลิกก
 msgid ""
 "I'm sorry, but I cannot answer that question. Please ask something else "
 "ETS2LA related."
-msgstr ""
-"ขออภัย ฉันไม่สามารถตอบคำถามนี้ได้ กรุณาถามคำถามอื่นที่เกี่ยวข้องกับ ETS2LA"
+msgstr "ขออภัย ฉันไม่สามารถตอบคำถามนี้ได้ กรุณาถามคำถามอื่นที่เกี่ยวข้องกับ ETS2LA"
 
 msgid ""
 "Your system has less than 16GB of RAM. High data fidelity uses significant "
@@ -1208,21 +1211,20 @@ msgstr ""
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr "ติดตั้งปลั๊กอิน ID {0} เวอร์ชันล่าสุดไม่สำเร็จ"
 
+msgid "I understand, now let me in!"
+msgstr "ฉันเข้าใจ, ตอนนี้ให้ฉันเข้า!"
+
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
 "on {2}GitHub{3}."
 msgstr "หากคิดว่าเป็นบั๊ก โปรดรายงานใน {0}Discord Server{1} หรือบน {2}GitHub{3}"
 
-msgid "I understand, now let me in!"
-msgstr "ฉันเข้าใจ, ตอนนี้ให้ฉันเข้า!"
-
 #, csharp-format
 msgid ""
 "You have successfully registered as {0}. Please add the OTP code to your "
 "authentication app."
-msgstr ""
-"คุณสมัครสมาชิกด้วยชื่อ {0} สำเร็จแล้ว กรุณาเพิ่มรหัส OTP ลงในแอปยืนยันตัวตนของคุณ"
+msgstr "คุณสมัครสมาชิกด้วยชื่อ {0} สำเร็จแล้ว กรุณาเพิ่มรหัส OTP ลงในแอปยืนยันตัวตนของคุณ"
 
 msgid "Disable Overlay"
 msgstr "ปิด Overlay"
@@ -1411,11 +1413,11 @@ msgstr "เพิ่มเกมล้มเหลว"
 msgid "Font file not found at {0}"
 msgstr "ไม่พบไฟล์ฟอนต์ที่ {0}"
 
-msgid "No release notes available."
-msgstr "ไม่มีบันทึกประจำเวอร์ชัน"
-
 msgid "Changelog"
 msgstr "บันทึกการเปลี่ยนแปลง"
+
+msgid "No release notes available."
+msgstr "ไม่มีบันทึกประจำเวอร์ชัน"
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1509,6 +1511,9 @@ msgstr "ไม่พบไฟล์ Executable ของเกมที่เล
 #, csharp-format
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
 msgstr "โหลด Library Plugin: [gray]{0}[/] จาก [gray]{1}[/] แล้ว"
+
+msgid "Enter the OTP generated by your authenticator app."
+msgstr ""
 
 #, csharp-format
 msgid "The username {0} is reserved. Please choose a different username."
@@ -1865,8 +1870,7 @@ msgstr "ไม่สามารถถอนการติดตั้งปล
 #, csharp-format
 msgid ""
 "You are currently logged in as <span class=\"text-text-l\">{0}</span>. [{1}]"
-msgstr ""
-"ขณะนี้คุณเข้าสู่ระบบด้วยบัญชี <span class=\"text-text-l\">{0}</span> [{1}]"
+msgstr "ขณะนี้คุณเข้าสู่ระบบด้วยบัญชี <span class=\"text-text-l\">{0}</span> [{1}]"
 
 msgid ""
 "We will pause the game when we detect instability or the steering is "
@@ -1897,21 +1901,21 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr "เกิดข้อผิดพลาดขณะเริ่มต้นไฟล์ Memory-Mapped: {0}"
 
 #, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr "โหลดปลั๊กอินจาก [gray]{0}[/] ไม่สำเร็จ: {1}"
-
-#, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr "โหมดการช่วยเหลือ: <span class=\"text-text-accent font-bold\">{0}</span>"
+
+#, csharp-format
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgstr "โหลดปลั๊กอินจาก [gray]{0}[/] ไม่สำเร็จ: {1}"
 
 msgid "Thinking..."
 msgstr "กำลังคิด..."
 
-msgid "Adjust the volume of the audio output."
-msgstr "ปรับระดับเสียงเอาต์พุต"
-
 msgid "View Public Telemetry"
 msgstr "ดู Telemetry สาธารณะ"
+
+msgid "Adjust the volume of the audio output."
+msgstr "ปรับระดับเสียงเอาต์พุต"
 
 #, csharp-format
 msgid ""
@@ -1978,11 +1982,11 @@ msgstr "การวิเคราะห์จะดำเนินต่อ �
 msgid "The selected file is not a core.scs file."
 msgstr "ไฟล์ที่เลือกไม่ใช่ core.scs"
 
-msgid "You have successfully logged out."
-msgstr "ออกจากระบบสำเร็จแล้ว"
-
 msgid "Translated by:"
 msgstr "แปลโดย:"
+
+msgid "You have successfully logged out."
+msgstr "ออกจากระบบสำเร็จแล้ว"
 
 msgid "This game was found at"
 msgstr "เกมนี้เจอที่"
@@ -2014,6 +2018,9 @@ msgstr "ไม่พบปลั๊กอิน ID {0}"
 
 msgid "Units and Language"
 msgstr "หน่วยและภาษา"
+
+msgid "One Time Password"
+msgstr ""
 
 #, csharp-format
 msgid "Loaded plugin: [gray]{0}[/] from [gray]{1}[/]."
