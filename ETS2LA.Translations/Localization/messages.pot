@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-17 00:27:53+0300\n"
-"PO-Revision-Date: 2026-10-17 00:27:53+0300\n"
+"POT-Creation-Date: 2026-10-17 12:31:49+0300\n"
+"PO-Revision-Date: 2026-10-17 12:31:49+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -152,6 +152,13 @@ msgstr ""
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
 msgstr ""
 
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:199
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:202
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:227
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:230
+msgid "Username"
+msgstr ""
+
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:205
 #, csharp-format
 msgid "Starting binding for control {0} ({1})"
@@ -275,9 +282,9 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Home.razor:311
 #: ../../../ETS2LA.UI/Pages/Home.razor:322
-#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:298
 #: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:189
 #: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:194
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:300
 msgid "Press anywhere outside the dialog to close it."
 msgstr ""
 
@@ -353,25 +360,25 @@ msgstr ""
 msgid "Additional"
 msgstr ""
 
-#: ../../../ETS2LA.Overlay/Window/Console.cs:54
-msgid "Show Fewer Logs"
-msgstr ""
-
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/PluginStep.razor:56
 msgid "Install Plugins"
+msgstr ""
+
+#: ../../../ETS2LA.Overlay/Window/Console.cs:54
+msgid "Show Fewer Logs"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:128
 msgid "Your login token is invalid or expired."
 msgstr ""
 
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/DisclaimerStep1.razor:21
+msgid "I won't leave ETS2LA unattended"
+msgstr ""
+
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:81
 #, csharp-format
 msgid "Error while downloading update: {0}"
-msgstr ""
-
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/DisclaimerStep1.razor:21
-msgid "I won't leave ETS2LA unattended"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:74
@@ -592,6 +599,7 @@ msgid "Backend shutdown complete."
 msgstr ""
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:141
+#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:121
 #, csharp-format
 msgid "Control with ID '{0}' not found for event subscription."
 msgstr ""
@@ -757,12 +765,12 @@ msgstr ""
 msgid "Failed to initialize overlay, ImGui initialization failed."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:130
-msgid "Your account is not allowed to use the chatbot."
-msgstr ""
-
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:187
 msgid "Speed Limit Warning"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:130
+msgid "Your account is not allowed to use the chatbot."
 msgstr ""
 
 #: ../../../ETS2LA.State/Program.cs:235
@@ -824,7 +832,7 @@ msgstr ""
 msgid "Current Version: {0}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:296
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:298
 msgid ""
 "The following information is sent along with each message to help the chatbot "
 "provide better answers. It does not contain any personal information."
@@ -947,12 +955,12 @@ msgid ""
 "the button below to display your JWT token."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:193
-msgid "If you're streaming or recording, now's the time to hide this window."
-msgstr ""
-
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:176
 msgid "Collision Avoidance"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:193
+msgid "If you're streaming or recording, now's the time to hide this window."
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:258
@@ -1006,8 +1014,8 @@ msgstr ""
 msgid "Game"
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:172
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:182
+#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:172
 #, csharp-format
 msgid "Updated bindings for control: {0} ({1}) to Device: {2}, Control: {3}"
 msgstr ""
@@ -1054,7 +1062,7 @@ msgid ""
 "has only slight differences to metric."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:291
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:293
 msgid ""
 "Send using <span class=\"text-text-l\">Enter</span>, new line with <span "
 "class=\"text-text-l\">Shift+Enter</span>. Some basic information is sent along "
@@ -1463,15 +1471,15 @@ msgstr ""
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr ""
 
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/DisclaimerStep2.razor:21
+msgid "I understand, now let me in!"
+msgstr ""
+
 #: ../../../ETS2LA.UI/Pages/Error.razor:51
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
 "on {2}GitHub{3}."
-msgstr ""
-
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/DisclaimerStep2.razor:21
-msgid "I understand, now let me in!"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:151
@@ -1541,8 +1549,8 @@ msgid "Disabled plugin: [bold]{0}[/]"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/EnsureGameClosed.razor:52
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/PluginStep.razor:57
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/ControlsStep.razor:48
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/PluginStep.razor:57
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/OverlayStep.razor:27
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/SDKStep.razor:17
 msgid "Continue"
@@ -1671,8 +1679,8 @@ msgstr ""
 msgid "Steering Sensitivity"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:204
 #: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:226
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:204
 msgid "Disabled"
 msgstr ""
 
@@ -1735,12 +1743,12 @@ msgstr ""
 msgid "Font file not found at {0}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:92
-msgid "No release notes available."
-msgstr ""
-
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:170
 msgid "Changelog"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:92
+msgid "No release notes available."
 msgstr ""
 
 #: ../../../ETS2LA.State/Program.cs:70
@@ -1862,6 +1870,10 @@ msgstr ""
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
 msgstr ""
 
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:206
+msgid "Enter the OTP generated by your authenticator app."
+msgstr ""
+
 #: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:70
 #, csharp-format
 msgid "The username {0} is reserved. Please choose a different username."
@@ -1937,8 +1949,8 @@ msgstr ""
 msgid "kilometers per hour"
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:133
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:152
+#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:133
 #, csharp-format
 msgid "Control with ID '{0}' not found for event unsubscription."
 msgstr ""
@@ -2339,11 +2351,16 @@ msgstr ""
 
 #: ../../../ETS2LA.Game/SDK/ParkedVehicles.cs:108
 #: ../../../ETS2LA.Game/SDK/Camera.cs:130
-#: ../../../ETS2LA.Game/SDK/Navigation.cs:122
 #: ../../../ETS2LA.Game/SDK/Semaphores.cs:176
+#: ../../../ETS2LA.Game/SDK/Navigation.cs:122
 #: ../../../ETS2LA.Game/SDK/Traffic.cs:159
 #, csharp-format
 msgid "Error initializing memory mapped file: {0}"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/ControlsStep.razor:43
+#, csharp-format
+msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:204
@@ -2353,22 +2370,17 @@ msgstr ""
 msgid "Failed to load plugin from [gray]{0}[/]: {1}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/ControlsStep.razor:43
-#, csharp-format
-msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
-msgstr ""
-
 #: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:100
 #: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:227
 msgid "Thinking..."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Audio.razor:24
-msgid "Adjust the volume of the audio output."
-msgstr ""
-
 #: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:28
 msgid "View Public Telemetry"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Audio.razor:24
+msgid "Adjust the volume of the audio output."
 msgstr ""
 
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:135
@@ -2449,12 +2461,12 @@ msgstr ""
 msgid "The selected file is not a core.scs file."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:55
-msgid "You have successfully logged out."
-msgstr ""
-
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:237
 msgid "Translated by:"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:55
+msgid "You have successfully logged out."
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:81
@@ -2496,6 +2508,10 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:230
 msgid "Units and Language"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:205
+msgid "One Time Password"
 msgstr ""
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:195

@@ -55,7 +55,7 @@
                     Content = _("You have successfully logged out."),
                     Level = NotificationLevel.Success
                 });
-                NetworkingSettings.Current.CurrentUser = null;
+                NetworkingSettings.Current.CurrentUser = new User();
                 NetworkingSettings.Current.Save();
             }
         }
@@ -99,7 +99,7 @@
                     Content = _("Your account has been successfully removed."),
                     Level = NotificationLevel.Success
                 });
-                NetworkingSettings.Current.CurrentUser = null;
+                NetworkingSettings.Current.CurrentUser = new User();
                 NetworkingSettings.Current.Save();
             }
         }
