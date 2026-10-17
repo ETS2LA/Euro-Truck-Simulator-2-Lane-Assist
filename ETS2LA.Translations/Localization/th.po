@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-10-17 00:27:53+0300\n"
-"PO-Revision-Date: 2026-10-16 20:08+0000\n"
+"PO-Revision-Date: 2026-10-17 09:16+0000\n"
 "Last-Translator: cooper153826 <cooper153826@ets2la.com>\n"
 "Language-Team: Thai <http://weblate.ets2la.com/projects/ets2la/ets2la/th/>\n"
 "Language: th\n"
@@ -33,7 +33,7 @@ msgid "Display"
 msgstr "การแสดงผล"
 
 msgid "Go to Account Settings"
-msgstr ""
+msgstr "ไปที่การตั้งค่าบัญชี"
 
 msgid "Overlay Interaction"
 msgstr "การโต้ตอบกับ Overlay"
@@ -82,7 +82,7 @@ msgstr ""
 "เมื่อปรับความเร็ว ให้ปรับเข้าหาค่าที่ใกล้เคียงทุก 10 หน่วย เช่น 37 -> 39 -> 40 -> 42..."
 
 msgid "Register"
-msgstr ""
+msgstr "ลงทะเบียน"
 
 msgid "kg"
 msgstr "กก."
@@ -126,6 +126,8 @@ msgid ""
 "Your username may only contain letters, numbers, underscores, hyphens and "
 "periods, and must start and end with a letter or number."
 msgstr ""
+"ชื่อผู้ใช้ใช้ได้เฉพาะตัวอักษรภาษาอังกฤษ ตัวเลข ขีดล่าง (_) ขีดกลาง (-) และจุด (.) เท่านั้น "
+"และต้องขึ้นต้นและลงท้ายด้วยตัวอักษรหรือตัวเลข"
 
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
@@ -221,11 +223,11 @@ msgid "The step size for changing the cruise control speed."
 msgstr "ขนาดขั้นในการปรับความเร็ว Cruise Control"
 
 msgid "Please enter a username."
-msgstr ""
+msgstr "กรุณากรอก Username"
 
 #, csharp-format
 msgid "Your username must be at least {0} characters long."
-msgstr ""
+msgstr "Username ต้องมีความยาวอย่างน้อย {0} ตัวอักษร"
 
 msgid "Press anywhere outside the dialog to close it."
 msgstr "กดบริเวณนอกกล่องโต้ตอบเพื่อปิด"
@@ -301,7 +303,7 @@ msgid "Install Plugins"
 msgstr "ติดตั้งปลั๊กอิน"
 
 msgid "Your login token is invalid or expired."
-msgstr ""
+msgstr "Login Token ของคุณไม่ถูกต้องหรือหมดอายุแล้ว"
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
@@ -333,6 +335,10 @@ msgid ""
 "contain letters, numbers, underscores, hyphens and periods. It must start "
 "and end with a letter or number."
 msgstr ""
+"<span class=\"text-text-accent\">Username "
+"ต้องตรงตามตัวพิมพ์เล็กและตัวพิมพ์ใหญ่</span><br/>Username ต้องมีความยาวตั้งแต่ {0} ถึง {1} "
+"ตัวอักษร และใช้ได้เฉพาะตัวอักษรภาษาอังกฤษ ตัวเลข ขีดล่าง (_) ขีดกลาง (-) และจุด (.) เท่านั้"
+"น โดยต้องขึ้นต้นและลงท้ายด้วยตัวอักษรหรือตัวเลข"
 
 msgid "Install Update and Restart"
 msgstr "ติดตั้งอัปเดตและรีสตาร์ท"
@@ -480,7 +486,7 @@ msgstr ""
 "ได้รับการตอบกลับที่ไม่ถูกต้องจากเซิร์ฟเวอร์ต้นทาง"
 
 msgid "Already have an account? Log in here."
-msgstr ""
+msgstr "มีบัญชีอยู่แล้ว? เข้าสู่ระบบได้ที่นี่"
 
 msgid "The server timed out waiting for the request from the client."
 msgstr "เซิร์ฟเวอร์หมดเวลารอคำขอจากไคลเอนต์"
@@ -497,6 +503,9 @@ msgid ""
 "text-accent\">Do not close the page before you have added the code. We "
 "cannot recover accounts once they are created!</span>"
 msgstr ""
+"กรุณาเพิ่มรหัส OTP ลงในแอปยืนยันตัวตนของคุณ<br/><span class=\"text-text-accent\""
+">อย่าเพิ่งปิดหน้านี้จนกว่าจะเพิ่มรหัสเรียบร้อย เพราะเมื่อสร้างบัญชีแล้ว "
+"จะไม่สามารถกู้คืนบัญชีได้!</span>"
 
 #, csharp-format
 msgid "Unregistered control: {0} ({1})"
@@ -625,7 +634,7 @@ msgid "Failed to initialize overlay, ImGui initialization failed."
 msgstr "เริ่มต้น Overlay ไม่สำเร็จ เนื่องจากเริ่มต้น ImGui ไม่สำเร็จ"
 
 msgid "Your account is not allowed to use the chatbot."
-msgstr ""
+msgstr "บัญชีของคุณไม่ได้รับอนุญาตให้ใช้งาน Chatbot"
 
 msgid "Speed Limit Warning"
 msgstr "แจ้งเตือนเมื่อขับเกินความเร็วที่กำหนด"
@@ -634,7 +643,7 @@ msgid "Speed limit changed"
 msgstr "ความเร็วสูงสุดที่อนุญาตเปลี่ยนแล้ว"
 
 msgid "Your username may not contain repeated separators."
-msgstr ""
+msgstr "Username ห้ามมีเครื่องหมายคั่นซ้ำติดกัน"
 
 #, csharp-format
 msgid "Discovered {0} plugins in total."
@@ -678,6 +687,8 @@ msgid ""
 "The following information is sent along with each message to help the "
 "chatbot provide better answers. It does not contain any personal information."
 msgstr ""
+"ข้อมูลต่อไปนี้จะถูกส่งไปพร้อมกับทุกข้อความ เพื่อช่วยให้ Chatbot ตอบคำถามได้แม่นยำยิ่งขึ้น "
+"โดยไม่มีข้อมูลส่วนตัวของคุณรวมอยู่ด้วย"
 
 #, csharp-format
 msgid "No update available for plugin with ID {0}."
@@ -755,7 +766,7 @@ msgid "State Info"
 msgstr "ข้อมูลสถานะ"
 
 msgid "Back to Login"
-msgstr ""
+msgstr "กลับสู่หน้าเข้าสู่ระบบ"
 
 msgid "Contact us on GitHub"
 msgstr "ติดต่อเราทาง GitHub"
@@ -768,9 +779,11 @@ msgid ""
 "Some 3rd party websites might want access to your account.<br/>You can press "
 "the button below to display your JWT token."
 msgstr ""
+"เว็บไซต์ภายนอกบางแห่งอาจต้องการเข้าถึงบัญชีของคุณ<br/>คุณสามารถกดปุ่มด้านล่างเพื่อแสดง JWT "
+"Token ของคุณได้"
 
 msgid "If you're streaming or recording, now's the time to hide this window."
-msgstr ""
+msgstr "หากคุณกำลังไลฟ์สตรีมหรือบันทึกหน้าจอ ควรซ่อนหน้าต่างนี้ตอนนี้"
 
 msgid "Collision Avoidance"
 msgstr "ระบบหลีกเลี่ยงการชน"
@@ -802,10 +815,10 @@ msgid "Camera {0} ({1}x{2})"
 msgstr "กล้อง {0} ({1}x{2})"
 
 msgid "Display JWT Token"
-msgstr ""
+msgstr "แสดง JWT Token"
 
 msgid "Invalid Input"
-msgstr ""
+msgstr "ข้อมูลที่ป้อนไม่ถูกต้อง"
 
 msgid ""
 "This setting only loads roads and intersections visible on the in game map. "
@@ -861,6 +874,9 @@ msgid ""
 "class=\"text-text-l\">Shift+Enter</span>. Some basic information is sent "
 "along with each message, <span class=\"text-text-l\">click to display</span>."
 msgstr ""
+"ส่งโดยใช้<span class=\"text-text-l\">Enter</span> ขึ้นบรรทัดใหม่โดย <span class"
+"=\"text-text-l\">Shift+Enter</span> ระบบจะส่งข้อมูลพื้นฐานบางอย่างไปพร้อมกับทุกข้อความ "
+"<span class=\"text-text-l\">คลิกเพื่อแสดง </span>"
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for unregistration."
@@ -870,6 +886,7 @@ msgid ""
 "I'm sorry, but I cannot answer that question. Please ask something else "
 "ETS2LA related."
 msgstr ""
+"ขออภัย ฉันไม่สามารถตอบคำถามนี้ได้ กรุณาถามคำถามอื่นที่เกี่ยวข้องกับ ETS2LA"
 
 msgid ""
 "Your system has less than 16GB of RAM. High data fidelity uses significant "
@@ -911,6 +928,8 @@ msgid ""
 "This chatbot is provided for free by <span class=\"text-text-l\">lun011666</"
 "span>.<br/>For the sake of the community, we ask you not to abuse access."
 msgstr ""
+"Chatbot นี้เปิดให้ใช้งานฟรีโดย <span class=\"text-text-l\">lun011666</span> <br/"
+">เพื่อประโยชน์ของทุกคนในชุมชน กรุณาอย่าใช้งานในทางที่ผิด"
 
 #, csharp-format
 msgid "{0} not found in supported languages."
@@ -960,6 +979,8 @@ msgid ""
 "You'll be asked to save an OTP authentication code after registration. We do "
 "not store or ask for passwords, as those aren't required for authentication."
 msgstr ""
+"หลังจากสมัครสมาชิก คุณจะต้องบันทึกรหัส OTP สำหรับยืนยันตัวตน เราไม่จัดเก็บหรือขอรหัสผ่านจากคุณ "
+"เนื่องจากระบบไม่จำเป็นต้องใช้รหัสผ่านในการยืนยันตัวตน"
 
 msgid "Wiki / FAQ"
 msgstr "Wiki / คำถามที่พบบ่อย"
@@ -1201,6 +1222,7 @@ msgid ""
 "You have successfully registered as {0}. Please add the OTP code to your "
 "authentication app."
 msgstr ""
+"คุณสมัครสมาชิกด้วยชื่อ {0} สำเร็จแล้ว กรุณาเพิ่มรหัส OTP ลงในแอปยืนยันตัวตนของคุณ"
 
 msgid "Disable Overlay"
 msgstr "ปิด Overlay"
@@ -1360,7 +1382,7 @@ msgid "No updates available."
 msgstr "ไม่มีอัปเดต"
 
 msgid "Please log in to use the chatbot."
-msgstr ""
+msgstr "กรุณาเข้าสู่ระบบเพื่อใช้งาน Chatbot"
 
 #, csharp-format
 msgid "Error rendering overlay: {0}"
@@ -1442,7 +1464,7 @@ msgid "Logout Error"
 msgstr "ข้อผิดพลาดในการออกจากระบบ"
 
 msgid "Don't have an account?<br/>Register a new one now, no emails required!"
-msgstr ""
+msgstr "ไม่มีบัญชี?<br/>สมัครสมาชิกใหม่ตอนนี้ ไม่ต้องใช้ Email!"
 
 #, csharp-format
 msgid "Found {0} game installation."
@@ -1490,7 +1512,7 @@ msgstr "โหลด Library Plugin: [gray]{0}[/] จาก [gray]{1}[/] แล�
 
 #, csharp-format
 msgid "The username {0} is reserved. Please choose a different username."
-msgstr ""
+msgstr "Username {0} ถูกสงวนไว้แล้ว กรุณาเลือก Username ใหม่"
 
 msgid "Select the game you wish to start."
 msgstr "เลือกเกมที่คุณต้องการเปิดใช้งาน"
@@ -1557,7 +1579,7 @@ msgid "Control with ID '{0}' not found for event unsubscription."
 msgstr "ไม่พบ Control ID '{0}' สำหรับยกเลิกการสมัครรับ Event"
 
 msgid "Chatbot"
-msgstr ""
+msgstr "Chatbot"
 
 #, csharp-format
 msgid "Binding {0}"
@@ -1658,20 +1680,20 @@ msgid "Overlay is disabled in settings, skipping window registration for {0}."
 msgstr "ปิด Overlay ในการตั้งค่าอยู่ ข้ามการลงทะเบียนหน้าต่างสำหรับ {0}"
 
 msgid "Request cancelled."
-msgstr ""
+msgstr "ยกเลิกคำขอแล้ว"
 
 msgid "Registration Failed"
-msgstr ""
+msgstr "สมัครสมาชิกล้มเหลว"
 
 msgid "Please close the game before continuing with the onboarding process."
 msgstr "โปรดปิดเกมก่อนดำเนินขั้นตอนตั้งค่าเริ่มต้นต่อ"
 
 msgid "Registration Successful"
-msgstr ""
+msgstr "สมัครสมาชิกสำเร็จ"
 
 #, csharp-format
 msgid "Your username must be at most {0} characters long."
-msgstr ""
+msgstr "Username ต้องมีความยาวไม่เกิน {0} ตัวอักษร"
 
 #, csharp-format
 msgid "Successfully installed plugin {0} ({1}, {2})"
@@ -1743,7 +1765,7 @@ msgid "No map data found for installation at '{0}'. Is the installation valid?"
 msgstr "ไม่พบข้อมูลแผนที่สำหรับการติดตั้งที่ '{0}' การติดตั้งถูกต้องไหม?"
 
 msgid "Please log in before using the chatbot."
-msgstr ""
+msgstr "กรุณาลงชื่อเข้าใช้ก่อนใช้งาน Chatbot"
 
 #, csharp-format
 msgid "Error rendering context menu for window {0}: {1}"
@@ -1756,7 +1778,7 @@ msgid "kilograms"
 msgstr "กิโลกรัม"
 
 msgid "Username Taken"
-msgstr ""
+msgstr "Username ถูกใช้งานแล้ว"
 
 msgid "ft"
 msgstr "ฟุต"
@@ -1844,6 +1866,7 @@ msgstr "ไม่สามารถถอนการติดตั้งปล
 msgid ""
 "You are currently logged in as <span class=\"text-text-l\">{0}</span>. [{1}]"
 msgstr ""
+"ขณะนี้คุณเข้าสู่ระบบด้วยบัญชี <span class=\"text-text-l\">{0}</span> [{1}]"
 
 msgid ""
 "We will pause the game when we detect instability or the steering is "
@@ -1882,7 +1905,7 @@ msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr "โหมดการช่วยเหลือ: <span class=\"text-text-accent font-bold\">{0}</span>"
 
 msgid "Thinking..."
-msgstr ""
+msgstr "กำลังคิด..."
 
 msgid "Adjust the volume of the audio output."
 msgstr "ปรับระดับเสียงเอาต์พุต"
@@ -2002,7 +2025,7 @@ msgid ""
 msgstr "คุณไม่มีสิทธิ์เข้าถึงทรัพยากรนี้ เซิร์ฟเวอร์เข้าใจคำขอแต่ไม่อนุญาตให้เข้าถึง"
 
 msgid "Registration Error"
-msgstr ""
+msgstr "ลงทะเบียนผิดพลาด"
 
 msgid "Display Language"
 msgstr "ภาษาที่แสดง"
@@ -2036,7 +2059,7 @@ msgstr "เมตร/วินาที"
 
 #, csharp-format
 msgid "The username {0} is already taken. Please choose a different username."
-msgstr ""
+msgstr "Username {0} ถูกใช้งานแล้ว กรุณาเลือก Username ใหม่"
 
 #, csharp-format
 msgid "Click to {0} this window"
@@ -2075,10 +2098,12 @@ msgstr ""
 "อาจใช้เวลาสักครู่ขึ้นอยู่กับจำนวนบทความและการเชื่อมต่ออินเทอร์เน็ต"
 
 msgid "You are not logged in. Open this page again to login."
-msgstr ""
+msgstr "คุณไม่ได้เข้าสู่ระบบ เปิดหน้าต่างนี้อีกครั้งเพื่อเข้าสู่ระบบ"
 
 msgid "Only copy this to trusted websites, it can do ANYTHING on your behalf."
 msgstr ""
+"คัดลอก Token นี้ไปใช้เฉพาะกับเว็บไซต์ที่คุณเชื่อถือเท่านั้น "
+"เพราะเว็บไซต์เหล่านั้นจะสามารถดำเนินการทุกอย่างในนามของคุณได้"
 
 msgid "Map Data Parsed"
 msgstr "วิเคราะห์ข้อมูลแผนที่เสร็จแล้ว"
@@ -2114,6 +2139,8 @@ msgid ""
 "Your token will expire on <span class=\"text-text-l\">{0}</span>, you'll be "
 "asked to login again then."
 msgstr ""
+"Token ของคุณจะหมดอายุตอน <span class=\"text-text-l\">{0}</span> "
+"คุณจะต้องเข้าสู่ระบบอีกครั้ง"
 
 msgid "meters"
 msgstr "เมตร"
@@ -2133,7 +2160,7 @@ msgstr[0] "พบปลั๊กอินที่ติดตั้งด้ว
 
 msgid ""
 "An error occurred while trying to register. Please try again later. Error: "
-msgstr ""
+msgstr "เกิดข้อผิดพลาดขณะสมัครสมาชิก กรุณาลองใหม่อีกครั้งในภายหลัง ข้อผิดพลาด: "
 
 msgid "Checking for updates..."
 msgstr "กำลังเช็คอัปเดต"
@@ -2173,6 +2200,8 @@ msgid ""
 "Your session has expired or you don't have a connection to our servers. "
 "Please log in again if you wish to use server-side features."
 msgstr ""
+"Session ของคุณหมดอายุ หรือไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ของเราได้ "
+"กรุณาเข้าสู่ระบบอีกครั้งหากต้องการใช้งานฟีเจอร์ที่ทำงานผ่านเซิร์ฟเวอร์"
 
 msgid "Demo Window"
 msgstr "หน้าต่างสาธิต"
