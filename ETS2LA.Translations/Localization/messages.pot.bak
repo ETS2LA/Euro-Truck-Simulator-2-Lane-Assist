@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-17 12:31:21+0300\n"
-"PO-Revision-Date: 2026-10-17 12:31:21+0300\n"
+"POT-Creation-Date: 2026-10-17 13:24:53+0300\n"
+"PO-Revision-Date: 2026-10-17 13:24:53+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,8 +15,8 @@ msgstr ""
 msgid "Currently running at {0} FPS."
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:113
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:133
+#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:113
 #, csharp-format
 msgid "Registered control: {0} [gray italic]({1})[/]"
 msgstr ""
@@ -179,7 +179,7 @@ msgstr ""
 #: ../../../ETS2LA.UI/Pages/Home.razor:322
 #: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:189
 #: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:194
-#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:300
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:335
 msgid "Press anywhere outside the dialog to close it."
 msgstr ""
 
@@ -293,7 +293,7 @@ msgid "Account Removed"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:100
-#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:227
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:264
 msgid "Thinking..."
 msgstr ""
 
@@ -449,8 +449,8 @@ msgstr ""
 msgid "Error in telemetry update loop."
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:172
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:182
+#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:172
 #, csharp-format
 msgid "Updated bindings for control: {0} ({1}) to Device: {2}, Control: {3}"
 msgstr ""
@@ -572,7 +572,7 @@ msgstr ""
 msgid "Visualization"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:256
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:293
 msgid ""
 "This chatbot is provided for free by <span "
 "class=\"text-text-l\">lun011666</span>.<br/>For the sake of the community, we ask you not to abuse access."
@@ -605,6 +605,11 @@ msgid "Found {0} prefab"
 msgid_plural "Found {0} prefabs"
 msgstr[0] ""
 msgstr[1] ""
+
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:236
+#, csharp-format
+msgid "You are permanently banned.<br/>Reason: {0}"
+msgstr ""
 
 #: ../../../ETS2LA.Game/Telemetry/Program.cs:168
 msgid "Start Game"
@@ -674,8 +679,8 @@ msgstr ""
 msgid "Update to {0} from {1}"
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:156
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:166
+#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:156
 #, csharp-format
 msgid "Unregistered control: {0} ({1})"
 msgstr ""
@@ -922,8 +927,8 @@ msgstr ""
 msgid "Loading map data from '{0}'"
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:133
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:152
+#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:133
 #, csharp-format
 msgid "Control with ID '{0}' not found for event unsubscription."
 msgstr ""
@@ -1014,7 +1019,7 @@ msgstr ""
 msgid "Simplified Graphics"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:293
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:328
 msgid ""
 "Send using <span class=\"text-text-l\">Enter</span>, new line with <span "
 "class=\"text-text-l\">Shift+Enter</span>. Some basic information is sent along "
@@ -1436,8 +1441,8 @@ msgstr ""
 msgid "Removing manually added installation at '{0}'"
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:149
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:170
+#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:149
 #, csharp-format
 msgid "Control with ID '{0}' not found for unregistration."
 msgstr ""
@@ -1552,8 +1557,8 @@ msgstr ""
 msgid "Account"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:204
 #: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:226
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:204
 msgid "Disabled"
 msgstr ""
 
@@ -1633,8 +1638,8 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/EnsureGameClosed.razor:52
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/PluginStep.razor:57
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/OverlayStep.razor:27
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/ControlsStep.razor:48
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/OverlayStep.razor:27
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/SDKStep.razor:17
 msgid "Continue"
 msgstr ""
@@ -1853,8 +1858,8 @@ msgstr ""
 msgid "Failed to init ImGui Impl GLFW"
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:121
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:141
+#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:121
 #, csharp-format
 msgid "Control with ID '{0}' not found for event subscription."
 msgstr ""
@@ -2071,7 +2076,7 @@ msgstr ""
 msgid "Final Disclaimer <span class=\"description\">1/2</span>"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:298
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:333
 msgid ""
 "The following information is sent along with each message to help the chatbot "
 "provide better answers. It does not contain any personal information."
@@ -2306,8 +2311,8 @@ msgid_plural "Discovered {0} manually installed libraries."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:165
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:186
+#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:165
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating bindings."
 msgstr ""
@@ -2343,9 +2348,9 @@ msgid ""
 msgstr ""
 
 #: ../../../ETS2LA.Game/SDK/ParkedVehicles.cs:108
-#: ../../../ETS2LA.Game/SDK/Navigation.cs:122
 #: ../../../ETS2LA.Game/SDK/Camera.cs:130
 #: ../../../ETS2LA.Game/SDK/Semaphores.cs:176
+#: ../../../ETS2LA.Game/SDK/Navigation.cs:122
 #: ../../../ETS2LA.Game/SDK/Traffic.cs:159
 #, csharp-format
 msgid "Error initializing memory mapped file: {0}"
@@ -2375,8 +2380,8 @@ msgstr ""
 msgid "Show Plugin Updates"
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:180
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:201
+#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:180
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating axis behavior."
 msgstr ""
@@ -2473,8 +2478,8 @@ msgstr ""
 msgid "m/s"
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:186
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:197
+#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:186
 #, csharp-format
 msgid "Updated axis behavior for control: {0} ({1}) to {2}"
 msgstr ""
@@ -2745,7 +2750,7 @@ msgstr ""
 msgid "Become a GitHub Sponsor"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:249
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:286
 msgid "Please log in to use the chatbot."
 msgstr ""
 
@@ -2763,7 +2768,7 @@ msgstr ""
 msgid "Skipped stale plugin shadow directory [gray]{0}[/]: {1}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:130
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:218
 msgid "Your account is not allowed to use the chatbot."
 msgstr ""
 
@@ -2798,6 +2803,11 @@ msgid "Found {0} game installation."
 msgid_plural "Found {0} game installations."
 msgstr[0] ""
 msgstr[1] ""
+
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:241
+#, csharp-format
+msgid "You are blocked until {1}.<br/>Reason: {0}"
+msgstr ""
 
 #: ../../../ETS2LA.Game/Installation.cs:301
 #, csharp-format

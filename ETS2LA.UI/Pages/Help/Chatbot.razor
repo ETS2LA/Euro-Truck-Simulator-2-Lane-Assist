@@ -127,7 +127,7 @@
             if (response.StatusCode == HttpStatusCode.Unauthorized)
                 throw new InvalidOperationException(_("Your login token is invalid or expired."));
             if (response.StatusCode == HttpStatusCode.Forbidden)
-                throw new InvalidOperationException(_("Your account is not allowed to use the chatbot."));
+                throw new InvalidOperationException(await DescribeForbidden(response, requestCancellation.Token));
             response.EnsureSuccessStatusCode();
 
             await ReadEvents(response, assistant, requestCancellation.Token);
@@ -213,6 +213,43 @@
         }
     }
 
+    private static async Task<string> DescribeForbidden(HttpResponseMessage response, CancellationToken cancellationToken)
+    {
+        var fallback = _("Your account is not allowed to use the chatbot.");
+        try
+        {
+            var body = await response.Content.ReadAsStringAsync(cancellationToken);
+            if (string.IsNullOrWhiteSpace(body))
+                return fallback;
+
+            using var json = JsonDocument.Parse(body);
+            var root = json.RootElement;
+            if (root.TryGetProperty("error", out var error) && error.ValueKind == JsonValueKind.Object)
+                root = error;
+
+            var reason = GetString(root, "reason");
+            var message = string.IsNullOrWhiteSpace(reason) ? fallback : reason;
+
+            if (root.TryGetProperty("blocked_until", out var blockedUntil))
+            {
+                if (blockedUntil.ValueKind == JsonValueKind.Null)
+                    return _("You are permanently banned.<br/>Reason: {0}", message);
+
+                if (blockedUntil.ValueKind == JsonValueKind.Number && blockedUntil.TryGetDouble(out var unixSeconds))
+                {
+                    var until = DateTimeOffset.FromUnixTimeSeconds((int)unixSeconds).ToLocalTime();
+                    return _("You are blocked until {1}.<br/>Reason: {0}", message, until.ToString("f"));
+                }
+            }
+
+            return message;
+        }
+        catch (Exception)
+        {
+            return fallback;
+        }
+    }
+
     private static string DescribeStatus(JsonElement root)
     {
         var phase = GetString(root, "phase") ?? "progress";
@@ -281,7 +318,7 @@
             }
             @if (!string.IsNullOrEmpty(Error))
             {
-                <p class="text-warning">@Error</p>
+                <p class="text-warning">@((MarkupString)Error)</p>
             }
         </div>
 

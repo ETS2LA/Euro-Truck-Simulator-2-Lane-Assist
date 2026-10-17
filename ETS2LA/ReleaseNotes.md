@@ -1,7 +1,9 @@
-### ETS2LA C# 2026.10.5163
-- `feat` Added JSInterop file for clipboard copy functionality.
-- `feat` You can create an ETS2LA account and log in. There is no functionality yet, you can however reserve your username.
+### ETS2LA C# 2026.10.5180
+- `feat` You can now create an ETS2LA account and log in. The only functionality so far is the bot, we expect more server-side features in the future.
+- `feat` Added *Chatbot* page to the help section. This matches the support bot on our Discord server. The bot is provided by free by *lun011666*. For the community, we ask you not to abuse access to the bot.
 - `feat` Synced *ETS2LA.Networking* with the latest *service* update.
+- `feat` Added JSInterop file for clipboard copy functionality.
+- `translation` Updated translations for the new account system and chatbot.
 
 #### Thank you to today's sponsor... You!
 Development is possible thanks to our [sponsors](https://github.com/sponsors/Tumppi066). Please consider supporting if you like the project and have the means to do so.
