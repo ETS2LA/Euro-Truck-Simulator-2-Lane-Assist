@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-17 13:25:52+0300\n"
-"PO-Revision-Date: 2026-10-17 13:25:52+0300\n"
+"POT-Creation-Date: 2026-10-18 21:16:59+0300\n"
+"PO-Revision-Date: 2026-10-18 21:16:59+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -568,7 +568,7 @@ msgid ""
 "with any personal information."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:52
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:53
 msgid "Visualization"
 msgstr ""
 
@@ -626,10 +626,10 @@ msgid "Did you remember to restart after installing them?"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Utils.cs:56
-#: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:17
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:33
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:101
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:168
+#: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:17
 msgid ""
 "Changing this option requires a restart of ETS2LA to take effect. Restart "
 "now?"
@@ -773,7 +773,7 @@ msgstr ""
 msgid "Additional"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:51
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:52
 msgid "Dashboard"
 msgstr ""
 
@@ -1300,7 +1300,7 @@ msgid ""
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Home.razor:215
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:70
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:71
 msgid "Settings"
 msgstr ""
 
@@ -1426,7 +1426,7 @@ msgstr ""
 msgid "Error in plugin {0} Tick: {1}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:65
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:66
 msgid "Chatbot"
 msgstr ""
 
@@ -1459,7 +1459,7 @@ msgstr ""
 msgid "Desired Speed: "
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:58
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:59
 msgid "Catalogue"
 msgstr ""
 
@@ -1538,7 +1538,7 @@ msgstr ""
 msgid "Volume"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:57
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:58
 msgid "Manager"
 msgstr ""
 
@@ -1557,8 +1557,8 @@ msgstr ""
 msgid "Account"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:204
 #: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:226
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:204
 msgid "Disabled"
 msgstr ""
 
@@ -1636,10 +1636,10 @@ msgid ""
 "we don't intend to fix this."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/EnsureGameClosed.razor:52
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/PluginStep.razor:57
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/OverlayStep.razor:27
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/ControlsStep.razor:48
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/EnsureGameClosed.razor:52
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/OverlayStep.razor:27
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/PluginStep.razor:57
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/SDKStep.razor:17
 msgid "Continue"
 msgstr ""
@@ -1664,7 +1664,7 @@ msgstr ""
 msgid "Error while applying update: {0}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:50
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:51
 msgid "Main"
 msgstr ""
 
@@ -1711,7 +1711,7 @@ msgstr ""
 msgid "Changes will take effect after restarting the application."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:62
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:63
 msgid "Help"
 msgstr ""
 
@@ -1791,12 +1791,12 @@ msgid ""
 "When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:188
-msgid "Registration Error"
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:65
+msgid "Contact Us"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:64
-msgid "Contact Us"
+#: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:188
+msgid "Registration Error"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/WelcomeStep.razor:70
@@ -1912,7 +1912,7 @@ msgstr ""
 msgid "This might take a while... ({0}/{1})"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:56
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:57
 msgid "Plugins"
 msgstr ""
 
@@ -2100,11 +2100,11 @@ msgid "Plugin with ID {0} not found in available plugins."
 msgstr ""
 
 #: ../../../ETS2LA.UI/Utils.cs:55
-#: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:16
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:32
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:100
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:167
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:199
+#: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:16
 msgid "Restart Required"
 msgstr ""
 
@@ -2347,9 +2347,9 @@ msgid ""
 "When receiving a speedlimit of {0} {1}, we will set the speed to {2} {3}."
 msgstr ""
 
-#: ../../../ETS2LA.Game/SDK/ParkedVehicles.cs:108
-#: ../../../ETS2LA.Game/SDK/Navigation.cs:122
 #: ../../../ETS2LA.Game/SDK/Camera.cs:130
+#: ../../../ETS2LA.Game/SDK/Navigation.cs:122
+#: ../../../ETS2LA.Game/SDK/ParkedVehicles.cs:108
 #: ../../../ETS2LA.Game/SDK/Semaphores.cs:176
 #: ../../../ETS2LA.Game/SDK/Traffic.cs:159
 #, csharp-format
@@ -2679,7 +2679,7 @@ msgid ""
 "target resource."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:63
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:64
 msgid "Wiki / FAQ"
 msgstr ""
 

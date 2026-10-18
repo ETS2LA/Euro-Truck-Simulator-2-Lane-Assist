@@ -7,6 +7,11 @@
 
 @code {
   string currentVersion = "v" + System.Reflection.Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3) ?? "unknown";
+  string subtitle = NetworkingSettings.Current.CurrentUser != null 
+                    ? NetworkingSettings.Current.CurrentUser.Role != Networking.Users.UserRole.User 
+                      ? NetworkingSettings.Current.CurrentUser.Role.ToString() 
+                      : "" 
+                    : "";
 
   protected override void OnInitialized()
   {
@@ -29,7 +34,7 @@
         <div class=@((WindowState.Current.IsSidebarOpen ? " opacity-100" : " opacity-0") + " transition-opacity duration-100 ease-in-out")>
           <div class="flex items-end gap-0.5">
             <p class="font-bold">ETS2LA</p>
-            <p class="text-[12px] mb-px"></p>
+            <p class="text-[12px] mb-px">@subtitle</p>
           </div>
           @try
           {
