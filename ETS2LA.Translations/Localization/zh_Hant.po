@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-17 13:25:52+0300\n"
+"POT-Creation-Date: 2026-10-18 21:16:59+0300\n"
 "PO-Revision-Date: 2026-10-18 11:30+0000\n"
 "Last-Translator: Lun <lun@ets2la.com>\n"
 "Language-Team: Chinese (Traditional Han script) <http://weblate.ets2la.com/"
@@ -1435,11 +1435,11 @@ msgid ""
 "When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."
 msgstr "變更速度時，接近 10 的倍數會自動對齊。例如：37 -> 39 -> 40 -> 42..."
 
-msgid "Registration Error"
-msgstr "註冊時發生錯誤"
-
 msgid "Contact Us"
 msgstr "聯絡我們"
+
+msgid "Registration Error"
+msgstr "註冊時發生錯誤"
 
 msgid "Restart"
 msgstr "重新啟動"

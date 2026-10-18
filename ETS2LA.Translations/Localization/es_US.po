@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-17 13:25:52+0300\n"
+"POT-Creation-Date: 2026-10-18 21:16:59+0300\n"
 "PO-Revision-Date: 2026-10-15 14:02+0000\n"
 "Last-Translator: McAs13 <tsumiguel@ets2la.com>\n"
 "Language-Team: Spanish (American) <http://weblate.ets2la.com/projects/ets2la/"
@@ -1536,11 +1536,11 @@ msgstr ""
 "Al cambiar la velocidad, ajustar al múltiplo de 10 más cercano. Es decir, 37 "
 "-> 39 -> 40 -> 42..."
 
-msgid "Registration Error"
-msgstr ""
-
 msgid "Contact Us"
 msgstr "Contáctanos"
+
+msgid "Registration Error"
+msgstr ""
 
 msgid "Restart"
 msgstr "Reiniciar"

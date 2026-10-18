@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-17 13:25:52+0300\n"
+"POT-Creation-Date: 2026-10-18 21:16:59+0300\n"
 "PO-Revision-Date: 2026-10-15 20:45+0000\n"
 "Last-Translator: Hugo <hugo@ets2la.com>\n"
 "Language-Team: French <http://weblate.ets2la.com/projects/ets2la/ets2la/fr/"
@@ -1512,11 +1512,11 @@ msgstr ""
 "Lors de la modification de la vitesse, aligner sur la dizaine la plus "
 "proche. Par ex. 37 -> 39 -> 40 -> 42..."
 
-msgid "Registration Error"
-msgstr ""
-
 msgid "Contact Us"
 msgstr "Nous contacter"
+
+msgid "Registration Error"
+msgstr ""
 
 msgid "Restart"
 msgstr "Redémarrer"

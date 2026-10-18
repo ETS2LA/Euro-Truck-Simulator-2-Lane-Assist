@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-17 13:25:52+0300\n"
+"POT-Creation-Date: 2026-10-18 21:16:59+0300\n"
 "PO-Revision-Date: 2026-10-18 18:19+0000\n"
 "Last-Translator: goodnightan <goodnightan@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
@@ -825,8 +825,8 @@ msgid ""
 "along with each message, <span class=\"text-text-l\">click to display</span>."
 msgstr ""
 "使用 <span class=\"text-text-l\">Enter</span>发送，使用<span class=\"text-"
-"text-l\">Shift+Enter</span>换行。每条消息会附带一些基本信息，<span class"
-"=\"text-text-l\">点击查看</span>。"
+"text-l\">Shift+Enter</span>换行。每条消息会附带一些基本信息，<span "
+"class=\"text-text-l\">点击查看</span>。"
 
 #, csharp-format
 msgid "No game executable found in '{0}', not adding it as an installation."
@@ -1215,7 +1215,8 @@ msgstr ""
 msgid ""
 "Your session has expired or you don't have a connection to our servers. "
 "Please log in again if you wish to use server-side features."
-msgstr "您的会话已过期，或者您无法连接到我们的服务器。如果您希望使用服务端功能，请重"
+msgstr ""
+"您的会话已过期，或者您无法连接到我们的服务器。如果您希望使用服务端功能，请重"
 "新登录。"
 
 #, csharp-format
@@ -1440,11 +1441,11 @@ msgstr ""
 "当修改速度时，将会尝试对齐到最近的 10 的倍数。比如步长为 2 时，调整顺序为 37 "
 "-> 39 -> 40 -> 42…"
 
-msgid "Registration Error"
-msgstr "注册错误"
-
 msgid "Contact Us"
 msgstr "联系我们"
+
+msgid "Registration Error"
+msgstr "注册错误"
 
 msgid "Restart"
 msgstr "重新启动"

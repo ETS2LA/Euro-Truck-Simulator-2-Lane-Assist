@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-17 13:25:52+0300\n"
+"POT-Creation-Date: 2026-10-18 21:16:59+0300\n"
 "PO-Revision-Date: 2026-10-17 09:16+0000\n"
 "Last-Translator: Tumppi066 <contact@ets2la.com>\n"
 "Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/ets2la/fi/"
@@ -1532,11 +1532,11 @@ msgid ""
 msgstr ""
 "Kun vaihdat nopeutta, valitsemme lähimmän 10. Esim. 37 -> 39 -> 40 -> 42..."
 
-msgid "Registration Error"
-msgstr "Rekisteröinnin virhe"
-
 msgid "Contact Us"
 msgstr "Yhteydenotto"
+
+msgid "Registration Error"
+msgstr "Rekisteröinnin virhe"
 
 msgid "Restart"
 msgstr "Käynnistä uudelleen"

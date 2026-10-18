@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-17 13:25:52+0300\n"
+"POT-Creation-Date: 2026-10-18 21:16:59+0300\n"
 "PO-Revision-Date: 2026-08-26 18:07+0000\n"
 "Last-Translator: phucc <phucc@ets2la.com>\n"
 "Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/ets2la/"
@@ -1426,11 +1426,11 @@ msgstr ""
 "Khi thay đổi tốc độ, tự làm tròn về số chia hết cho 10 gần nhất. Ví dụ 37 -> "
 "39 -> 40 ->42..."
 
-msgid "Registration Error"
-msgstr ""
-
 msgid "Contact Us"
 msgstr "Liên lạc với chúng tôi"
+
+msgid "Registration Error"
+msgstr ""
 
 msgid "Restart"
 msgstr ""
