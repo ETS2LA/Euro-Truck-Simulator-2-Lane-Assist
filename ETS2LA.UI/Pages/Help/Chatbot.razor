@@ -297,7 +297,7 @@
                 <div class="max-w-[85%] rounded-md p-3 @(message.Role == "user" ? "ml-auto bg-accent text-white" : "mr-auto bg-control-bg")">
                     @if (message.Role == "assistant" && !string.IsNullOrWhiteSpace(message.Text))
                     {
-                        <div class="[&_p]:mb-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_code]:rounded-sm [&_code]:bg-bg-dark [&_code]:px-1 whitespace-normal">@((MarkupString)Markdown.ToHtml(message.Text, MarkdownPipeline))</div>
+                        <div class="[&_p]:mb-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_code]:rounded-sm [&_code]:bg-bg-dark [&_code]:px-1 whitespace-normal [&_a]:text-text-accent">@((MarkupString)Markdown.ToHtml(message.Text, MarkdownPipeline))</div>
                     }
                     else if (message.Role == "assistant" && string.IsNullOrWhiteSpace(message.Text))
                     {
