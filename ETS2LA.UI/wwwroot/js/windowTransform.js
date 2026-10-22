@@ -46,7 +46,7 @@ window.initResizing = function (element) {
     let startWidth = 0, startHeight = 0;
     let currentDirection = '';
 
-    const minContentHeight = 500;
+    const minContentHeight = 560;
     let lastPixelRatio = 0;
 
     function updateMinHeight() {
