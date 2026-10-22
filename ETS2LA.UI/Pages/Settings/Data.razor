@@ -75,7 +75,7 @@
                 var fidelity = (DataFidelity)index;
                 if(fidelity == DataFidelity.Extreme && ShowRamWarningExtreme)
                 {
-                    UserInterface.Current.Window.ShowMessage(
+                    UserInterface.Current.Window.ShowMessageOnTop(
                         _("Warning: Insufficient RAM"),
                         _("Your system has less than 20GB of RAM. Extreme data fidelity uses significant amounts of RAM, and may cause your system to become unstable. Please select a lower fidelity."),
                         PhotinoDialogButtons.Ok
@@ -84,7 +84,7 @@
                 }
                 if(fidelity == DataFidelity.High && ShowRamWarningHigh)
                 {
-                    UserInterface.Current.Window.ShowMessage(
+                    UserInterface.Current.Window.ShowMessageOnTop(
                         _("Warning: Insufficient RAM"),
                         _("Your system has less than 16GB of RAM. High data fidelity uses significant amounts of RAM, and may cause your system to become unstable. Please select a lower fidelity."),
                         PhotinoDialogButtons.Ok

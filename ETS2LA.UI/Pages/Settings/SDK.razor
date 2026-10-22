@@ -36,30 +36,30 @@
         
         if (!File.Exists(path))
         {
-            UserInterface.Current.Window.ShowMessage(_("Invalid file"), _("The selected file does not exist."));
+            UserInterface.Current.Window.ShowMessageOnTop(_("Invalid file"), _("The selected file does not exist."));
             return;
         }
         
         if (!path.EndsWith("core.scs", StringComparison.OrdinalIgnoreCase))
         {
-            UserInterface.Current.Window.ShowMessage(_("Invalid file"), _("The selected file is not a core.scs file."));
+            UserInterface.Current.Window.ShowMessageOnTop(_("Invalid file"), _("The selected file is not a core.scs file."));
             return;
         }
 
         string installDir = Path.GetDirectoryName(path) ?? "";
         if (!Directory.Exists(installDir))
         {
-            UserInterface.Current.Window.ShowMessage(_("Invalid directory"), _("The selected directory does not exist."));
+            UserInterface.Current.Window.ShowMessageOnTop(_("Invalid directory"), _("The selected directory does not exist."));
             return;
         }
 
         if (GameHandler.Current.AddManualInstallation(installDir) != null)
         {
-            UserInterface.Current.Window.ShowMessage(_("Game added"), _("The game has been added successfully."));
+            UserInterface.Current.Window.ShowMessageOnTop(_("Game added"), _("The game has been added successfully."));
         }
         else
         {
-            UserInterface.Current.Window.ShowMessage(_("Failed to add game"), _("Please see the logs for more information."));
+            UserInterface.Current.Window.ShowMessageOnTop(_("Failed to add game"), _("Please see the logs for more information."));
         }
     }
 }
