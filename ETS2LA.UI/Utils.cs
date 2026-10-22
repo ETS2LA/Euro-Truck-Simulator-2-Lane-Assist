@@ -49,9 +49,27 @@ public static class UserInterfaceUtils
         }
     }
 
+    public static PhotinoDialogResult ShowMessageOnTop(this PhotinoWindow window, string title, string text, PhotinoDialogButtons buttons = PhotinoDialogButtons.Ok, PhotinoDialogIcon icon = PhotinoDialogIcon.Info)
+    {
+        #if LINUX
+            bool wasTopmost = window.Topmost;
+            if (wasTopmost) window.SetTopMost(false);
+            try
+            {
+                return window.ShowMessage(title, text, buttons, icon);
+            }
+            finally
+            {
+                if (wasTopmost) window.SetTopMost(true);
+            }
+        #else
+            return window.ShowMessage(title, text, buttons, icon);
+        #endif
+    }
+
     public static void AskForRestart(string title, string message)
     {
-        if(UserInterface.Current.Window.ShowMessage(
+        if(UserInterface.Current.Window.ShowMessageOnTop(
             _("Restart Required"), 
             _("Changing this option requires a restart of ETS2LA to take effect. Restart now?"), 
             PhotinoDialogButtons.YesNo

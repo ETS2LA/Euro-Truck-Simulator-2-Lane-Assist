@@ -14,7 +14,7 @@
         string path = game.ExecutablePath;
         if (!File.Exists(path))
         {
-            UserInterface.Current.Window.ShowMessage(_("Game not found"), _("The selected game executable was not found."));
+            UserInterface.Current.Window.ShowMessageOnTop(_("Game not found"), _("The selected game executable was not found."));
             return;
         }
         #if WINDOWS
