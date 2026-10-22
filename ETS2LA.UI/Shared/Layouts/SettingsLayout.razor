@@ -3,12 +3,26 @@
 @layout Shared.Layouts.MainLayout
 
 @inherits LayoutComponentBase
+@inject IJSRuntime JS
+
+@code {
+  private ElementReference scrollArea;
+  private ElementReference bottomButtons;
+
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    if (firstRender)
+    {
+      await JS.InvokeVoidAsync("initScrollDivider", scrollArea, bottomButtons);
+    }
+  }
+}
 
 <main class="flex h-full w-full flex-col bg-bg-dark">
   <div class="flex p-1.5 h-full w-full">
     <!-- Sidebar -->
-    <div class="w-[230px] pl-2 pr-3 pt-2 flex gap-6.5 flex-col h-full">
-      <div class="flex flex-col gap-6.5 flex-1 min-h-0 overflow-y-auto overflow-x-hidden">
+    <div class="w-[230px] pl-2 pr-3 pt-2 flex flex-col h-full">
+      <div @ref="scrollArea" class="flex flex-col gap-6.5 flex-1 min-h-0 overflow-y-auto overflow-x-hidden">
         <div class="flex flex-col gap-0">
           <SidebarGroupLabel Title=@(_("Driving")) />
           <SidebarButton Name=@(_("Assists")) Path="/settings/assists" />
@@ -35,7 +49,7 @@
         </div>
       </div>
 
-      <div class="flex flex-col w-full gap-0 mb-4">
+      <div @ref="bottomButtons" class="flex flex-col w-full gap-0 mb-4 pt-2 border-t border-border">
         <SidebarButton Name=@(_("Open Source")) Path="/settings/opensource" />
         <SidebarButton Name=@(_("Check For Updates")) Path="/settings/updates" />
       </div>
