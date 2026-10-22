@@ -46,6 +46,21 @@ window.initResizing = function (element) {
     let startWidth = 0, startHeight = 0;
     let currentDirection = '';
 
+    const minContentHeight = 500;
+    let lastPixelRatio = 0;
+
+    function updateMinHeight() {
+        if (window.devicePixelRatio === lastPixelRatio) return;
+        lastPixelRatio = window.devicePixelRatio;
+
+        // Take scaling into account
+        const scale = window.outerHeight / window.innerHeight;
+        window.sendIPCMessage(`window:setMinHeight:${Math.ceil(minContentHeight * scale)}`);
+    }
+
+    updateMinHeight();
+    window.addEventListener('resize', updateMinHeight);
+
     window.startResize = function (event, direction) {
         if (event.button !== 0) return;
         isResizing = true;

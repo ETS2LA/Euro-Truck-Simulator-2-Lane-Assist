@@ -32,6 +32,17 @@ static class IPC
             return;
         }
 
+        if (message.StartsWith("window:setMinHeight:"))
+        {
+            if (int.TryParse(message.Replace("window:setMinHeight:", ""), out int minHeight))
+            {
+                app.MainWindow.SetMinHeight(minHeight);
+                if (app.MainWindow.Height < minHeight)
+                    app.MainWindow.SetHeight(minHeight);
+            }
+            return;
+        }
+
         if (message.StartsWith("window:zoom"))
         {
             var parts = message.Replace("window:zoom:", "").Split(',');
