@@ -1026,7 +1026,11 @@ public class PrefabPath
         {
             if (curve.SemaphoreId != -1)
             {
-                semaphores.Add(new ParsedSemaphore(descriptor.Semaphores.FirstOrDefault(s => s.SemaphoreId == curve.SemaphoreId), curve, rotationMatrix, prefabStart));
+                // Skip prefabs that reference non existing semaphores
+                var semaphore = descriptor.Semaphores.FirstOrDefault(s => s.SemaphoreId == curve.SemaphoreId);
+                if (semaphore == null) continue;
+
+                semaphores.Add(new ParsedSemaphore(semaphore, curve, rotationMatrix, prefabStart));
             }
         }
 
