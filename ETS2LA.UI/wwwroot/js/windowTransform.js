@@ -52,8 +52,8 @@ window.initResizing = function (element) {
         currentDirection = direction;
         startX = event.screenX;
         startY = event.screenY;
-        startWidth = window.innerWidth;
-        startHeight = window.innerHeight;
+        startWidth = window.outerWidth;
+        startHeight = window.outerHeight;
 
         window.addEventListener('mousemove', handleResizeMouseMove);
         window.addEventListener('mouseup', stopResize);
