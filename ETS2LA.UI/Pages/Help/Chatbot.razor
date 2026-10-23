@@ -11,6 +11,9 @@
 @using System.Text.Json
 @using ETS2LA.UI.Shared.Components
 @using Markdig
+@using ETS2LA.Logging
+@using System.Text.RegularExpressions
+@using ETS2LA.Game
 
 @page "/help/chatbot"
 
@@ -31,7 +34,10 @@
     private Stopwatch? thinkingTimer;
 
     private bool ShowStateDialog { get; set; } = false;
-
+    private bool ShowLogDialog;
+    private bool IsReadingLog;
+    private string LogPreview = string.Empty;
+    private string? ViewedLog;
     private string Draft = string.Empty;
     private string Status = string.Empty;
     private string Error = string.Empty;
@@ -77,15 +83,22 @@
             installed_libraries = PluginBackend.Current.PluginHandler.LoadedLibraryPlugins
                 .Select(l => new { id = l.Info.Id, name = l.Info.Name, version = l.Info.Version })
                 .ToArray(),
+            sdk_info = ETS2LA.Game.GameHandler.Current.Installations
+                .Select(g => new
+                {
+                    game = g.Type.ToString(),
+                    installed = g.IsSDKInstalled(g.Version),
+                    version = g.Version
+                }).ToArray(),
             comment_from_client = "This ETS2LA client cannot send images, videos or other media. The user can only answer in text."
         };
 
         return state;
     }
 
-    private async Task SendMessage()
+    private Task SendMessage() => SendRequest(Draft.Trim());
+    private async Task SendRequest(string message, string diagnostics = "")
     {
-        var message = Draft.Trim();
         if (string.IsNullOrEmpty(message) || IsSending)
             return;
 
@@ -95,12 +108,13 @@
             return;
         }
 
-        Draft = string.Empty;
+        if (diagnostics.Length == 0)
+            Draft = string.Empty;
         Error = string.Empty;
         Status = _("Thinking...");
 
         IsSending = true;
-        Messages.Add(new ChatMessage("user", message));
+        Messages.Add(new ChatMessage("user", message) { Log = diagnostics });
         var assistant = new ChatMessage("assistant", string.Empty);
         Messages.Add(assistant);
         requestCancellation = new CancellationTokenSource(TimeSpan.FromSeconds(630));
@@ -114,6 +128,7 @@
             request.Content = JsonContent.Create(new
             {
                 message,
+                diagnostics,
                 history = Messages
                     .Take(Messages.Count - 2)
                     .Select(item => new { role = item.Role, text = item.Text })
@@ -200,6 +215,7 @@
             else if (string.Equals(type, "done", StringComparison.OrdinalIgnoreCase))
             {
                 assistant.Text = text;
+                assistant.RequestLog = root.TryGetProperty("request_log", out var requestLog) && requestLog.ValueKind == JsonValueKind.True;
                 Status = string.Empty;
             }
             else if (string.Equals(type, "out_of_scope", StringComparison.OrdinalIgnoreCase))
@@ -273,10 +289,58 @@
 
     private void CancelRequest() => requestCancellation?.Cancel();
 
+    private async Task OpenLogDialog()
+    {
+        if (IsSending || IsReadingLog)
+            return;
+
+        Error = string.Empty;
+        IsReadingLog = true;
+        try
+        {
+            LogPreview = await Task.Run(() => RedactLog(LogFileWriter.Current.ReadRecent()));
+            ShowLogDialog = true;
+        }
+        catch (IOException)
+        {
+            Error = _("Unable to read the current log.");
+        }
+        catch (UnauthorizedAccessException)
+        {
+            Error = _("Unable to read the current log.");
+        }
+        finally
+        {
+            IsReadingLog = false;
+        }
+    }
+
+    private async Task SendLog()
+    {
+        if (IsSending || string.IsNullOrWhiteSpace(LogPreview))
+            return;
+
+        ShowLogDialog = false;
+        await SendRequest(_("Log sent. Click here to view it."), LogPreview);
+    }
+
+    private static string RedactLog(string text)
+    {
+        var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        if (!string.IsNullOrEmpty(home))
+            text = text.Replace(home, "~", OperatingSystem.IsWindows()
+                ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
+        const RegexOptions options = RegexOptions.CultureInvariant | RegexOptions.NonBacktracking;
+        text = Regex.Replace(text, @"(?i)([A-Z]:[\\/]+Users[\\/]+)[^\\/\r\n""']+", "$1<user>", options);
+        text = Regex.Replace(text, @"(/home/)[^/\s""']+", "$1<user>", options);
+        return text;
+    }
     private sealed class ChatMessage(string role, string text)
     {
         public string Role { get; } = role;
         public string Text { get; set; } = text;
+        public bool RequestLog { get; set; }
+        public string Log { get; init; } = string.Empty;
     }
 }
 
@@ -298,6 +362,12 @@
                     @if (message.Role == "assistant" && !string.IsNullOrWhiteSpace(message.Text))
                     {
                         <div class="[&_p]:mb-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_code]:rounded-sm [&_code]:bg-bg-dark [&_code]:px-1 whitespace-normal [&_a]:text-text-accent">@((MarkupString)Markdown.ToHtml(message.Text, MarkdownPipeline))</div>
+                        @if (message.RequestLog && message == Messages.LastOrDefault())
+                        {
+                            <button type="button" class="button mt-3"
+                                    disabled="@(IsSending || IsReadingLog)"
+                                    @onclick="OpenLogDialog">@_("Share log")</button>
+                        }
                     }
                     else if (message.Role == "assistant" && string.IsNullOrWhiteSpace(message.Text))
                     {
@@ -305,6 +375,11 @@
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
+                    }
+                    else if (message.Log.Length > 0)
+                    {
+                        <button type="button" class="whitespace-pre-wrap text-left hover:underline"
+                                @onclick="() => ViewedLog = message.Log">@message.Text</button>
                     }
                     else
                     {
@@ -332,6 +407,30 @@
             <div class="flex flex-col gap-3">
                 <p class="description">@_("The following information is sent along with each message to help the chatbot provide better answers. It does not contain any personal information.")</p>
                 <pre class="max-h-[50vh] overflow-y-auto rounded-md border border-border bg-bg-dark p-3 text-sm"><code>@JsonSerializer.Serialize(GetStateInfo(), new JsonSerializerOptions { WriteIndented = true })</code></pre>
+                <p class="description mt-2">@_("Press anywhere outside the dialog to close it.")</p>
+            </div>
+        </Dialog>
+
+        <Dialog Open="@ShowLogDialog" OpenChanged="@(value => ShowLogDialog = value)" Class="w-full max-w-2xl">
+            <div class="flex flex-col gap-3">
+                <p class="description">@_("User folder paths are hidden automatically. Review the log for other personal information before sending.")</p>
+                <textarea class="max-h-[50vh] w-full resize-y rounded-md border border-border bg-bg-dark p-3 font-mono text-sm text-text focus:outline-none focus:ring-2 focus:ring-accent"
+                          rows="14" aria-label="@_("Log preview")"
+                          @bind="LogPreview" @bind:event="oninput"></textarea>
+                @if (!string.IsNullOrEmpty(Error))
+                {
+                    <p class="text-warning">@Error</p>
+                }
+                <div class="mt-2 flex flex-wrap items-center justify-between gap-3">
+                    <p class="description">@_("Press anywhere outside the dialog to close it.")</p>
+                    <button type="button" class="button button-accent ml-auto" @onclick="SendLog"
+                            disabled="@(IsSending || string.IsNullOrWhiteSpace(LogPreview))">@_("Send log")</button>
+                </div>
+            </div>
+        </Dialog>
+        <Dialog Open="@(ViewedLog != null)" OpenChanged="@(_ => ViewedLog = null)" Class="w-full max-w-2xl">
+            <div class="flex flex-col gap-3">
+                <pre class="max-h-[50vh] overflow-auto whitespace-pre-wrap rounded-md border border-border bg-bg-dark p-3 text-sm"><code>@ViewedLog</code></pre>
                 <p class="description mt-2">@_("Press anywhere outside the dialog to close it.")</p>
             </div>
         </Dialog>
