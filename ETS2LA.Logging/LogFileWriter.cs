@@ -56,6 +56,17 @@ public class LogFileWriter
         }
     }
 
+    public string ReadRecent()
+    {
+        lock (fileLock)
+        {
+            Save();
+            using var stream = new FileStream(logFilePath, FileMode.Open,
+                FileAccess.Read, FileShare.ReadWrite);
+            using var reader = new StreamReader(stream);
+            return reader.ReadToEnd();
+        }
+    }
     public void Save()
     {
         lock (fileLock)
