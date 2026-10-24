@@ -4,6 +4,7 @@
 @using ETS2LA.Networking.Settings;
 
 @inherits LayoutComponentBase
+@inject IJSRuntime JS
 
 @code {
   string currentVersion = "v" + System.Reflection.Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3) ?? "unknown";
@@ -13,12 +14,23 @@
                       : "" 
                     : "";
 
+  private ElementReference scrollArea;
+  private ElementReference bottomButtons;
+
   protected override void OnInitialized()
   {
     base.OnInitialized();
     WindowState.Current.NeedsFullReload += (sender, e) => {
         InvokeAsync(StateHasChanged); 
     };
+  }
+
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    if (firstRender)
+    {
+      await JS.InvokeVoidAsync("initScrollDivider", scrollArea, bottomButtons);
+    }
   }
 }
 
@@ -51,27 +63,29 @@
         </div>
       </div>
 
-      <div class=@("flex flex-col gap-0" + (WindowState.Current.IsSidebarOpen ? " opacity-100" : " opacity-0") + " transition-opacity duration-200 ease-in-out")>
-        <SidebarGroupLabel Title=@(_("Main")) />
-        <SidebarButton Name=@(_("Dashboard")) Path="/" Match="NavLinkMatch.All" />
-        <SidebarButton Name=@(_("Visualization")) Path="/visualization" />
-      </div>
+      <div class="flex flex-col flex-1 min-h-0">
+        <div @ref="scrollArea" class="flex flex-col gap-6.5 flex-1 min-h-0 overflow-y-auto overflow-x-hidden">
+          <div class=@("flex flex-col gap-0" + (WindowState.Current.IsSidebarOpen ? " opacity-100" : " opacity-0") + " transition-opacity duration-200 ease-in-out")>
+            <SidebarGroupLabel Title=@(_("Main")) />
+            <SidebarButton Name=@(_("Dashboard")) Path="/" Match="NavLinkMatch.All" />
+            <SidebarButton Name=@(_("Visualization")) Path="/visualization" />
+          </div>
 
-      <div class=@("flex flex-col gap-0" + (WindowState.Current.IsSidebarOpen ? " opacity-100" : " opacity-0") + " transition-opacity duration-200 ease-in-out")>
-        <SidebarGroupLabel Title=@(_("Plugins")) />
-        <SidebarButton Name=@(_("Manager")) Path="/plugins/manager" />
-        <SidebarButton Name=@(_("Catalogue")) Path="/plugins/catalogue" />
-      </div>
+          <div class=@("flex flex-col gap-0" + (WindowState.Current.IsSidebarOpen ? " opacity-100" : " opacity-0") + " transition-opacity duration-200 ease-in-out")>
+            <SidebarGroupLabel Title=@(_("Plugins")) />
+            <SidebarButton Name=@(_("Manager")) Path="/plugins/manager" />
+            <SidebarButton Name=@(_("Catalogue")) Path="/plugins/catalogue" />
+          </div>
 
-      <div class=@("flex flex-col gap-0" + (WindowState.Current.IsSidebarOpen ? " opacity-100" : " opacity-0") + " transition-opacity duration-200 ease-in-out")>
-        <SidebarGroupLabel Title=@(_("Help")) />
-        <SidebarButton Name=@(_("Wiki / FAQ")) Path="/help/wiki" />
-        <SidebarButton Name=@(_("Contact Us")) Path="/help/contact" />
-        <SidebarButton Name=@(_("Chatbot")) Path="/help/chatbot" />
-      </div>
+          <div class=@("flex flex-col gap-0" + (WindowState.Current.IsSidebarOpen ? " opacity-100" : " opacity-0") + " transition-opacity duration-200 ease-in-out")>
+            <SidebarGroupLabel Title=@(_("Help")) />
+            <SidebarButton Name=@(_("Wiki / FAQ")) Path="/help/wiki" />
+            <SidebarButton Name=@(_("Contact Us")) Path="/help/contact" />
+            <SidebarButton Name=@(_("Chatbot")) Path="/help/chatbot" />
+          </div>
+        </div>
 
-      <div class=@("w-full h-full relative" + (WindowState.Current.IsSidebarOpen ? " opacity-100" : " opacity-0") + " transition-opacity duration-200 ease-in-out")>
-        <div class="flex flex-col w-full gap-0 bottom-4 absolute">
+        <div @ref="bottomButtons" class=@("flex flex-col w-full gap-0 mb-4 pt-2 border-t border-border" + (WindowState.Current.IsSidebarOpen ? " opacity-100" : " opacity-0") + " transition-opacity duration-200 ease-in-out")>
           <SidebarButton Name=@(_("Settings")) Path="/settings" />
           <SidebarButton Name=@NetworkingSettings.Current.CurrentUser.Username Path="/settings/account" />
         </div>
