@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-18 21:16:59+0300\n"
+"POT-Creation-Date: 2026-10-24 13:32:16+0300\n"
 "PO-Revision-Date: 2026-10-20 09:37+0000\n"
 "Last-Translator: Pastel <pastel@ets2la.com>\n"
 "Language-Team: Japanese <http://weblate.ets2la.com/projects/ets2la/ets2la/ja/"
@@ -49,6 +49,11 @@ msgstr ""
 "トークンの有効期限は <span class=\"text-text-l\">{0}</span> までです。有効期"
 "限が切れると、再度ログインを求められます。"
 
+msgid ""
+"This chatbot is provided for free by <span class=\"text-text-l\">Lun011666</"
+"span>.<br/>For the sake of the community, we ask you not to abuse access."
+msgstr ""
+
 #, csharp-format
 msgid ""
 "<span class=\"text-text-accent\">Usernames are case-sensitive.</span><br/"
@@ -56,10 +61,10 @@ msgid ""
 "contain letters, numbers, underscores, hyphens and periods. It must start "
 "and end with a letter or number."
 msgstr ""
-"<span class=\"text-text-accent\">ユーザー名は大文字と小文字が区別されます。"
-"</span><br/>ユーザー名は{0}文字から{1}文字の間で、英字、数字、アンダーバー、"
-"ハイフン、ピリオドのみを含めることができます。また、先頭と末尾は英字または数"
-"字でなければなりません。"
+"<span class=\"text-text-accent\">ユーザー名は大文字と小文字が区別されます。</"
+"span><br/>ユーザー名は{0}文字から{1}文字の間で、英字、数字、アンダーバー、ハ"
+"イフン、ピリオドのみを含めることができます。また、先頭と末尾は英字または数字"
+"でなければなりません。"
 
 msgid ""
 "Memory not available for output, please ensure the game is running and "
@@ -67,6 +72,9 @@ msgid ""
 msgstr ""
 "出力用のメモリを利用できません。ゲームが起動していることを確認し、必要に応じ"
 "てSDKを再インストールしてください。"
+
+msgid "Log sent. Click here to view it."
+msgstr ""
 
 #, csharp-format
 msgid "Loaded {0} plugin from the Plugins folder."
@@ -123,8 +131,8 @@ msgid ""
 msgstr ""
 "ETS2LAがダイレクトメモリ編集を使用してスロットルとブレーキを制御できるように"
 "します。一部のシステムでは動作しない場合がありますが、ゲームのウィンドウをタ"
-"ブで切り替えた状態でも操作が可能になります。有効にしても動作しない場合は、Dis"
-"cordサーバーにて問題をご報告ください。"
+"ブで切り替えた状態でも操作が可能になります。有効にしても動作しない場合は、"
+"Discordサーバーにて問題をご報告ください。"
 
 msgid "Key"
 msgstr "キー"
@@ -285,6 +293,9 @@ msgstr ""
 "{0}への切り替えを検出しました。ゲームデータの解析が完了するまで待機していま"
 "す。"
 
+msgid "Unable to read the current log."
+msgstr ""
+
 msgid ""
 "Changing the display language requires a restart of ETS2LA to take effect. "
 "Restart now?"
@@ -297,6 +308,9 @@ msgstr "単位と言語"
 
 msgid "Only Show Official News"
 msgstr "公式ニュースのみ表示"
+
+msgid "Share log"
+msgstr ""
 
 msgid ""
 "The zoom level of the ETS2LA window. This can be used to scale the window to "
@@ -492,11 +506,6 @@ msgstr ""
 
 msgid "Visualization"
 msgstr "ビジュアル表示"
-
-msgid ""
-"This chatbot is provided for free by <span class=\"text-text-l\">lun011666</"
-"span>.<br/>For the sake of the community, we ask you not to abuse access."
-msgstr ""
 
 #, csharp-format
 msgid "Loaded plugin: [gray]{0}[/] from [gray]{1}[/]."
@@ -1807,6 +1816,11 @@ msgstr ""
 msgid "kilometers per hour"
 msgstr "キロメートル毎時"
 
+msgid ""
+"User folder paths are hidden automatically. Review the log for other "
+"personal information before sending."
+msgstr ""
+
 #, csharp-format
 msgid "Playing sound: {0}"
 msgstr "音声を再生: {0}"
@@ -1989,6 +2003,9 @@ msgstr ""
 "お使いのシステムのRAM容量は16GB未満です。「高精細」モードでは大量のRAMを使用"
 "するため、システムの動作が不安定になる可能性があります。より低い精細度を選択"
 "してください。"
+
+msgid "Send log"
+msgstr ""
 
 msgid "Show Plugin Updates"
 msgstr ""

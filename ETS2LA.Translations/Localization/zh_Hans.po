@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-18 21:16:59+0300\n"
+"POT-Creation-Date: 2026-10-24 13:32:16+0300\n"
 "PO-Revision-Date: 2026-10-18 18:19+0000\n"
 "Last-Translator: goodnightan <goodnightan@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
@@ -50,6 +50,11 @@ msgstr ""
 "您的令牌将于 <span class=\"text-text-l\">{0}</span>过期，届时将需要您重新登"
 "录。"
 
+msgid ""
+"This chatbot is provided for free by <span class=\"text-text-l\">Lun011666</"
+"span>.<br/>For the sake of the community, we ask you not to abuse access."
+msgstr ""
+
 #, csharp-format
 msgid ""
 "<span class=\"text-text-accent\">Usernames are case-sensitive.</span><br/"
@@ -65,6 +70,9 @@ msgid ""
 "Memory not available for output, please ensure the game is running and "
 "reinstall the SDK if necessary."
 msgstr "输出内存不可用，请确保游戏正在运行，如有必要请重新安装 SDK。"
+
+msgid "Log sent. Click here to view it."
+msgstr ""
 
 #, csharp-format
 msgid "Loaded {0} plugin from the Plugins folder."
@@ -270,6 +278,9 @@ msgstr "需要安装 SDK。"
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
 msgstr "检测到已切换至 {0}，正在等待游戏数据解析完成。"
 
+msgid "Unable to read the current log."
+msgstr ""
+
 msgid ""
 "Changing the display language requires a restart of ETS2LA to take effect. "
 "Restart now?"
@@ -280,6 +291,9 @@ msgstr "单位与语言"
 
 msgid "Only Show Official News"
 msgstr "仅显示官方新闻"
+
+msgid "Share log"
+msgstr ""
 
 msgid ""
 "The zoom level of the ETS2LA window. This can be used to scale the window to "
@@ -464,13 +478,6 @@ msgstr ""
 
 msgid "Visualization"
 msgstr "可视化"
-
-msgid ""
-"This chatbot is provided for free by <span class=\"text-text-l\">lun011666</"
-"span>.<br/>For the sake of the community, we ask you not to abuse access."
-msgstr ""
-"本聊天机器人由 <span class=\"text-text-l\">lun011666</span> 免费提供。<br/>为"
-"了社区长久发展，请勿滥用此功能。"
 
 #, csharp-format
 msgid "Loaded plugin: [gray]{0}[/] from [gray]{1}[/]."
@@ -1721,6 +1728,11 @@ msgstr "启用踏板的内存输出"
 msgid "kilometers per hour"
 msgstr "公里每小时"
 
+msgid ""
+"User folder paths are hidden automatically. Review the log for other "
+"personal information before sending."
+msgstr ""
+
 #, csharp-format
 msgid "Playing sound: {0}"
 msgstr "正在播放声音：{0}"
@@ -1901,6 +1913,9 @@ msgid ""
 msgstr ""
 "你的系统内存少于 16GB。数据精细度设为“高”时会使用大量内存，可能导致系统不稳"
 "定。请选择较低的数据精细度。"
+
+msgid "Send log"
+msgstr ""
 
 msgid "Show Plugin Updates"
 msgstr "显示插件更新"
@@ -2314,6 +2329,14 @@ msgid ""
 "Adjust how quickly ETS2LA will respond to desired changes in acceleration. "
 "Emergency braking is not affected."
 msgstr "调整 ETS2LA 对目标加速度变化的反应速度。紧急制动不受此设置影响。"
+
+#~ msgid ""
+#~ "This chatbot is provided for free by <span class=\"text-text-"
+#~ "l\">lun011666</span>.<br/>For the sake of the community, we ask you not "
+#~ "to abuse access."
+#~ msgstr ""
+#~ "本聊天机器人由 <span class=\"text-text-l\">lun011666</span> 免费提供。<br/"
+#~ ">为了社区长久发展，请勿滥用此功能。"
 
 #, csharp-format
 #~ msgid "You are currently logged in as {0}."

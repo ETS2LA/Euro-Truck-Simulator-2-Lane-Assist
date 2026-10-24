@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-18 21:16:59+0300\n"
+"POT-Creation-Date: 2026-10-24 13:32:16+0300\n"
 "PO-Revision-Date: 2026-09-21 15:01+0000\n"
 "Last-Translator: delilevente <delilevente@ets2la.com>\n"
 "Language-Team: Hungarian <http://weblate.ets2la.com/projects/ets2la/ets2la/"
@@ -44,6 +44,11 @@ msgid ""
 "asked to login again then."
 msgstr ""
 
+msgid ""
+"This chatbot is provided for free by <span class=\"text-text-l\">Lun011666</"
+"span>.<br/>For the sake of the community, we ask you not to abuse access."
+msgstr ""
+
 #, csharp-format
 msgid ""
 "<span class=\"text-text-accent\">Usernames are case-sensitive.</span><br/"
@@ -55,6 +60,9 @@ msgstr ""
 msgid ""
 "Memory not available for output, please ensure the game is running and "
 "reinstall the SDK if necessary."
+msgstr ""
+
+msgid "Log sent. Click here to view it."
 msgstr ""
 
 #, csharp-format
@@ -253,6 +261,9 @@ msgstr ""
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
 msgstr ""
 
+msgid "Unable to read the current log."
+msgstr ""
+
 msgid ""
 "Changing the display language requires a restart of ETS2LA to take effect. "
 "Restart now?"
@@ -262,6 +273,9 @@ msgid "Units and Language"
 msgstr ""
 
 msgid "Only Show Official News"
+msgstr ""
+
+msgid "Share log"
 msgstr ""
 
 msgid ""
@@ -441,11 +455,6 @@ msgstr ""
 
 msgid "Visualization"
 msgstr "Vizualizáció"
-
-msgid ""
-"This chatbot is provided for free by <span class=\"text-text-l\">lun011666</"
-"span>.<br/>For the sake of the community, we ask you not to abuse access."
-msgstr ""
 
 #, csharp-format
 msgid "Loaded plugin: [gray]{0}[/] from [gray]{1}[/]."
@@ -1646,6 +1655,11 @@ msgstr ""
 msgid "kilometers per hour"
 msgstr "kilométer per óra"
 
+msgid ""
+"User folder paths are hidden automatically. Review the log for other "
+"personal information before sending."
+msgstr ""
+
 #, csharp-format
 msgid "Playing sound: {0}"
 msgstr ""
@@ -1814,6 +1828,9 @@ msgid ""
 "Your system has less than 16GB of RAM. High data fidelity uses significant "
 "amounts of RAM, and may cause your system to become unstable. Please select "
 "a lower fidelity."
+msgstr ""
+
+msgid "Send log"
 msgstr ""
 
 msgid "Show Plugin Updates"

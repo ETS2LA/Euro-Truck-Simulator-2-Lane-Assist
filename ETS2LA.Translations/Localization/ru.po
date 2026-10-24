@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-18 21:16:59+0300\n"
+"POT-Creation-Date: 2026-10-24 13:32:16+0300\n"
 "PO-Revision-Date: 2026-10-18 11:30+0000\n"
 "Last-Translator: Tema <tema@ets2la.com>\n"
 "Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/ets2la/ru/"
@@ -48,6 +48,11 @@ msgstr ""
 "Срок действия токена истечёт <span class=\"text-text-l\">{0}</span>. После "
 "этого вам потребуется войти в аккаунт снова."
 
+msgid ""
+"This chatbot is provided for free by <span class=\"text-text-l\">Lun011666</"
+"span>.<br/>For the sake of the community, we ask you not to abuse access."
+msgstr ""
+
 #, csharp-format
 msgid ""
 "<span class=\"text-text-accent\">Usernames are case-sensitive.</span><br/"
@@ -66,6 +71,9 @@ msgid ""
 msgstr ""
 "Память недоступна для вывода. Убедитесь, что игра запущена, и при "
 "необходимости переустановите SDK."
+
+msgid "Log sent. Click here to view it."
+msgstr ""
 
 #, csharp-format
 msgid "Loaded {0} plugin from the Plugins folder."
@@ -286,6 +294,9 @@ msgstr "Необходимо установить SDK."
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
 msgstr "Обнаружено переключение на {0}, ожидается обработка игровых данных."
 
+msgid "Unable to read the current log."
+msgstr ""
+
 msgid ""
 "Changing the display language requires a restart of ETS2LA to take effect. "
 "Restart now?"
@@ -298,6 +309,9 @@ msgstr "Единицы измерения и язык"
 
 msgid "Only Show Official News"
 msgstr "Показывать только официальные новости"
+
+msgid "Share log"
+msgstr ""
 
 msgid ""
 "The zoom level of the ETS2LA window. This can be used to scale the window to "
@@ -498,13 +512,6 @@ msgstr ""
 
 msgid "Visualization"
 msgstr "Визуализация"
-
-msgid ""
-"This chatbot is provided for free by <span class=\"text-text-l\">lun011666</"
-"span>.<br/>For the sake of the community, we ask you not to abuse access."
-msgstr ""
-"Этот чат-бот бесплатно предоставлен пользователем <span class=\"text-text-"
-"l\">lun011666</span>.<br/>Ради сообщества просим не злоупотреблять доступом."
 
 #, csharp-format
 msgid "Loaded plugin: [gray]{0}[/] from [gray]{1}[/]."
@@ -1857,6 +1864,11 @@ msgstr "Включить вывод в память для педалей"
 msgid "kilometers per hour"
 msgstr "километры в час"
 
+msgid ""
+"User folder paths are hidden automatically. Review the log for other "
+"personal information before sending."
+msgstr ""
+
 #, csharp-format
 msgid "Playing sound: {0}"
 msgstr "Воспроизведение звука: {0}"
@@ -2051,6 +2063,9 @@ msgstr ""
 "В вашей системе меньше 16 ГБ оперативной памяти. Высокий уровень детализации "
 "данных использует значительный объём ОЗУ и может привести к нестабильной "
 "работе системы. Выберите более низкий уровень детализации."
+
+msgid "Send log"
+msgstr ""
 
 msgid "Show Plugin Updates"
 msgstr "Показывать обновления плагинов"
@@ -2492,6 +2507,15 @@ msgid ""
 msgstr ""
 "Настройте, насколько быстро ETS2LA будет реагировать на необходимые "
 "изменения ускорения. На экстренное торможение этот параметр не влияет."
+
+#~ msgid ""
+#~ "This chatbot is provided for free by <span class=\"text-text-"
+#~ "l\">lun011666</span>.<br/>For the sake of the community, we ask you not "
+#~ "to abuse access."
+#~ msgstr ""
+#~ "Этот чат-бот бесплатно предоставлен пользователем <span class=\"text-text-"
+#~ "l\">lun011666</span>.<br/>Ради сообщества просим не злоупотреблять "
+#~ "доступом."
 
 #, csharp-format
 #~ msgid "You are currently logged in as {0}."

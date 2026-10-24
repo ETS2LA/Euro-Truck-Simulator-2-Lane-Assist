@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-18 21:16:59+0300\n"
+"POT-Creation-Date: 2026-10-24 13:32:16+0300\n"
 "PO-Revision-Date: 2026-10-15 14:02+0000\n"
 "Last-Translator: McAs13 <tsumiguel@ets2la.com>\n"
 "Language-Team: Spanish (American) <http://weblate.ets2la.com/projects/ets2la/"
@@ -47,6 +47,11 @@ msgid ""
 "asked to login again then."
 msgstr ""
 
+msgid ""
+"This chatbot is provided for free by <span class=\"text-text-l\">Lun011666</"
+"span>.<br/>For the sake of the community, we ask you not to abuse access."
+msgstr ""
+
 #, csharp-format
 msgid ""
 "<span class=\"text-text-accent\">Usernames are case-sensitive.</span><br/"
@@ -61,6 +66,9 @@ msgid ""
 msgstr ""
 "Memoria no disponible para la salida, asegúrate de que el juego esté en "
 "ejecución y reinstala el SDK si es necesario."
+
+msgid "Log sent. Click here to view it."
+msgstr ""
 
 #, csharp-format
 msgid "Loaded {0} plugin from the Plugins folder."
@@ -285,6 +293,9 @@ msgid "Detected a switch to {0}, waiting for its game data to be parsed."
 msgstr ""
 "Se detectó un cambio a {0}, esperando a que se analicen sus datos del juego."
 
+msgid "Unable to read the current log."
+msgstr ""
+
 msgid ""
 "Changing the display language requires a restart of ETS2LA to take effect. "
 "Restart now?"
@@ -297,6 +308,9 @@ msgstr "Unidades e idioma"
 
 msgid "Only Show Official News"
 msgstr "Mostrar solo noticias oficiales"
+
+msgid "Share log"
+msgstr ""
 
 msgid ""
 "The zoom level of the ETS2LA window. This can be used to scale the window to "
@@ -497,11 +511,6 @@ msgstr ""
 
 msgid "Visualization"
 msgstr "Visualización"
-
-msgid ""
-"This chatbot is provided for free by <span class=\"text-text-l\">lun011666</"
-"span>.<br/>For the sake of the community, we ask you not to abuse access."
-msgstr ""
 
 #, csharp-format
 msgid "Loaded plugin: [gray]{0}[/] from [gray]{1}[/]."
@@ -1837,6 +1846,11 @@ msgstr "Activar salida de memoria para los pedales"
 msgid "kilometers per hour"
 msgstr "kilómetros por hora"
 
+msgid ""
+"User folder paths are hidden automatically. Review the log for other "
+"personal information before sending."
+msgstr ""
+
 #, csharp-format
 msgid "Playing sound: {0}"
 msgstr "Reproduciendo sonido: {0}"
@@ -2025,6 +2039,9 @@ msgstr ""
 "Tu sistema tiene menos de 16 GB de RAM. La fidelidad de datos alta usa "
 "cantidades significativas de RAM, y puede hacer que tu sistema se vuelva "
 "inestable. Por favor, selecciona una fidelidad más baja."
+
+msgid "Send log"
+msgstr ""
 
 msgid "Show Plugin Updates"
 msgstr "Mostrar actualizaciones de plugins"
