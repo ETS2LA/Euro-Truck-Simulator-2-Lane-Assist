@@ -1,9 +1,12 @@
-### ETS2LA C# 2026.10.5180
-- `feat` You can now create an ETS2LA account and log in. The only functionality so far is the bot, we expect more server-side features in the future.
-- `feat` Added *Chatbot* page to the help section. This matches the support bot on our Discord server. The bot is provided by free by *lun011666*. For the community, we ask you not to abuse access to the bot.
-- `feat` Synced *ETS2LA.Networking* with the latest *service* update.
-- `feat` Added JSInterop file for clipboard copy functionality.
-- `translation` Updated translations for the new account system and chatbot.
+### ETS2LA C# 2026.10.5207
+- `feat` Non-user role displayed in the sidebar.
+- `feat` **lun011666** Capitalization and chatbot link color improvements.
+- `feat` **lun011666** The chatbot can now ask for access to your ETS2LA logs, you can choose to allow or deny, and you will be able to preview the logs before sending them.
+- `feat` **Drk** Sidebar buttons now scroll when the window is too small to fit all buttons. There's a divider that's visible in these cases to indicate that more buttons are available.
+- `fix` **Drk** Message dialogs now open on top of the main window in Linux.
+- `fix` **Drk** Fixed an instance where *Semaphore* objects could be null, causing a crash of ACC.
+- `fix` **Drk** Fix window size jumps when resizing on scaled displays in Linux.
+- `translation` Translations updated for multiple languages.
 
 #### Thank you to today's sponsor... You!
 Development is possible thanks to our [sponsors](https://github.com/sponsors/Tumppi066). Please consider supporting if you like the project and have the means to do so.

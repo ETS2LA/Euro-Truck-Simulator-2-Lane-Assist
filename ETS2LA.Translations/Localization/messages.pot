@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-10-18 21:16:59+0300\n"
-"PO-Revision-Date: 2026-10-18 21:16:59+0300\n"
+"POT-Creation-Date: 2026-10-24 13:32:16+0300\n"
+"PO-Revision-Date: 2026-10-24 13:32:16+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgstr ""
 msgid "Tried to disable {0}, but it was not found among loaded plugins."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Utils.cs:66
+#: ../../../ETS2LA.UI/Utils.cs:84
 msgid "Restarting ETS2LA..."
 msgstr ""
 
@@ -45,6 +45,12 @@ msgstr ""
 msgid ""
 "Your token will expire on <span class=\"text-text-l\">{0}</span>, you'll be "
 "asked to login again then."
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:357
+msgid ""
+"This chatbot is provided for free by <span "
+"class=\"text-text-l\">Lun011666</span>.<br/>For the sake of the community, we ask you not to abuse access."
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Account/LoginFlow.razor:232
@@ -60,6 +66,10 @@ msgstr ""
 msgid ""
 "Memory not available for output, please ensure the game is running and "
 "reinstall the SDK if necessary."
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:324
+msgid "Log sent. Click here to view it."
 msgstr ""
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:226
@@ -134,7 +144,7 @@ msgid ""
 "When the game reports itself being paused, ETS2LA won't render AR elements."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:134
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:149
 #, csharp-format
 msgid "Download progress: {0}%"
 msgstr ""
@@ -155,7 +165,7 @@ msgstr ""
 msgid "The selected directory does not exist."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:31
+#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:46
 msgid "Networking"
 msgstr ""
 
@@ -177,7 +187,9 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Home.razor:311
 #: ../../../ETS2LA.UI/Pages/Home.razor:322
-#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:335
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:410
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:425
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:434
 #: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:189
 #: ../../../ETS2LA.UI/Pages/Settings/Account/Account.razor:194
 msgid "Press anywhere outside the dialog to close it."
@@ -292,8 +304,8 @@ msgstr ""
 msgid "Account Removed"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:100
-#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:264
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:114
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:280
 msgid "Thinking..."
 msgstr ""
 
@@ -325,6 +337,11 @@ msgstr ""
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
 msgstr ""
 
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:306
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:310
+msgid "Unable to read the current log."
+msgstr ""
+
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:200
 msgid ""
 "Changing the display language requires a restart of ETS2LA to take effect. "
@@ -337,6 +354,10 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Home.razor:303
 msgid "Only Show Official News"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:369
+msgid "Share log"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:245
@@ -366,7 +387,7 @@ msgstr ""
 msgid "Anonymous Telemetry"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:94
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:107
 msgid "Please log in before using the chatbot."
 msgstr ""
 
@@ -388,7 +409,7 @@ msgid ""
 "receive a timely response from the upstream server."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:19
+#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:34
 msgid "Display"
 msgstr ""
 
@@ -407,7 +428,7 @@ msgstr ""
 msgid "Login Error"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:39
+#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:54
 msgid "Check For Updates"
 msgstr ""
 
@@ -420,7 +441,7 @@ msgid "Error in semaphore update loop."
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Home.razor:130
-#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:59
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:74
 msgid ""
 "This might take a while depending on your internet connection and the source."
 msgstr ""
@@ -459,7 +480,7 @@ msgstr ""
 msgid "One Time Password"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:138
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:153
 msgid "Request cancelled."
 msgstr ""
 
@@ -515,7 +536,7 @@ msgstr ""
 msgid "Keybind Behaviour"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:128
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:143
 msgid "Your login token is invalid or expired."
 msgstr ""
 
@@ -568,14 +589,8 @@ msgid ""
 "with any personal information."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:53
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:71
 msgid "Visualization"
-msgstr ""
-
-#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:293
-msgid ""
-"This chatbot is provided for free by <span "
-"class=\"text-text-l\">lun011666</span>.<br/>For the sake of the community, we ask you not to abuse access."
 msgstr ""
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:195
@@ -591,7 +606,7 @@ msgstr ""
 msgid "Install Plugins"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:14
+#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:29
 msgid "Data Parsing"
 msgstr ""
 
@@ -606,7 +621,7 @@ msgid_plural "Found {0} prefabs"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:236
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:252
 #, csharp-format
 msgid "You are permanently banned.<br/>Reason: {0}"
 msgstr ""
@@ -625,11 +640,11 @@ msgstr ""
 msgid "Did you remember to restart after installing them?"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Utils.cs:56
+#: ../../../ETS2LA.UI/Utils.cs:74
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:33
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:101
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:168
 #: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:17
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:168
 msgid ""
 "Changing this option requires a restart of ETS2LA to take effect. Restart "
 "now?"
@@ -702,8 +717,8 @@ msgstr ""
 msgid "This game was found at"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:110
 #: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:157
+#: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:110
 msgid "Search for plugins..."
 msgstr ""
 
@@ -734,7 +749,7 @@ msgstr ""
 msgid "Failed to initialize SDL3 input backend."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:92
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:107
 msgid "No release notes available."
 msgstr ""
 
@@ -742,11 +757,11 @@ msgstr ""
 msgid "Enabled"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:20
+#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:35
 msgid "Audio"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:18
+#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:33
 msgid "General"
 msgstr ""
 
@@ -769,11 +784,11 @@ msgstr ""
 msgid "Overlay"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:25
+#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:40
 msgid "Additional"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:52
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:70
 msgid "Dashboard"
 msgstr ""
 
@@ -823,7 +838,7 @@ msgstr ""
 msgid "°F"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:33
+#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:48
 msgid "Telemetry"
 msgstr ""
 
@@ -837,7 +852,7 @@ msgid ""
 "default this matches the game."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:206
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:222
 msgid ""
 "I'm sorry, but I cannot answer that question. Please ask something else "
 "ETS2LA related."
@@ -894,8 +909,8 @@ msgid ""
 "any notifications."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:146
 #: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:198
+#: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:146
 msgid "No plugins found."
 msgstr ""
 
@@ -982,7 +997,7 @@ msgid "Open SDK Settings"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/ControlsStep.razor:40
-#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:21
+#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:36
 msgid "Controls"
 msgstr ""
 
@@ -1019,7 +1034,7 @@ msgstr ""
 msgid "Simplified Graphics"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:328
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:403
 msgid ""
 "Send using <span class=\"text-text-l\">Enter</span>, new line with <span "
 "class=\"text-text-l\">Shift+Enter</span>. Some basic information is sent along "
@@ -1064,7 +1079,7 @@ msgid "Please see the logs for more information."
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Home.razor:146
-#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:74
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:89
 msgid "An error occurred while checking for updates."
 msgstr ""
 
@@ -1128,8 +1143,8 @@ msgid ""
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Home.razor:159
-#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:87
-#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:172
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:102
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:187
 msgid "Unknown Version"
 msgstr ""
 
@@ -1269,7 +1284,7 @@ msgid "Before we begin."
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Home.razor:145
-#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:73
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:88
 msgid "Error Checking for Updates"
 msgstr ""
 
@@ -1300,7 +1315,7 @@ msgid ""
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Home.razor:215
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:71
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:89
 msgid "Settings"
 msgstr ""
 
@@ -1413,11 +1428,11 @@ msgid ""
 "it's developers."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:150
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:165
 msgid "Starting download..."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:99
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:114
 msgid "Translating release notes..."
 msgstr ""
 
@@ -1426,7 +1441,7 @@ msgstr ""
 msgid "Error in plugin {0} Tick: {1}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:66
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:84
 msgid "Chatbot"
 msgstr ""
 
@@ -1459,7 +1474,7 @@ msgstr ""
 msgid "Desired Speed: "
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:59
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:77
 msgid "Catalogue"
 msgstr ""
 
@@ -1477,7 +1492,7 @@ msgid ""
 "hover:underline\">ets2la.com</span>."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:172
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:187
 #, csharp-format
 msgid "Current Version: {0}"
 msgstr ""
@@ -1538,7 +1553,7 @@ msgstr ""
 msgid "Volume"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:58
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:76
 msgid "Manager"
 msgstr ""
 
@@ -1548,12 +1563,12 @@ msgid "File not found: {0}"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Home.razor:159
-#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:87
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:102
 #, csharp-format
 msgid "A new update is available: {0}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:32
+#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:47
 msgid "Account"
 msgstr ""
 
@@ -1638,9 +1653,9 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/ControlsStep.razor:48
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/EnsureGameClosed.razor:52
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/OverlayStep.razor:27
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/PluginStep.razor:57
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/SDKStep.razor:17
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/OverlayStep.razor:27
 msgid "Continue"
 msgstr ""
 
@@ -1664,7 +1679,7 @@ msgstr ""
 msgid "Error while applying update: {0}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:51
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:69
 msgid "Main"
 msgstr ""
 
@@ -1674,7 +1689,7 @@ msgid "Deleted '{0}'"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Home.razor:181
-#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:120
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:135
 msgid "You are running the latest version."
 msgstr ""
 
@@ -1711,7 +1726,7 @@ msgstr ""
 msgid "Changes will take effect after restarting the application."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:63
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:81
 msgid "Help"
 msgstr ""
 
@@ -1765,7 +1780,7 @@ msgid ""
 "An error occurred while trying to log out. Please try again later. Error: "
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:13
+#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:28
 msgid "Assists"
 msgstr ""
 
@@ -1791,7 +1806,7 @@ msgid ""
 "When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:65
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:83
 msgid "Contact Us"
 msgstr ""
 
@@ -1912,7 +1927,7 @@ msgstr ""
 msgid "This might take a while... ({0}/{1})"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:57
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:75
 msgid "Plugins"
 msgstr ""
 
@@ -1995,7 +2010,7 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:12
+#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:27
 msgid "Driving"
 msgstr ""
 
@@ -2062,7 +2077,7 @@ msgid ""
 "requested response."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:182
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:197
 msgid "Install Update and Restart"
 msgstr ""
 
@@ -2076,7 +2091,7 @@ msgstr ""
 msgid "Final Disclaimer <span class=\"description\">1/2</span>"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:333
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:408
 msgid ""
 "The following information is sent along with each message to help the chatbot "
 "provide better answers. It does not contain any personal information."
@@ -2099,12 +2114,12 @@ msgstr ""
 msgid "Plugin with ID {0} not found in available plugins."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Utils.cs:55
+#: ../../../ETS2LA.UI/Utils.cs:73
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:32
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:100
+#: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:16
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:167
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:199
-#: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:16
 msgid "Restart Required"
 msgstr ""
 
@@ -2148,6 +2163,12 @@ msgstr ""
 
 #: ../../../ETS2LA.State/Units.cs:180
 msgid "kilometers per hour"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:416
+msgid ""
+"User folder paths are hidden automatically. Review the log for other personal "
+"information before sending."
 msgstr ""
 
 #: ../../../ETS2LA.Audio/AudioHandler.cs:159
@@ -2196,7 +2217,7 @@ msgid "Error in navigation update loop."
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Home.razor:129
-#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:58
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:73
 msgid "Checking for updates..."
 msgstr ""
 
@@ -2347,10 +2368,10 @@ msgid ""
 "When receiving a speedlimit of {0} {1}, we will set the speed to {2} {3}."
 msgstr ""
 
-#: ../../../ETS2LA.Game/SDK/Camera.cs:130
-#: ../../../ETS2LA.Game/SDK/Navigation.cs:122
 #: ../../../ETS2LA.Game/SDK/ParkedVehicles.cs:108
+#: ../../../ETS2LA.Game/SDK/Camera.cs:130
 #: ../../../ETS2LA.Game/SDK/Semaphores.cs:176
+#: ../../../ETS2LA.Game/SDK/Navigation.cs:122
 #: ../../../ETS2LA.Game/SDK/Traffic.cs:159
 #, csharp-format
 msgid "Error initializing memory mapped file: {0}"
@@ -2374,6 +2395,10 @@ msgid ""
 "Your system has less than 16GB of RAM. High data fidelity uses significant "
 "amounts of RAM, and may cause your system to become unstable. Please select a "
 "lower fidelity."
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:427
+msgid "Send log"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Home.razor:299
@@ -2484,7 +2509,7 @@ msgstr ""
 msgid "Updated axis behavior for control: {0} ({1}) to {2}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:38
+#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:53
 msgid "Open Source"
 msgstr ""
 
@@ -2518,7 +2543,7 @@ msgstr ""
 msgid "Lane Assist Only"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:26
+#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:41
 msgid "Game SDK"
 msgstr ""
 
@@ -2551,7 +2576,7 @@ msgid ""
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Home.razor:158
-#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:86
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:101
 msgid "Update Available"
 msgstr ""
 
@@ -2559,8 +2584,8 @@ msgstr ""
 msgid "Current Speed"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:133
-#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:149
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:148
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:164
 msgid "Downloading Update"
 msgstr ""
 
@@ -2606,7 +2631,7 @@ msgstr ""
 msgid "You took a wrong turn!"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:175
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:190
 msgid "Unchanged / Unavailable"
 msgstr ""
 
@@ -2679,7 +2704,7 @@ msgid ""
 "target resource."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:64
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:82
 msgid "Wiki / FAQ"
 msgstr ""
 
@@ -2707,7 +2732,7 @@ msgstr ""
 msgid "Login"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:175
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:190
 #, csharp-format
 msgid "Latest Version: {0}"
 msgstr ""
@@ -2750,12 +2775,12 @@ msgstr ""
 msgid "Become a GitHub Sponsor"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:286
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:350
 msgid "Please log in to use the chatbot."
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Home.razor:180
-#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:119
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:134
 msgid "No Update Available"
 msgstr ""
 
@@ -2768,7 +2793,7 @@ msgstr ""
 msgid "Skipped stale plugin shadow directory [gray]{0}[/]: {1}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:218
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:234
 msgid "Your account is not allowed to use the chatbot."
 msgstr ""
 
@@ -2804,7 +2829,7 @@ msgid_plural "Found {0} game installations."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:241
+#: ../../../ETS2LA.UI/Pages/Help/Chatbot.razor:257
 #, csharp-format
 msgid "You are blocked until {1}.<br/>Reason: {0}"
 msgstr ""
@@ -2835,7 +2860,7 @@ msgstr ""
 msgid "Maximum Speed"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:27
+#: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:42
 msgid "Experiments"
 msgstr ""
 
